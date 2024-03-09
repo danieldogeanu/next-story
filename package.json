@@ -2,6 +2,17 @@
   "name": "next-story",
   "version": "0.1.0",
   "private": true,
+  "description": "Playground app to figure out how to integrate the chosen tech stack.",
+  "author": "Daniel Dogeanu <contact@danieldogeanu.com> (https://danieldogeanu.com/)",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/dd-playground/next/next-story.git"
+  },
+  "bugs": {
+    "url": "https://gitlab.com/dd-playground/next/next-story/issues"
+  },
+  "homepage": "https://gitlab.com/dd-playground/next/next-story",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

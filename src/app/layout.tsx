@@ -1,23 +1,8 @@
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-import { DM_Mono, DM_Sans, Inter } from 'next/font/google';
 import type { Metadata } from 'next';
+import mantineTheme from '@/theme';
 import '@mantine/core/styles.css';
 import '@/styles/global.scss';
-
-// Google Fonts
-const fontInter = Inter({
-  subsets: ['latin-ext'], 
-  display: 'swap',
-});
-const fontDmSans = DM_Sans({
-  subsets: ['latin-ext'],
-  display: 'swap',
-});
-const fontDmMono = DM_Mono({
-  subsets: ['latin-ext'],
-  weight: ['300', '400', '500'],
-  display: 'swap',
-});
 
 // SEO Metadata
 export const metadata: Metadata = {
@@ -36,11 +21,9 @@ export default function RootLayout({
         <ColorSchemeScript />
       </head>
       <body>
-        <MantineProvider theme={{
-          fontFamily: fontInter.style.fontFamily,
-          fontFamilyMonospace: fontDmMono.style.fontFamily,
-          headings: { fontFamily: fontDmSans.style.fontFamily },
-        }}>{children}</MantineProvider>
+        <MantineProvider theme={mantineTheme}>
+          {children}
+        </MantineProvider>
       </body>
     </html>
   );

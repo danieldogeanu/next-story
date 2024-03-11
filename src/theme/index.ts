@@ -22,4 +22,21 @@ export default createTheme({
   headings: {
     fontFamily: fontDmSans.style.fontFamily,
   },
+  primaryColor: 'strawberry-pink',
+  primaryShade: { light: 4, dark: 5 },
+  colors: {
+    'strawberry-pink': [
+      "#ffe7f3",
+      "#ffcee1",
+      "#ff9bbd",
+      "#ff6399",
+      "#ff4081", // 4: Light Primary Shade
+      "#ff1867", // 5: Dark Primary Shade
+      "#ff015d",
+      "#e5004c",
+      "#cc0044",
+      "#b40039"
+    ],
+  },
+  cursorType: 'pointer',
 });

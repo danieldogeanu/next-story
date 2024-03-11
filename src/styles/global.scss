@@ -1,6 +1,7 @@
 
 :root {
-  --next-story-branding-color: #FF4081;
+  --next-story-transition-timing: 130ms;
+  --next-story-transition-easing: ease-in;
 }
 
 * {
@@ -19,6 +20,7 @@ body {
 
 body {
   padding: rem(40);
+  background-color: var(--mantine-color-white);
 }
 
 a {

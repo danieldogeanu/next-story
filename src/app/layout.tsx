@@ -1,6 +1,7 @@
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import type { Metadata } from 'next';
 import mantineTheme from '@/theme';
+import SiteHeader from '@/components/header';
 import '@mantine/core/styles.css';
 import '@/styles/global.scss';
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       </head>
       <body>
         <MantineProvider theme={mantineTheme}>
+          <SiteHeader />
           {children}
         </MantineProvider>
       </body>

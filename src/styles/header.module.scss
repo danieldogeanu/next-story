@@ -1,10 +1,24 @@
 
 .container {
   display: grid;
+  grid-template-columns: min-content auto min-content;
+  grid-template-rows: min-content;
+  align-items: center;
+  gap: rem(32);
   width: 100%;
 
   .branding {
     display: block;
+  }
+
+  .navigation {
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .actions {
+    display: flex;
+    justify-content: flex-end;
   }
 }
 

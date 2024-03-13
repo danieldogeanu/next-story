@@ -2,6 +2,7 @@
 
 import SiteLogo from './logo';
 import SiteNav from './sitenav';
+import ActionMenu from './action-menu';
 import styles from '@/styles/header.module.scss';
 
 export default async function SiteHeader() {
@@ -17,6 +18,7 @@ export default async function SiteHeader() {
       </div>
 
       <div className={styles.actions}>
+        <ActionMenu />
       </div>
 
     </header>

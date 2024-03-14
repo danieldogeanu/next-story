@@ -11,7 +11,7 @@
   justify-content: center;
   gap: rem(4);
   padding: rem(16) 0;
-  margin-bottom: rem(32);
+  margin-bottom: rem(16);
   font-size: rem(14);
   text-align: center;
   color: var(--mantine-color-dimmed);
@@ -29,7 +29,11 @@
   align-items: center;
   gap: rem(32);
   width: 100%;
-  padding: rem(16) 0;
+  padding: rem(16) var(--next-story-site-padding);
+  background-color: var(--mantine-color-gray-0);
+  @include dark {
+    background-color: var(--mantine-color-gray-8);
+  }
 }
 
 .legal {

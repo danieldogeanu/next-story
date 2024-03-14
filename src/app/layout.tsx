@@ -2,6 +2,7 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import type { Metadata } from 'next';
 import mantineTheme from '@/theme';
 import SiteHeader from '@/layout/header';
+import SiteFooter from '@/layout/footer';
 import '@mantine/core/styles.css';
 import '@/styles/global.scss';
 
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         <MantineProvider theme={mantineTheme}>
           <SiteHeader />
           {children}
+          <SiteFooter />
         </MantineProvider>
       </body>
     </html>

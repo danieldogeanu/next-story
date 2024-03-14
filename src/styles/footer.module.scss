@@ -1,0 +1,44 @@
+
+.container {
+  display: block;
+  width: 100%;
+  margin-top: rem(120);
+}
+
+.copyright {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: rem(4);
+  padding: rem(16) 0;
+  margin-bottom: rem(32);
+  font-size: rem(14);
+  text-align: center;
+  color: var(--mantine-color-dimmed);
+  
+  span {
+    font-size: rem(20);
+    font-weight: 300;
+  }
+}
+
+.navigation {
+  display: grid;
+  grid-template-columns: auto min-content;
+  grid-template-rows: auto;
+  align-items: center;
+  gap: rem(32);
+  width: 100%;
+}
+
+.legal {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}

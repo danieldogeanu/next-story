@@ -1,6 +1,6 @@
 'use server';
 
-import NavEntry from './nav-entry';
+import NavEntry from '@/components/nav-entry';
 import styles from '@/styles/sitenav.module.scss';
 
 export default async function SiteNav() {

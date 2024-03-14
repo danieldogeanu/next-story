@@ -1,7 +1,7 @@
 'use client';
 
 import { IconMoonStars, IconSearch, IconUser } from '@tabler/icons-react';
-import ActionEntry from './action-entry';
+import ActionEntry from '@/components/action-entry';
 import styles from '@/styles/action-menu.module.scss';
 
 export default function ActionMenu() {

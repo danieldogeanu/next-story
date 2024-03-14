@@ -4,12 +4,12 @@ import Link from 'next/link';
 import { Button } from '@mantine/core';
 import { usePathname } from 'next/navigation';
 
-export interface SiteNavEntryProps {
+export interface NavEntryProps {
   href: string;
   children: React.ReactNode;
 }
 
-export default function SiteNavEntry({href, children}: SiteNavEntryProps) {
+export default function NavEntry({href, children}: NavEntryProps) {
   const pathname = usePathname();
   const isActive = () => (pathname === href);
 

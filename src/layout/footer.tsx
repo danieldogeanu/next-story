@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import styles from '@/styles/footer.module.scss';
+import LegalNav from '@/components/legalnav';
 
 export default async function SiteFooter() {
   return (
@@ -12,7 +13,7 @@ export default async function SiteFooter() {
       <div className={styles.navigation}>
 
         <div className={styles.legal}>
-          <a>Legal</a>
+          <LegalNav />
         </div>
 
         <div className={styles.social}>

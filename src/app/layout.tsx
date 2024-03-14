@@ -1,7 +1,7 @@
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import type { Metadata } from 'next';
 import mantineTheme from '@/theme';
-import SiteHeader from '@/components/header';
+import SiteHeader from '@/layout/header';
 import '@mantine/core/styles.css';
 import '@/styles/global.scss';
 

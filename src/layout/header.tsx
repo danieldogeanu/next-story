@@ -1,8 +1,8 @@
 'use server';
 
-import SiteLogo from './logo';
-import SiteNav from './sitenav';
-import ActionMenu from './action-menu';
+import SiteLogo from '@/components/logo';
+import SiteNav from '@/components/sitenav';
+import ActionMenu from '@/components/action-menu';
 import styles from '@/styles/header.module.scss';
 
 export default async function SiteHeader() {

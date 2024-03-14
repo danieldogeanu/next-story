@@ -2,6 +2,11 @@
 :root {
   --next-story-transition-timing: 130ms;
   --next-story-transition-easing: ease-in;
+  --next-story-site-padding: rem(20);
+  
+  @media (min-width: rem(480)) {
+    --next-story-site-padding: rem(40);
+  }
 }
 
 * {
@@ -19,7 +24,6 @@ body {
 }
 
 body {
-  padding: rem(40);
   background-color: var(--mantine-color-white);
 }
 

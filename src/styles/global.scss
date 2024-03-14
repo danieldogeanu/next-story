@@ -24,6 +24,9 @@ body {
 }
 
 body {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: min-content auto min-content;
   background-color: var(--mantine-color-white);
 }
 

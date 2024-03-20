@@ -23,13 +23,15 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
+  const colorScheme = 'auto';
+
   return (
     <html lang='en'>
       <head>
-        <ColorSchemeScript />
+        <ColorSchemeScript defaultColorScheme={colorScheme} />
       </head>
       <body>
-        <MantineProvider theme={mantineTheme}>
+        <MantineProvider defaultColorScheme={colorScheme} theme={mantineTheme}>
           <SiteHeader />
           {children}
           <SiteFooter />

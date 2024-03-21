@@ -16,11 +16,11 @@
   font-weight: 500;
   vertical-align: top;
   line-height: rem(60);
-  color: var(--mantine-color-dark-4);
+  color: var(--mantine-color-gray-8);
   border-right: rem(1) solid var(--mantine-color-gray-3);
   @include dark {
-    color: var(--mantine-color-dark-5);
-    border-right: rem(1) solid var(--mantine-color-gray-6);
+    color: var(--mantine-color-gray-5);
+    border-right: rem(1) solid var(--mantine-color-gray-8);
   }
 }
 
@@ -30,8 +30,8 @@
   font-weight: 400;
   line-height: rem(60); 
   margin: 0;
-  color: var(--mantine-color-dark-3);
+  color: var(--mantine-color-gray-7);
   @include dark {
-    color: var(--mantine-color-dark-6);    
+    color: var(--mantine-color-gray-6);    
   }
 }

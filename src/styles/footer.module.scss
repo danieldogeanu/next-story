@@ -14,7 +14,10 @@
   margin-bottom: rem(16);
   font-size: rem(14);
   text-align: center;
-  color: var(--mantine-color-dimmed);
+  color: var(--mantine-color-gray-5);
+  @include dark {
+    color: var(--mantine-color-gray-7);
+  }
   
   span {
     font-size: rem(20);
@@ -61,10 +64,14 @@
     color: var(--mantine-color-gray-6);
     &:hover {
       color: var(--mantine-color-gray-7);
-      background-color: color-mix(in srgb, var(--mantine-color-gray-7) 12%, transparent);
+      background-color: color-mix(
+        in srgb, var(--mantine-color-gray-7) 12%, transparent
+      );
       @include dark {
         color: var(--mantine-color-gray-5);
-        background-color: color-mix(in srgb, var(--mantine-color-gray-5) 12%, transparent);
+        background-color: color-mix(
+          in srgb, var(--mantine-color-gray-5) 12%, transparent
+        );
       }
     }
   }

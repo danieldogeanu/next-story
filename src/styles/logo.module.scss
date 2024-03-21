@@ -9,9 +9,15 @@
     height: 100%;
     color: var(--mantine-color-strawberry-pink-4);
     transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
-
+    @include dark {
+      color: var(--mantine-color-strawberry-pink-8);
+    }
+    
     @include hover {
       color: var(--mantine-color-strawberry-pink-5);
+      @include dark {
+        color: var(--mantine-color-strawberry-pink-7);
+      }
     }
   }
 }

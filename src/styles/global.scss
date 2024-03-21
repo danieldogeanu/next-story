@@ -28,6 +28,9 @@ body {
   grid-template-columns: auto;
   grid-template-rows: min-content auto min-content;
   background-color: var(--mantine-color-white);
+  @include dark {
+    background-color: var(--mantine-color-gray-9);    
+  }
 }
 
 a {

@@ -25,7 +25,6 @@ const nextConfig = {
   },
   sassOptions: {
     includePaths: [path.join(process.cwd(), 'src', 'styles')],
-    prependData: `@import "./_mantine.scss";`,
   },
   experimental: {
     optimizePackageImports: [

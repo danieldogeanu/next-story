@@ -1,9 +1,9 @@
 version: "3.9"
 services:
-  nextstory_postgres_prod:
-    container_name: nextstory_postgres_prod
+  ns_postgres_prod:
+    container_name: ns-postgres-prod
     image: postgres:12.0-alpine
-    platform: linux/amd64 #for platform error on Apple M1 chips
+    platform: linux/amd64
     restart: unless-stopped
     env_file: .env
     environment:
@@ -11,15 +11,15 @@ services:
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
     volumes:
-      - nextstory_data_prod:/var/lib/postgresql/data/
+      - ns_data_prod:/var/lib/postgresql/data/
     ports:
       - "5432:5432"
     networks:
-      - nextstory_net
+      - ns_net
 
-  nextstory_strapi_prod:
-    container_name: nextstory_strapi_prod
-    image: nextstory_strapi_prod:latest
+  ns_strapi_prod:
+    container_name: ns-strapi-prod
+    image: nextstory-strapi-prod:latest
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
@@ -27,7 +27,7 @@ services:
     env_file: .env
     environment:
       DATABASE_CLIENT: ${DATABASE_CLIENT}
-      DATABASE_HOST: nextstory_postgres_prod
+      DATABASE_HOST: ns_postgres_prod
       DATABASE_PORT: ${DATABASE_PORT}
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
@@ -37,21 +37,21 @@ services:
       APP_KEYS: ${APP_KEYS}
       NODE_ENV: production
     volumes:
-      - nextstory_uploads_prod:/opt/app/public/uploads
+      - ns_uploads_prod:/opt/app/public/uploads
     ports:
       - "1337:1337"
     networks:
-      - nextstory_net
+      - ns_net
     depends_on:
-      - nextstory_postgres_prod
+      - ns_postgres_prod
 
 volumes:
-  nextstory_data_prod:
-    name: nextstory_data_prod
-  nextstory_uploads_prod:
-    name: nextstory_uploads_prod
+  ns_data_prod:
+    name: nextstory-data-prod
+  ns_uploads_prod:
+    name: nextstory-uploads-prod
 
 networks:
-  nextstory_net:
-    name: nextstory_net
+  ns_net:
+    name: nextstory-net
     driver: bridge

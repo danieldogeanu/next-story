@@ -16,8 +16,9 @@
 *.log*
 
 # env files
+*.env*
 .env*.local
-.env
+!.env.example
 
 # os junk
 .DS_Store

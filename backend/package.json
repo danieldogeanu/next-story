@@ -1,5 +1,5 @@
 {
-  "name": "backend",
+  "name": "next-story-backend",
   "private": true,
   "version": "0.1.0",
   "description": "A Strapi application",
@@ -21,15 +21,11 @@
     "react-router-dom": "5.3.4",
     "styled-components": "5.3.3"
   },
-  "author": {
-    "name": "A Strapi developer"
-  },
   "strapi": {
     "uuid": "4a901ed3-bf93-439c-a642-2ba990589bec"
   },
   "engines": {
     "node": ">=18.0.0 <=20.x.x",
     "npm": ">=6.0.0"
-  },
-  "license": "MIT"
+  }
 }

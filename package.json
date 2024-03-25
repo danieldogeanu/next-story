@@ -12,5 +12,11 @@
   "bugs": {
     "url": "https://gitlab.com/dd-playground/next/next-story/issues"
   },
-  "homepage": "https://gitlab.com/dd-playground/next/next-story"
+  "homepage": "https://gitlab.com/dd-playground/next/next-story",
+  "scripts": {
+    "compose": "docker compose up",
+    "compose:force": "docker compose up --force-recreate",
+    "compose-prod": "docker compose -f compose.prod.yml up",
+    "compose-prod:force": "docker compose -f compose.prod.yml up --force-recreate"
+  }
 }

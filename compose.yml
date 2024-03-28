@@ -49,6 +49,32 @@ services:
     depends_on:
       - ns_postgres_dev
 
+  ns_nextjs_dev:
+    container_name: ns-nextjs-dev
+    image: nextstory-nextjs-dev:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    environment:
+      NODE_ENV: development
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+      NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+      NEXT_TELEMETRY_DISABLED: 1 # Disable NextJS telemetry.
+      WATCHPACK_POLLING: true # Enable hot reloading for NextJS.
+    volumes:
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/package-lock.json:/app/package-lock.json
+    restart: always
+    ports:
+      - "3000:3000"
+    networks:
+      - ns_net
+    depends_on:
+      - ns_postgres_dev
+      - ns_strapi_dev
+
 volumes:
   ns_data_dev:
     name: nextstory-data-dev

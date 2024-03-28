@@ -28,14 +28,15 @@ const nextConfig = {
   },
   experimental: {
     optimizePackageImports: [
-      '@mantine/core', 
-      '@mantine/hooks', 
-      '@mantine/form', 
-      '@mantine/notifications', 
-      '@mantine/modals', 
+      '@mantine/core',
+      '@mantine/hooks',
+      '@mantine/form',
+      '@mantine/notifications',
+      '@mantine/modals',
       '@mantine/nprogress'
     ],
   },
+  output: 'standalone',
 };
 
 export default nextConfig;

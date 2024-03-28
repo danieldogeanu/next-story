@@ -1,16 +1,11 @@
 Dockerfile
 Dockerfile.*
 .dockerignore
-docker
-build
-data
-backup
 node_modules
 npm-debug.log
 README.md
+docker
 .next
 .git
 .env
 .env*
-.tmp
-.cache

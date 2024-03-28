@@ -45,6 +45,26 @@ services:
     depends_on:
       - ns_postgres_prod
 
+  ns_nextjs_prod:
+    container_name: ns-nextjs-prod
+    image: nextstory-nextjs-prod:latest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+      NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+      NEXT_TELEMETRY_DISABLED: 1 # Disable NextJS telemetry.
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    networks:
+      - ns_net
+    depends_on:
+      - ns_postgres_prod
+      - ns_strapi_prod
+
 volumes:
   ns_data_prod:
     name: nextstory-data-prod

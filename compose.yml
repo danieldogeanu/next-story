@@ -64,7 +64,7 @@ services:
       - ./frontend/public:/app/public
       - ./frontend/package.json:/app/package.json
       - ./frontend/package-lock.json:/app/package-lock.json
-    restart: always
+    restart: unless-stopped
     ports:
       - "3000:3000"
     networks:

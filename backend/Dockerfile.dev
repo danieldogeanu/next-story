@@ -13,8 +13,12 @@ RUN apk update && apk add --no-cache \
   vips-dev \
   git
 
-ARG NODE_ENV=development
-ENV NODE_ENV=${NODE_ENV}
+ENV NODE_ENV development
+
+# Disable Strapi telemetry and promotional features.
+ENV STRAPI_TELEMETRY_DISABLED true
+ENV FLAG_NPS false
+ENV FLAG_PROMOTE_EE false
 
 WORKDIR /opt/
 COPY package.json package-lock.json ./
@@ -24,12 +28,13 @@ ENV PATH /opt/node_modules/.bin:$PATH
 
 WORKDIR /opt/app
 COPY . .
+
 RUN chown -R node:node /opt/app
 USER node
 
 EXPOSE 1337
-ARG PORT=1337
-ENV PORT=${PORT}
+ENV PORT 1337
+ENV HOST 0.0.0.0
 
 RUN ["npm", "run", "build"]
 CMD ["npm", "run", "develop"]

@@ -26,16 +26,15 @@ services:
     restart: unless-stopped
     env_file: .env
     environment:
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
       DATABASE_CLIENT: ${DATABASE_CLIENT}
       DATABASE_HOST: ns_postgres_prod
       DATABASE_PORT: ${DATABASE_PORT}
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
-      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
-      APP_KEYS: ${APP_KEYS}
-      NODE_ENV: production
     volumes:
       - ns_uploads_prod:/opt/app/public/uploads
     ports:
@@ -51,11 +50,10 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod
+    env_file: .env
     environment:
-      NODE_ENV: production
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
-      NEXT_TELEMETRY_DISABLED: 1 # Disable NextJS telemetry.
     restart: unless-stopped
     ports:
       - "3000:3000"

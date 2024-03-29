@@ -5,7 +5,6 @@ services:
     image: postgres:12.0-alpine
     platform: linux/amd64
     restart: unless-stopped
-    env_file: .env
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
@@ -22,20 +21,22 @@ services:
     image: nextstory-strapi-dev:latest
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
     restart: unless-stopped
     env_file: .env
     environment:
+      NODE_ENV: development
+      HOST: ${HOST}
+      PORT: ${PORT}
+      JWT_SECRET: ${JWT_SECRET}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      APP_KEYS: ${APP_KEYS}
       DATABASE_CLIENT: ${DATABASE_CLIENT}
       DATABASE_HOST: ns_postgres_dev
       DATABASE_PORT: ${DATABASE_PORT}
       DATABASE_NAME: ${DATABASE_NAME}
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
-      JWT_SECRET: ${JWT_SECRET}
-      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
-      APP_KEYS: ${APP_KEYS}
-      NODE_ENV: development
     volumes:
       - ./backend/config:/opt/app/config
       - ./backend/src:/opt/app/src

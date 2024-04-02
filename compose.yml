@@ -54,8 +54,11 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
+      # We don't need to pass args here because everything is dynamically
+      # rendered in the development environment.
     env_file: .env
     environment:
+      # Runtime environment variables.
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
       WATCHPACK_POLLING: true # Enable hot reloading for NextJS.

@@ -3,6 +3,7 @@ services:
   ns_postgres_dev:
     container_name: ns-postgres-dev
     image: postgres:12.0-alpine
+    profiles: [development]
     platform: linux/amd64
     restart: unless-stopped
     env_file: .env
@@ -20,6 +21,7 @@ services:
   ns_strapi_dev:
     container_name: ns-strapi-dev
     image: nextstory-strapi-dev:latest
+    profiles: [development]
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
@@ -51,6 +53,7 @@ services:
   ns_nextjs_dev:
     container_name: ns-nextjs-dev
     image: nextstory-nextjs-dev:latest
+    profiles: [development]
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
@@ -75,6 +78,32 @@ services:
     depends_on:
       - ns_postgres_dev
       - ns_strapi_dev
+
+  ns_storybook_dev:
+    container_name: ns-storybook-dev
+    image: nextstory-storybook-dev:latest
+    profiles: [storybook]
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    env_file: .env
+    environment:
+      # Runtime environment variables.
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+      NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+      WATCHPACK_POLLING: true # Enable hot reloading for NextJS.
+    volumes:
+      - ./frontend/.storybook:/app/.storybook
+      - ./frontend/src:/app/src
+      - ./frontend/public:/app/public
+      - ./frontend/package.json:/app/package.json
+      - ./frontend/package-lock.json:/app/package-lock.json
+    restart: unless-stopped
+    ports:
+      - "6006:6006"
+    networks:
+      - ns_net
+    command: ["npm", "run", "storybook", "--", "--ci", "--quiet"]
 
 volumes:
   ns_data_dev:

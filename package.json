@@ -14,9 +14,10 @@
   },
   "homepage": "https://gitlab.com/dd-playground/next/next-story",
   "scripts": {
-    "compose": "docker compose up",
-    "compose:rebuild": "docker compose up --build --force-recreate --renew-anon-volumes",
-    "compose:recreate": "docker compose up --force-recreate --renew-anon-volumes",
+    "compose": "docker compose --profile development up",
+    "compose:rebuild": "docker compose --profile development up --build --force-recreate --renew-anon-volumes",
+    "compose:recreate": "docker compose --profile development up --force-recreate --renew-anon-volumes",
+    "compose:storybook": "docker compose --profile storybook up --force-recreate --renew-anon-volumes",
     "compose-prod": "docker compose -f compose.prod.yml up",
     "compose-prod:rebuild": "docker compose -f compose.prod.yml up --build --force-recreate --renew-anon-volumes",
     "compose-prod:recreate": "docker compose -f compose.prod.yml up --force-recreate --renew-anon-volumes"

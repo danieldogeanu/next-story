@@ -4,7 +4,7 @@
   --next-story-transition-timing: 130ms;
   --next-story-transition-easing: ease-in;
   --next-story-site-padding: rem(20);
-  
+
   @media (min-width: rem(480)) {
     --next-story-site-padding: rem(40);
   }
@@ -27,10 +27,10 @@ body {
 body {
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: min-content auto min-content;
+  grid-template-rows: min-content 1fr min-content;
   background-color: var(--mantine-color-white);
   @include dark {
-    background-color: var(--mantine-color-gray-9);    
+    background-color: var(--mantine-color-gray-9);
   }
 }
 

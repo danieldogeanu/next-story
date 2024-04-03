@@ -9,7 +9,7 @@ import { useState } from 'react';
 export interface NavEntryProps {
   href: string;
   label: string;
-  submenu?: NavEntryProps[];
+  submenu?: Omit<NavEntryProps, 'submenu'>[];
 }
 
 export default function NavEntry({href, label, submenu}: NavEntryProps) {

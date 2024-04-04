@@ -5,3 +5,29 @@
   justify-content: flex-end;
   gap: rem(8);
 }
+
+.navEntry {
+  display: block;
+}
+
+.subMenuDropdown {
+  @include dark {
+    --popover-border-color: var(--mantine-color-gray-7);
+    background-color: var(--mantine-color-gray-8);
+  }
+}
+
+.subMenuItem {
+  &:where([data-hovered]) {
+    @include dark {
+      background-color: var(--mantine-color-gray-7);
+    }
+  }
+
+  &.active {
+    background-color: var(--mantine-color-gray-1);
+    @include dark {
+      background-color: var(--mantine-color-gray-7);
+    }
+  }
+}

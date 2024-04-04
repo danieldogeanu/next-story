@@ -5,6 +5,8 @@ import { Button, Menu } from '@mantine/core';
 import { usePathname, useRouter } from 'next/navigation';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { useState } from 'react';
+import classNames from 'classnames';
+import styles from '@/styles/sitenav.module.scss';
 
 export interface NavEntryProps {
   href: string;
@@ -15,7 +17,7 @@ export interface NavEntryProps {
 export default function NavEntry({href, label, submenu}: NavEntryProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const isActive = () => (pathname === href);
+  const isActive = (href: string) => (pathname === href);
   const hasSubmenu = () => (submenu !== undefined && submenu.length > 0);
   const [submenuOpened, setSubmenuOpened] = useState(false);
 
@@ -38,7 +40,8 @@ export default function NavEntry({href, label, submenu}: NavEntryProps) {
               component={Link}
               href={href}
               color='dark'
-              variant={isActive() ? 'light' : 'subtle'}
+              variant={isActive(href) ? 'light' : 'subtle'}
+              className={styles.navEntry}
               rightSection={submenuOpened ? <IconChevronUp /> : <IconChevronDown />}
               onClick={(e) => {
                 if (submenuOpened) router.push(href);
@@ -47,12 +50,16 @@ export default function NavEntry({href, label, submenu}: NavEntryProps) {
             >{label}</Button>
           </Menu.Target>
 
-          <Menu.Dropdown>
+          <Menu.Dropdown className={styles.subMenuDropdown}>
             {submenu && submenu.map((item, index) => (
               <Menu.Item 
                 key={index}
                 component={Link}
                 href={item.href}
+                className={classNames(
+                  styles.subMenuItem,
+                  {[styles.active]: isActive(item.href)}
+                )}
               >{item.label}</Menu.Item>
             ))}
           </Menu.Dropdown>
@@ -62,7 +69,8 @@ export default function NavEntry({href, label, submenu}: NavEntryProps) {
           component={Link}
           href={href}
           color='dark'
-          variant={isActive() ? 'light' : 'subtle'}
+          variant={isActive(href) ? 'light' : 'subtle'}
+          className={styles.navEntry}
         >{label}</Button>
       }
     </>

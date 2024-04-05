@@ -4,4 +4,14 @@
   display: flex;
   justify-content: flex-end;
   gap: rem(24);
+
+  a {
+    color: var(--mantine-color-gray-6);
+    &:hover {
+      color: var(--mantine-color-gray-7);
+      @include dark {
+        color: var(--mantine-color-gray-5);
+      }
+    }
+  }
 }

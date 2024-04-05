@@ -1,15 +1,21 @@
 'use server';
 
-import LegalLink from '@/components/legal-link';
+import LegalLink, { LegalLinkProps } from '@/components/legal-link';
 import styles from '@/styles/legalnav.module.scss';
 
 export default async function LegalNav() {
+  const legalLinks: LegalLinkProps[] = [
+    { href: '/privacy-policy', label: 'Privacy Policy' },
+    { href: '/cookies', label: 'Cookies' },
+    { href: '/legal-terms', label: 'Legal Terms' },
+    { href: '/acceptable-use', label: 'Acceptable Use' },
+  ];
+
   return (
     <nav className={styles.container}>
-      <LegalLink href='/privacy-policy'>Privacy Policy</LegalLink>
-      <LegalLink href='/cookies'>Cookies</LegalLink>
-      <LegalLink href='/legal-terms'>Legal Terms</LegalLink>
-      <LegalLink href='/acceptable-use'>Acceptable Use</LegalLink>
+      {legalLinks && legalLinks.map((link, index) => (
+        <LegalLink key={index} href={link.href} label={link.label} />
+      ))}
     </nav>
   );
 }

@@ -5,13 +5,13 @@ import { Anchor } from "@mantine/core";
 
 export interface LegalLinkProps {
   href: string;
-  children: React.ReactNode;
+  label: string;
 }
 
-export default async function LegalLink({href, children}: LegalLinkProps) {
+export default async function LegalLink({href, label}: LegalLinkProps) {
   return (
     <Anchor component={Link} href={href} size='sm'>
-      {children}
+      {label}
     </Anchor>
   );
 }

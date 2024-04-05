@@ -2,23 +2,42 @@
 
 .container {
   display: grid;
-  grid-template-columns: min-content auto min-content;
-  grid-template-rows: min-content;
+  grid-template-areas: 'branding actions';
+  grid-template-columns: min-content auto;
+  grid-template-rows: 1fr;
   align-items: center;
-  gap: rem(32);
+  gap: rem(16) rem(32);
   width: 100%;
   padding: var(--next-story-site-padding);
 
+  @media (min-width: rem(580)) {
+    grid-template-areas: 'branding actions' 'navigation navigation';
+    grid-template-columns: min-content auto;
+    grid-template-rows: auto auto;
+  }
+
+  @media (min-width: rem(840)) {
+    grid-template-areas: 'branding navigation actions';
+    grid-template-columns: min-content auto min-content;
+    grid-template-rows: min-content;
+  }
+
   .branding {
+    grid-area: branding;
     display: block;
   }
 
   .navigation {
-    display: flex;
+    grid-area: navigation;
+    display: none;
     justify-content: flex-end;
+    @media (min-width: rem(580)) {
+      display: flex;
+    }
   }
 
   .actions {
+    grid-area: actions;
     display: flex;
     justify-content: flex-end;
   }

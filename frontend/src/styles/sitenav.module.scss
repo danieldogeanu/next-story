@@ -1,13 +1,19 @@
 @import 'mantine';
 
 .container {
-  display: flex;
-  justify-content: flex-end;
-  gap: rem(8);
+  display: none;
+  @media (min-width: rem(580)) {
+    display: flex;
+    justify-content: flex-end;
+    gap: rem(8);
+  }
 }
 
 .navEntry {
-  display: block;
+  --button-padding-x: var(--button-padding-x-xs);
+  @media (min-width: rem(940)) {
+    --button-padding-x: var(--button-padding-x-sm);
+  }
 }
 
 .subMenuDropdown {

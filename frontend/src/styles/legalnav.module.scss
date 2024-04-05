@@ -2,11 +2,24 @@
 
 .container {
   display: flex;
-  justify-content: flex-end;
-  gap: rem(24);
+  flex-direction: column;
+  justify-content: center;
+  gap: rem(16);
+  @media (min-width: rem(580)) {
+    flex-direction: row;
+    gap: rem(24);
+  }
+  @media (min-width: rem(840)) {
+    justify-content: flex-end;
+  }
 
   a {
     color: var(--mantine-color-gray-6);
+    text-align: center;
+    @media (min-width: rem(580)) {
+      text-align: left;
+    }
+
     &:hover {
       color: var(--mantine-color-gray-7);
       @include dark {

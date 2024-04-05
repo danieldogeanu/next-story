@@ -1,6 +1,7 @@
 'use client';
 
 import { ActionIcon, ActionIconProps, ElementProps } from '@mantine/core';
+import { useViewportSize } from '@mantine/hooks';
 import { TablerIconsProps } from '@tabler/icons-react';
 
 export interface SocialIconProps extends ActionIconProps, ElementProps<'a', keyof ActionIconProps> {
@@ -10,13 +11,15 @@ export interface SocialIconProps extends ActionIconProps, ElementProps<'a', keyo
 }
 
 export default function SocialIcon({icon, label, href, ...other}: SocialIconProps) {
+  const {width} = useViewportSize();
   const TablerIcon = icon;
 
   return (
     <ActionIcon 
       component='a'
       variant='subtle'
-      size='xl' radius='xl'
+      radius='xl'
+      size={(width > 360) ? 'xl' : 'lg'}
       aria-label={label} title={label}
       href={href}
       target='_blank'

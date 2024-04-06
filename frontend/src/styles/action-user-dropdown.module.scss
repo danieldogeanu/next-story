@@ -1,0 +1,12 @@
+@import 'mantine';
+
+.dropdownContents {
+  gap: rem(20);
+  padding: rem(16) rem(8);
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: rem(20);
+}

@@ -2,7 +2,7 @@
 
 import { IconMenuDeep, IconSearch, IconUser } from '@tabler/icons-react';
 import ActionEntry from '@/components/action-entry';
-import ThemeSwitcher from '@/components/theme-switcher';
+import ActionThemeSwitcher from '@/components/action-theme-switcher';
 import styles from '@/styles/action-menu.module.scss';
 
 export default function ActionMenu() {
@@ -11,7 +11,7 @@ export default function ActionMenu() {
       <ActionEntry 
         icon={IconSearch} label='Search' 
       />
-      <ThemeSwitcher className={styles.hideSmallMobile} />
+      <ActionThemeSwitcher className={styles.hideSmallMobile} />
       <ActionEntry 
         className={styles.hideSmallMobile} 
         icon={IconUser} label='User Account' 

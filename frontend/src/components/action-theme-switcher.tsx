@@ -4,7 +4,7 @@ import { IconMoonStars, IconSun } from '@tabler/icons-react';
 import { useComputedColorScheme, useMantineColorScheme } from '@mantine/core';
 import ActionEntry from '@/components/action-entry';
 
-export default function ThemeSwitcher({...props}) {
+export default function ActionThemeSwitcher({...props}) {
   const {toggleColorScheme} = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light');
 

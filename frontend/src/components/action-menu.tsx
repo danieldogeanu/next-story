@@ -1,10 +1,9 @@
 'use client';
 
-import { IconMenuDeep } from '@tabler/icons-react';
-import ActionEntry from '@/components/action-entry';
+import ActionSearch from '@/components/action-search';
 import ActionThemeSwitcher from '@/components/action-theme-switcher';
 import ActionUserAccount from '@/components/action-user-account';
-import ActionSearch from '@/components/action-search';
+import ActionMobileNav from '@/components/action-mobile-nav';
 import styles from '@/styles/action-menu.module.scss';
 
 export default function ActionMenu() {
@@ -13,7 +12,7 @@ export default function ActionMenu() {
       <ActionSearch />
       <ActionThemeSwitcher className={styles.hideSmallMobile} />
       <ActionUserAccount className={styles.hideSmallMobile} />
-      <ActionEntry className={styles.mobileNav} icon={IconMenuDeep} label='Navigation' />
+      <ActionMobileNav className={styles.mobileNav} />
     </div>
   );
 }

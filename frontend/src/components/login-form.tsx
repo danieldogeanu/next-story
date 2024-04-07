@@ -56,7 +56,7 @@ export default function LoginForm() {
         </Group>
 
         <Button
-          size='md' type='submit'
+          size='md' type='submit' id='submit-login'
           rightSection={<IconLogin2 size={20} stroke={2} />}
         >Login</Button>
 
@@ -65,6 +65,7 @@ export default function LoginForm() {
       <Divider label='or' labelPosition='center' />
 
       <Button
+        id='login-with-google'
         className={styles.loginWith}
         size='md' variant='light' color='dark'
         leftSection={<GoogleLogo />}

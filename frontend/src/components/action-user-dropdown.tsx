@@ -5,7 +5,11 @@ import { IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 import ActionEntry from '@/components/action-entry';
 import LoginForm from '@/components/login-form';
+import RegisterForm from '@/components/register-form';
 import styles from '@/styles/action-user-dropdown.module.scss';
+
+// TODO: Handle authentication and replace login/register forms with submenu if authenticated.
+// TODO: Replace user account icon with profile avatar when authenticated.
 
 export default function ActionUserDropdown({...props}) {
   const [opened, setOpened] = useState(false);
@@ -54,7 +58,7 @@ export default function ActionUserDropdown({...props}) {
           </Tabs.Panel>
 
           <Tabs.Panel value='register'>
-            Register
+            <RegisterForm />
           </Tabs.Panel>
 
         </Tabs>

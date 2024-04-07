@@ -1,6 +1,6 @@
 'use client';
 
-import { Popover } from '@mantine/core';
+import { Popover, Tabs } from '@mantine/core';
 import { IconUser } from '@tabler/icons-react';
 import { useState } from 'react';
 import ActionEntry from '@/components/action-entry';
@@ -36,7 +36,28 @@ export default function ActionUserDropdown({...props}) {
 
       <Popover.Dropdown>
         
-        <LoginForm />
+        <Tabs
+          className={styles.tabsContent}
+          variant='pills' defaultValue='login'>
+
+          <Tabs.List grow>
+            <Tabs.Tab size='md' value='login'>
+              Login
+            </Tabs.Tab>
+            <Tabs.Tab size='md' value='register'>
+              Register
+            </Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value='login'>
+            <LoginForm />
+          </Tabs.Panel>
+
+          <Tabs.Panel value='register'>
+            Register
+          </Tabs.Panel>
+
+        </Tabs>
 
       </Popover.Dropdown>
 

@@ -1,2 +1,27 @@
 @import 'mantine';
 
+.tabsContent {
+  display: flex;
+  flex-direction: column;
+  gap: rem(32);
+  padding: rem(16) rem(8);
+
+  [data-variant="pills"] {
+    --tab-bg: var(--mantine-color-gray-1);
+    --tab-hover-color: var(--mantine-color-gray-2);
+  }
+
+  :global {
+    .mantine-Tabs-tab {
+      padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+      font-size: var(--mantine-font-size-md);
+      font-weight: 500;
+    }
+
+    .mantine-Tabs-list {
+      padding-bottom: rem(16);
+      border-bottom: rem(1) solid var(--mantine-color-gray-3);
+    }
+  }
+
+}

@@ -1,9 +1,10 @@
 'use client';
 
 import { Anchor, Stack, Checkbox, Group, PasswordInput, Popover, TextInput, Button, Divider } from '@mantine/core';
-import { IconBrandGoogleFilled, IconLogin2, IconUser } from '@tabler/icons-react';
+import { IconLogin2, IconUser } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { useState } from 'react';
+import { GoogleLogo } from './svgs';
 import Link from 'next/link';
 import ActionEntry from '@/components/action-entry';
 import styles from '@/styles/action-user-dropdown.module.scss';
@@ -91,8 +92,9 @@ export default function ActionUserDropdown({...props}) {
           <Divider label='or' labelPosition='center' />
 
           <Button
+            className={styles.loginWith}
             size='md' variant='light' color='dark'
-            leftSection={<IconBrandGoogleFilled size={20} />}
+            leftSection={<GoogleLogo />}
           >Login with Google</Button>
 
         </Stack>

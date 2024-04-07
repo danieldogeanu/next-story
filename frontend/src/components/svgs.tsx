@@ -1,1 +1,9 @@
+export { default as DribbbleLogo } from '@/assets/svgs/dribbble.svg';
+export { default as FacebookLogo } from '@/assets/svgs/facebook.svg';
+export { default as GitHubLogo } from '@/assets/svgs/github.svg';
+export { default as GoogleLogo } from '@/assets/svgs/google.svg';
+export { default as LinkedInLogo } from '@/assets/svgs/linkedin.svg';
+export { default as MetaLogo } from '@/assets/svgs/meta.svg';
+export { default as NextJSLogo } from '@/assets/svgs/nextjs.svg';
 export { default as NextStoryLogo } from '@/assets/svgs/nextstory.svg';
+export { default as StrapiLogo } from '@/assets/svgs/strapi.svg';

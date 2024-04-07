@@ -5,6 +5,8 @@ import SiteNav from '@/components/sitenav';
 import ActionMenu from '@/components/action-menu';
 import styles from '@/styles/header.module.scss';
 
+// TODO: Rethink how responsiveness works for the header.
+
 export default async function SiteHeader() {
   return (
     <header className={styles.container}>

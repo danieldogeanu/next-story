@@ -10,6 +10,7 @@ import styles from '@/styles/action-user-dropdown.module.scss';
 
 // TODO: Handle authentication and replace login/register forms with submenu if authenticated.
 // TODO: Replace user account icon with profile avatar when authenticated.
+// TODO: Move everything to Drawer component for better handling on mobile devices.
 
 export default function ActionUserDropdown({...props}) {
   const [opened, setOpened] = useState(false);

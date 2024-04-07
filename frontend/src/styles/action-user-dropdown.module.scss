@@ -6,9 +6,13 @@
   gap: rem(32);
   padding: rem(16) rem(8);
 
-  [data-variant="pills"] {
+  &:not([data-disabled]) [data-variant="pills"]:not([data-active='true']) {
     --tab-bg: var(--mantine-color-gray-1);
     --tab-hover-color: var(--mantine-color-gray-2);
+    @include dark {
+      --tab-bg: var(--mantine-color-gray-8);
+      --tab-hover-color: var(--mantine-color-gray-7);
+    }
   }
 
   :global {
@@ -21,6 +25,9 @@
     .mantine-Tabs-list {
       padding-bottom: rem(16);
       border-bottom: rem(1) solid var(--mantine-color-gray-3);
+      @include dark {
+        border-bottom: rem(1) solid var(--mantine-color-gray-8);
+      }
     }
   }
 

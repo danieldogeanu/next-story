@@ -1,0 +1,12 @@
+@import 'mantine';
+
+.drawer {
+
+}
+
+.drawerContent {
+  display: flex;
+  flex-direction: column;
+  gap: rem(32);
+  padding: rem(16) rem(8);
+}

@@ -1,0 +1,29 @@
+@import 'mantine';
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  min-width: rem(260);
+}
+
+.entry {
+  &:global(.mantine-NavLink-root) {
+    padding: calc(rem(12) * var(--mantine-scale)) var(--mantine-spacing-xl);
+    font-size: var(--mantine-font-size-xl);
+    font-weight: 500;
+  }
+
+  :global(.mantine-NavLink-section:where([data-position='left'])) {
+    width: rem(24);
+    height: rem(24);
+
+    svg {
+      stroke-width: rem(1.75);
+    }
+  }
+
+  :global(.mantine-NavLink-body) {
+    display: flex;
+    align-items: center;
+  }
+}

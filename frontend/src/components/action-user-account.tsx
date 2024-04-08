@@ -1,9 +1,10 @@
 'use client';
 
-import { Drawer, ScrollArea, Stack, Tabs } from '@mantine/core';
+import { Tabs } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconUser } from '@tabler/icons-react';
 import ActionEntry from '@/components/action-entry';
+import SiteDrawer from '@/components/site-drawer';
 import LoginForm from '@/components/login-form';
 import RegisterForm from '@/components/register-form';
 import styles from '@/styles/action-user-account.module.scss';
@@ -24,22 +25,11 @@ export default function ActionUserAccount({...props}) {
         {...props}
       />
 
-      <Drawer
+      <SiteDrawer
         title='User Account'
-        position='right'
         size={400}
-        className={styles.drawer}
         opened={opened}
-        onClose={close}
-        scrollAreaComponent={ScrollArea.Autosize}
-        overlayProps={{backgroundOpacity: 0.5, blur: 3}}
-        transitionProps={{
-          transition: 'slide-left',
-          timingFunction: 'ease',
-          duration: 150,
-        }}>
-
-        <Stack className={styles.drawerContent}>
+        onClose={close}>
 
           <Tabs
             className={styles.tabsContent}
@@ -64,9 +54,7 @@ export default function ActionUserAccount({...props}) {
 
           </Tabs>
 
-        </Stack>
-
-      </Drawer>
+      </SiteDrawer>
     </>
   );
 }

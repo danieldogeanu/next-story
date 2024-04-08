@@ -13,9 +13,17 @@
     padding-inline-end: calc(var(--drawer-padding-h, var(--mantine-spacing-md)) - calc(0.3125rem * var(--mantine-scale)));
     border-bottom: rem(1) solid var(--drawer-border-color);
   }
+
+  &[data-hasmenu='true'] :global(.mantine-Drawer-body) {
+    padding: 0;
+  }
 }
 
 .drawerContent {
   display: block;
   padding: rem(24) rem(16);
+
+  [data-hasmenu='true'] & {
+    padding: rem(24) 0;
+  }
 }

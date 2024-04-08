@@ -1,12 +1,52 @@
 @import 'mantine';
 
 .drawer {
-
+  :global(.mantine-Drawer-header) {
+    --drawer-padding-v: rem(16);
+    --drawer-padding-h: rem(32);
+    padding: var(--drawer-padding-v, var(--mantine-spacing-md)) var(--drawer-padding-h, var(--mantine-spacing-md));
+    padding-inline-end: calc(var(--drawer-padding-h, var(--mantine-spacing-md)) - calc(0.3125rem * var(--mantine-scale)));
+    border-bottom: rem(1) solid var(--mantine-color-gray-1);
+    @include dark {
+      border-bottom: rem(1) solid var(--mantine-color-dark-8);
+    }
+  }
 }
 
 .drawerContent {
   display: flex;
   flex-direction: column;
   gap: rem(32);
-  padding: rem(16) rem(8);
+  padding: rem(24) rem(16);
+}
+
+.tabsContent {
+  display: flex;
+  flex-direction: column;
+  gap: rem(32);
+
+  &:not([data-disabled]) [data-variant="pills"]:not([data-active='true']) {
+    --tab-bg: var(--mantine-color-gray-1);
+    --tab-hover-color: var(--mantine-color-gray-2);
+    @include dark {
+      --tab-bg: var(--mantine-color-gray-8);
+      --tab-hover-color: var(--mantine-color-gray-7);
+    }
+  }
+
+  :global {
+    .mantine-Tabs-tab {
+      padding: var(--mantine-spacing-sm) var(--mantine-spacing-md);
+      font-size: var(--mantine-font-size-md);
+      font-weight: 500;
+    }
+
+    .mantine-Tabs-list {
+      padding-bottom: rem(16);
+      border-bottom: rem(1) solid var(--mantine-color-gray-3);
+      @include dark {
+        border-bottom: rem(1) solid var(--mantine-color-gray-8);
+      }
+    }
+  }
 }

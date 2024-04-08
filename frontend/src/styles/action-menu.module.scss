@@ -8,7 +8,7 @@
 
 .mobileNav {
   display: inline-flex;
-  @media (min-width: rem(580)) {
+  @media (min-width: rem(840)) {
     display: none;
   }
 }

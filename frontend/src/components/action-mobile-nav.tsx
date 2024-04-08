@@ -12,6 +12,7 @@ export default function ActionMobileNav({...props}) {
   const [opened, {open, close}] = useDisclosure(false);
 
   // TODO: Replace mockup data with entries from the server.
+  // TODO: Maybe move all mock data to a separate file.
   const mobileNavEntries: SideNavEntryProps[] = [
     { href: '/', label: 'Home', icon: <IconHome /> },
     { href: '/about', label: 'About', icon: <IconInfoSquareRounded /> },

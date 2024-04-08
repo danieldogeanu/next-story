@@ -12,6 +12,8 @@ export interface SideNavEntryProps extends NavLinkProps, LinkProps {
   submenu?: SideNavEntryProps[];
 }
 
+// TODO: Add suport for submenus with nested NavLink components.
+
 export default function SideNavEntry({href, label, icon, submenu, ...props}: SideNavEntryProps) {
   const pathname = usePathname();
   const isActive = (href: string) => (pathname === href);

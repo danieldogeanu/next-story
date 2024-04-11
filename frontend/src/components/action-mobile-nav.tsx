@@ -18,7 +18,11 @@ export default function ActionMobileNav({...props}) {
     { href: '/about', label: 'About', icon: <IconInfoSquareRounded /> },
     { href: '/categories', label: 'Categories', icon: <IconCategory />, submenu: [
       { href: '/categories/first', label: 'First' },
-      { href: '/categories/second', label: 'Second' },
+      { href: '/categories/second', label: 'Second', submenu: [
+        { href: '/categories/second/first', label: 'First' },
+        { href: '/categories/second/second', label: 'Second' },
+        { href: '/categories/second/third', label: 'Third' },
+      ] },
       { href: '/categories/third', label: 'Third' },
       { href: '/categories/fourth', label: 'Fourth' },
       { href: '/categories/fifth', label: 'Fifth' },

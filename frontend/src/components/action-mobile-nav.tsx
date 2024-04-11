@@ -7,7 +7,6 @@ import SiteDrawer from '@/components/site-drawer';
 import SideNav from '@/components/sidenav';
 import { mockSiteNavEntries } from '@/data/mock';
 import { NavEntryProps } from '@/data/types';
-import styles from '@/styles/action-mobile-nav.module.scss';
 
 export default function ActionMobileNav({...props}) {
   const [opened, {open, close}] = useDisclosure(false);

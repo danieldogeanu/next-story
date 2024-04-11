@@ -13,9 +13,21 @@
     font-weight: 500;
   }
 
-  :global(.mantine-NavLink-section:where([data-position='left'])) {
-    width: rem(24);
-    height: rem(24);
+  :global(.mantine-NavLink-section) {
+    &:where([data-position='left']) {
+      width: rem(24);
+      height: rem(24);
+    }
+
+    &:where([data-position='right']) {
+      width: rem(22);
+      height: rem(22);
+
+      svg:global(.mantine-NavLink-chevron) {
+        width: 100% !important;
+        height: 100% !important;
+      }
+    }
 
     svg {
       stroke-width: rem(1.75);

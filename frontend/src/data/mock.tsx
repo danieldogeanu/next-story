@@ -5,6 +5,8 @@ import {
 import { NavEntryProps } from '@/data/types';
 import { SocialIconProps } from '@/components/social-icon';
 
+// TODO: Refactor how icons are imported; they need to be dynamically imported.
+
 /** Main site navigation entries. */
 export const mockSiteNavEntries: NavEntryProps[] = [
   { href: '/', label: 'Home', icon: <IconHome /> },

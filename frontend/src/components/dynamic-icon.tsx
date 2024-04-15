@@ -6,10 +6,14 @@ export interface DynamicIconProps extends TablerIconsProps {
   icon: string;
 }
 
-// TODO: Figure out how to load icons dynamically in client components.
-
 /**
  * React component that generates TablerIcons dynamically.
+ * 
+ * We need to use the `convertDynamicIcons` function to load and convert icons
+ * dynamically from the data fetched from the server.
+ * 
+ * WARNING: Don't use this component directly, unless it's a server component!
+ * 
  * @param props The React props for the dynamically loaded icon.
  * @returns Returns a promise of the JSX.Element that can be used as SVG Icon in any React component.
  */

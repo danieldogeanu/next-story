@@ -2,13 +2,9 @@
 
 import Link from "next/link";
 import { Anchor } from "@mantine/core";
+import { NavEntryProps } from "@/data/types";
 
-export interface LegalLinkProps {
-  href: string;
-  label: string;
-}
-
-export default async function LegalLink({href, label}: LegalLinkProps) {
+export default async function LegalLink({href, label}: NavEntryProps) {
   return (
     <Anchor component={Link} href={href} size='sm'>
       {label}

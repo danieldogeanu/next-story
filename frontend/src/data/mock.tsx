@@ -25,6 +25,14 @@ export const mockSiteNavEntries: NavEntryProps[] = [
   { href: '/contact', label: 'Contact', icon: <IconMail /> },
 ];
 
+/** Legal navigation entries. */
+export const mockLegalNavEntries: NavEntryProps[] = [
+  { href: '/privacy-policy', label: 'Privacy Policy' },
+  { href: '/cookies', label: 'Cookies' },
+  { href: '/legal-terms', label: 'Legal Terms' },
+  { href: '/acceptable-use', label: 'Acceptable Use' },
+];
+
 /** Footer social navigation entries. */
 export const mockSocialNavEntries: SocialIconProps[] = [
   { icon: IconBrandLinkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/danieldogeanu' },

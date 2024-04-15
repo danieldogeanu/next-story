@@ -6,6 +6,8 @@ export interface DynamicIconProps extends TablerIconsProps {
   icon: string;
 }
 
+// TODO: Figure out how to load icons dynamically in client components.
+
 /**
  * React component that generates TablerIcons dynamically.
  * @param props The React props for the dynamically loaded icon.

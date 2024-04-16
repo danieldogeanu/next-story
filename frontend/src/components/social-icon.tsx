@@ -10,6 +10,8 @@ export interface SocialIconProps extends ActionIconProps, ElementProps<'a', keyo
   href: string;
 }
 
+// TODO: Refactor the code to fix the type of icon so that it can be used as a React component.
+
 export default function SocialIcon({icon, label, href, ...other}: SocialIconProps) {
   const {width} = useViewportSize();
   const TablerIcon = icon;

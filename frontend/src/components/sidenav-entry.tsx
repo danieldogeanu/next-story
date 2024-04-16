@@ -12,6 +12,8 @@ export default function SideNavEntry({href, label, icon, submenu, ...props}: Nav
   const hasSubmenu = () => (submenu !== undefined && submenu.length > 0);
   const propsWithIcon: Partial<NavEntryProps> = icon ? {...props, leftSection: icon} : props;
 
+  // TODO: Here we need to pass the icon as such: `{...props, leftSection: <TablerIcon />}`.
+
   return hasSubmenu() ? (
     <NavLink
       component={Link}

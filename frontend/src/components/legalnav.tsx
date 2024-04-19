@@ -2,13 +2,12 @@
 
 import LegalLink from '@/components/legal-link';
 import { mockLegalNavEntries } from '@/data/mock';
-import { NavEntryProps } from '@/data/types';
-import { convertDynamicIcons } from '@/utils/convert-dynamic-icons';
+import { NavEntryItem } from '@/data/types';
 import styles from '@/styles/legalnav.module.scss';
 
 export default async function LegalNav() {
   // TODO: Replace mockup data with entries from the server.
-  const legalNavEntries: NavEntryProps[] = await convertDynamicIcons(mockLegalNavEntries) as NavEntryProps[];
+  const legalNavEntries: NavEntryItem[] = mockLegalNavEntries;
 
   return (
     <nav className={styles.container}>

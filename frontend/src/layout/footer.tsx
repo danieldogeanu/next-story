@@ -1,11 +1,9 @@
-'use server';
-
 import Link from 'next/link';
-import styles from '@/styles/footer.module.scss';
 import LegalNav from '@/components/legalnav';
 import SocialNav from '@/components/socialnav';
+import styles from '@/styles/footer.module.scss';
 
-export default async function SiteFooter() {
+export default function SiteFooter() {
   return (
     <footer className={styles.container}>
       <p className={styles.copyright}>

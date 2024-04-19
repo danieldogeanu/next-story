@@ -1,23 +1,14 @@
-import { NavLinkProps } from '@mantine/core';
-import { TablerIconsProps } from '@tabler/icons-react';
-import { LinkProps } from 'next/link';
+// Data fetched from the server must be in the following format:
 
-/**
- * NavEntryProps is the interface that we use after we fetched and
- * converted the icons from string to ReactElement.
- */
-export interface NavEntryProps extends NavLinkProps, LinkProps {
+export interface NavEntryItem {
   href: string;
-  icon?: React.ReactElement<TablerIconsProps>;
-  submenu?: NavEntryProps[];
+  label: string;
+  icon?: string;
+  submenu?: NavEntryItem[];
 }
 
-/**
- * Icons fetched from the server must be in string format.
- * We only convert them to ReactElement after we get the data from the server.
- */
-export interface FetchedNavEntryProps extends NavLinkProps, LinkProps {
+export interface SocialEntryItem {
   href: string;
-  icon?: string;
-  submenu?: FetchedNavEntryProps[];
+  label: string;
+  icon: string;
 }

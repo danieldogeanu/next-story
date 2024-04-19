@@ -1,11 +1,7 @@
-import {
-  IconBrandDribbble, IconBrandGithub, IconBrandInstagram, IconBrandLinkedin
-} from '@tabler/icons-react';
-import { FetchedNavEntryProps } from '@/data/types';
-import { SocialIconProps } from '@/components/social-icon';
+import { NavEntryItem, SocialEntryItem } from '@/data/types';
 
 /** Main site navigation entries. */
-export const mockSiteNavEntries: FetchedNavEntryProps[] = [
+export const mockSiteNavEntries: NavEntryItem[] = [
   { href: '/', label: 'Home', icon: 'IconHome' },
   { href: '/about', label: 'About', icon: 'IconInfoSquareRounded' },
   { href: '/categories', label: 'Categories', icon: 'IconCategory', submenu: [
@@ -23,7 +19,7 @@ export const mockSiteNavEntries: FetchedNavEntryProps[] = [
 ];
 
 /** Legal navigation entries. */
-export const mockLegalNavEntries: FetchedNavEntryProps[] = [
+export const mockLegalNavEntries: NavEntryItem[] = [
   { href: '/privacy-policy', label: 'Privacy Policy' },
   { href: '/cookies', label: 'Cookies' },
   { href: '/legal-terms', label: 'Legal Terms' },
@@ -31,9 +27,9 @@ export const mockLegalNavEntries: FetchedNavEntryProps[] = [
 ];
 
 /** Footer social navigation entries. */
-export const mockSocialNavEntries: SocialIconProps[] = [
-  { icon: IconBrandLinkedin, label: 'LinkedIn', href: 'https://linkedin.com/in/danieldogeanu' },
-  { icon: IconBrandGithub, label: 'GitHub', href: 'https://github.com/danieldogeanu' },
-  { icon: IconBrandDribbble, label: 'Dribbble', href: 'https://dribbble.com/danieldogeanu' },
-  { icon: IconBrandInstagram, label: 'Instagram', href: 'https://instagram.com/danieldogeanu' },
+export const mockSocialNavEntries: SocialEntryItem[] = [
+  { icon: 'IconBrandLinkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/danieldogeanu' },
+  { icon: 'IconBrandGithub', label: 'GitHub', href: 'https://github.com/danieldogeanu' },
+  { icon: 'IconBrandDribbble', label: 'Dribbble', href: 'https://dribbble.com/danieldogeanu' },
+  { icon: 'IconBrandInstagram', label: 'Instagram', href: 'https://instagram.com/danieldogeanu' },
 ];

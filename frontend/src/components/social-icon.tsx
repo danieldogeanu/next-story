@@ -10,9 +10,6 @@ export interface SocialIconProps extends ActionIconProps, ElementProps<'a', keyo
   href: string;
 }
 
-// TODO: Refactor the code to fix the type of icon so that it can be used as a React component. 
-// TODO: React.FC<TablerIconsProps> is the correct type, change it in the other interfaces as well!
-
 export default function SocialIcon({icon: TablerIcon, label, href, ...other}: SocialIconProps) {
   const {width} = useViewportSize();
 

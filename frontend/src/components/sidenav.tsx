@@ -1,11 +1,9 @@
-'use client';
-
+import { NavEntryItem } from '@/data/types';
 import SideNavEntry from '@/components/sidenav-entry';
-import { NavEntryProps } from '@/data/types';
 import styles from '@/styles/sidenav.module.scss';
 
 export interface SideNavProps {
-  entries: NavEntryProps[];
+  entries: NavEntryItem[];
 }
 
 export default function SideNav({entries}: SideNavProps) {

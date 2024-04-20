@@ -1,5 +1,3 @@
-'use client';
-
 import ActionSearch from '@/components/action-search';
 import ActionThemeSwitcher from '@/components/action-theme-switcher';
 import ActionUserAccount from '@/components/action-user-account';

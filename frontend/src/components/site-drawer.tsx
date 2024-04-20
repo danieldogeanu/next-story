@@ -1,5 +1,3 @@
-'use client';
-
 import { Box, Drawer, DrawerProps, ScrollArea } from '@mantine/core';
 import styles from '@/styles/site-drawer.module.scss';
 

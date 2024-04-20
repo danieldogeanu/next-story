@@ -1,11 +1,9 @@
-'use server';
-
 import SiteLogo from '@/components/logo';
 import SiteNav from '@/components/sitenav';
 import ActionMenu from '@/components/action-menu';
 import styles from '@/styles/header.module.scss';
 
-export default async function SiteHeader() {
+export default function SiteHeader() {
   return (
     <header className={styles.container}>
 

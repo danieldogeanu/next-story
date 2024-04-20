@@ -2,15 +2,13 @@
 
 import { ActionIcon, ActionIconProps, ElementProps } from '@mantine/core';
 import { useViewportSize } from '@mantine/hooks';
-import { TablerIconsProps } from '@tabler/icons-react';
+import { SocialEntryItem } from '@/data/types';
+import DynamicIcon from '@/components/dynamic-icon';
 
-export interface SocialIconProps extends ActionIconProps, ElementProps<'a', keyof ActionIconProps> {
-  icon: React.FC<TablerIconsProps>;
-  label: string;
-  href: string;
-}
+export interface SocialIconProps extends SocialEntryItem, ActionIconProps, 
+  Omit<ElementProps<'a', keyof ActionIconProps>, 'href'> {}
 
-export default function SocialIcon({icon: TablerIcon, label, href, ...other}: SocialIconProps) {
+export default function SocialIcon({icon, label, href, ...other}: SocialIconProps) {
   const {width} = useViewportSize();
 
   return (
@@ -24,7 +22,7 @@ export default function SocialIcon({icon: TablerIcon, label, href, ...other}: So
       target='_blank'
       referrerPolicy='no-referrer'
       {...other}>
-      <TablerIcon stroke={2} size={24} />
+      <DynamicIcon icon={icon} stroke={2} size={24} />
     </ActionIcon>
   );
 }

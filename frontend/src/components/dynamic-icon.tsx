@@ -1,14 +1,17 @@
 'use client';
 
+import * as allTablerIcons from '@tabler/icons-react';
 import { TablerIconsProps } from '@tabler/icons-react';
 import { useState, useEffect, useTransition } from 'react';
 
-export interface DynamicIconProps extends TablerIconsProps {
-  icon: string;
+export type IconName = {
+  [K in keyof typeof allTablerIcons as K extends `Icon${string}` ? K : never]: typeof allTablerIcons[K];
 };
 
-export interface TablerIcons {
-  [key: string]: React.FC<TablerIconsProps>;
+export type IconKeys = keyof IconName;
+
+export interface DynamicIconProps extends TablerIconsProps {
+  icon: IconKeys;
 };
 
 /**
@@ -22,9 +25,9 @@ export default function DynamicIcon({icon, ...props}: DynamicIconProps) {
   const [SelectedIcon, selectIcon] = useState<React.FC<TablerIconsProps> | null>(null);
 
   useEffect(() => {
-    startTransition(async () => {
-      const tablerIcons = (await import('@tabler/icons-react')) as unknown as TablerIcons;
-      selectIcon(() => tablerIcons[icon]);
+    startTransition(() => {
+      const IconComponent = allTablerIcons[icon] as React.FC<TablerIconsProps>;
+      selectIcon(() => IconComponent);
     });
   }, [icon]);
 

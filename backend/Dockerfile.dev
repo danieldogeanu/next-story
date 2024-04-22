@@ -17,6 +17,7 @@ ENV NODE_ENV development
 
 # Disable Strapi telemetry and promotional features.
 ENV STRAPI_TELEMETRY_DISABLED true
+ENV STRAPI_DISABLE_UPDATE_NOTIFICATION true
 ENV FLAG_NPS false
 ENV FLAG_PROMOTE_EE false
 

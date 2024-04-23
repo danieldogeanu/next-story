@@ -5,7 +5,7 @@
       "bulkable": true,
       "filterable": true,
       "searchable": true,
-      "pageSize": 10,
+      "pageSize": 50,
       "mainField": "name",
       "defaultSortBy": "name",
       "defaultSortOrder": "ASC"
@@ -14,35 +14,35 @@
       "id": {
         "edit": {},
         "list": {
-          "label": "id",
+          "label": "ID",
           "searchable": true,
           "sortable": true
         }
       },
       "name": {
         "edit": {
-          "label": "name",
-          "description": "",
+          "label": "Name",
+          "description": "The name of the audience you wish to show the navigation for.",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "name",
+          "label": "Name",
           "searchable": true,
           "sortable": true
         }
       },
       "key": {
         "edit": {
-          "label": "key",
-          "description": "",
+          "label": "Key",
+          "description": "The slug for the chosen audience name.",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "key",
+          "label": "Key",
           "searchable": true,
           "sortable": true
         }
@@ -56,7 +56,7 @@
           "editable": true
         },
         "list": {
-          "label": "createdAt",
+          "label": "Created At",
           "searchable": true,
           "sortable": true
         }
@@ -70,7 +70,7 @@
           "editable": true
         },
         "list": {
-          "label": "updatedAt",
+          "label": "Updated At",
           "searchable": true,
           "sortable": true
         }
@@ -85,7 +85,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "createdBy",
+          "label": "Created By",
           "searchable": true,
           "sortable": true
         }
@@ -100,19 +100,13 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "updatedBy",
+          "label": "Updated By",
           "searchable": true,
           "sortable": true
         }
       }
     },
     "layouts": {
-      "list": [
-        "id",
-        "name",
-        "key",
-        "createdAt"
-      ],
       "edit": [
         [
           {
@@ -124,6 +118,11 @@
             "size": 6
           }
         ]
+      ],
+      "list": [
+        "id",
+        "name",
+        "key"
       ]
     },
     "uid": "plugin::navigation.audience"

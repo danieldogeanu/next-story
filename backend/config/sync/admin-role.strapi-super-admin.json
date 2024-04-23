@@ -319,7 +319,17 @@
           "confirmationToken",
           "confirmed",
           "blocked",
-          "role"
+          "role",
+          "firstName",
+          "lastName",
+          "avatar",
+          "subscriptions.account",
+          "subscriptions.articles",
+          "subscriptions.comments",
+          "subscriptions.promotions",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
         ]
       },
       "conditions": []
@@ -345,7 +355,17 @@
           "confirmationToken",
           "confirmed",
           "blocked",
-          "role"
+          "role",
+          "firstName",
+          "lastName",
+          "avatar",
+          "subscriptions.account",
+          "subscriptions.articles",
+          "subscriptions.comments",
+          "subscriptions.promotions",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
         ]
       },
       "conditions": []
@@ -364,7 +384,17 @@
           "confirmationToken",
           "confirmed",
           "blocked",
-          "role"
+          "role",
+          "firstName",
+          "lastName",
+          "avatar",
+          "subscriptions.account",
+          "subscriptions.articles",
+          "subscriptions.comments",
+          "subscriptions.promotions",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
         ]
       },
       "conditions": []

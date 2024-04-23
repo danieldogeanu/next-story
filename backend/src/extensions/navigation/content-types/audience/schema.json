@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "audience",
+  "info": {
+    "singularName": "audience",
+    "pluralName": "audiences",
+    "displayName": "Audience",
+    "name": "audience",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "key": {
+      "type": "uid",
+      "targetField": "name",
+      "required": true
+    }
+  }
+}

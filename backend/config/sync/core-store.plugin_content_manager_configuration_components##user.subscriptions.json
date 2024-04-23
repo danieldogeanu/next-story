@@ -1,0 +1,115 @@
+{
+  "key": "plugin_content_manager_configuration_components::user.subscriptions",
+  "value": {
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "id",
+      "defaultSortBy": "id",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "account": {
+        "edit": {
+          "label": "Account",
+          "description": "Receive email notifications about the security of your account.",
+          "placeholder": "",
+          "visible": true,
+          "editable": false
+        },
+        "list": {
+          "label": "account",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "articles": {
+        "edit": {
+          "label": "Articles",
+          "description": "Receive email notifications whenever new articles are published.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "articles",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "comments": {
+        "edit": {
+          "label": "Comments",
+          "description": "Receive email notifications when you receive replies to your comments.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "comments",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "promotions": {
+        "edit": {
+          "label": "Promotions",
+          "description": "Receive email notifications about new offers and promotions.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "promotions",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "account",
+        "articles",
+        "comments"
+      ],
+      "edit": [
+        [
+          {
+            "name": "account",
+            "size": 6
+          },
+          {
+            "name": "comments",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "articles",
+            "size": 6
+          },
+          {
+            "name": "promotions",
+            "size": 6
+          }
+        ]
+      ]
+    },
+    "uid": "user.subscriptions",
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

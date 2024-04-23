@@ -4,6 +4,9 @@
   "type": "authenticated",
   "permissions": [
     {
+      "action": "api::site-setting.site-setting.find"
+    },
+    {
       "action": "plugin::comments.client.findAllFlat"
     },
     {

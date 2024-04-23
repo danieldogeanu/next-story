@@ -4,6 +4,85 @@
   "description": "Super Admins can access and manage all features and settings.",
   "permissions": [
     {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::site-setting.site-setting",
+      "properties": {
+        "fields": [
+          "siteName",
+          "siteTitle",
+          "siteTagline",
+          "siteUrl",
+          "siteCover",
+          "siteLogo",
+          "commentsAllowed",
+          "indexAllowed",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "showComments",
+          "siteLogoLight",
+          "siteLogoDark"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::site-setting.site-setting",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::site-setting.site-setting",
+      "properties": {
+        "fields": [
+          "siteName",
+          "siteTitle",
+          "siteTagline",
+          "siteUrl",
+          "siteCover",
+          "siteLogo",
+          "commentsAllowed",
+          "indexAllowed",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "showComments",
+          "siteLogoLight",
+          "siteLogoDark"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::site-setting.site-setting",
+      "properties": {
+        "fields": [
+          "siteName",
+          "siteTitle",
+          "siteTagline",
+          "siteUrl",
+          "siteCover",
+          "siteLogo",
+          "commentsAllowed",
+          "indexAllowed",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "showComments",
+          "siteLogoLight",
+          "siteLogoDark"
+        ]
+      },
+      "conditions": []
+    },
+    {
       "action": "admin::api-tokens.access",
       "actionParameters": {},
       "subject": null,

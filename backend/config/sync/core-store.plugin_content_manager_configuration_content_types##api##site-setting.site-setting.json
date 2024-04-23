@@ -1,0 +1,324 @@
+{
+  "key": "plugin_content_manager_configuration_content_types::api::site-setting.site-setting",
+  "value": {
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "siteName",
+      "defaultSortBy": "siteName",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "siteName": {
+        "edit": {
+          "label": "Site Name",
+          "description": "The short (brand) name for the site.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteName",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "siteTitle": {
+        "edit": {
+          "label": "Site Title",
+          "description": "The site title that can also be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteTitle",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "siteTagline": {
+        "edit": {
+          "label": "Site Tagline",
+          "description": "A short tagline that can be used for SEO title.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteTagline",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "siteUrl": {
+        "edit": {
+          "label": "Site URL",
+          "description": "The cannonical URL for the frontend of this site (including https://).",
+          "placeholder": "https://",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteUrl",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "siteCover": {
+        "edit": {
+          "label": "Site Cover",
+          "description": "Default cover image for the site, that can be used for social media.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteCover",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "siteLogo": {
+        "edit": {
+          "label": "Site Logo",
+          "description": "The official site (brand) logo.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteLogo",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "commentsAllowed": {
+        "edit": {
+          "label": "Comments Allowed",
+          "description": "Allow users to leave comments on this site?",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "commentsAllowed",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "indexAllowed": {
+        "edit": {
+          "label": "Index Allowed",
+          "description": "Allow search engines to index this site?",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "indexAllowed",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "socialNetworks": {
+        "edit": {
+          "label": "Social Networks",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "socialNetworks",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "showComments": {
+        "edit": {
+          "label": "Show Comments",
+          "description": "Show existing user comments on the site?",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "showComments",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "siteLogoLight": {
+        "edit": {
+          "label": "Light Theme Logo",
+          "description": "Logo for the light site theme.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteLogoLight",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "siteLogoDark": {
+        "edit": {
+          "label": "Dark Theme Logo",
+          "description": "Logo for the dark site theme.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteLogoDark",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "createdAt": {
+        "edit": {
+          "label": "createdAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "createdAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "updatedAt": {
+        "edit": {
+          "label": "updatedAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "updatedAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "createdBy": {
+        "edit": {
+          "label": "createdBy",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true,
+          "mainField": "firstname"
+        },
+        "list": {
+          "label": "createdBy",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "updatedBy": {
+        "edit": {
+          "label": "updatedBy",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true,
+          "mainField": "firstname"
+        },
+        "list": {
+          "label": "updatedBy",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "edit": [
+        [
+          {
+            "name": "siteName",
+            "size": 6
+          },
+          {
+            "name": "siteTitle",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "siteTagline",
+            "size": 6
+          },
+          {
+            "name": "siteUrl",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "siteLogo",
+            "size": 4
+          },
+          {
+            "name": "siteLogoLight",
+            "size": 4
+          },
+          {
+            "name": "siteLogoDark",
+            "size": 4
+          }
+        ],
+        [
+          {
+            "name": "siteCover",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "commentsAllowed",
+            "size": 4
+          },
+          {
+            "name": "showComments",
+            "size": 4
+          },
+          {
+            "name": "indexAllowed",
+            "size": 4
+          }
+        ],
+        [
+          {
+            "name": "socialNetworks",
+            "size": 12
+          }
+        ]
+      ],
+      "list": [
+        "id",
+        "siteName",
+        "siteTitle",
+        "siteTagline"
+      ]
+    },
+    "uid": "api::site-setting.site-setting"
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

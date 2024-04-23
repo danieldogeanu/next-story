@@ -6,11 +6,11 @@
       "icon": "sync",
       "options": {
         "from": {
-          "name": "Administration Panel",
-          "email": "no-reply@strapi.io"
+          "name": "Next Story",
+          "email": "no-reply@ddsv.eu"
         },
         "response_email": "",
-        "object": "Reset password",
+        "object": "Reset Password",
         "message": "<p>We heard that you lost your password. Sorry about that!</p>\n\n<p>But don’t worry! You can use the following link to reset your password:</p>\n<p><%= URL %>?code=<%= TOKEN %></p>\n\n<p>Thanks.</p>"
       }
     },
@@ -19,11 +19,11 @@
       "icon": "check-square",
       "options": {
         "from": {
-          "name": "Administration Panel",
-          "email": "no-reply@strapi.io"
+          "name": "Next Story",
+          "email": "no-reply@ddsv.eu"
         },
         "response_email": "",
-        "object": "Account confirmation",
+        "object": "Account Confirmation",
         "message": "<p>Thank you for registering!</p>\n\n<p>You have to confirm your email address. Please click on the link below.</p>\n\n<p><%= URL %>?confirmation=<%= CODE %></p>\n\n<p>Thanks.</p>"
       }
     }

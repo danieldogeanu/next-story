@@ -1,7 +1,7 @@
 {
-  "name": "Authenticated",
-  "description": "Default role given to authenticated user.",
-  "type": "authenticated",
+  "name": "Frontend",
+  "description": "Custom role given to the frontend website.",
+  "type": "frontend",
   "permissions": [
     {
       "action": "plugin::comments.client.findAllFlat"
@@ -11,18 +11,6 @@
     },
     {
       "action": "plugin::comments.client.findAllPerAuthor"
-    },
-    {
-      "action": "plugin::comments.client.post"
-    },
-    {
-      "action": "plugin::comments.client.put"
-    },
-    {
-      "action": "plugin::comments.client.removeComment"
-    },
-    {
-      "action": "plugin::comments.client.reportAbuse"
     },
     {
       "action": "plugin::navigation.client.readAll"
@@ -49,22 +37,31 @@
       "action": "plugin::sitemap.core.getSitemapXslSortable"
     },
     {
-      "action": "plugin::upload.content-api.destroy"
-    },
-    {
       "action": "plugin::upload.content-api.find"
     },
     {
       "action": "plugin::upload.content-api.findOne"
     },
     {
-      "action": "plugin::upload.content-api.upload"
+      "action": "plugin::users-permissions.auth.callback"
     },
     {
-      "action": "plugin::users-permissions.auth.changePassword"
+      "action": "plugin::users-permissions.auth.connect"
     },
     {
-      "action": "plugin::users-permissions.user.me"
+      "action": "plugin::users-permissions.auth.emailConfirmation"
+    },
+    {
+      "action": "plugin::users-permissions.auth.forgotPassword"
+    },
+    {
+      "action": "plugin::users-permissions.auth.register"
+    },
+    {
+      "action": "plugin::users-permissions.auth.resetPassword"
+    },
+    {
+      "action": "plugin::users-permissions.auth.sendEmailConfirmation"
     }
   ]
 }

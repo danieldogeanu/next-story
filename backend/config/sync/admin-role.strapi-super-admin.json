@@ -6,6 +6,52 @@
     {
       "action": "plugin::content-manager.explorer.create",
       "actionParameters": {},
+      "subject": "api::site-secret.site-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.allowedFor",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::site-secret.site-secret",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::site-secret.site-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.allowedFor",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::site-secret.site-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.allowedFor",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
       "subject": "api::site-setting.site-setting",
       "properties": {
         "fields": [

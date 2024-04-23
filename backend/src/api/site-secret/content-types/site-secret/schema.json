@@ -1,0 +1,22 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_secrets",
+  "info": {
+    "singularName": "site-secret",
+    "pluralName": "site-secrets",
+    "displayName": "Site Secrets",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "secretEntries": {
+      "displayName": "Secret Entry",
+      "type": "component",
+      "repeatable": true,
+      "component": "site.secret-entry"
+    }
+  }
+}

@@ -47,6 +47,21 @@
           "sortable": true
         }
       },
+      "articles": {
+        "edit": {
+          "label": "Articles",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "title"
+        },
+        "list": {
+          "label": "articles",
+          "searchable": false,
+          "sortable": false
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -116,6 +131,12 @@
           {
             "name": "slug",
             "size": 6
+          }
+        ],
+        [
+          {
+            "name": "articles",
+            "size": 12
           }
         ]
       ],

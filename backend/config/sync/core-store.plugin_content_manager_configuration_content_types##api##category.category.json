@@ -1,13 +1,13 @@
 {
-  "key": "plugin_content_manager_configuration_content_types::api::page.page",
+  "key": "plugin_content_manager_configuration_content_types::api::category.category",
   "value": {
     "settings": {
       "bulkable": true,
       "filterable": true,
       "searchable": true,
       "pageSize": 50,
-      "mainField": "title",
-      "defaultSortBy": "title",
+      "mainField": "name",
+      "defaultSortBy": "id",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
@@ -19,16 +19,16 @@
           "sortable": true
         }
       },
-      "title": {
+      "name": {
         "edit": {
-          "label": "Title",
-          "description": "Page title.",
+          "label": "Name",
+          "description": "The category title.",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "Title",
+          "label": "Name",
           "searchable": true,
           "sortable": true
         }
@@ -36,7 +36,7 @@
       "slug": {
         "edit": {
           "label": "Slug",
-          "description": "Slug is used to generate page URL. Must be unique.",
+          "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
@@ -47,74 +47,30 @@
           "sortable": true
         }
       },
+      "description": {
+        "edit": {
+          "label": "Description",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Description",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "cover": {
         "edit": {
           "label": "Cover",
-          "description": "Cover is used as featured image, both on the page, and page previews.",
+          "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
           "label": "Cover",
-          "searchable": false,
-          "sortable": false
-        }
-      },
-      "excerpt": {
-        "edit": {
-          "label": "Excerpt",
-          "description": "Short description for the page, that will be used in page previews.",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "excerpt",
-          "searchable": true,
-          "sortable": true
-        }
-      },
-      "content": {
-        "edit": {
-          "label": "Content",
-          "description": "The actual content for the page.",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "content",
-          "searchable": false,
-          "sortable": false
-        }
-      },
-      "parent": {
-        "edit": {
-          "label": "Parent",
-          "description": "The parent page, if this is a subpage.",
-          "placeholder": "",
-          "visible": true,
-          "editable": true,
-          "mainField": "title"
-        },
-        "list": {
-          "label": "Parent",
-          "searchable": true,
-          "sortable": true
-        }
-      },
-      "children": {
-        "edit": {
-          "label": "Children",
-          "description": "The child pages (subpages) if this is the parent page.",
-          "placeholder": "",
-          "visible": true,
-          "editable": true,
-          "mainField": "title"
-        },
-        "list": {
-          "label": "Children",
           "searchable": false,
           "sortable": false
         }
@@ -196,7 +152,7 @@
       "edit": [
         [
           {
-            "name": "title",
+            "name": "name",
             "size": 12
           }
         ],
@@ -208,30 +164,14 @@
         ],
         [
           {
+            "name": "description",
+            "size": 12
+          }
+        ],
+        [
+          {
             "name": "cover",
             "size": 12
-          }
-        ],
-        [
-          {
-            "name": "excerpt",
-            "size": 12
-          }
-        ],
-        [
-          {
-            "name": "content",
-            "size": 12
-          }
-        ],
-        [
-          {
-            "name": "parent",
-            "size": 6
-          },
-          {
-            "name": "children",
-            "size": 6
           }
         ],
         [
@@ -244,11 +184,11 @@
       "list": [
         "id",
         "cover",
-        "title",
+        "name",
         "slug"
       ]
     },
-    "uid": "api::page.page"
+    "uid": "api::category.category"
   },
   "type": "object",
   "environment": null,

@@ -376,6 +376,49 @@
       "conditions": []
     },
     {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::tag.tag",
+      "properties": {
+        "fields": [
+          "name",
+          "slug"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::tag.tag",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::tag.tag",
+      "properties": {
+        "fields": [
+          "name",
+          "slug"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::tag.tag",
+      "properties": {
+        "fields": [
+          "name",
+          "slug"
+        ]
+      },
+      "conditions": []
+    },
+    {
       "action": "admin::api-tokens.access",
       "actionParameters": {},
       "subject": null,

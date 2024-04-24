@@ -4,28 +4,25 @@
   "info": {
     "singularName": "author",
     "pluralName": "authors",
-    "displayName": "Author"
+    "displayName": "Author",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
-    "firstName": {
+    "fullName": {
       "type": "string",
       "required": true,
       "maxLength": 100,
       "private": true
     },
-    "lastName": {
-      "type": "string",
-      "required": true,
-      "maxLength": 100
-    },
     "slug": {
       "type": "uid",
       "required": true,
-      "maxLength": 100
+      "maxLength": 100,
+      "targetField": "fullName"
     },
     "biography": {
       "type": "text",
@@ -33,11 +30,12 @@
       "maxLength": 1000
     },
     "avatar": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "socialNetworks": {
       "type": "component",

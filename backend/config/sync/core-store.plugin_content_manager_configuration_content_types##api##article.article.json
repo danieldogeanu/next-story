@@ -154,7 +154,7 @@
           "placeholder": "",
           "visible": true,
           "editable": true,
-          "mainField": "firstName"
+          "mainField": "fullName"
         },
         "list": {
           "label": "Author",
@@ -315,23 +315,23 @@
             "size": 6
           },
           {
-            "name": "category",
+            "name": "likes",
             "size": 6
           }
         ],
         [
           {
-            "name": "likes",
+            "name": "category",
             "size": 6
           },
           {
-            "name": "tags",
+            "name": "shares",
             "size": 6
           }
         ],
         [
           {
-            "name": "shares",
+            "name": "tags",
             "size": 6
           }
         ],

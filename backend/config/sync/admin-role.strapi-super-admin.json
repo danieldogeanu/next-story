@@ -128,8 +128,7 @@
       "subject": "api::author.author",
       "properties": {
         "fields": [
-          "firstName",
-          "lastName",
+          "fullName",
           "slug",
           "biography",
           "avatar",
@@ -154,8 +153,7 @@
       "subject": "api::author.author",
       "properties": {
         "fields": [
-          "firstName",
-          "lastName",
+          "fullName",
           "slug",
           "biography",
           "avatar",
@@ -173,8 +171,7 @@
       "subject": "api::author.author",
       "properties": {
         "fields": [
-          "firstName",
-          "lastName",
+          "fullName",
           "slug",
           "biography",
           "avatar",

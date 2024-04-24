@@ -280,7 +280,7 @@
         [
           {
             "name": "avatar",
-            "size": 4
+            "size": 6
           }
         ],
         [
@@ -316,11 +316,11 @@
         [
           {
             "name": "confirmed",
-            "size": 4
+            "size": 6
           },
           {
             "name": "blocked",
-            "size": 4
+            "size": 6
           }
         ],
         [

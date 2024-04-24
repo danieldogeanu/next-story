@@ -1,0 +1,46 @@
+{
+  "key": "plugin_comments_config",
+  "value": {
+    "moderatorRoles": [],
+    "badWords": true,
+    "blockedAuthorProps": [
+      "email",
+      "provider",
+      "password",
+      "resetPasswordToken",
+      "confirmationToken",
+      "confirmed",
+      "blocked",
+      "role",
+      "subscriptions",
+      "socialNetworks"
+    ],
+    "enabledCollections": [
+      "api::article.article"
+    ],
+    "approvalFlow": [
+      "api::article.article"
+    ],
+    "entryLabel": {
+      "*": [
+        "Title",
+        "title",
+        "Name",
+        "name",
+        "Subject",
+        "subject"
+      ],
+      "api::article.article": [
+        "title"
+      ]
+    },
+    "reportReasons": {
+      "BAD_LANGUAGE": "BAD_LANGUAGE",
+      "DISCRIMINATION": "DISCRIMINATION",
+      "OTHER": "OTHER"
+    }
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

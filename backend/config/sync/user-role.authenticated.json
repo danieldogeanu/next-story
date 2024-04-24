@@ -4,7 +4,37 @@
   "type": "authenticated",
   "permissions": [
     {
+      "action": "api::article.article.find"
+    },
+    {
+      "action": "api::article.article.findOne"
+    },
+    {
+      "action": "api::author.author.find"
+    },
+    {
+      "action": "api::author.author.findOne"
+    },
+    {
+      "action": "api::category.category.find"
+    },
+    {
+      "action": "api::category.category.findOne"
+    },
+    {
+      "action": "api::page.page.find"
+    },
+    {
+      "action": "api::page.page.findOne"
+    },
+    {
       "action": "api::site-setting.site-setting.find"
+    },
+    {
+      "action": "api::tag.tag.find"
+    },
+    {
+      "action": "api::tag.tag.findOne"
     },
     {
       "action": "plugin::comments.client.findAllFlat"

@@ -6,6 +6,67 @@
     {
       "action": "plugin::content-manager.explorer.create",
       "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {
+        "fields": [
+          "firstName",
+          "lastName",
+          "slug",
+          "biography",
+          "avatar",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {
+        "fields": [
+          "firstName",
+          "lastName",
+          "slug",
+          "biography",
+          "avatar",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {
+        "fields": [
+          "firstName",
+          "lastName",
+          "slug",
+          "biography",
+          "avatar",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
       "subject": "api::site-secret.site-secret",
       "properties": {
         "fields": [

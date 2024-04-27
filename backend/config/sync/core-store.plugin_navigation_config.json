@@ -1,17 +1,58 @@
 {
   "key": "plugin_navigation_config",
   "value": {
-    "additionalFields": [],
-    "contentTypes": [],
-    "contentTypesNameFields": {},
-    "contentTypesPopulate": {},
-    "allowedLevels": 2,
+    "additionalFields": [
+      "audience",
+      {
+        "name": "icon",
+        "label": "Icon",
+        "type": "string",
+        "required": false,
+        "multi": false,
+        "options": [],
+        "enabled": true
+      }
+    ],
+    "contentTypes": [
+      "api::page.page",
+      "api::category.category"
+    ],
+    "contentTypesNameFields": {
+      "default": [
+        "title",
+        "subject",
+        "name"
+      ],
+      "api::category.category": [
+        "name"
+      ],
+      "api::page.page": [
+        "title"
+      ]
+    },
+    "contentTypesPopulate": {
+      "api::page.page": [
+        "parent",
+        "children"
+      ]
+    },
+    "allowedLevels": 4,
     "gql": {
-      "navigationItemRelated": []
+      "navigationItemRelated": [
+        "Page",
+        "Category"
+      ]
     },
     "i18nEnabled": false,
     "pruneObsoleteI18nNavigations": false,
-    "pathDefaultFields": {},
+    "pathDefaultFields": {
+      "api::category.category": [
+        "slug"
+      ],
+      "api::page.page": [
+        "slug"
+      ]
+    },
     "cascadeMenuAttached": true,
     "isCacheEnabled": false
   },

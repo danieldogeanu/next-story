@@ -60,6 +60,20 @@
         "alternativeText": true,
         "lastUpdatedAt": true
       }
+    },
+    "api::article.article": {
+      "seoChecks": {
+        "metaTitle": true,
+        "metaDescription": true,
+        "metaRobots": true,
+        "metaSocial": true,
+        "wordCount": true,
+        "canonicalUrl": true,
+        "keywordDensity": true,
+        "structuredData": true,
+        "alternativeText": true,
+        "lastUpdatedAt": true
+      }
     }
   },
   "type": "object",

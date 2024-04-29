@@ -218,6 +218,20 @@
           "sortable": false
         }
       },
+      "allowIndexing": {
+        "edit": {
+          "label": "Allow Indexing",
+          "description": "Show this article in search engines.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "allowIndexing",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -332,6 +346,10 @@
         [
           {
             "name": "tags",
+            "size": 6
+          },
+          {
+            "name": "allowIndexing",
             "size": 6
           }
         ],

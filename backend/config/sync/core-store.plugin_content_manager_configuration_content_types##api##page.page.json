@@ -133,6 +133,20 @@
           "sortable": false
         }
       },
+      "allowIndexing": {
+        "edit": {
+          "label": "Allow Indexing",
+          "description": "Show this page in search engines.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Allow Indexing",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -239,13 +253,20 @@
             "name": "seo",
             "size": 12
           }
+        ],
+        [
+          {
+            "name": "allowIndexing",
+            "size": 6
+          }
         ]
       ],
       "list": [
         "id",
         "cover",
         "title",
-        "slug"
+        "slug",
+        "allowIndexing"
       ]
     },
     "uid": "api::page.page"

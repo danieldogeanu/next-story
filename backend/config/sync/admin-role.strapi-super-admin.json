@@ -33,7 +33,8 @@
           "seo.canonicalURL",
           "showComments",
           "allowComments",
-          "comments"
+          "comments",
+          "allowIndexing"
         ]
       },
       "conditions": []
@@ -82,7 +83,8 @@
           "seo.canonicalURL",
           "showComments",
           "allowComments",
-          "comments"
+          "comments",
+          "allowIndexing"
         ]
       },
       "conditions": []
@@ -117,7 +119,8 @@
           "seo.canonicalURL",
           "showComments",
           "allowComments",
-          "comments"
+          "comments",
+          "allowIndexing"
         ]
       },
       "conditions": []
@@ -135,13 +138,33 @@
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
-          "articles"
+          "articles",
+          "allowIndexing",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL"
         ]
       },
       "conditions": []
     },
     {
       "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.publish",
       "actionParameters": {},
       "subject": "api::author.author",
       "properties": {},
@@ -160,7 +183,20 @@
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
-          "articles"
+          "articles",
+          "allowIndexing",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL"
         ]
       },
       "conditions": []
@@ -178,7 +214,20 @@
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
-          "articles"
+          "articles",
+          "allowIndexing",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL"
         ]
       },
       "conditions": []
@@ -212,6 +261,13 @@
     },
     {
       "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::category.category",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.publish",
       "actionParameters": {},
       "subject": "api::category.category",
       "properties": {},
@@ -295,7 +351,8 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "allowIndexing"
         ]
       },
       "conditions": []
@@ -338,7 +395,8 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "allowIndexing"
         ]
       },
       "conditions": []
@@ -367,7 +425,8 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "allowIndexing"
         ]
       },
       "conditions": []

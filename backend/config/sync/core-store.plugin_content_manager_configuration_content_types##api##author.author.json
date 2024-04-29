@@ -104,6 +104,34 @@
           "sortable": false
         }
       },
+      "allowIndexing": {
+        "edit": {
+          "label": "Allow Indexing",
+          "description": "Show this page in search engines.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Allow Indexing",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "seo": {
+        "edit": {
+          "label": "SEO",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "seo",
+          "searchable": false,
+          "sortable": false
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -169,6 +197,10 @@
           {
             "name": "avatar",
             "size": 6
+          },
+          {
+            "name": "allowIndexing",
+            "size": 6
           }
         ],
         [
@@ -195,6 +227,12 @@
         ],
         [
           {
+            "name": "seo",
+            "size": 12
+          }
+        ],
+        [
+          {
             "name": "articles",
             "size": 12
           }
@@ -204,7 +242,8 @@
         "id",
         "avatar",
         "slug",
-        "fullName"
+        "fullName",
+        "allowIndexing"
       ]
     },
     "uid": "api::author.author"

@@ -8,9 +8,9 @@
         "metaDescription": true,
         "metaRobots": true,
         "metaSocial": true,
-        "wordCount": true,
+        "wordCount": false,
         "canonicalUrl": true,
-        "keywordDensity": true,
+        "keywordDensity": false,
         "structuredData": true,
         "alternativeText": true,
         "lastUpdatedAt": true

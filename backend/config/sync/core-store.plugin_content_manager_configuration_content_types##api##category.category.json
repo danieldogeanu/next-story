@@ -99,7 +99,7 @@
           "mainField": "title"
         },
         "list": {
-          "label": "articles",
+          "label": "Articles",
           "searchable": false,
           "sortable": false
         }
@@ -204,7 +204,8 @@
         "id",
         "cover",
         "name",
-        "slug"
+        "slug",
+        "articles"
       ]
     },
     "uid": "api::category.category"

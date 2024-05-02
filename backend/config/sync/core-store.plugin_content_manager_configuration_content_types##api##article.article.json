@@ -8,7 +8,7 @@
       "pageSize": 50,
       "mainField": "title",
       "defaultSortBy": "id",
-      "defaultSortOrder": "ASC"
+      "defaultSortOrder": "DESC"
     },
     "metadatas": {
       "id": {

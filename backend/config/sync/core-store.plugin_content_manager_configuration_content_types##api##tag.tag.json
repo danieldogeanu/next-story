@@ -57,7 +57,7 @@
           "mainField": "title"
         },
         "list": {
-          "label": "articles",
+          "label": "Articles",
           "searchable": false,
           "sortable": false
         }
@@ -144,7 +144,8 @@
         "id",
         "name",
         "slug",
-        "createdAt"
+        "createdAt",
+        "articles"
       ]
     },
     "uid": "api::tag.tag"

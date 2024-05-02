@@ -99,7 +99,7 @@
           "mainField": "title"
         },
         "list": {
-          "label": "articles",
+          "label": "Articles",
           "searchable": false,
           "sortable": false
         }
@@ -243,7 +243,8 @@
         "avatar",
         "slug",
         "fullName",
-        "allowIndexing"
+        "allowIndexing",
+        "articles"
       ]
     },
     "uid": "api::author.author"

@@ -1,13 +1,47 @@
 {
   "key": "plugin_sitemap_settings",
   "value": {
-    "hostname": "",
+    "hostname": "https://nextstory.ddsv.eu",
     "includeHomepage": true,
     "excludeDrafts": true,
     "defaultLanguageUrlType": "",
     "defaultLanguageUrl": "",
     "hostname_overrides": {},
-    "contentTypes": {},
+    "contentTypes": {
+      "api::page.page": {
+        "languages": {
+          "und": {
+            "pattern": "/[slug]",
+            "priority": 0.6
+          }
+        }
+      },
+      "api::article.article": {
+        "languages": {
+          "und": {
+            "pattern": "/articles/[id]/[slug]",
+            "priority": 0.9,
+            "changefreq": "weekly"
+          }
+        }
+      },
+      "api::category.category": {
+        "languages": {
+          "und": {
+            "pattern": "/categories/[slug]",
+            "priority": 0.8
+          }
+        }
+      },
+      "api::author.author": {
+        "languages": {
+          "und": {
+            "pattern": "/authors/[slug]",
+            "priority": 0.7
+          }
+        }
+      }
+    },
     "customEntries": {}
   },
   "type": "object",

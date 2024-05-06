@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "backend_secrets",
+  "info": {
+    "singularName": "backend-secret",
+    "pluralName": "backend-secrets",
+    "displayName": "Backend Secrets"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "secretEntries": {
+      "type": "component",
+      "repeatable": true,
+      "component": "site.secret-entry"
+    }
+  }
+}

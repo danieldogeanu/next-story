@@ -122,8 +122,6 @@ export interface SiteSecretEntry extends Schema.Component {
       Attribute.SetMinMaxLength<{
         maxLength: 100;
       }>;
-    allowedFor: Attribute.Enumeration<['frontend', 'backend']> &
-      Attribute.Required;
     value: Attribute.String & Attribute.Required;
   };
 }

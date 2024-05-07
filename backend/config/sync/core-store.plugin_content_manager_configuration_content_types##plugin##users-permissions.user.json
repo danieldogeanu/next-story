@@ -5,44 +5,44 @@
       "bulkable": true,
       "filterable": true,
       "searchable": true,
-      "pageSize": 10,
+      "pageSize": 50,
       "mainField": "username",
-      "defaultSortBy": "username",
+      "defaultSortBy": "id",
       "defaultSortOrder": "ASC"
     },
     "metadatas": {
       "id": {
         "edit": {},
         "list": {
-          "label": "id",
+          "label": "ID",
           "searchable": true,
           "sortable": true
         }
       },
       "username": {
         "edit": {
-          "label": "username",
+          "label": "Username",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "username",
+          "label": "Username",
           "searchable": true,
           "sortable": true
         }
       },
       "email": {
         "edit": {
-          "label": "email",
+          "label": "Email",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "email",
+          "label": "Email",
           "searchable": true,
           "sortable": true
         }
@@ -63,7 +63,7 @@
       },
       "password": {
         "edit": {
-          "label": "password",
+          "label": "Password",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -105,35 +105,35 @@
       },
       "confirmed": {
         "edit": {
-          "label": "confirmed",
+          "label": "Confirmed",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "confirmed",
+          "label": "Confirmed",
           "searchable": true,
           "sortable": true
         }
       },
       "blocked": {
         "edit": {
-          "label": "blocked",
+          "label": "Blocked",
           "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "blocked",
+          "label": "Blocked",
           "searchable": true,
           "sortable": true
         }
       },
       "role": {
         "edit": {
-          "label": "role",
+          "label": "Role",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -144,6 +144,76 @@
           "label": "role",
           "searchable": true,
           "sortable": true
+        }
+      },
+      "firstName": {
+        "edit": {
+          "label": "First Name",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "firstName",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "lastName": {
+        "edit": {
+          "label": "Last Name",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "lastName",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "avatar": {
+        "edit": {
+          "label": "Avatar",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Avatar",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "subscriptions": {
+        "edit": {
+          "label": "Subscriptions",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "subscriptions",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "socialNetworks": {
+        "edit": {
+          "label": "Social Networks",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "socialNetworks",
+          "searchable": false,
+          "sortable": false
         }
       },
       "createdAt": {
@@ -206,13 +276,23 @@
       }
     },
     "layouts": {
-      "list": [
-        "id",
-        "username",
-        "email",
-        "confirmed"
-      ],
       "edit": [
+        [
+          {
+            "name": "avatar",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "firstName",
+            "size": 6
+          },
+          {
+            "name": "lastName",
+            "size": 6
+          }
+        ],
         [
           {
             "name": "username",
@@ -229,20 +309,40 @@
             "size": 6
           },
           {
-            "name": "confirmed",
-            "size": 4
+            "name": "role",
+            "size": 6
           }
         ],
         [
           {
-            "name": "blocked",
-            "size": 4
+            "name": "confirmed",
+            "size": 6
           },
           {
-            "name": "role",
+            "name": "blocked",
             "size": 6
           }
+        ],
+        [
+          {
+            "name": "subscriptions",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "socialNetworks",
+            "size": 12
+          }
         ]
+      ],
+      "list": [
+        "id",
+        "avatar",
+        "username",
+        "email",
+        "confirmed",
+        "blocked"
       ]
     },
     "uid": "plugin::users-permissions.user"

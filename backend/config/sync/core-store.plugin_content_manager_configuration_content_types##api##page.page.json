@@ -1,0 +1,277 @@
+{
+  "key": "plugin_content_manager_configuration_content_types::api::page.page",
+  "value": {
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 50,
+      "mainField": "title",
+      "defaultSortBy": "title",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "ID",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "title": {
+        "edit": {
+          "label": "Title",
+          "description": "Page title.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Title",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "slug": {
+        "edit": {
+          "label": "Slug",
+          "description": "Slug is used to generate page URL. Must be unique.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Slug",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "cover": {
+        "edit": {
+          "label": "Cover",
+          "description": "Cover is used as featured image, both on the page, and page previews.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Cover",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "excerpt": {
+        "edit": {
+          "label": "Excerpt",
+          "description": "Short description for the page, that will be used in page previews.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "excerpt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "content": {
+        "edit": {
+          "label": "Content",
+          "description": "The actual content for the page.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "content",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "parent": {
+        "edit": {
+          "label": "Parent",
+          "description": "The parent page, if this is a subpage.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "title"
+        },
+        "list": {
+          "label": "Parent",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "children": {
+        "edit": {
+          "label": "Children",
+          "description": "The child pages (subpages) if this is the parent page.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "title"
+        },
+        "list": {
+          "label": "Children",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "seo": {
+        "edit": {
+          "label": "SEO",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "seo",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "allowIndexing": {
+        "edit": {
+          "label": "Allow Indexing",
+          "description": "Show this page in search engines.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "Allow Indexing",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "createdAt": {
+        "edit": {
+          "label": "createdAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "createdAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "updatedAt": {
+        "edit": {
+          "label": "updatedAt",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true
+        },
+        "list": {
+          "label": "updatedAt",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "createdBy": {
+        "edit": {
+          "label": "createdBy",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true,
+          "mainField": "firstname"
+        },
+        "list": {
+          "label": "createdBy",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "updatedBy": {
+        "edit": {
+          "label": "updatedBy",
+          "description": "",
+          "placeholder": "",
+          "visible": false,
+          "editable": true,
+          "mainField": "firstname"
+        },
+        "list": {
+          "label": "updatedBy",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "edit": [
+        [
+          {
+            "name": "title",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "slug",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "cover",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "excerpt",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "content",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "parent",
+            "size": 6
+          },
+          {
+            "name": "children",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "seo",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "allowIndexing",
+            "size": 6
+          }
+        ]
+      ],
+      "list": [
+        "id",
+        "cover",
+        "title",
+        "slug",
+        "allowIndexing"
+      ]
+    },
+    "uid": "api::page.page"
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

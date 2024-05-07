@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_user_subscriptions",
+  "info": {
+    "displayName": "Subscriptions",
+    "icon": "envelop"
+  },
+  "options": {},
+  "attributes": {
+    "account": {
+      "type": "boolean",
+      "default": true
+    },
+    "articles": {
+      "type": "boolean",
+      "default": true
+    },
+    "comments": {
+      "type": "boolean",
+      "default": true
+    },
+    "promotions": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "collectionName": "components_shared_social_links",
+  "info": {
+    "displayName": "Social Link",
+    "icon": "twitter",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "link": {
+      "type": "string",
+      "required": true,
+      "maxLength": 256
+    },
+    "icon": {
+      "type": "enumeration",
+      "enum": [
+        "IconBrandBehance",
+        "IconBrandBluesky",
+        "IconBrandDeviantart",
+        "IconBrandDribbble",
+        "IconBrandFacebook",
+        "IconBrandFlickr",
+        "IconBrandGithub",
+        "IconBrandGitlab",
+        "IconBrandGoogle",
+        "IconBrandInstagram",
+        "IconBrandLinkedin",
+        "IconBrandMastodon",
+        "IconBrandMedium",
+        "IconBrandMeetup",
+        "IconBrandMeta",
+        "IconBrandOnlyfans",
+        "IconBrandPinterest",
+        "IconBrandReddit",
+        "IconBrandSnapchat",
+        "IconBrandSoundcloud",
+        "IconBrandSpotify",
+        "IconBrandStrava",
+        "IconBrandThreads",
+        "IconBrandTidal",
+        "IconBrandTiktok",
+        "IconBrandTumblr",
+        "IconBrandTwitch",
+        "IconBrandTwitter",
+        "IconBrandVimeo",
+        "IconBrandX",
+        "IconBrandYoutube",
+        "IconWorld",
+        "IconLink"
+      ]
+    }
+  }
+}

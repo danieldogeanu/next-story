@@ -21,7 +21,7 @@
       },
       "metaTitle": {
         "edit": {
-          "label": "metaTitle",
+          "label": "Meta Title",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -35,7 +35,7 @@
       },
       "metaDescription": {
         "edit": {
-          "label": "metaDescription",
+          "label": "Meta Description",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -49,7 +49,7 @@
       },
       "metaImage": {
         "edit": {
-          "label": "metaImage",
+          "label": "Meta Image",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -63,7 +63,7 @@
       },
       "metaSocial": {
         "edit": {
-          "label": "metaSocial",
+          "label": "Meta Social",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -77,7 +77,7 @@
       },
       "keywords": {
         "edit": {
-          "label": "keywords",
+          "label": "Keywords",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -91,7 +91,7 @@
       },
       "metaRobots": {
         "edit": {
-          "label": "metaRobots",
+          "label": "Meta Robots",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -105,7 +105,7 @@
       },
       "structuredData": {
         "edit": {
-          "label": "structuredData",
+          "label": "Structured Data",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -119,7 +119,7 @@
       },
       "metaViewport": {
         "edit": {
-          "label": "metaViewport",
+          "label": "Meta Viewport",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -133,7 +133,7 @@
       },
       "canonicalURL": {
         "edit": {
-          "label": "canonicalURL",
+          "label": "Canonical URL",
           "description": "",
           "placeholder": "",
           "visible": true,
@@ -157,17 +157,19 @@
         [
           {
             "name": "metaTitle",
-            "size": 6
-          },
+            "size": 12
+          }
+        ],
+        [
           {
             "name": "metaDescription",
-            "size": 6
+            "size": 12
           }
         ],
         [
           {
             "name": "metaImage",
-            "size": 6
+            "size": 12
           }
         ],
         [
@@ -179,27 +181,29 @@
         [
           {
             "name": "keywords",
-            "size": 6
-          },
+            "size": 12
+          }
+        ],
+        [
           {
             "name": "metaRobots",
             "size": 6
+          },
+          {
+            "name": "metaViewport",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "canonicalURL",
+            "size": 12
           }
         ],
         [
           {
             "name": "structuredData",
             "size": 12
-          }
-        ],
-        [
-          {
-            "name": "metaViewport",
-            "size": 6
-          },
-          {
-            "name": "canonicalURL",
-            "size": 6
           }
         ]
       ]

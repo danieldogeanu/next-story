@@ -4,6 +4,645 @@
   "description": "Super Admins can access and manage all features and settings.",
   "permissions": [
     {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::article.article",
+      "properties": {
+        "fields": [
+          "title",
+          "slug",
+          "cover",
+          "excerpt",
+          "content",
+          "likes",
+          "shares",
+          "category",
+          "tags",
+          "author",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "showComments",
+          "allowComments",
+          "comments",
+          "allowIndexing"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::article.article",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.publish",
+      "actionParameters": {},
+      "subject": "api::article.article",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::article.article",
+      "properties": {
+        "fields": [
+          "title",
+          "slug",
+          "cover",
+          "excerpt",
+          "content",
+          "likes",
+          "shares",
+          "category",
+          "tags",
+          "author",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "showComments",
+          "allowComments",
+          "comments",
+          "allowIndexing"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::article.article",
+      "properties": {
+        "fields": [
+          "title",
+          "slug",
+          "cover",
+          "excerpt",
+          "content",
+          "likes",
+          "shares",
+          "category",
+          "tags",
+          "author",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "showComments",
+          "allowComments",
+          "comments",
+          "allowIndexing"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {
+        "fields": [
+          "fullName",
+          "slug",
+          "biography",
+          "avatar",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "articles",
+          "allowIndexing",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.publish",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {
+        "fields": [
+          "fullName",
+          "slug",
+          "biography",
+          "avatar",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "articles",
+          "allowIndexing",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::author.author",
+      "properties": {
+        "fields": [
+          "fullName",
+          "slug",
+          "biography",
+          "avatar",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "articles",
+          "allowIndexing",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::backend-secret.backend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::backend-secret.backend-secret",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::backend-secret.backend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::backend-secret.backend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::category.category",
+      "properties": {
+        "fields": [
+          "name",
+          "slug",
+          "description",
+          "cover",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "articles"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::category.category",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.publish",
+      "actionParameters": {},
+      "subject": "api::category.category",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::category.category",
+      "properties": {
+        "fields": [
+          "name",
+          "slug",
+          "description",
+          "cover",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "articles"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::category.category",
+      "properties": {
+        "fields": [
+          "name",
+          "slug",
+          "description",
+          "cover",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "articles"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::frontend-secret.frontend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::frontend-secret.frontend-secret",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::frontend-secret.frontend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::frontend-secret.frontend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::page.page",
+      "properties": {
+        "fields": [
+          "title",
+          "slug",
+          "cover",
+          "excerpt",
+          "content",
+          "parent",
+          "children",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "allowIndexing"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::page.page",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.publish",
+      "actionParameters": {},
+      "subject": "api::page.page",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::page.page",
+      "properties": {
+        "fields": [
+          "title",
+          "slug",
+          "cover",
+          "excerpt",
+          "content",
+          "parent",
+          "children",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "allowIndexing"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::page.page",
+      "properties": {
+        "fields": [
+          "title",
+          "slug",
+          "cover",
+          "excerpt",
+          "content",
+          "parent",
+          "children",
+          "seo.metaTitle",
+          "seo.metaDescription",
+          "seo.metaImage",
+          "seo.metaSocial.socialNetwork",
+          "seo.metaSocial.title",
+          "seo.metaSocial.description",
+          "seo.metaSocial.image",
+          "seo.keywords",
+          "seo.metaRobots",
+          "seo.structuredData",
+          "seo.metaViewport",
+          "seo.canonicalURL",
+          "allowIndexing"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::site-setting.site-setting",
+      "properties": {
+        "fields": [
+          "siteName",
+          "siteTitle",
+          "siteTagline",
+          "siteUrl",
+          "siteCover",
+          "siteLogo",
+          "commentsAllowed",
+          "indexAllowed",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "showComments",
+          "siteLogoLight",
+          "siteLogoDark"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::site-setting.site-setting",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::site-setting.site-setting",
+      "properties": {
+        "fields": [
+          "siteName",
+          "siteTitle",
+          "siteTagline",
+          "siteUrl",
+          "siteCover",
+          "siteLogo",
+          "commentsAllowed",
+          "indexAllowed",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "showComments",
+          "siteLogoLight",
+          "siteLogoDark"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::site-setting.site-setting",
+      "properties": {
+        "fields": [
+          "siteName",
+          "siteTitle",
+          "siteTagline",
+          "siteUrl",
+          "siteCover",
+          "siteLogo",
+          "commentsAllowed",
+          "indexAllowed",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon",
+          "showComments",
+          "siteLogoLight",
+          "siteLogoDark"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::tag.tag",
+      "properties": {
+        "fields": [
+          "name",
+          "slug",
+          "articles"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::tag.tag",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::tag.tag",
+      "properties": {
+        "fields": [
+          "name",
+          "slug",
+          "articles"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::tag.tag",
+      "properties": {
+        "fields": [
+          "name",
+          "slug",
+          "articles"
+        ]
+      },
+      "conditions": []
+    },
+    {
       "action": "admin::api-tokens.access",
       "actionParameters": {},
       "subject": null,
@@ -319,7 +958,17 @@
           "confirmationToken",
           "confirmed",
           "blocked",
-          "role"
+          "role",
+          "firstName",
+          "lastName",
+          "avatar",
+          "subscriptions.account",
+          "subscriptions.articles",
+          "subscriptions.comments",
+          "subscriptions.promotions",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
         ]
       },
       "conditions": []
@@ -345,7 +994,17 @@
           "confirmationToken",
           "confirmed",
           "blocked",
-          "role"
+          "role",
+          "firstName",
+          "lastName",
+          "avatar",
+          "subscriptions.account",
+          "subscriptions.articles",
+          "subscriptions.comments",
+          "subscriptions.promotions",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
         ]
       },
       "conditions": []
@@ -364,7 +1023,17 @@
           "confirmationToken",
           "confirmed",
           "blocked",
-          "role"
+          "role",
+          "firstName",
+          "lastName",
+          "avatar",
+          "subscriptions.account",
+          "subscriptions.articles",
+          "subscriptions.comments",
+          "subscriptions.promotions",
+          "socialNetworks.label",
+          "socialNetworks.link",
+          "socialNetworks.icon"
         ]
       },
       "conditions": []

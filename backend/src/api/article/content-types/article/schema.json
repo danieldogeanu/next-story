@@ -1,0 +1,92 @@
+{
+  "kind": "collectionType",
+  "collectionName": "articles",
+  "info": {
+    "singularName": "article",
+    "pluralName": "articles",
+    "displayName": "Article",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 256,
+      "unique": true,
+      "minLength": 2
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "excerpt": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "content": {
+      "type": "blocks"
+    },
+    "likes": {
+      "type": "integer",
+      "default": 0
+    },
+    "shares": {
+      "type": "integer",
+      "default": 0
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::category.category",
+      "inversedBy": "articles"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "articles"
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "articles"
+    },
+    "seo": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.seo"
+    },
+    "showComments": {
+      "type": "boolean",
+      "default": true,
+      "required": false
+    },
+    "allowComments": {
+      "type": "boolean",
+      "default": true
+    },
+    "comments": {
+      "type": "customField",
+      "customField": "plugin::comments.comments"
+    },
+    "allowIndexing": {
+      "type": "boolean",
+      "default": true,
+      "required": false
+    }
+  }
+}

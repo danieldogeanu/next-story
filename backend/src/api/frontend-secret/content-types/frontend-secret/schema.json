@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "frontend_secrets",
+  "info": {
+    "singularName": "frontend-secret",
+    "pluralName": "frontend-secrets",
+    "displayName": "Frontend Secrets"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "secretEntries": {
+      "type": "component",
+      "repeatable": true,
+      "component": "site.secret-entry"
+    }
+  }
+}

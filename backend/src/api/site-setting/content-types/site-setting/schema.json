@@ -1,0 +1,84 @@
+{
+  "kind": "singleType",
+  "collectionName": "site_settings",
+  "info": {
+    "singularName": "site-setting",
+    "pluralName": "site-settings",
+    "displayName": "Site Settings",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "siteName": {
+      "type": "string",
+      "required": true,
+      "maxLength": 100
+    },
+    "siteTitle": {
+      "type": "string",
+      "maxLength": 100
+    },
+    "siteTagline": {
+      "type": "string",
+      "maxLength": 256
+    },
+    "siteUrl": {
+      "type": "string",
+      "maxLength": 256,
+      "required": true
+    },
+    "siteCover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "siteLogo": {
+      "type": "media",
+      "multiple": false,
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "commentsAllowed": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "indexAllowed": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "socialNetworks": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.social-link"
+    },
+    "showComments": {
+      "type": "boolean",
+      "default": true,
+      "required": true
+    },
+    "siteLogoLight": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "siteLogoDark": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    }
+  }
+}

@@ -235,6 +235,49 @@
     {
       "action": "plugin::content-manager.explorer.create",
       "actionParameters": {},
+      "subject": "api::backend-secret.backend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::backend-secret.backend-secret",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::backend-secret.backend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::backend-secret.backend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
       "subject": "api::category.category",
       "properties": {
         "fields": [
@@ -323,6 +366,49 @@
           "seo.metaViewport",
           "seo.canonicalURL",
           "articles"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
+      "subject": "api::frontend-secret.frontend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::frontend-secret.frontend-secret",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::frontend-secret.frontend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::frontend-secret.frontend-secret",
+      "properties": {
+        "fields": [
+          "secretEntries.name",
+          "secretEntries.value"
         ]
       },
       "conditions": []
@@ -427,52 +513,6 @@
           "seo.metaViewport",
           "seo.canonicalURL",
           "allowIndexing"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.create",
-      "actionParameters": {},
-      "subject": "api::site-secret.site-secret",
-      "properties": {
-        "fields": [
-          "secretEntries.name",
-          "secretEntries.allowedFor",
-          "secretEntries.value"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.delete",
-      "actionParameters": {},
-      "subject": "api::site-secret.site-secret",
-      "properties": {},
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.read",
-      "actionParameters": {},
-      "subject": "api::site-secret.site-secret",
-      "properties": {
-        "fields": [
-          "secretEntries.name",
-          "secretEntries.allowedFor",
-          "secretEntries.value"
-        ]
-      },
-      "conditions": []
-    },
-    {
-      "action": "plugin::content-manager.explorer.update",
-      "actionParameters": {},
-      "subject": "api::site-secret.site-secret",
-      "properties": {
-        "fields": [
-          "secretEntries.name",
-          "secretEntries.allowedFor",
-          "secretEntries.value"
         ]
       },
       "conditions": []

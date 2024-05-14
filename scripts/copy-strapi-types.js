@@ -1,6 +1,14 @@
 const fs = require('node:fs');
 const path = require('node:path');
 
+/**
+ * The script below was added here from this Strapi tutorial:
+ * https://strapi.io/blog/improve-your-frontend-experience-with-strapi-types-and-type-script
+ *
+ * The code for this script can be found in this gist:
+ * https://gist.github.com/PaulBratslavsky/a95c4ec5aa3e2a3055ed11c81f94c1d3
+ */
+
 const destinationFolder = 'frontend/src/types/strapi';
 
 const files = [

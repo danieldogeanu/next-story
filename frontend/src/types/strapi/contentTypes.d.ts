@@ -446,7 +446,6 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
   attributes: {
     fullName: Attribute.String &
       Attribute.Required &
-      Attribute.Private &
       Attribute.SetMinMaxLength<{
         maxLength: 100;
       }>;

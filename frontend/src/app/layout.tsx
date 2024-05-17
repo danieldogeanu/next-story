@@ -36,7 +36,9 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
         <MantineProvider defaultColorScheme={colorScheme} theme={mantineTheme}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <SiteHeader />
-            {children}
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              {children}
+            </ErrorBoundary>
             <SiteFooter />
           </ErrorBoundary>
         </MantineProvider>

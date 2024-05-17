@@ -1,6 +1,8 @@
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import type { Metadata } from 'next';
 import mantineTheme from '@/theme';
+import { ErrorBoundary } from 'react-error-boundary';
+import ErrorFallback from './error';
 import SiteHeader from '@/layout/header';
 import SiteFooter from '@/layout/footer';
 import '@mantine/core/styles.css';
@@ -32,9 +34,11 @@ export default function RootLayout({ children }: Readonly<RootLayoutProps>) {
       </head>
       <body>
         <MantineProvider defaultColorScheme={colorScheme} theme={mantineTheme}>
-          <SiteHeader />
-          {children}
-          <SiteFooter />
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <SiteHeader />
+            {children}
+            <SiteFooter />
+          </ErrorBoundary>
         </MantineProvider>
       </body>
     </html>

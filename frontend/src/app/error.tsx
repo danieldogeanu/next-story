@@ -12,12 +12,12 @@ export default function ErrorFallback({error, reset}: ErrorFallbackProps) {
     console.error(error); // TODO: Log the error to an error reporting service.
   }, [error]);
 
-  // TODO: Style this component to integrate with the site look.
+  // TODO: Style ErrorFallback component to integrate with the site look.
  
   return (
     <div>
       <h2>Something went wrong!</h2>
-      <button onClick={() => reset && reset()}>Try Again</button>
+      {reset && <button onClick={() => reset()}>Try Again</button>}
     </div>
   );
 }

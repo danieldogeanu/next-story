@@ -1,11 +1,10 @@
 import { mockLegalNavEntries } from '@/data/mock';
-import { NavEntryItem } from '@/data/types';
-import LegalLink from '@/components/legal-link';
+import LegalLink, { LegalLinkProps } from '@/components/legal-link';
 import styles from '@/styles/legalnav.module.scss';
 
 export default function LegalNav() {
   // TODO: Replace mockup data with entries from the server.
-  const legalNavEntries: NavEntryItem[] = mockLegalNavEntries;
+  const legalNavEntries: LegalLinkProps[] = mockLegalNavEntries;
 
   return (
     <nav className={styles.container}>

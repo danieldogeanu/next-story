@@ -3,14 +3,14 @@
 import { IconMenuDeep } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { mockSiteNavEntries } from '@/data/mock';
-import { NavEntryItem } from '@/data/types';
+import { SideNavEntryProps } from './sidenav-entry';
 import ActionEntry from '@/components/action-entry';
 import SiteDrawer from '@/components/site-drawer';
 import SideNav from '@/components/sidenav';
 
 export default function ActionMobileNav({...props}) {
   const [opened, {open, close}] = useDisclosure(false);
-  const mobileNavEntries: NavEntryItem[] = mockSiteNavEntries;
+  const mobileNavEntries: SideNavEntryProps[] = mockSiteNavEntries;
 
   return (
     <>

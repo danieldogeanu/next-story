@@ -4,12 +4,15 @@ import Link from 'next/link';
 import { Button, Menu } from '@mantine/core';
 import { usePathname, useRouter } from 'next/navigation';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { NavEntryItem } from '@/data/types';
 import { useState } from 'react';
 import classNames from 'classnames';
 import styles from '@/styles/sitenav.module.scss';
 
-export interface NavEntryProps extends Omit<NavEntryItem, 'icon'> {}
+export interface NavEntryProps {
+  href: string;
+  label: string;
+  submenu?: NavEntryProps[];
+}
 
 export default function NavEntry({href, label, submenu}: NavEntryProps) {
   const pathname = usePathname();

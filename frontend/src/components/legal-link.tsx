@@ -1,8 +1,11 @@
 import Link, { LinkProps } from "next/link";
 import { Anchor, AnchorProps } from "@mantine/core";
-import { NavEntryItem } from "@/data/types";
 
-export interface LegalLinkProps extends NavEntryItem, AnchorProps, Omit<LinkProps, 'href'> {}
+export interface LegalLinkProps extends 
+  AnchorProps, Omit<LinkProps, 'href'> {
+  href: string;
+  label: string;
+}
 
 export default function LegalLink({href, label}: LegalLinkProps) {
   return (

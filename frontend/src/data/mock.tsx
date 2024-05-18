@@ -1,4 +1,5 @@
-import { NavEntryItem, SocialEntryItem } from '@/data/types';
+import { SocialIconProps } from '@/components/social-icon';
+import { NavEntryItem } from '@/data/types';
 
 /** Main site navigation entries. */
 export const mockSiteNavEntries: NavEntryItem[] = [
@@ -27,7 +28,7 @@ export const mockLegalNavEntries: NavEntryItem[] = [
 ];
 
 /** Footer social navigation entries. */
-export const mockSocialNavEntries: SocialEntryItem[] = [
+export const mockSocialNavEntries: SocialIconProps[] = [
   { icon: 'IconBrandLinkedin', label: 'LinkedIn', href: 'https://linkedin.com/in/danieldogeanu' },
   { icon: 'IconBrandGithub', label: 'GitHub', href: 'https://github.com/danieldogeanu' },
   { icon: 'IconBrandDribbble', label: 'Dribbble', href: 'https://dribbble.com/danieldogeanu' },

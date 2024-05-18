@@ -1,11 +1,10 @@
 import { mockSocialNavEntries } from '@/data/mock';
-import { SocialEntryItem } from '@/data/types';
-import SocialIcon from '@/components/social-icon';
+import SocialIcon, { SocialIconProps } from '@/components/social-icon';
 import styles from '@/styles/socialnav.module.scss';
 
 export default function SocialNav() {
   // TODO: Replace mockup data with entries from the server.
-  const socialNavEntries: SocialEntryItem[] = mockSocialNavEntries;
+  const socialNavEntries: SocialIconProps[] = mockSocialNavEntries;
 
   return (
     <nav className={styles.container}>

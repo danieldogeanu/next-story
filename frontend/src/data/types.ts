@@ -8,9 +8,3 @@ export interface NavEntryItem {
   icon?: IconKeys;
   submenu?: NavEntryItem[];
 }
-
-export interface SocialEntryItem {
-  href: string;
-  label: string;
-  icon: IconKeys;
-}

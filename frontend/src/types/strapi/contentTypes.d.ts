@@ -650,39 +650,6 @@ export interface ApiPagePage extends Schema.CollectionType {
   };
 }
 
-export interface ApiSiteSecretSiteSecret extends Schema.SingleType {
-  collectionName: 'site_secrets';
-  info: {
-    singularName: 'site-secret';
-    pluralName: 'site-secrets';
-    displayName: 'Site Secrets';
-    description: '';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    secretEntries: Attribute.Component<'site.secret-entry', true>;
-    createdAt: Attribute.DateTime;
-    updatedAt: Attribute.DateTime;
-    createdBy: Attribute.Relation<
-      'api::site-secret.site-secret',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    updatedBy: Attribute.Relation<
-      'api::site-secret.site-secret',
-      'oneToOne',
-      'admin::user'
-    > &
-      Attribute.Private;
-    sitemap_exclude: Attribute.Boolean &
-      Attribute.Private &
-      Attribute.DefaultTo<false>;
-  };
-}
-
 export interface ApiSiteSettingSiteSetting extends Schema.SingleType {
   collectionName: 'site_settings';
   info: {
@@ -1679,7 +1646,6 @@ declare module '@strapi/types' {
       'api::category.category': ApiCategoryCategory;
       'api::frontend-secret.frontend-secret': ApiFrontendSecretFrontendSecret;
       'api::page.page': ApiPagePage;
-      'api::site-secret.site-secret': ApiSiteSecretSiteSecret;
       'api::site-setting.site-setting': ApiSiteSettingSiteSetting;
       'api::tag.tag': ApiTagTag;
       'plugin::upload.file': PluginUploadFile;

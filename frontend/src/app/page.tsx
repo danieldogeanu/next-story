@@ -1,10 +1,12 @@
 import { APIResponseCollection } from '@/types/strapi';
-import { fetchMany } from '@/data/strapi';
+import { strapiSDK } from '@/data/strapi-sdk';
 import styles from '@/styles/page.module.scss';
 
 export default async function Home() {
-  const data = (await fetchMany('api::article.article')) as APIResponseCollection<'api::article.article'>;
-  console.log(data);
+  // Temporary request to Strapi to test things out.
+  const strapiInstance = await strapiSDK();
+  const articles = await strapiInstance.find<APIResponseCollection<'api::article.article'>>('articles');
+  console.log(articles);
 
   return (
     <main className={styles.main}>

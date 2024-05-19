@@ -129,3 +129,5 @@ export interface APIResponseCollection<TContentTypeUID extends Common.UID.Conten
   data: APIResponseData<TContentTypeUID>[];
   meta: APIResponseCollectionMetadata;
 }
+
+export type APIResponseArray<TContentTypeUID extends Common.UID.ContentType> = GetValues<TContentTypeUID>[];

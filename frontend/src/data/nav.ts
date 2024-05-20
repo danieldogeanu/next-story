@@ -25,7 +25,7 @@ export type SingleNavResponse = GetValues<'plugin::navigation.navigation-item'> 
  *
  * @example
  * // Fetch the navigation data.
- * (await getNavData()) as NavDataResponse[];
+ * await getNavData() as NavDataResponse[];
  */
 export async function getNavData(): Promise<NavDataResponse[]> {
   const strapiInstance = await strapiSDK();
@@ -43,7 +43,7 @@ export async function getNavData(): Promise<NavDataResponse[]> {
  *
  * @example
  * // Fetch the data for the Main Navigation.
- * (await getSingleNavData('main-navigation', { populate: '*', type: 'TREE' })) as SingleNavResponse[];
+ * await getSingleNavData('main-navigation', { populate: '*', type: 'TREE' }) as SingleNavResponse[];
  */
 export default async function getSingleNavData(nav: SingleNavSlug, params?: SingleNavRequestParams): Promise<SingleNavResponse[]> {
   const strapiInstance = await strapiSDK();

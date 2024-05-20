@@ -4,10 +4,11 @@ import styles from '@/styles/sitenav.module.scss';
 
 export default async function SiteNav() {
   // Make request to server to get main navigation.
-  const strapiResponse = await getSingleNavData('main-navigation') as SingleNavResponse[];
+  const navData = await getSingleNavData('main-navigation') as SingleNavResponse[];
 
   // Map the Strapi response to match the NavEntry props shape.
-  const navEntries = strapiResponse.map((item) => {
+  // TODO: Refactor this mapping to be recursive, so that it can map any level of submenu depth.
+  const navEntries = navData.map((item) => {
     const entry: NavEntryProps = {
       href: item.path || '',
       label: item.title,

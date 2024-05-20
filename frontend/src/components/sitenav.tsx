@@ -1,27 +1,10 @@
 import NavEntry, { NavEntryProps } from '@/components/nav-entry';
-import { StrapiRequestParams } from 'strapi-sdk-js';
-import { strapiSDK } from '@/data/strapi';
-import { GetValues } from '@/types/strapi';
+import getSingleNavData, { SingleNavResponse } from '@/data/nav';
 import styles from '@/styles/sitenav.module.scss';
 
-export interface StrapiNavRequestParams extends StrapiRequestParams {
-  type?: 'FLAT' | 'TREE' | 'RFR';
-  orderBy?: string;
-  orderDirection?: string;
-}
-
-export type StrapiNavResponse = GetValues<'plugin::navigation.navigation-item'> & {
-  items: StrapiNavResponse[];
-};
-
 export default async function SiteNav() {
-
   // Make request to server to get main navigation.
-  const strapiInstance = await strapiSDK();
-  const navRequestParams: StrapiNavRequestParams = {type: 'TREE', orderBy: 'order'};
-  const strapiResponse = await strapiInstance.find(
-    'navigation/render/main-navigation', navRequestParams
-  ) as unknown as StrapiNavResponse[];
+  const strapiResponse = await getSingleNavData('main-navigation') as SingleNavResponse[];
 
   // Map the Strapi response to match the NavEntry props shape.
   const navEntries = strapiResponse.map((item) => {

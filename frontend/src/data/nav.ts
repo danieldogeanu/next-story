@@ -1,4 +1,5 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
+import { IconKeys } from '@/components/dynamic-icon';
 import { strapiSDK } from '@/data/strapi';
 import { GetValues } from '@/types/strapi';
 import path from 'node:path';
@@ -15,6 +16,7 @@ export interface SingleNavRequestParams extends StrapiRequestParams {
 
 export type SingleNavResponse = GetValues<'plugin::navigation.navigation-item'> & {
   items: SingleNavResponse[];
+  icon?: IconKeys | '';
 };
 
 /**

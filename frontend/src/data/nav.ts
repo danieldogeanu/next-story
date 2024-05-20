@@ -45,7 +45,7 @@ export async function getNavData(): Promise<NavDataResponse[]> {
  * // Fetch the data for the Main Navigation.
  * await getSingleNavData('main-navigation', { populate: '*', type: 'TREE' }) as SingleNavResponse[];
  */
-export default async function getSingleNavData(nav: SingleNavSlug, params?: SingleNavRequestParams): Promise<SingleNavResponse[]> {
+export async function getSingleNavData(nav: SingleNavSlug, params?: SingleNavRequestParams): Promise<SingleNavResponse[]> {
   const strapiInstance = await strapiSDK();
   const navRequestPath = path.join('navigation', 'render', nav);
   const navRequestParams: SingleNavRequestParams = {type: 'TREE', orderBy: 'order', ...params};

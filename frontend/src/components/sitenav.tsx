@@ -1,5 +1,5 @@
 import NavEntry, { NavEntryProps } from '@/components/nav-entry';
-import getSingleNavData, { SingleNavResponse } from '@/data/nav';
+import { getSingleNavData, SingleNavResponse } from '@/data/nav';
 import styles from '@/styles/sitenav.module.scss';
 
 export default async function SiteNav() {

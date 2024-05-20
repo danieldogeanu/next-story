@@ -1,5 +1,5 @@
 import LegalLink, { LegalLinkProps } from '@/components/legal-link';
-import getSingleNavData, { SingleNavResponse } from '@/data/nav';
+import { getSingleNavData, SingleNavResponse } from '@/data/nav';
 import styles from '@/styles/legalnav.module.scss';
 
 export default async function LegalNav() {

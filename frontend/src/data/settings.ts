@@ -13,7 +13,7 @@ export interface SiteSettingsResponse extends APIResponse<'api::site-setting.sit
  *
  * @example
  * // Fetch the site settings with default parameters.
- * await getSiteSettings() as SiteSettingsResponse;
+ * await getSiteSettings();
  */
 export async function getSiteSettings(params?: StrapiRequestParams): Promise<SiteSettingsResponse> {
   const strapiInstance = await strapiSDK();

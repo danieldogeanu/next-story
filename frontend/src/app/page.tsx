@@ -1,4 +1,3 @@
-import { getAuthorsCollection, getSingleAuthor } from '@/data/authors';
 import styles from '@/styles/page.module.scss';
 
 export default async function Home() {

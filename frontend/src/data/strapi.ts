@@ -1,5 +1,6 @@
-import { getBackEndURL } from '@/utils/env';
 import StrapiSDK, { StrapiOptions } from 'strapi-sdk-js';
+import { validateApiKey } from '@/validation/api';
+import { getBackEndURL } from '@/utils/env';
 
 /**
  * Initializes and returns an instance of the StrapiSDK with the appropriate configuration.
@@ -34,9 +35,8 @@ export const strapiSDK = async (apiKey?: string): Promise<StrapiSDK> => {
     },
   };
 
-  // Check if there's an apiKey and add Authorization header.
-  // TODO: Add proper validation for JWT API token.
-  if (typeof apiKey === 'string' && apiKey !== '' && strapiOptions.axiosOptions?.headers) {
+  // Check if there's a valid API key and add Authorization header.
+  if (validateApiKey(apiKey) && strapiOptions.axiosOptions?.headers) {
     strapiOptions.axiosOptions.headers = {
       'Content-Type': 'application/json',
       'Authorization': `Bearer ${apiKey}`,

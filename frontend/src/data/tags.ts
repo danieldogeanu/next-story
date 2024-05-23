@@ -1,6 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/env';
 
 export interface SingleTagResponse extends APIResponse<'api::tag.tag'> {}
 
@@ -23,7 +24,7 @@ export interface TagsCollectionResponse extends APIResponseCollection<'api::tag.
  * await getSingleTag(1, {fields: ['name', 'slug']});
  */
 export async function getSingleTag(id: string | number, params?: StrapiRequestParams): Promise<SingleTagResponse> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.findOne('tags', id, params) as SingleTagResponse;
   return strapiResponse;
 }
@@ -44,7 +45,7 @@ export async function getSingleTag(id: string | number, params?: StrapiRequestPa
  * await getTagsCollection({pagination: {page: 1, pageSize: 2}});
  */
 export async function getTagsCollection(params?: StrapiRequestParams): Promise<TagsCollectionResponse> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.find('tags', params) as unknown as TagsCollectionResponse;
   return strapiResponse;
 }

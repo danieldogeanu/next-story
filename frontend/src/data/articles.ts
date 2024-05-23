@@ -1,6 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/env';
 
 export interface SingleArticleResponse extends APIResponse<'api::article.article'> {}
 
@@ -23,7 +24,7 @@ export interface ArticlesCollectionResponse extends APIResponseCollection<'api::
  * await getSingleArticle(3, {fields: ['title', 'slug', 'excerpt']});
  */
 export async function getSingleArticle(id: string | number, params?: StrapiRequestParams): Promise<SingleArticleResponse> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.findOne('articles', id, params) as SingleArticleResponse;
   return strapiResponse;
 }
@@ -44,7 +45,7 @@ export async function getSingleArticle(id: string | number, params?: StrapiReque
  * await getArticlesCollection({pagination: {page: 1, pageSize: 2}});
  */
 export async function getArticlesCollection(params?: StrapiRequestParams): Promise<ArticlesCollectionResponse> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.find('articles', params) as unknown as ArticlesCollectionResponse;
   return strapiResponse;
 }

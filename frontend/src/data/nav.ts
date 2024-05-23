@@ -2,6 +2,7 @@ import { StrapiRequestParams } from 'strapi-sdk-js';
 import { IconKeys } from '@/components/dynamic-icon';
 import { strapiSDK } from '@/data/strapi';
 import { GetValues } from '@/types/strapi';
+import { getAPIKey } from '@/utils/env';
 import path from 'node:path';
 
 export type NavDataResponse = GetValues<'plugin::navigation.navigation'>;
@@ -30,7 +31,7 @@ export type SingleNavResponse = GetValues<'plugin::navigation.navigation-item'> 
  * await getNavData();
  */
 export async function getNavData(): Promise<NavDataResponse[]> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.find('navigation') as unknown as NavDataResponse[];
   return strapiResponse;
 }
@@ -48,7 +49,7 @@ export async function getNavData(): Promise<NavDataResponse[]> {
  * await getSingleNavData('main-navigation', { populate: '*', type: 'TREE' });
  */
 export async function getSingleNavData(nav: SingleNavSlug, params?: SingleNavRequestParams): Promise<SingleNavResponse[]> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const navRequestPath = path.join('navigation', 'render', nav);
   const navRequestParams: SingleNavRequestParams = {type: 'TREE', orderBy: 'order', ...params};
   const strapiResponse = await strapiInstance.find(navRequestPath, navRequestParams) as unknown as SingleNavResponse[];

@@ -1,6 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/env';
 
 export interface SinglePageResponse extends APIResponse<'api::page.page'> {}
 
@@ -23,7 +24,7 @@ export interface PagesCollectionResponse extends APIResponseCollection<'api::pag
  * await getSinglePage(1, {fields: ['title', 'slug', 'excerpt']});
  */
 export async function getSinglePage(id: string | number, params?: StrapiRequestParams): Promise<SinglePageResponse> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.findOne('pages', id, params) as SinglePageResponse;
   return strapiResponse;
 }
@@ -44,7 +45,7 @@ export async function getSinglePage(id: string | number, params?: StrapiRequestP
  * await getPagesCollection({pagination: {page: 1, pageSize: 2}});
  */
 export async function getPagesCollection(params?: StrapiRequestParams): Promise<PagesCollectionResponse> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.find('pages', params) as unknown as PagesCollectionResponse;
   return strapiResponse;
 }

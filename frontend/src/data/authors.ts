@@ -1,6 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/env';
 
 export interface SingleAuthorResponse extends APIResponse<'api::author.author'> {}
 
@@ -23,7 +24,7 @@ export interface AuthorsCollectionResponse extends APIResponseCollection<'api::a
  * await getSingleAuthor(1, {fields: ['slug', 'biography', 'fullName']});
  */
 export async function getSingleAuthor(id: string | number, params?: StrapiRequestParams): Promise<SingleAuthorResponse> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.findOne('authors', id, params) as SingleAuthorResponse;
   return strapiResponse;
 }
@@ -44,7 +45,7 @@ export async function getSingleAuthor(id: string | number, params?: StrapiReques
  * await getAuthorsCollection({pagination: {page: 1, pageSize: 2}});
  */
 export async function getAuthorsCollection(params?: StrapiRequestParams): Promise<AuthorsCollectionResponse> {
-  const strapiInstance = await strapiSDK();
+  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.find('authors', params) as unknown as AuthorsCollectionResponse;
   return strapiResponse;
 }

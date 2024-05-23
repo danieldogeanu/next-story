@@ -28,7 +28,7 @@ export function getBackEndURL() {
     case 'development': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-dev:1337');
     case 'production': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-prod:1337');
     case 'test': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-dev:1337');
-    default: return process.env.NEXT_PUBLIC_BACKEND_URL;
+    default: return process.env.NEXT_PUBLIC_BACKEND_URL || '';
   }
 }
 

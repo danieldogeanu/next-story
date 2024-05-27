@@ -57,6 +57,18 @@ export async function getSingleFile(id: string | number, params?: StrapiRequestP
  * console.log(fileUrl); // 'https://backend-url.com/uploads/myfile.jpg'
  */
 export function getFileURL(url: string): string {
-  const fileUrl = new URL(url, getBackEndURL());
+  let fileUrl = new URL('', getBackEndURL());
+
+  if (typeof url !== 'string') {
+    console.error('The URL provided is not a string:', JSON.stringify(url));
+    return fileUrl.href;
+  }
+
+  if (!/^\/(?!\/|[a-zA-Z0-9_-]+:).*\.[a-z]+$/i.test(url)) {
+    console.error('The URL provided is not a relative path or doesn\'t have a file extension:', JSON.stringify(url));
+    return fileUrl.href;
+  }
+
+  fileUrl = new URL(url, getBackEndURL());
   return fileUrl.href;
 }

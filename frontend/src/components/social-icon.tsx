@@ -2,11 +2,14 @@
 
 import { ActionIcon, ActionIconProps, ElementProps } from '@mantine/core';
 import { useViewportSize } from '@mantine/hooks';
-import { SocialEntryItem } from '@/data/types';
-import DynamicIcon from '@/components/dynamic-icon';
+import DynamicIcon, { IconKeys } from '@/components/dynamic-icon';
 
-export interface SocialIconProps extends SocialEntryItem, ActionIconProps, 
-  Omit<ElementProps<'a', keyof ActionIconProps>, 'href'> {}
+export interface SocialIconProps extends ActionIconProps, 
+  Omit<ElementProps<'a', keyof ActionIconProps>, 'href'> {
+  href: string;
+  label: string;
+  icon: IconKeys;
+}
 
 export default function SocialIcon({icon, label, href, ...other}: SocialIconProps) {
   const {width} = useViewportSize();

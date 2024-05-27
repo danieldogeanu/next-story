@@ -1,11 +1,15 @@
-import { mockLegalNavEntries } from '@/data/mock';
-import { NavEntryItem } from '@/data/types';
-import LegalLink from '@/components/legal-link';
+import LegalLink, { LegalLinkProps } from '@/components/legal-link';
+import { getSingleNavData, SingleNavResponse } from '@/data/nav';
 import styles from '@/styles/legalnav.module.scss';
 
-export default function LegalNav() {
-  // TODO: Replace mockup data with entries from the server.
-  const legalNavEntries: NavEntryItem[] = mockLegalNavEntries;
+export default async function LegalNav() {
+  // Make request to server to get legal navigation.
+  const navData = await getSingleNavData('legal-navigation') as SingleNavResponse[];
+
+  // Map the Strapi response to match the SingleNavResponse props shape.
+  const legalNavEntries = navData.map((item) => ({
+    label: item.title, href: item.path,
+  })) as LegalLinkProps[];
 
   return (
     <nav className={styles.container}>

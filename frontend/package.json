@@ -23,6 +23,8 @@
     "qs": "^6.12.1",
     "react": "^18",
     "react-dom": "^18",
+    "react-error-boundary": "^4.0.13",
+    "strapi-sdk-js": "^2.3.3",
     "zod": "^3.23.7"
   },
   "devDependencies": {
@@ -35,6 +37,7 @@
     "@storybook/nextjs": "^7.6.17",
     "@storybook/react": "^7.6.17",
     "@storybook/test": "^7.6.17",
+    "@strapi/strapi": "4.23.1",
     "@svgr/webpack": "^8.1.0",
     "@types/node": "^20",
     "@types/qs": "^6.9.15",

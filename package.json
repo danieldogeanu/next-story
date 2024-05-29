@@ -14,12 +14,14 @@
   },
   "homepage": "https://gitlab.com/dd-playground/next/next-story",
   "scripts": {
-    "compose": "docker compose --profile development up",
-    "compose:rebuild": "docker compose --profile development up --build --force-recreate --renew-anon-volumes",
-    "compose:recreate": "docker compose --profile development up --force-recreate --renew-anon-volumes",
-    "compose:storybook": "docker compose --profile storybook up --force-recreate --renew-anon-volumes",
+    "compose-dev": "docker compose --profile development up",
+    "compose-dev:build": "docker compose --profile development build --no-cache",
+    "compose-dev:recreate": "docker compose --profile development up --force-recreate --renew-anon-volumes",
+    "compose-sb": "docker compose --profile storybook up",
+    "compose-sb:build": "docker compose --profile storybook build --no-cache",
+    "compose-sb:recreate": "docker compose --profile storybook up --force-recreate --renew-anon-volumes",
     "compose-prod": "docker compose -f compose.prod.yml up",
-    "compose-prod:rebuild": "docker compose -f compose.prod.yml up --build --force-recreate --renew-anon-volumes",
+    "compose-prod:build": "docker compose -f compose.prod.yml build --no-cache",
     "compose-prod:recreate": "docker compose -f compose.prod.yml up --force-recreate --renew-anon-volumes",
     "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js"
   }

@@ -54,11 +54,15 @@ services:
         # Build time environment variables.
         NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
         NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+        NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
+        NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
     env_file: .env
     environment:
       # Runtime environment variables.
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+      NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
+      NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
     restart: unless-stopped
     ports:
       - "3000:3000"

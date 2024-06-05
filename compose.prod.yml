@@ -3,7 +3,7 @@ services:
   ns_postgres_prod:
     container_name: ns-postgres-prod
     image: postgres:12.0-alpine
-    profiles: [backend]
+    profiles: [backend,all]
     platform: linux/amd64
     restart: unless-stopped
     env_file: .env
@@ -21,7 +21,7 @@ services:
   ns_strapi_prod:
     container_name: ns-strapi-prod
     image: nextstory-strapi-prod:latest
-    profiles: [backend]
+    profiles: [backend,all]
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
@@ -49,7 +49,7 @@ services:
   ns_nextjs_prod:
     container_name: ns-nextjs-prod
     image: nextstory-nextjs-prod:latest
-    profiles: [frontend]
+    profiles: [frontend,all] # Frontend will fail because the dependencies are not in the same profile.
     build:
       context: ./frontend
       dockerfile: Dockerfile.prod

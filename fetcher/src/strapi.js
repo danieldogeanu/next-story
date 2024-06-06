@@ -1,6 +1,6 @@
 import StrapiSDK from 'strapi-sdk-js';
-import { validateApiKey } from './validation';
-import { getBackEndURL } from './utils';
+import { validateApiKey } from './validation.js';
+import { getBackEndURL } from './utils.js';
 
 
 /**

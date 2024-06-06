@@ -2,10 +2,10 @@
 /**
  * Retrieves the current Node environment.
  *
- * @returns {'development' | 'production' | 'test'} The current Node environment. Defaults to `development` if not set.
+ * @returns {'development' | 'production' | 'test' | 'localhost'} The current Node environment. Defaults to `localhost` if not set.
  */
 export function getNodeEnv() {
-  return (process.env.NODE_ENV || 'development');
+  return (process.env.NODE_ENV || 'localhost');
 }
 
 /**

@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import * as dotenv from 'dotenv';
-import { getNodeEnv, getAPIKey } from './utils.js';
+import { getNodeEnv, getAPIKey, getBackEndURL } from './utils.js';
 import { strapiSDK } from './strapi.js';
 
 /**
@@ -37,14 +37,6 @@ if (getNodeEnv() === 'localhost') {
  * @param {Object} [requestObj.params] - Optional parameters for the request.
  * @returns {Promise<Object>} A promise that resolves to the fetched data.
  * @throws {Error} Logs an error if the data fetching fails.
- *
- * @example
- * // Fetch data from a specific endpoint.
- * await getData({
- *   endpoint: 'articles',
- *   keyFor: 'frontend',
- *   params: { populate: '*', sort: 'createdAt:desc' }
- * });
  */
 async function getData({endpoint, keyFor, params}) {
   try {
@@ -62,10 +54,6 @@ async function getData({endpoint, keyFor, params}) {
  * @param {string} endpoint - The endpoint associated with the data. This will be used to name the file.
  * @param {Object} data - The data object to save to save to the file.
  * @throws {Error} Logs an error if the data saving fails.
- *
- * @example
- * // Save data from Strapi to a JSON file.
- * saveData('articles', { id: 1, title: 'My Article' });
  */
 function saveData(endpoint, data) {
   try {
@@ -81,8 +69,38 @@ function saveData(endpoint, data) {
   }
 }
 
-const data = await getData(
-  {endpoint: 'upload/files', keyFor: 'frontend', params: {populate: '*', limit: 4}},
-);
+/**
+ * Continuously checks the availability of the Strapi backend and fetches data from predefined endpoints once available.
+ *
+ * This function will log the progress and retry fetching from Strapi every 5 seconds until it becomes available. Once available,
+ * it fetches data from the defined endpoints and saves it locally.
+ *
+ * @returns {Promise<void>} A promise that resolves once all data is fetched and saved.
+ * @throws {Error} Logs errors related to fetching data from Strapi or saving data locally.
+ */
+async function fetcher() {
+  console.log('Waiting for Strapi...');
+  let strapiAvailable = false;
+  while (!strapiAvailable) {
+    try {
+      const strapiResponse = await fetch(getBackEndURL());
+      if (strapiResponse.status === 200) strapiAvailable = true;
+    } catch (error) {
+      console.log('Strapi is not available yet, retrying in 5 seconds...');
+      await new Promise(resolve => setTimeout(resolve, 5000));
+    }
+  }
 
-saveData('upload/files', data);
+  console.log('Strapi is up! Fetching data...');
+  for (const endpoint of ENDPOINTS) {
+    const data = await getData(endpoint);
+    saveData(endpoint.endpoint, data);
+  }
+  console.log('Data fetching completed.');
+}
+
+// Fetch the data from Strapi or log the error and exit the process.
+fetcher().catch((error) => {
+  console.error('Fetcher Error:', error);
+  process.exit(1);
+});

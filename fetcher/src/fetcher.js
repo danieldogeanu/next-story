@@ -19,7 +19,7 @@ const ENDPOINTS = [
   {endpoint: 'navigation', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'site-setting', keyFor: 'frontend', params: {populate: '*'}},
 ];
-const DATA_DIR = '../data';
+const DATA_DIR = '/data';
 
 // Load the environment variables from .env file if we're not in a Docker container.
 if (getNodeEnv() === 'localhost') {
@@ -56,6 +56,33 @@ async function getData({endpoint, keyFor, params}) {
   }
 }
 
-console.log(await getData(
+/**
+ * Saves data to a JSON file in the specified directory.
+ *
+ * @param {string} endpoint - The endpoint associated with the data. This will be used to name the file.
+ * @param {Object} data - The data object to save to save to the file.
+ * @throws {Error} Logs an error if the data saving fails.
+ *
+ * @example
+ * // Save data from Strapi to a JSON file.
+ * saveData('articles', { id: 1, title: 'My Article' });
+ */
+function saveData(endpoint, data) {
+  try {
+    const fileName = String(endpoint).replace('/', '-') + '.json';
+    const filePath = path.join(process.cwd(), DATA_DIR, fileName);
+
+    fs.mkdirSync(path.dirname(filePath), { recursive: true });
+    fs.writeFileSync(filePath, JSON.stringify(data, null, 2));
+
+    console.log(`Data saved to ${filePath}.`);
+  } catch (error) {
+    console.error(`Failed to save data:`, error.message);
+  }
+}
+
+const data = await getData(
   {endpoint: 'upload/files', keyFor: 'frontend', params: {populate: '*', limit: 4}},
-));
+);
+
+saveData('upload/files', data);

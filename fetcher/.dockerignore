@@ -1,0 +1,5 @@
+.tmp/
+.cache/
+.git/
+.env
+node_modules/

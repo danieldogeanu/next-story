@@ -4,6 +4,7 @@ FROM node:18-alpine AS base
 FROM base AS build
 
 ENV NODE_ENV production
+ENV BUILD_TIME 1
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Environment variables must be present at build time.
@@ -27,6 +28,7 @@ RUN npm run build
 FROM base AS production
 
 ENV NODE_ENV production
+ENV BUILD_TIME 0
 ENV NEXT_TELEMETRY_DISABLED 1
 
 # Environment variables must be redefined at run time.

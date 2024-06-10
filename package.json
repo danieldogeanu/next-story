@@ -29,6 +29,7 @@
     "compose-prod:recreate": "docker compose -f compose.prod.yml up --force-recreate --renew-anon-volumes",
     "compose-prod:recreate:backend": "docker compose -f compose.prod.yml --profile backend up --force-recreate --renew-anon-volumes",
     "compose-prod:recreate:frontend": "docker compose -f compose.prod.yml up ns_nextjs_prod --force-recreate --renew-anon-volumes",
-    "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js"
+    "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js",
+    "copy-data": "node scripts/copy-fetcher-data.js"
   }
 }

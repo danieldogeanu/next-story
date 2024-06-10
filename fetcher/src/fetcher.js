@@ -17,6 +17,8 @@ const ENDPOINTS = [
   {endpoint: 'tags', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'upload/files', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'navigation', keyFor: 'frontend', params: {populate: '*'}},
+  {endpoint: 'navigation/render/main-navigation', keyFor: 'frontend', params: {populate: '*'}},
+  {endpoint: 'navigation/render/legal-navigation', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'site-setting', keyFor: 'frontend', params: {populate: '*'}},
 ];
 const DATA_DIR = '/data';
@@ -57,7 +59,7 @@ async function getData({endpoint, keyFor, params}) {
  */
 function saveData(endpoint, data) {
   try {
-    const fileName = String(endpoint).replace('/', '-') + '.json';
+    const fileName = String(endpoint).split('/').pop() + '.json';
     const filePath = path.join(process.cwd(), DATA_DIR, fileName);
 
     fs.mkdirSync(path.dirname(filePath), { recursive: true });

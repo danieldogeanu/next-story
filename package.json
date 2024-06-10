@@ -14,22 +14,22 @@
   },
   "homepage": "https://gitlab.com/dd-playground/next/next-story",
   "scripts": {
+    "copy-data": "node scripts/copy-fetcher-data.js",
+    "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js",
     "compose-dev": "docker compose --profile development up",
-    "compose-dev:build": "docker compose --profile development build --no-cache",
+    "compose-dev:build": "npm run copy-data && docker compose --profile development build --no-cache",
     "compose-dev:recreate": "docker compose --profile development up --force-recreate --renew-anon-volumes",
     "compose-sb": "docker compose --profile storybook up",
-    "compose-sb:build": "docker compose --profile storybook build --no-cache",
+    "compose-sb:build": "npm run copy-data && docker compose --profile storybook build --no-cache",
     "compose-sb:recreate": "docker compose --profile storybook up --force-recreate --renew-anon-volumes",
     "compose-prod": "docker compose -f compose.prod.yml --profile all up",
     "compose-prod:backend": "docker compose -f compose.prod.yml --profile backend up",
     "compose-prod:frontend": "docker compose -f compose.prod.yml up ns_nextjs_prod",
-    "compose-prod:build": "docker compose -f compose.prod.yml --profile all build --no-cache",
-    "compose-prod:build:backend": "docker compose -f compose.prod.yml --profile backend build --no-cache",
-    "compose-prod:build:frontend": "docker compose -f compose.prod.yml build ns_nextjs_prod --no-cache",
+    "compose-prod:build": "npm run copy-data && docker compose -f compose.prod.yml --profile all build --no-cache",
+    "compose-prod:build:backend": "npm run copy-data && docker compose -f compose.prod.yml --profile backend build --no-cache",
+    "compose-prod:build:frontend": "npm run copy-data && docker compose -f compose.prod.yml build ns_nextjs_prod --no-cache",
     "compose-prod:recreate": "docker compose -f compose.prod.yml up --force-recreate --renew-anon-volumes",
     "compose-prod:recreate:backend": "docker compose -f compose.prod.yml --profile backend up --force-recreate --renew-anon-volumes",
-    "compose-prod:recreate:frontend": "docker compose -f compose.prod.yml up ns_nextjs_prod --force-recreate --renew-anon-volumes",
-    "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js",
-    "copy-data": "node scripts/copy-fetcher-data.js"
+    "compose-prod:recreate:frontend": "docker compose -f compose.prod.yml up ns_nextjs_prod --force-recreate --renew-anon-volumes"
   }
 }

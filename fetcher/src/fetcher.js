@@ -17,8 +17,8 @@ const ENDPOINTS = [
   {endpoint: 'tags', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'upload/files', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'navigation', keyFor: 'frontend', params: {populate: '*'}},
-  {endpoint: 'navigation/render/main-navigation', keyFor: 'frontend', params: {populate: '*'}},
-  {endpoint: 'navigation/render/legal-navigation', keyFor: 'frontend', params: {populate: '*'}},
+  {endpoint: 'navigation/render/main-navigation', keyFor: 'frontend', params: {populate: '*', type: 'TREE', orderBy: 'order'}},
+  {endpoint: 'navigation/render/legal-navigation', keyFor: 'frontend', params: {populate: '*', type: 'TREE', orderBy: 'order'}},
   {endpoint: 'site-setting', keyFor: 'frontend', params: {populate: '*'}},
 ];
 const DATA_DIR = '/data';

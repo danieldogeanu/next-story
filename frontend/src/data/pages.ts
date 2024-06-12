@@ -1,7 +1,8 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey } from '@/utils/env';
+import { getAPIKey, isBuildTime } from '@/utils/env';
+import buildTimePages from '@build-data/pages.json';
 
 export interface SinglePageResponse extends APIResponse<'api::page.page'> {}
 
@@ -9,6 +10,8 @@ export interface PagesCollectionResponse extends APIResponseCollection<'api::pag
 
 /**
  * Fetches a single page from the Strapi backend by their ID.
+ *
+ * At build time, it will return a single page from a static JSON file.
  *
  * @param {string | number} id - The ID of the page to fetch.
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
@@ -24,6 +27,14 @@ export interface PagesCollectionResponse extends APIResponseCollection<'api::pag
  * await getSinglePage(1, {fields: ['title', 'slug', 'excerpt']});
  */
 export async function getSinglePage(id: string | number, params?: StrapiRequestParams): Promise<SinglePageResponse> {
+  // At build time we load a static JSON file generated from fetcher container,
+  // because we don't have networking available to make requests directly to Strapi backend.
+  // We ignore all optional parameters for this one, as we already populated all the fields.
+  if (isBuildTime()) return buildTimePages.data.filter(
+    (page) => (page.id === Number(id))
+  ).pop() as unknown as SinglePageResponse;
+
+  // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.findOne('pages', id, params) as SinglePageResponse;
   return strapiResponse;
@@ -31,6 +42,8 @@ export async function getSinglePage(id: string | number, params?: StrapiRequestP
 
 /**
  * Fetches a collection of pages from the Strapi backend.
+ *
+ * At build time, it will return a collection of pages from a static JSON file.
  *
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to a collection of pages.
@@ -45,6 +58,12 @@ export async function getSinglePage(id: string | number, params?: StrapiRequestP
  * await getPagesCollection({pagination: {page: 1, pageSize: 2}});
  */
 export async function getPagesCollection(params?: StrapiRequestParams): Promise<PagesCollectionResponse> {
+  // At build time we load a static JSON file generated from fetcher container,
+  // because we don't have networking available to make requests directly to Strapi backend.
+  // We ignore all optional parameters for this one, as we already populated all the fields.
+  if (isBuildTime()) return buildTimePages as unknown as PagesCollectionResponse;
+
+  // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.find('pages', params) as unknown as PagesCollectionResponse;
   return strapiResponse;

@@ -29,7 +29,7 @@
     "compose-prod:build:backend": "npm run copy-data && docker compose -f compose.prod.yml --profile backend build --no-cache",
     "compose-prod:build:fetcher": "docker compose -f compose.prod.yml build ns_fetcher_prod --no-cache",
     "compose-prod:build:frontend": "npm run copy-data && docker compose -f compose.prod.yml build ns_nextjs_prod --no-cache",
-    "compose-prod:recreate": "docker compose -f compose.prod.yml up --force-recreate --renew-anon-volumes",
+    "compose-prod:recreate": "docker compose -f compose.prod.yml --profile all up --force-recreate --renew-anon-volumes",
     "compose-prod:recreate:backend": "docker compose -f compose.prod.yml --profile backend up --force-recreate --renew-anon-volumes",
     "compose-prod:recreate:fetcher": "docker compose -f compose.prod.yml up ns_fetcher_prod --force-recreate --renew-anon-volumes && npm run copy-data",
     "compose-prod:recreate:frontend": "docker compose -f compose.prod.yml up ns_nextjs_prod --force-recreate --renew-anon-volumes"

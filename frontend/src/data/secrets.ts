@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from "strapi-sdk-js";
 import { APIResponse } from "@/types/strapi";
 import { strapiSDK } from "@/data/strapi";
-import { getAPIKey } from "@/utils/env";
+import { getAPIKey, isBuildTime } from "@/utils/env";
 
 export type SiteSecretsType = 'frontend' | 'backend';
 
@@ -20,7 +20,7 @@ export interface BackendSecretsResponse extends APIResponse<'api::backend-secret
  *
  * @param {SiteSecretsType} secretsType - The type of secrets to fetch ('frontend' or 'backend').
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
- * @returns A promise that resolves to the secrets data.
+ * @returns A promise that resolves to the secrets data or null.
  * @throws {Error} Throws an error if no site secrets are found for the provided secrets type.
  *
  * @example
@@ -29,9 +29,13 @@ export interface BackendSecretsResponse extends APIResponse<'api::backend-secret
  */
 export async function getSiteSecrets(
   secretsType: SiteSecretsType, params?: StrapiRequestParams
-): Promise<FrontendSecretsResponse | BackendSecretsResponse> {
+): Promise<FrontendSecretsResponse | BackendSecretsResponse | null> {
   const strapiInstance = await strapiSDK(await getAPIKey(secretsType));
   const strapiRequestParams: StrapiRequestParams = {populate: '*', ...params};
+
+  // At build time we return null, because we don't want to expose
+  // our secrets to static and unsecure JSON files.
+  if (isBuildTime()) return null;
 
   if (secretsType === 'frontend') {
     return await strapiInstance.find('frontend-secret', strapiRequestParams) as FrontendSecretsResponse;
@@ -61,7 +65,7 @@ export async function getSingleSiteSecret(
   secretType: SiteSecretsType, secretName: string, params?: StrapiRequestParams
 ): Promise<SecretEntry | undefined> {
   const siteSecrets = await getSiteSecrets(secretType, params);
-  return siteSecrets.data.attributes.secretEntries?.filter(
+  if (siteSecrets) return siteSecrets.data.attributes.secretEntries?.filter(
     (item) => (item.name === secretName)
   ).pop() as SecretEntry;
 }

@@ -26,7 +26,7 @@ const DATA_DIR = '/data';
 // Load the environment variables from .env file if we're not in a Docker container.
 if (getNodeEnv() === 'localhost') {
   dotenv.config({
-    path: path.resolve(process.cwd(), '..', '.env'),
+    path: path.resolve(process.cwd(), '..', 'prod.env'),
   });
 }
 

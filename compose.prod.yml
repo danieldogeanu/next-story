@@ -54,7 +54,13 @@ services:
       context: ./fetcher
       dockerfile: Dockerfile.prod
     restart: 'no'
-    env_file: .env
+    env_file:
+      # This doesn't seem to work at all, but is here just in case.
+      # Use --env-file flag instead when running the command.
+      - path: ./.env
+        required: true
+      - path: ./prod.env
+        required: true
     environment:
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
@@ -80,7 +86,13 @@ services:
         NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
         NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
         NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
-    env_file: .env
+    env_file:
+      # This doesn't seem to work at all, but is here just in case.
+      # Use --env-file flag instead when running the command.
+      - path: ./.env
+        required: true
+      - path: ./prod.env
+        required: true
     environment:
       # Runtime environment variables.
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}

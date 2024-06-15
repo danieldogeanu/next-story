@@ -16,22 +16,24 @@
   "scripts": {
     "copy-data": "node scripts/copy-fetcher-data.js",
     "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js",
-    "compose-dev": "docker compose --profile development up",
-    "compose-dev:build": "npm run copy-data && docker compose --profile development build --no-cache",
-    "compose-dev:recreate": "docker compose --profile development up --force-recreate --renew-anon-volumes",
-    "compose-sb": "docker compose --profile storybook up",
-    "compose-sb:build": "npm run copy-data && docker compose --profile storybook build --no-cache",
-    "compose-sb:recreate": "docker compose --profile storybook up --force-recreate --renew-anon-volumes",
-    "compose-prod": "docker compose -f compose.prod.yml --profile all up",
-    "compose-prod:backend": "docker compose -f compose.prod.yml --profile backend up",
-    "compose-prod:frontend": "docker compose -f compose.prod.yml up ns_nextjs_prod",
-    "compose-prod:build": "npm run copy-data && docker compose -f compose.prod.yml --profile all build --no-cache",
-    "compose-prod:build:backend": "npm run copy-data && docker compose -f compose.prod.yml --profile backend build --no-cache",
-    "compose-prod:build:fetcher": "docker compose -f compose.prod.yml build ns_fetcher_prod --no-cache",
-    "compose-prod:build:frontend": "npm run copy-data && docker compose -f compose.prod.yml build ns_nextjs_prod --no-cache",
-    "compose-prod:recreate": "docker compose -f compose.prod.yml --profile all up --force-recreate --renew-anon-volumes",
-    "compose-prod:recreate:backend": "docker compose -f compose.prod.yml --profile backend up --force-recreate --renew-anon-volumes",
-    "compose-prod:recreate:fetcher": "docker compose -f compose.prod.yml up ns_fetcher_prod --force-recreate --renew-anon-volumes && npm run copy-data",
-    "compose-prod:recreate:frontend": "docker compose -f compose.prod.yml up ns_nextjs_prod --force-recreate --renew-anon-volumes"
+
+    "compose-dev": "docker compose --profile development --env-file .env --env-file dev.env up",
+    "compose-dev:build": "npm run copy-data && docker compose --profile development --env-file .env --env-file dev.env build --no-cache",
+    "compose-dev:recreate": "docker compose --profile development --env-file .env --env-file dev.env up --force-recreate --renew-anon-volumes",
+    "compose-sb": "docker compose --profile storybook --env-file .env --env-file dev.env up",
+    "compose-sb:build": "npm run copy-data && docker compose --profile storybook --env-file .env --env-file dev.env build --no-cache",
+    "compose-sb:recreate": "docker compose --profile storybook --env-file .env --env-file dev.env up --force-recreate --renew-anon-volumes",
+
+    "compose-prod": "docker compose -f compose.prod.yml --profile all --env-file .env --env-file prod.env up",
+    "compose-prod:backend": "docker compose -f compose.prod.yml --profile backend --env-file .env --env-file prod.env up",
+    "compose-prod:frontend": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_nextjs_prod",
+    "compose-prod:build": "npm run copy-data && docker compose -f compose.prod.yml --profile all --env-file .env --env-file prod.env build --no-cache",
+    "compose-prod:build:backend": "npm run copy-data && docker compose -f compose.prod.yml --profile backend --env-file .env --env-file prod.env build --no-cache",
+    "compose-prod:build:fetcher": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env build ns_fetcher_prod --no-cache",
+    "compose-prod:build:frontend": "npm run copy-data && docker compose -f compose.prod.yml --env-file .env --env-file prod.env build ns_nextjs_prod --no-cache",
+    "compose-prod:recreate": "docker compose -f compose.prod.yml --profile all --env-file .env --env-file prod.env up --force-recreate --renew-anon-volumes",
+    "compose-prod:recreate:backend": "docker compose -f compose.prod.yml --profile backend --env-file .env --env-file prod.env up --force-recreate --renew-anon-volumes",
+    "compose-prod:recreate:fetcher": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_fetcher_prod --force-recreate --renew-anon-volumes && npm run copy-data",
+    "compose-prod:recreate:frontend": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_nextjs_prod --force-recreate --renew-anon-volumes"
   }
 }

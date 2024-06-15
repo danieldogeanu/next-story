@@ -59,11 +59,19 @@ services:
       dockerfile: Dockerfile.dev
       # We don't need to pass args here because everything is dynamically
       # rendered in the development environment.
-    env_file: .env
+    env_file:
+      # This doesn't seem to work at all, but is here just in case.
+      # Use --env-file flag instead when running the command.
+      - path: ./.env
+        required: true
+      - path: ./dev.env
+        required: true
     environment:
       # Runtime environment variables.
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+      NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
+      NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
       WATCHPACK_POLLING: true # Enable hot reloading for NextJS.
     volumes:
       - ./frontend/src:/app/src

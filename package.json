@@ -14,6 +14,7 @@
   },
   "homepage": "https://gitlab.com/dd-playground/next/next-story",
   "scripts": {
+    "fetcher": "cd fetcher && npm start",
     "copy-data": "node scripts/copy-fetcher-data.js",
     "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js",
 
@@ -26,6 +27,7 @@
 
     "compose-prod": "docker compose -f compose.prod.yml --profile all --env-file .env --env-file prod.env up",
     "compose-prod:backend": "docker compose -f compose.prod.yml --profile backend --env-file .env --env-file prod.env up",
+    "compose-prod:fetcher": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_fetcher_prod",
     "compose-prod:frontend": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_nextjs_prod",
     "compose-prod:build": "docker compose -f compose.prod.yml --profile all --env-file .env --env-file prod.env build --no-cache",
     "compose-prod:build:backend": "docker compose -f compose.prod.yml --profile backend --env-file .env --env-file prod.env build --no-cache",

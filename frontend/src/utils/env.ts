@@ -34,17 +34,12 @@ export function getSiteLang() {
 }
 
 /**
- * Retrieves the backend URL based on the current Node environment.
+ * Retrieves the backend URL based on the current environment variable.
  *
- * @returns The backend URL for the current environment. Defaults to a specific URL based on the environment if not set.
+ * @returns The backend URL for the current environment. Defaults to localhost if the environment variable is not set.
  */
 export function getBackEndURL() {
-  switch(getNodeEnv()) {
-    case 'development': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-dev:1337');
-    case 'production': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-prod:1337');
-    case 'test': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-dev:1337');
-    default: return process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:1337';
-  }
+  return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:1337');
 }
 
 /**

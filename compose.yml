@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 services:
   ns_postgres_dev:
     container_name: ns-postgres-dev
@@ -6,15 +6,20 @@ services:
     profiles: [development]
     platform: linux/amd64
     restart: unless-stopped
-    env_file: .env
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./dev.env
+        required: true
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+      PGPORT: ${DATABASE_PORT}
     volumes:
       - ns_data_dev:/var/lib/postgresql/data/
     ports:
-      - "5432:5432"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
     networks:
       - ns_net
 
@@ -22,12 +27,21 @@ services:
     container_name: ns-strapi-dev
     image: nextstory-strapi-dev:latest
     profiles: [development]
+    restart: unless-stopped
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./dev.env
+        required: true
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    restart: unless-stopped
-    env_file: .env
+      args:
+        STRAPI_PORT: ${STRAPI_PORT}
+        STRAPI_HOST: ${STRAPI_HOST}
     environment:
+      STRAPI_PORT: ${STRAPI_PORT}
+      STRAPI_HOST: ${STRAPI_HOST}
       JWT_SECRET: ${JWT_SECRET}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
@@ -44,7 +58,7 @@ services:
       - ./backend/package-lock.json:/opt/package-lock.json
       - ./backend/public/uploads:/opt/app/public/uploads
     ports:
-      - "1337:1337"
+      - "${STRAPI_PORT}:${STRAPI_PORT}"
     networks:
       - ns_net
     depends_on:
@@ -54,25 +68,36 @@ services:
     container_name: ns-nextjs-dev
     image: nextstory-nextjs-dev:latest
     profiles: [development]
+    restart: unless-stopped
+    env_file:
+      # This doesn't seem to work at all, but is here just in case.
+      # Use --env-file flag instead when running the command.
+      - path: ./.env
+        required: true
+      - path: ./dev.env
+        required: true
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-      # We don't need to pass args here because everything is dynamically
-      # rendered in the development environment.
-    env_file: .env
+      args:
+        NEXT_PORT: ${NEXT_PORT}
+        # We don't need to pass other args here because everything is dynamically
+        # rendered in the development environment.
     environment:
       # Runtime environment variables.
+      NEXT_PORT: ${NEXT_PORT}
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+      NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
+      NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
       WATCHPACK_POLLING: true # Enable hot reloading for NextJS.
     volumes:
       - ./frontend/src:/app/src
       - ./frontend/public:/app/public
       - ./frontend/package.json:/app/package.json
       - ./frontend/package-lock.json:/app/package-lock.json
-    restart: unless-stopped
     ports:
-      - "3000:3000"
+      - "${NEXT_PORT}:${NEXT_PORT}"
     networks:
       - ns_net
     depends_on:
@@ -83,14 +108,24 @@ services:
     container_name: ns-storybook-dev
     image: nextstory-storybook-dev:latest
     profiles: [storybook]
+    restart: unless-stopped
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./dev.env
+        required: true
     build:
       context: ./frontend
       dockerfile: Dockerfile.dev
-    env_file: .env
+      args:
+        NEXT_PORT: ${NEXT_PORT}
     environment:
       # Runtime environment variables.
+      NEXT_PORT: ${NEXT_PORT}
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+      NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
+      NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
       WATCHPACK_POLLING: true # Enable hot reloading for NextJS.
     volumes:
       - ./frontend/.storybook:/app/.storybook
@@ -98,7 +133,6 @@ services:
       - ./frontend/public:/app/public
       - ./frontend/package.json:/app/package.json
       - ./frontend/package-lock.json:/app/package-lock.json
-    restart: unless-stopped
     ports:
       - "6006:6006"
     networks:

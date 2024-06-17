@@ -10,6 +10,21 @@ export function getNodeEnv() {
 }
 
 /**
+ * Retrieves the build status of the frontend container.
+ *
+ * This is necessary for us to know when we can make requests to the server,
+ * over the network, and when we must load data from JSON files,
+ * so that Next.js can build in the frontend container without errors.
+ * We can't make network requests in a docker container at build time,
+ * because networking isn't initiated at that time.
+ *
+ * @returns Returns `true` if the `BUILD_TIME` environment variable is set to `1`.
+ */
+export function isBuildTime() {
+  return (Boolean(process.env.BUILD_TIME) || false);
+}
+
+/**
  * Retrieves the site's language setting.
  *
  * @returns The site's language setting. Defaults to 'en' if not set.
@@ -19,17 +34,12 @@ export function getSiteLang() {
 }
 
 /**
- * Retrieves the backend URL based on the current Node environment.
+ * Retrieves the backend URL based on the current environment variable.
  *
- * @returns The backend URL for the current environment. Defaults to a specific URL based on the environment if not set.
+ * @returns The backend URL for the current environment. Defaults to localhost if the environment variable is not set.
  */
 export function getBackEndURL() {
-  switch(getNodeEnv()) {
-    case 'development': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-dev:1337');
-    case 'production': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-prod:1337');
-    case 'test': return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://ns-strapi-dev:1337');
-    default: return process.env.NEXT_PUBLIC_BACKEND_URL || '';
-  }
+  return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:1337');
 }
 
 /**

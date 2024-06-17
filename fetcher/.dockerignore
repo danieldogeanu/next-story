@@ -1,0 +1,11 @@
+.tmp/
+.cache/
+.git/
+.env
+.dockerignore
+Dockerfile
+Dockerfile.*
+node_modules/
+npm-debug.log
+README.md
+docker

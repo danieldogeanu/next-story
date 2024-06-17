@@ -1,0 +1,17 @@
+{
+  "name": "next-story-fetcher",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Service to fetch data from Strapi",
+  "main": "./src/fetcher.js",
+  "type": "module",
+  "scripts": {
+    "start": "node ./src/fetcher.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "qs": "^6.12.1",
+    "strapi-sdk-js": "^2.3.3",
+    "zod": "^3.23.8"
+  }
+}

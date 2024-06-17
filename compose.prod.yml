@@ -1,31 +1,47 @@
-version: "3.9"
+version: "3.8"
 services:
   ns_postgres_prod:
     container_name: ns-postgres-prod
     image: postgres:12.0-alpine
+    profiles: [backend,all]
     platform: linux/amd64
     restart: unless-stopped
-    env_file: .env
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./prod.env
+        required: true
     environment:
       POSTGRES_USER: ${DATABASE_USERNAME}
       POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
       POSTGRES_DB: ${DATABASE_NAME}
+      PGPORT: ${DATABASE_PORT}
     volumes:
       - ns_data_prod:/var/lib/postgresql/data/
     ports:
-      - "5432:5432"
+      - "${DATABASE_PORT}:${DATABASE_PORT}"
     networks:
       - ns_net
 
   ns_strapi_prod:
     container_name: ns-strapi-prod
     image: nextstory-strapi-prod:latest
+    profiles: [backend,all]
+    restart: unless-stopped
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./prod.env
+        required: true
     build:
       context: ./backend
       dockerfile: Dockerfile.prod
-    restart: unless-stopped
-    env_file: .env
+      args:
+        STRAPI_PORT: ${STRAPI_PORT}
+        STRAPI_HOST: ${STRAPI_HOST}
     environment:
+      STRAPI_PORT: ${STRAPI_PORT}
+      STRAPI_HOST: ${STRAPI_HOST}
       JWT_SECRET: ${JWT_SECRET}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       APP_KEYS: ${APP_KEYS}
@@ -36,43 +52,86 @@ services:
       DATABASE_USERNAME: ${DATABASE_USERNAME}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD}
     volumes:
-      - ns_uploads_prod:/opt/app/public/uploads
+      - ns_uploads_prod:/opt/app/public
     ports:
-      - "1337:1337"
+      - "${STRAPI_PORT}:${STRAPI_PORT}"
     networks:
       - ns_net
     depends_on:
       - ns_postgres_prod
 
-  ns_nextjs_prod:
-    container_name: ns-nextjs-prod
-    image: nextstory-nextjs-prod:latest
+  ns_fetcher_prod:
+    container_name: ns-fetcher-prod
+    image: nextstory-fetcher-prod:latest
+    profiles: [backend,all]
+    restart: 'no'
+    env_file:
+      - path: ./.env
+        required: true
+      - path: ./prod.env
+        required: true
     build:
-      context: ./frontend
+      context: ./fetcher
       dockerfile: Dockerfile.prod
-      args:
-        # Build time environment variables.
-        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
-        NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
-    env_file: .env
     environment:
-      # Runtime environment variables.
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
-      NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
+      NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
+      NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
+    volumes:
+      - ns_fetcher_prod:/app/data
     networks:
       - ns_net
     depends_on:
       - ns_postgres_prod
       - ns_strapi_prod
 
+  ns_nextjs_prod:
+    container_name: ns-nextjs-prod
+    image: nextstory-nextjs-prod:latest
+    profiles: [frontend,all] # Frontend will fail because the dependencies are not in the same profile.
+    restart: unless-stopped
+    env_file:
+      # This doesn't seem to work at all, but is here just in case.
+      # Use --env-file flag instead when running the command.
+      - path: ./.env
+        required: true
+      - path: ./prod.env
+        required: true
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+      args:
+        # Build time environment variables.
+        NEXT_PORT: ${NEXT_PORT}
+        NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+        NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+        NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
+        NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
+    environment:
+      # Runtime environment variables.
+      NEXT_PORT: ${NEXT_PORT}
+      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
+      NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
+      NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
+      NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
+    volumes:
+      - ns_fetcher_prod:/app/data
+    ports:
+      - "${NEXT_PORT}:${NEXT_PORT}"
+    networks:
+      - ns_net
+    depends_on:
+      - ns_postgres_prod
+      - ns_strapi_prod
+      - ns_fetcher_prod
+
 volumes:
   ns_data_prod:
     name: nextstory-data-prod
   ns_uploads_prod:
     name: nextstory-uploads-prod
+  ns_fetcher_prod:
+    name: nextstory-fetcher-prod
 
 networks:
   ns_net:

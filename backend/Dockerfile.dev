@@ -13,6 +13,11 @@ RUN apk update && apk add --no-cache \
   vips-dev \
   git
 
+ARG STRAPI_PORT
+ARG STRAPI_HOST
+
+ENV STRAPI_PORT=${STRAPI_PORT}
+ENV STRAPI_HOST=${STRAPI_HOST}
 ENV NODE_ENV development
 
 # Disable Strapi telemetry and promotional features.
@@ -33,9 +38,9 @@ COPY . .
 RUN chown -R node:node /opt/app
 USER node
 
-EXPOSE 1337
-ENV PORT 1337
-ENV HOST 0.0.0.0
+EXPOSE ${STRAPI_PORT}
+ENV PORT=${STRAPI_PORT}
+ENV HOST=${STRAPI_HOST}
 
 RUN ["npm", "run", "build"]
 CMD ["npm", "run", "develop"]

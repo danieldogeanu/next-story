@@ -1,4 +1,5 @@
 import { Title } from '@mantine/core';
+import { getCategoriesCollection } from '@/data/categories';
 import styles from '@/styles/page.module.scss';
 
 export interface CategoryPageProps {
@@ -8,11 +9,16 @@ export interface CategoryPageProps {
 }
 
 export default async function CategoryPage({params}: CategoryPageProps) {
+  const categoryData = (await getCategoriesCollection({
+    populate: '*', filters: { slug: { $eq: params.slug } }
+  })).data.pop()?.attributes;
+
   return (
     <main className={styles.main}>
       <Title className={styles.pageTitle}>
-        Category: {params.slug.replace('-', ' ')}
+        Category: {categoryData?.name}
       </Title>
+      <p>{categoryData?.description}</p>
     </main>
   );
 }

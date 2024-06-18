@@ -1,17 +1,17 @@
 import { Attribute } from "@strapi/strapi";
 
 /**
- * Converts an ISO date string to Unix time.
+ * Converts an ISO date string to Unix time string.
  *
  * @param {Attribute.DateTimeValue | undefined} isoDate - The ISO date string to convert.
- * @returns {number} The Unix time in milliseconds.
+ * @returns {string} The Unix time in milliseconds as a string.
  *
  * @example
  * // Convert an ISO date to Unix time.
  * convertToUnixTime('2024-06-07T10:20:30Z');
  */
-export function convertToUnixTime(isoDate: Attribute.DateTimeValue | undefined): number {
-  return (new Date(isoDate?.toString() as string)).getTime();
+export function convertToUnixTime(isoDate: Attribute.DateTimeValue | undefined): string {
+  return (new Date(isoDate?.toString() as string)).getTime().toString();
 }
 
 /**

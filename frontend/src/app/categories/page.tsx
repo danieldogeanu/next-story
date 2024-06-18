@@ -2,13 +2,7 @@ import { Title } from '@mantine/core';
 import { getCategoriesCollection } from '@/data/categories';
 import styles from '@/styles/page.module.scss';
 
-export interface CategoriesPageProps {
-  params: {
-    slug: string;
-  };
-}
-
-export default async function CategoriesPage({params}: CategoriesPageProps) {
+export default async function CategoriesPage() {
   const categoriesResponse = await getCategoriesCollection({populate: '*'});
 
   return (

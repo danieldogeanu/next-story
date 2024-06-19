@@ -5,6 +5,16 @@
   width: 100%;
 }
 
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  gap: rem(32);
+  width: 100%;
+  max-width: rem(1312);
+  margin: 0 auto;
+}
+
 .pageTitle {
   text-transform: capitalize;
   text-align: center;

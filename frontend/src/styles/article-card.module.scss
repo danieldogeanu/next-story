@@ -1,0 +1,28 @@
+@import 'mantine';
+
+.card {
+  background-color: transparent;
+}
+
+.meta {
+  margin-top: rem(20);
+  margin-bottom: rem(4);
+  font-size: rem(14);
+  color: var(--mantine-color-dark-3);
+}
+
+.title {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  font-size: rem(18);
+  margin-bottom: rem(8);
+}
+
+.author {
+  font-size: rem(14);
+  color: var(--mantine-color-dark-3);
+}

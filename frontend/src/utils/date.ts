@@ -27,3 +27,17 @@ export function convertToUnixTime(isoDate: Attribute.DateTimeValue | undefined):
 export function convertToISODate(unixDate: string): string {
   return (new Date(parseInt(unixDate))).toISOString();
 }
+
+/**
+ * Converts an ISO date string to a readable date string.
+ *
+ * @param {Attribute.DateTimeValue | undefined} isoDate - The ISO date string to convert.
+ * @returns {string} A readable date string.
+ *
+ * @example
+ * // Convert an ISO date to a readable date string.
+ * convertToReadableDate('2024-06-07T10:20:30Z');
+ */
+export function convertToReadableDate(isoDate: Attribute.DateTimeValue | undefined): string {
+  return (new Date(isoDate?.toString() as string)).toDateString();
+}

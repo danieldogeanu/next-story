@@ -25,6 +25,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
   return (
     <Card
       className={styles.card}
+      component='article'
       padding='xs'
       radius='md'>
 

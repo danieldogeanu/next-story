@@ -13,7 +13,7 @@ export interface ArticleCardProps {
 }
 
 export default function ArticleCard({data}: ArticleCardProps) {
-  const articleHref = path.join('articles', convertToUnixTime(data.createdAt), data.slug);
+  const articleHref = path.join('/articles', convertToUnixTime(data.createdAt), data.slug);
   const articleCover = data?.cover?.data.attributes;
   const articleCoverFormats = JSON.parse(JSON.stringify(articleCover?.formats));
   const articleCoverUrl = getFileURL(articleCoverFormats.small.url);
@@ -23,12 +23,10 @@ export default function ArticleCard({data}: ArticleCardProps) {
   return (
     <Card
       className={styles.card}
-      component={Link}
-      href={articleHref}
       padding='xs'
       radius='md'>
 
-      <CardSection>
+      <CardSection component={Link} href={articleHref}>
         <Image
           component={NextImage}
           src={articleCoverUrl}
@@ -43,13 +41,20 @@ export default function ArticleCard({data}: ArticleCardProps) {
         <Text>{convertToReadableDate(data.createdAt)}</Text>
       </Group>
 
-      <Title className={styles.title} order={2}>
-        {data.title.substring(0, 60)}
-      </Title>
+      <Link href={articleHref}>
+        <Title className={styles.title} order={2}>
+          {data.title.substring(0, 60)}
+        </Title>
+      </Link>
 
       <Group className={styles.author} justify='space-between'>
         <Text>{articleAuthor?.fullName}</Text>
-        <ActionIcon size='lg' variant='subtle' aria-label='Read Article'>
+        <ActionIcon 
+          component={Link}
+          href={articleHref}
+          size='lg' variant='subtle'
+          title='Read Article'
+          aria-label='Read Article'>
           <IconArrowNarrowRight size={24} stroke={1.5} />
         </ActionIcon>
       </Group>

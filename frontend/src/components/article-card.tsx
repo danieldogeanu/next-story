@@ -18,7 +18,9 @@ export default function ArticleCard({data}: ArticleCardProps) {
   const articleCoverFormats = JSON.parse(JSON.stringify(articleCover?.formats));
   const articleCoverUrl = getFileURL(articleCoverFormats.small.url);
   const articleCategory = data.category?.data.attributes;
+  const articleCategoryHref = path.join('/categories', articleCategory?.slug || '');
   const articleAuthor = data.author?.data.attributes;
+  const articleAuthorHref = path.join('/authors', articleAuthor?.slug || '');
   
   return (
     <Card
@@ -26,7 +28,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
       padding='xs'
       radius='md'>
 
-      <CardSection component={Link} href={articleHref}>
+      <CardSection component={Link} href={articleHref} title='Read Article'>
         <Image
           component={NextImage}
           src={articleCoverUrl}
@@ -37,18 +39,28 @@ export default function ArticleCard({data}: ArticleCardProps) {
       </CardSection>
       
       <Group className={styles.meta} justify='space-between'>
-        <Text>{articleCategory?.name}</Text>
-        <Text>{convertToReadableDate(data.createdAt)}</Text>
+        <Text title='Article Category'>
+          <Link href={articleCategoryHref}>
+            {articleCategory?.name}
+          </Link>
+        </Text>
+        <Text title='Date Created'>
+          {convertToReadableDate(data.createdAt)}
+        </Text>
       </Group>
 
-      <Link href={articleHref}>
+      <Link href={articleHref} title={data.title}>
         <Title className={styles.title} order={2}>
           {data.title.substring(0, 60)}
         </Title>
       </Link>
 
       <Group className={styles.author} justify='space-between'>
-        <Text>{articleAuthor?.fullName}</Text>
+        <Text title='Article Author'>
+          <Link href={articleAuthorHref}>
+            {articleAuthor?.fullName}
+          </Link>
+        </Text>
         <ActionIcon 
           component={Link}
           href={articleHref}

@@ -26,14 +26,23 @@
 }
 
 .title {
+  --title-fz-override: rem(18);
+  --title-computed-lh: calc(var(--title-fz-override) * var(--title-lh));
+
   display: -webkit-box;
   overflow: hidden;
   text-overflow: ellipsis;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  font-size: rem(18);
+  font-size: var(--title-fz-override);
   margin-bottom: rem(8);
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+
+  @media (min-width: rem(580)) {
+    min-height: calc(var(--title-computed-lh) * 2);
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+  }
 }
 
 .author {

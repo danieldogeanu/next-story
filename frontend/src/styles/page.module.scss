@@ -3,16 +3,33 @@
 .main {
   display: block;
   width: 100%;
+  padding: 0 var(--next-story-site-padding);
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: 1fr;
   grid-template-rows: auto;
   gap: rem(32);
   width: 100%;
   max-width: rem(1312);
   margin: 0 auto;
+
+  @media (min-width: rem(480)) {
+    gap: rem(32);
+  }
+
+  @media (min-width: rem(580)) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: rem(1024)) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: rem(1392)) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
 
 .pageTitle {

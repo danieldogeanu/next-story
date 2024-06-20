@@ -8,7 +8,6 @@
 .meta {
   margin-top: rem(16);
   margin-bottom: rem(2);
-  color: var(--mantine-color-dark-3);
   @media (min-width: rem(480)) {
     margin-top: rem(20);
     margin-bottom: rem(4);
@@ -16,8 +15,12 @@
 
   :global(.mantine-Text-root) {
     font-size: rem(14);
+    color: var(--mantine-color-dark-3);
     @media (min-width: rem(480)) {
       font-size: rem(16);
+    }
+    @include dark {
+      color: var(--mantine-color-dark-2);
     }
   }
 
@@ -60,5 +63,8 @@
   color: var(--mantine-color-dark-3);
   @media (min-width: rem(480)) {
     font-size: rem(16);
+  }
+  @include dark {
+    color: var(--mantine-color-dark-2);
   }
 }

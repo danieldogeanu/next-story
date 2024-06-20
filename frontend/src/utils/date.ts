@@ -37,14 +37,14 @@ export function convertToISODate(unixDate: string): string {
  *
  * @example
  * // Convert an ISO date to a long readable date string.
- * convertToReadableDate('2024-06-07T10:20:30Z'); // Fri Jun 07 2024
+ * convertToReadableDate('2024-06-07T10:20:30Z'); // Fri Jun 07, 2024
  *
  * @example
  * // Convert an ISO date to a short readable date string.
  * convertToReadableDate('2024-06-07T10:20:30Z', 'short'); // 6/7/2024
  */
 export function convertToReadableDate(isoDate: Attribute.DateTimeValue | undefined, format?: 'long' | 'short'): string {
-  const longDate = (new Date(isoDate?.toString() as string)).toDateString();
+  const longDate = (new Date(isoDate?.toString() as string)).toDateString().replace(/(\s)(?!.*\s)/, ', ');
   const shortDate = (new Date(isoDate?.toString() as string)).toLocaleDateString('en-US');
   return (format && format === 'short') ? shortDate : longDate;
 }

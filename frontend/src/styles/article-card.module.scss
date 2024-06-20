@@ -3,6 +3,21 @@
 .card {
   background-color: transparent;
   container: article_card / inline-size;
+  overflow: visible;
+
+  .cover :global(.mantine-Image-root) {
+    transition: box-shadow var(--next-story-transition-timing) var(--next-story-transition-easing);
+  }
+  &:hover .cover :global(.mantine-Image-root) {
+    box-shadow: var(--mantine-shadow-lg);
+  }
+
+  .author :global(.mantine-ActionIcon-root) {
+    transition: transform var(--next-story-transition-timing) var(--next-story-transition-easing);
+  }
+  &:hover .author :global(.mantine-ActionIcon-root) {
+    transform: translateX(rem(8));
+  }
 }
 
 .meta {
@@ -21,6 +36,16 @@
     }
     @include dark {
       color: var(--mantine-color-dark-2);
+    }
+
+    a {
+      transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
+      &:hover {
+        color: var(--mantine-color-dark-5);
+        @include dark {
+          color: var(--mantine-color-dark-0);
+        }
+      }
     }
   }
 
@@ -66,5 +91,15 @@
   }
   @include dark {
     color: var(--mantine-color-dark-2);
+  }
+
+  a {
+    transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
+    &:hover {
+      color: var(--mantine-color-dark-5);
+      @include dark {
+        color: var(--mantine-color-dark-0);
+      }
+    }
   }
 }

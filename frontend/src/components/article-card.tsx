@@ -29,7 +29,11 @@ export default function ArticleCard({data}: ArticleCardProps) {
       padding='xs'
       radius='md'>
 
-      <CardSection component={Link} href={articleHref} title='Read Article'>
+      <CardSection
+        className={styles.cover}
+        component={Link}
+        href={articleHref}
+        title='Read Article'>
         <Image
           component={NextImage}
           src={articleCoverUrl}
@@ -40,7 +44,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
       </CardSection>
       
       <Group className={styles.meta} justify='space-between'>
-        <Text title='Article Category'>
+        <Text title='Category'>
           <Link href={articleCategoryHref}>
             {articleCategory?.name}
           </Link>
@@ -62,7 +66,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
       </Link>
 
       <Group className={styles.author} justify='space-between'>
-        <Text title='Article Author'>
+        <Text title='Author'>
           <Link href={articleAuthorHref}>
             {articleAuthor?.fullName}
           </Link>

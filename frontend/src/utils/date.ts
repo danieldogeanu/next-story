@@ -29,15 +29,22 @@ export function convertToISODate(unixDate: string): string {
 }
 
 /**
- * Converts an ISO date string to a readable date string.
+ * Converts an ISO date string to a readable date string in either long or short format.
  *
  * @param {Attribute.DateTimeValue | undefined} isoDate - The ISO date string to convert.
- * @returns {string} A readable date string.
+ * @param {'long' | 'short'} [format] - The desired date format. Defaults to 'long'.
+ * @returns {string} A readable date string in the specified format.
  *
  * @example
- * // Convert an ISO date to a readable date string.
- * convertToReadableDate('2024-06-07T10:20:30Z');
+ * // Convert an ISO date to a long readable date string.
+ * convertToReadableDate('2024-06-07T10:20:30Z'); // Fri Jun 07 2024
+ *
+ * @example
+ * // Convert an ISO date to a short readable date string.
+ * convertToReadableDate('2024-06-07T10:20:30Z', 'short'); // 6/7/2024
  */
-export function convertToReadableDate(isoDate: Attribute.DateTimeValue | undefined): string {
-  return (new Date(isoDate?.toString() as string)).toDateString();
+export function convertToReadableDate(isoDate: Attribute.DateTimeValue | undefined, format?: 'long' | 'short'): string {
+  const longDate = (new Date(isoDate?.toString() as string)).toDateString();
+  const shortDate = (new Date(isoDate?.toString() as string)).toLocaleDateString('en-US');
+  return (format && format === 'short') ? shortDate : longDate;
 }

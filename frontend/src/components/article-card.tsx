@@ -45,8 +45,13 @@ export default function ArticleCard({data}: ArticleCardProps) {
             {articleCategory?.name}
           </Link>
         </Text>
-        <Text title='Date Created'>
-          {convertToReadableDate(data.createdAt)}
+        <Text className={styles.date} title='Date Created'>
+          <span className={styles.long}>
+            {convertToReadableDate(data.createdAt, 'long')}
+          </span>
+          <span className={styles.short}>
+            {convertToReadableDate(data.createdAt, 'short')}
+          </span>
         </Text>
       </Group>
 

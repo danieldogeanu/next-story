@@ -2,6 +2,7 @@
 
 .card {
   background-color: transparent;
+  container: article_card / inline-size;
 }
 
 .meta {
@@ -9,6 +10,19 @@
   margin-bottom: rem(4);
   font-size: rem(14);
   color: var(--mantine-color-dark-3);
+
+  .date {
+    .long { display: none; }
+    .short { display: none; }
+    @container article_card (min-width: rem(210)) {
+      .long { display: none; }
+      .short { display: inline-block; }
+    }
+    @container article_card (min-width: rem(280)) {
+      .long { display: inline-block; }
+      .short { display: none; }
+    }
+  }
 }
 
 .title {

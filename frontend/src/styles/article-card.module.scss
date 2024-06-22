@@ -1,24 +1,64 @@
 @import 'mantine';
 
-// TODO: Add an eye icon on hover, to the cover image and darken the image.
-
 .card {
   background-color: transparent;
   container: article_card / inline-size;
   overflow: visible;
 
-  .cover :global(.mantine-Image-root) {
-    transition: box-shadow var(--next-story-transition-timing) var(--next-story-transition-easing);
+  // Cover image hover effects.
+  .cover {
+    .preview svg {
+      opacity: 0;
+      transition: opacity calc(var(--next-story-transition-timing) * 1.2) var(--next-story-transition-easing);
+    }
+    :global(.mantine-Image-root) {
+      transition: all var(--next-story-transition-timing) var(--next-story-transition-easing);
+    }
   }
-  &:hover .cover :global(.mantine-Image-root) {
-    box-shadow: var(--mantine-shadow-md);
+  &:hover .cover {
+    .preview svg {
+      opacity: 0.5;
+    }
+    :global(.mantine-Image-root) {
+      box-shadow: var(--mantine-shadow-md);
+      filter: brightness(75%) contrast(150%);
+      transform: scale(102%);
+    }
   }
 
+  // ActionIcon (arrow right) hover effects.
   .author :global(.mantine-ActionIcon-root) {
     transition: transform var(--next-story-transition-timing) var(--next-story-transition-easing);
   }
   &:hover .author :global(.mantine-ActionIcon-root) {
     transform: translateX(rem(8));
+  }
+}
+
+.cover {
+  .preview {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: rem(200);
+
+    svg {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      height: auto;
+      z-index: 2;
+      color: var(--mantine-color-white);
+    }
+
+    img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: auto;
+      z-index: 1;
+    }
   }
 }
 

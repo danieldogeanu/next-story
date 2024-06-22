@@ -1,8 +1,8 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
 import path from 'node:path';
-import { ActionIcon, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
-import { IconArrowNarrowRight } from '@tabler/icons-react';
+import { ActionIcon, Box, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
+import { IconArrowNarrowRight, IconEyeFilled } from '@tabler/icons-react';
 import { convertToReadableDate, convertToUnixTime } from '@/utils/date';
 import { SingleArticle } from '@/data/articles';
 import { getFileURL } from '@/data/files';
@@ -34,13 +34,16 @@ export default function ArticleCard({data}: ArticleCardProps) {
         component={Link}
         href={articleHref}
         title='Read Article'>
-        <Image
-          component={NextImage}
-          src={articleCoverUrl}
-          width={articleCoverFormats.small.width}
-          height={articleCoverFormats.small.height}
-          alt={articleCover?.alternativeText || 'No Description'}
-          h={200} radius='md' />
+        <Box className={styles.preview}>
+          <IconEyeFilled size={120} />
+          <Image
+            component={NextImage}
+            src={articleCoverUrl}
+            width={articleCoverFormats.small.width}
+            height={articleCoverFormats.small.height}
+            alt={articleCover?.alternativeText || 'No Description'}
+            h={200} radius='md' />
+        </Box>
       </CardSection>
       
       <Group className={styles.meta} justify='space-between'>

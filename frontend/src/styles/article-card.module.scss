@@ -23,6 +23,9 @@
       box-shadow: var(--mantine-shadow-md);
       filter: brightness(75%) contrast(150%);
       transform: scale(102%);
+      @include dark {
+        filter: brightness(120%) contrast(120%);
+      }
     }
   }
 
@@ -50,6 +53,9 @@
       height: auto;
       z-index: 2;
       color: var(--mantine-color-white);
+      @include dark {
+        color: var(--mantine-color-black);
+      }
     }
 
     img {

@@ -1,0 +1,56 @@
+@import 'mantine';
+
+.card {
+  background-color: transparent;
+  container: category_card / inline-size;
+  overflow: visible;
+
+  // Cover image hover effects.
+  .cover :global(.mantine-Image-root) {
+    filter: brightness(95%) contrast(105%);
+    transition: all var(--next-story-transition-timing) var(--next-story-transition-easing);
+  }
+  &:hover .cover :global(.mantine-Image-root) {
+    box-shadow: var(--mantine-shadow-md);
+    filter: brightness(75%) contrast(150%);
+    transform: scale(102%);
+    @include dark {
+      filter: brightness(120%) contrast(120%);
+    }
+  }
+}
+
+.cover {
+  .preview {
+    display: block;
+    position: relative;
+    width: 100%;
+    height: rem(140);
+
+    .title {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: auto;
+      height: auto;
+      z-index: 2;
+    }
+
+    img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: auto;
+      z-index: 1;
+    }
+  }
+}
+
+.title {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: rem(24);
+  color: var(--mantine-color-white);
+  margin: 0;
+}

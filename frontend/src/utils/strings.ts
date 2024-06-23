@@ -8,7 +8,11 @@ import { z as val } from 'zod';
  */
 export function capitalize(text: string): string {
   const textSchema = val.string();
-  if (!textSchema.safeParse(text).success) return '';
+  const parsedText = textSchema.safeParse(text);
+  if (!parsedText.success) {
+    console.error('Capitalization Error:', parsedText.error.errors[0].message);
+    return '';
+  }
 
   const textArr = text.split(' ');
   const processedStrArr = textArr.map((word) => {

@@ -1,7 +1,9 @@
 import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
 import { getCategoriesCollection } from '@/data/categories';
-import styles from '@/styles/page.module.scss';
+import { capitalize } from '@/utils/strings';
+import pageStyles from '@/styles/page.module.scss';
+import categoryStyles from '@/styles/category-page.module.scss';
 
 export interface CategoryPageProps {
   params: {
@@ -17,11 +19,13 @@ export default async function CategoryPage({params}: CategoryPageProps) {
   if (!categoryData) return notFound();
 
   return (
-    <main className={styles.main}>
-      <Title className={styles.pageTitle}>
-        Category: {categoryData?.name}
-      </Title>
-      <p>{categoryData?.description}</p>
+    <main className={pageStyles.main}>
+      <section className={pageStyles.container}>
+        <Title className={pageStyles.pageTitle}>
+          {capitalize(categoryData?.name)} Category
+        </Title>
+        <p>{categoryData?.description}</p>
+      </section>
     </main>
   );
 }

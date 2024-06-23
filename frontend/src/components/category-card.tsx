@@ -29,7 +29,7 @@ export default function CategoryCard({data}: CategoryCardProps) {
         title={`See Articles in ${data.name} Category`}>
         <Box className={styles.preview}>
           <Title className={styles.title} order={2}>
-            {data.name.substring(0, 60)}
+            {data.name}
           </Title>
           <Image
             component={NextImage}

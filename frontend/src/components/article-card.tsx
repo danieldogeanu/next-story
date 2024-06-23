@@ -4,6 +4,7 @@ import path from 'node:path';
 import { ActionIcon, Box, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { IconArrowNarrowRight, IconEyeFilled } from '@tabler/icons-react';
 import { convertToReadableDate, convertToUnixTime } from '@/utils/date';
+import { capitalize } from '@/utils/strings';
 import { SingleArticle } from '@/data/articles';
 import { getFileURL } from '@/data/files';
 import styles from '@/styles/article-card.module.scss';
@@ -41,7 +42,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
             src={articleCoverUrl}
             width={articleCoverFormats.small.width}
             height={articleCoverFormats.small.height}
-            alt={articleCover?.alternativeText || 'No Description'}
+            alt={articleCover?.alternativeText || ''}
             h={200} radius='md' />
         </Box>
       </CardSection>
@@ -49,7 +50,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
       <Group className={styles.meta} justify='space-between'>
         <Text title='Category'>
           <Link href={articleCategoryHref}>
-            {articleCategory?.name}
+            {capitalize(articleCategory?.name as string)}
           </Link>
         </Text>
         <Text className={styles.date} title='Date Created'>
@@ -62,16 +63,16 @@ export default function ArticleCard({data}: ArticleCardProps) {
         </Text>
       </Group>
 
-      <Link href={articleHref} title={data.title}>
+      <Link href={articleHref} title={capitalize(data.title)}>
         <Title className={styles.title} order={2}>
-          {data.title.substring(0, 60)}
+          {capitalize(data.title.substring(0, 60))}
         </Title>
       </Link>
 
       <Group className={styles.author} justify='space-between'>
         <Text title='Author'>
           <Link href={articleAuthorHref}>
-            {articleAuthor?.fullName}
+            {capitalize(articleAuthor?.fullName as string)}
           </Link>
         </Text>
         <ActionIcon 

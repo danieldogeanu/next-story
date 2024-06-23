@@ -4,6 +4,7 @@ import path from 'node:path';
 import { Box, Card, CardSection, Image, Title } from '@mantine/core';
 import { SingleCategory } from '@/data/categories';
 import { getFileURL } from '@/data/files';
+import { capitalize } from '@/utils/strings';
 import styles from '@/styles/category-card.module.scss';
 
 export interface CategoryCardProps {
@@ -26,10 +27,10 @@ export default function CategoryCard({data}: CategoryCardProps) {
         className={styles.cover}
         component={Link}
         href={categoryHref}
-        title={`See Articles in ${data.name} Category`}>
+        title={`See Articles in ${capitalize(data.name)} Category`}>
         <Box className={styles.preview}>
           <Title className={styles.title} order={2}>
-            {data.name}
+            {capitalize(data.name)}
           </Title>
           <Image
             component={NextImage}

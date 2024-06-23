@@ -2,6 +2,7 @@ import Link from 'next/link';
 import path from 'node:path';
 import { Card, Title } from '@mantine/core';
 import { SingleTag } from '@/data/tags';
+import { capitalize } from '@/utils/strings';
 import styles from '@/styles/tag-card.module.scss';
 
 export interface TagCardProps {
@@ -16,12 +17,12 @@ export default function TagCard({data}: TagCardProps) {
       className={styles.card}
       component={Link}
       href={tagHref}
-      title={`See Articles for ${data.name} Tag`}
+      title={`See Articles for ${capitalize(data.name)} Tag`}
       padding='xs'
       radius='md'>
 
       <Title className={styles.title} order={2}>
-        {data.name}
+        {capitalize(data.name)}
       </Title>
 
     </Card>

@@ -29,8 +29,6 @@ export default async function CategoryPage({params}: CategoryPageProps) {
   const categoryCoverUrl = getFileURL(categoryCover?.url as string);
   const articlesData = categoryData?.articles?.data;
 
-  console.log(categoryCover);
-
   if (!categoryData) return notFound();
 
   return (

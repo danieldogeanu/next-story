@@ -20,6 +20,9 @@ section.intro {
     color: var(--mantine-color-dark-6);
     font-size: rem(18);
     width: 100%;
+    @include dark {
+      color: var(--mantine-color-dark-1);
+    }
   }
 }
 

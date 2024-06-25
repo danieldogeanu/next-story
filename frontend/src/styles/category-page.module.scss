@@ -1,9 +1,4 @@
-@use 'sass:color';
 @import 'mantine';
-
-// --mantine-color-dark-9
-$description-bg-color-one: color.change(#141414, $alpha: 0.3);
-$description-bg-color-two: color.change(#141414, $alpha: 0.01);
 
 section.intro {
   margin-bottom: rem(60);
@@ -11,47 +6,26 @@ section.intro {
 
 .hero {
   display: block;
-  position: relative;
-  overflow: hidden;
   width: 100%;
-  height: rem(300);
-  border-radius: var(--mantine-radius-lg);
 }
 
 .description {
-  --description-bg-color-one: #{$description-bg-color-one};
-  --description-bg-color-two: #{$description-bg-color-two};
-
   display: block;
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 2;
   width: 100%;
-  height: 100%;
-  padding-left: rem(80);
-  background: linear-gradient(
-    90deg,
-    var(--description-bg-color-one) 30%,
-    var(--description-bg-color-two) 100%
-  );
+  margin-top: rem(32);
+  padding: 0 rem(80);
 
   :global(.mantine-Text-root) {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    color: var(--mantine-color-gray-3);
+    display: block;
+    color: var(--mantine-color-dark-6);
     font-size: rem(18);
-    width: 65%;
-    height: 100%;
+    width: 100%;
   }
 }
 
 .cover {
   display: block;
-  position: absolute;
-  top: 0; left: 0;
-  z-index: 1;
   width: 100%;
-  height: 100%;
-  filter: brightness(75%) contrast(150%);
+  height: rem(300);
+  box-shadow: var(--mantine-shadow-lg);
 }

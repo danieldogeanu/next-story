@@ -41,9 +41,6 @@ export default async function CategoryPage({params}: CategoryPageProps) {
         </Title>
 
         <Box className={categoryStyles.hero}>
-          <Box className={categoryStyles.description}>
-            <Text>{categoryData?.description}</Text>
-          </Box>
           <Image
             className={categoryStyles.cover}
             component={NextImage}
@@ -52,6 +49,9 @@ export default async function CategoryPage({params}: CategoryPageProps) {
             height={categoryCover?.height}
             alt={categoryCover?.alternativeText || ''}
             h={300} radius='lg' />
+          <Box className={categoryStyles.description}>
+            <Text>{categoryData?.description}</Text>
+          </Box>
         </Box>
 
       </section>

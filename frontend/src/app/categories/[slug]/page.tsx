@@ -48,7 +48,7 @@ export default async function CategoryPage({params}: CategoryPageProps) {
             width={categoryCover?.width}
             height={categoryCover?.height}
             alt={categoryCover?.alternativeText || ''}
-            h={300} radius='lg' />
+            radius='lg' />
           <Box className={categoryStyles.description}>
             <Text>{categoryData?.description}</Text>
           </Box>

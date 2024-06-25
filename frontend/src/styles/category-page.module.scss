@@ -1,7 +1,10 @@
 @import 'mantine';
 
 section.intro {
-  margin-bottom: rem(60);
+  margin-bottom: rem(40);
+  @media (min-width: rem(580)) {
+    margin-bottom: rem(60);
+  }
 }
 
 .hero {
@@ -12,16 +15,27 @@ section.intro {
 .description {
   display: block;
   width: 100%;
-  margin-top: rem(32);
-  padding: 0 rem(80);
+  margin-top: rem(24);
+  padding: 0 rem(12);
+  @media (min-width: rem(580)) {
+    margin-top: rem(32);
+    padding: 0 rem(40);
+  }
+  @media (min-width: rem(1024)) {
+    padding: 0 rem(80);
+  }
 
   :global(.mantine-Text-root) {
     display: block;
+    text-wrap: pretty;
     color: var(--mantine-color-dark-6);
-    font-size: rem(18);
+    font-size: rem(16);
     width: 100%;
     @include dark {
       color: var(--mantine-color-dark-1);
+    }
+    @media (min-width: rem(580)) {
+      font-size: rem(18);
     }
   }
 }
@@ -29,6 +43,10 @@ section.intro {
 .cover {
   display: block;
   width: 100%;
-  height: rem(300);
+  height: rem(200);
   box-shadow: var(--mantine-shadow-lg);
+  @media (min-width: rem(580)) {
+    height: rem(300);
+    box-shadow: var(--mantine-shadow-md);
+  }
 }

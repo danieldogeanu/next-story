@@ -1,8 +1,10 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/env';
 import buildTimePages from '@build-data/pages.json';
+
+export interface SinglePage extends GetValues<'api::page.page'> {}
 
 export interface SinglePageResponse extends APIResponse<'api::page.page'> {}
 

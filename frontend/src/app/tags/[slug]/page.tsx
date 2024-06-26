@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
 import { getTagsCollection } from '@/data/tags';
 import ArticleCard from '@/components/article-card';
+import SortBar from '@/components/sort-bar';
 import styles from '@/styles/page.module.scss';
 
 export interface TagPageProps {
@@ -26,6 +27,7 @@ export default async function TagPage({params}: TagPageProps) {
         <Title className={styles.pageTitle}>
           {tagData?.name} Tag
         </Title>
+        <SortBar />
       </section>
 
       <section className={styles.grid}>

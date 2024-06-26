@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
 import { getTagsCollection } from '@/data/tags';
+import ArticleCard from '@/components/article-card';
 import styles from '@/styles/page.module.scss';
 
 export interface TagPageProps {
@@ -11,16 +12,28 @@ export interface TagPageProps {
 
 export default async function TagPage({params}: TagPageProps) {
   const tagData = (await getTagsCollection({
-    populate: '*', filters: { slug: { $eq: params.slug } }
+    filters: { slug: { $eq: params.slug } },
+    populate: { articles: { populate: '*' } },
   })).data.pop()?.attributes;
+  const articlesData = tagData?.articles?.data;
 
   if (!tagData) return notFound();
 
   return (
     <main className={styles.main}>
-      <Title className={styles.pageTitle}>
-        Tag: {tagData?.name}
-      </Title>
+
+      <section className={styles.container}>
+        <Title className={styles.pageTitle}>
+          {tagData?.name} Tag
+        </Title>
+      </section>
+
+      <section className={styles.grid}>
+        {articlesData?.map((article) => {
+          return <ArticleCard key={article.id} data={article.attributes} />;
+        })}
+      </section>
+
     </main>
   );
 }

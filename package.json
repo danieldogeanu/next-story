@@ -7,12 +7,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://gitlab.com/dd-playground/next/next-story.git"
+    "url": "git+https://github.com/danieldogeanu/next-story.git"
   },
   "bugs": {
-    "url": "https://gitlab.com/dd-playground/next/next-story/issues"
+    "url": "https://github.com/danieldogeanu/next-story/issues"
   },
-  "homepage": "https://gitlab.com/dd-playground/next/next-story",
+  "homepage": "https://github.com/danieldogeanu/next-story",
   "scripts": {
     "fetcher": "cd fetcher && npm start",
     "copy-data": "node scripts/copy-fetcher-data.js",

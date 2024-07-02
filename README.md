@@ -1,13 +1,15 @@
 # Next Story
 
 Playground app to figure out how to integrate the chosen tech stack:
-- React/NextJS
-- Mantine
-- Storybook
-- Jest
-- Testing Library
-- Cypress
-- Docker
+- React/NextJS (Frontend)
+- Mantine (Frontend/UI)
+- Storybook (Frontend/UI)
+- Jest (Testing)
+- Testing Library (Testing)
+- Cypress (Testing)
+- Strapi (Backend)
+- Postgres (Database)
+- Docker (Containers)
 
 ## NPM Commands
 

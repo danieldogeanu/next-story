@@ -50,3 +50,6 @@ Playground app to figure out how to integrate the chosen tech stack:
 - **`types`**: Generates TypeScript types for Strapi.
 - **`config`**: Runs the `config-sync` command to export the Strapi config.
 - **`sitemap`**: Generates a sitemap for the Strapi application.
+
+### Fetcher Commands
+- **`start`**: Starts the fetcher script to get data from the production Strapi container.

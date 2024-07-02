@@ -41,3 +41,12 @@ Playground app to figure out how to integrate the chosen tech stack:
 - **`compose-prod:recreate:backend`**: Recreates the backend services with the production profile, forcing recreation and renewing anonymous volumes.
 - **`compose-prod:recreate:fetcher`**: Recreates the fetcher service (`ns_fetcher_prod`) with the production profile, forcing recreation and renewing anonymous volumes.
 - **`compose-prod:recreate:frontend`**: Recreates the frontend service (`ns_nextjs_prod`) with the production profile, forcing recreation and renewing anonymous volumes.
+
+### Backend (Strapi) Commands
+- **`develop`**: Runs the Strapi development server.
+- **`start`**: Starts the Strapi application with production server.
+- **`build`**: Builds the Strapi application for production.
+- **`strapi`**: Runs the Strapi CLI.
+- **`types`**: Generates TypeScript types for Strapi.
+- **`config`**: Runs the `config-sync` command to export the Strapi config.
+- **`sitemap`**: Generates a sitemap for the Strapi application.

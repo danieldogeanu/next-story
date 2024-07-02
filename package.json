@@ -2,7 +2,7 @@
   "name": "next-story",
   "version": "0.1.0",
   "private": true,
-  "description": "Playground app to figure out how to integrate the chosen tech stack.",
+  "description": "Proof of Concept project, to demonstrate the integration of the chosen tech stack to customers.",
   "author": "Daniel Dogeanu <contact@danieldogeanu.com> (https://danieldogeanu.com/)",
   "license": "MIT",
   "repository": {

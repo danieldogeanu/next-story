@@ -1,6 +1,6 @@
 # Next Story
 
-Playground app to figure out how to integrate the chosen tech stack:
+Proof of Concept project, to demonstrate the integration of the following tech stack to customers:
 - React/NextJS (Frontend)
 - Mantine (Frontend/UI)
 - Storybook (Frontend/UI)

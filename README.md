@@ -9,28 +9,35 @@ Playground app to figure out how to integrate the chosen tech stack:
 - Cypress
 - Docker
 
+## NPM Commands
 
-## Getting Started
+### Project Root Commands
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#### General Commands
+- **`fetcher`**: Runs the fetcher script to fetch data from production container.
+- **`copy-data`**: Copies the fetched data from production container to the `frontend` directory.
+- **`copy-types`**: Runs the script to generate Strapi types in the `backend` directory, then copies the generated types to the `frontend` directory. This is required so that we can build the dev/prod docker containers, as importing from other containers directly won't be possible.
 
-First, run the development server:
+#### Docker Compose Commands for Development
+- **`compose-dev`**: Starts the Docker Compose services with the development profile using the specified environment files.
+- **`compose-dev:build`**: Builds the Docker Compose services with the development profile, ignoring the cache.
+- **`compose-dev:recreate`**: Recreates the Docker Compose services with the development profile, forcing recreation and renewing anonymous volumes.
 
-```bash
-npm run dev
-```
+#### Docker Compose Commands for Storybook
+- **`compose-sb`**: Starts the Docker Compose services with the Storybook profile using the specified environment files.
+- **`compose-sb:build`**: Builds the Docker Compose services with the Storybook profile, ignoring the cache.
+- **`compose-sb:recreate`**: Recreates the Docker Compose services with the Storybook profile, forcing recreation and renewing anonymous volumes.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-
+#### Docker Compose Commands for Production
+- **`compose-prod`**: Starts all Docker Compose services with the production profile using the specified environment files.
+- **`compose-prod:backend`**: Starts the backend services with the production profile using the specified environment files.
+- **`compose-prod:fetcher`**: Starts the fetcher service (`ns_fetcher_prod`) with the production profile using the specified environment files.
+- **`compose-prod:frontend`**: Starts the frontend service (`ns_nextjs_prod`) with the production profile using the specified environment files.
+- **`compose-prod:build`**: Builds all Docker Compose services with the production profile, ignoring the cache.
+- **`compose-prod:build:backend`**: Builds the backend services with the production profile, ignoring the cache.
+- **`compose-prod:build:fetcher`**: Builds the fetcher service (`ns_fetcher_prod`) with the production profile, ignoring the cache.
+- **`compose-prod:build:frontend`**: Builds the frontend service (`ns_nextjs_prod`) with the production profile, ignoring the cache.
+- **`compose-prod:recreate`**: Recreates all Docker Compose services with the production profile, forcing recreation and renewing anonymous volumes.
+- **`compose-prod:recreate:backend`**: Recreates the backend services with the production profile, forcing recreation and renewing anonymous volumes.
+- **`compose-prod:recreate:fetcher`**: Recreates the fetcher service (`ns_fetcher_prod`) with the production profile, forcing recreation and renewing anonymous volumes.
+- **`compose-prod:recreate:frontend`**: Recreates the frontend service (`ns_nextjs_prod`) with the production profile, forcing recreation and renewing anonymous volumes.

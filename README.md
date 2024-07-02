@@ -53,3 +53,11 @@ Playground app to figure out how to integrate the chosen tech stack:
 
 ### Fetcher Commands
 - **`start`**: Starts the fetcher script to get data from the production Strapi container.
+
+### Frontend (NextJS) Commands
+- **`dev`**: Runs the Next.js development server.
+- **`build`**: Builds the Next.js application for production.
+- **`start`**: Starts the Next.js application in production mode.
+- **`lint`**: Lints the project using Next.js's linting configuration.
+- **`storybook`**: Runs Storybook in development mode on port `6006`.
+- **`build-storybook`**: Builds the Storybook application for production.

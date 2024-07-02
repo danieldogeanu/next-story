@@ -13,6 +13,8 @@ Playground app to figure out how to integrate the chosen tech stack:
 
 ### Project Root Commands
 
+These are commands that are project wide and need to be run in the root level directory:
+
 #### General Commands
 - **`fetcher`**: Runs the fetcher script to fetch data from production container.
 - **`copy-data`**: Copies the fetched data from production container to the `frontend` directory.
@@ -43,6 +45,9 @@ Playground app to figure out how to integrate the chosen tech stack:
 - **`compose-prod:recreate:frontend`**: Recreates the frontend service (`ns_nextjs_prod`) with the production profile, forcing recreation and renewing anonymous volumes.
 
 ### Backend (Strapi) Commands
+
+These commands need to be run into the `backend` directory:
+
 - **`develop`**: Runs the Strapi development server.
 - **`start`**: Starts the Strapi application with production server.
 - **`build`**: Builds the Strapi application for production.
@@ -52,9 +57,15 @@ Playground app to figure out how to integrate the chosen tech stack:
 - **`sitemap`**: Generates a sitemap for the Strapi application.
 
 ### Fetcher Commands
+
+These commands need to be run into the `fetcher` directory:
+
 - **`start`**: Starts the fetcher script to get data from the production Strapi container.
 
 ### Frontend (NextJS) Commands
+
+These commands need to be run into the `frontend` directory:
+
 - **`dev`**: Runs the Next.js development server.
 - **`build`**: Builds the Next.js application for production.
 - **`start`**: Starts the Next.js application in production mode.

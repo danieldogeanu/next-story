@@ -75,8 +75,8 @@ type MediaValue<TAttribute extends Attribute.Attribute> = TAttribute extends Att
 >
   ? Utils.Expression.If<
       TMultiple,
-      APIResponseData<'plugin::upload.file'>[],
-      APIResponseData<'plugin::upload.file'>
+      APIResponse<'plugin::upload.file'>[],
+      APIResponse<'plugin::upload.file'>
     >
   : never;
 
@@ -115,10 +115,12 @@ interface APIResponseData<TContentTypeUID extends Common.UID.ContentType> extend
 }
 
 export interface APIResponseCollectionMetadata {
-  page: number;
-  pageSize: number;
-  pageCount: number;
-  total: number;
+  pagination: {
+    page: number;
+    pageSize: number;
+    pageCount: number;
+    total: number;
+  };
 }
 
 export interface APIResponse<TContentTypeUID extends Common.UID.ContentType> {

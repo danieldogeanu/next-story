@@ -4,6 +4,9 @@
   --next-story-transition-timing: 130ms;
   --next-story-transition-easing: ease-in;
   --next-story-site-padding: rem(20);
+  --next-story-shadow-opacity-primary: 0.2;
+  --next-story-shadow-opacity-secondary: 0.1;
+  --next-story-shadow-opacity-tertiary: 0.1;
 
   @media (min-width: rem(480)) {
     --next-story-site-padding: rem(40);

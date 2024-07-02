@@ -26,6 +26,28 @@ const nextConfig = {
   sassOptions: {
     includePaths: [path.join(process.cwd(), 'src', 'styles')],
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '1337',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'ns-strapi-dev',
+        port: '1337',
+        pathname: '/uploads/**',
+      },
+      {
+        protocol: 'http',
+        hostname: 'ns-strapi-prod',
+        port: '1338',
+        pathname: '/uploads/**',
+      },
+    ],
+  },
   experimental: {
     optimizePackageImports: [
       '@mantine/core',

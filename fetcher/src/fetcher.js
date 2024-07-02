@@ -12,7 +12,6 @@ const ENDPOINTS = [
   {endpoint: 'articles', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'authors', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'categories', keyFor: 'frontend', params: {populate: '*'}},
-  {endpoint: 'categories', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'pages', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'tags', keyFor: 'frontend', params: {populate: '*'}},
   {endpoint: 'upload/files', keyFor: 'frontend', params: {populate: '*'}},

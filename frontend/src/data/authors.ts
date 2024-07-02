@@ -1,8 +1,10 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/env';
 import buildTimeAuthors from '@build-data/authors.json';
+
+export interface SingleAuthor extends GetValues<'api::author.author'> {}
 
 export interface SingleAuthorResponse extends APIResponse<'api::author.author'> {}
 

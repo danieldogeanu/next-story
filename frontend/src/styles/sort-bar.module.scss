@@ -25,10 +25,13 @@
   align-self: end;
   justify-self: end;
   line-height: 1;
-  font-size: rem(14);
+  font-size: rem(15);
   color: var(--mantine-color-gray-6);
   @media (min-width: rem(400)) {
     align-self: center;
+  }
+  @media (min-width: rem(480)) {
+    font-size: rem(14);
   }
   @media (min-width: rem(540)) {
     justify-self: start;

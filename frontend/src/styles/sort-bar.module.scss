@@ -2,22 +2,45 @@
 
 .container {
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  grid-template-rows: auto;
+  grid-template-areas: 'total total' 'order sort';
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
   align-items: center;
   margin-bottom: rem(16);
   padding: 0 rem(4);
-  gap: rem(24);
+  gap: rem(16);
+  @media (min-width: rem(400)) {
+    grid-template-areas: 'total order sort';
+    grid-template-columns: auto auto 1fr;
+    grid-template-rows: auto;
+  }
+  @media (min-width: rem(540)) {
+    grid-template-columns: 1fr auto auto;
+    gap: rem(24);
+  }
 }
 
 .total {
+  grid-area: total;
   align-self: end;
+  justify-self: end;
   line-height: 1;
   font-size: rem(14);
   color: var(--mantine-color-gray-6);
+  @media (min-width: rem(400)) {
+    align-self: center;
+  }
+  @media (min-width: rem(540)) {
+    justify-self: start;
+  }
+  @media (min-width: rem(780)) {
+    align-self: end;
+  }
 }
 
 .order {
+  grid-area: order;
+
   .chevron {
     color: var(--mantine-color-gray-6);
     transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
@@ -28,6 +51,8 @@
 }
 
 .sort {
+  grid-area: sort;
+
   :global(.mantine-Select-input) {
     color: var(--mantine-color-gray-7);
   }

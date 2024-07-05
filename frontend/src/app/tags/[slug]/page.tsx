@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
 import { getTagsCollection } from '@/data/tags';
@@ -27,7 +28,9 @@ export default async function TagPage({params}: TagPageProps) {
         <Title className={styles.pageTitle}>
           {tagData?.name} Tag
         </Title>
-        <SortBar />
+        <Suspense fallback={null}>
+          <SortBar />
+        </Suspense>
       </section>
 
       <section className={styles.grid}>

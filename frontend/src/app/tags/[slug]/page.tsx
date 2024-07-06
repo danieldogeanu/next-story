@@ -19,6 +19,8 @@ export default async function TagPage({params}: TagPageProps) {
   })).data.pop()?.attributes;
   const articlesData = tagData?.articles?.data;
 
+  // TODO: Remove populate for articles in this request, and do a separate request and use filters instead, so that we get pagination and sorting.
+
   if (!tagData) return notFound();
 
   return (

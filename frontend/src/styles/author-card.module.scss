@@ -1,0 +1,93 @@
+@import 'mantine';
+
+.card {
+  background-color: transparent;
+  container: author_card / inline-size;
+  overflow: visible;
+}
+
+.cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(20);
+}
+
+.avatar {
+  display: block;
+  width: rem(140);
+  height: rem(140);
+  overflow: hidden;
+  border-radius: 50%;
+
+  .image {
+    width: 100%;
+    height: auto;
+  }
+
+  .default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    background-color: var(--mantine-color-gray-0);
+    border: rem(4) solid var(--mantine-color-gray-3);
+    border-radius: 50%;
+
+    svg {
+      color: var(--mantine-color-gray-5);
+    }
+  }
+}
+
+.name {
+  text-align: center;
+  font-size: rem(18);
+  margin-bottom: rem(4);
+}
+
+.joined {
+  text-align: center;
+  font-size: rem(14);
+  color: var(--mantine-color-dark-3);
+  @media (min-width: rem(480)) {
+    font-size: rem(15);
+  }
+  @include dark {
+    color: var(--mantine-color-dark-2);
+  }
+}
+
+.socials {
+  padding: rem(8) 0;
+
+  .icon {
+
+  }
+}
+
+.articles {
+  .total {
+    font-size: rem(14);
+    color: var(--mantine-color-dark-3);
+    transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
+    @media (min-width: rem(480)) {
+      font-size: rem(15);
+    }
+    @include dark {
+      color: var(--mantine-color-dark-2);
+    }
+
+    &:hover {
+      color: var(--mantine-color-dark-5);
+      @include dark {
+        color: var(--mantine-color-dark-0);
+      }
+    }
+  }
+
+  .button {
+
+  }
+}

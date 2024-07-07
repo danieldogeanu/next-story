@@ -14,6 +14,7 @@ export interface AuthorCardProps {
   data: SingleAuthor;
 }
 
+// TODO: Fix these types, because they break if a property is undefined.
 type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
 type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
 type AuthorSocialEntry = AuthorSocials[number] & {id: number};

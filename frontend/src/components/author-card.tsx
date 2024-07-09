@@ -1,7 +1,7 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
 import path from 'node:path';
-import { ActionIcon, Box, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
+import { Box, Button, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { IconArrowNarrowRight, IconUser } from '@tabler/icons-react';
 import { SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
@@ -82,23 +82,21 @@ export default function AuthorCard({data}: AuthorCardProps) {
         })}
       </Group>
 
-      <Group className={styles.articles} justify='space-between'>
-        <Text 
-          className={styles.total}
-          component={Link}
-          href={authorHref}
-          title='Articles Number'>
-          {authorArticlesNumber} {(authorArticlesNumber === 1) ? 'Article' : 'Articles'}
-        </Text>
-        <ActionIcon 
+      <Group className={styles.articles} justify='center'>
+        <Button
           className={styles.button}
           component={Link}
           href={authorHref}
           title={authorLabel}
-          aria-label={authorLabel}
-          size='lg' variant='subtle'>
-          <IconArrowNarrowRight size={24} stroke={1.5} />
-        </ActionIcon>
+          variant='subtle'
+          color='dark'
+          size='md'
+          radius='xl'
+          rightSection={
+            <IconArrowNarrowRight size={24} stroke={1.5} />
+          }>
+          {authorArticlesNumber} {(authorArticlesNumber === 1) ? 'Article' : 'Articles'}
+        </Button>
       </Group>
 
     </Card>

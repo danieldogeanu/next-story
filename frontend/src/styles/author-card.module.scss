@@ -4,6 +4,11 @@
   background-color: transparent;
   container: author_card / inline-size;
   overflow: visible;
+
+  // Arrow right hover effects.
+  &:hover .button:global(.mantine-Button-root) :global(.mantine-Button-section[data-position='right']) {
+    transform: translateX(0);
+  }
 }
 
 .cover {
@@ -68,13 +73,9 @@
 }
 
 .articles {
-  .total {
-    font-size: rem(14);
+  .button:global(.mantine-Button-root) {
+    font-weight: 400;
     color: var(--mantine-color-dark-3);
-    transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
-    @media (min-width: rem(480)) {
-      font-size: rem(15);
-    }
     @include dark {
       color: var(--mantine-color-dark-2);
     }
@@ -84,10 +85,17 @@
       @include dark {
         color: var(--mantine-color-dark-0);
       }
+
+      :global(.mantine-Button-section[data-position='right']) {
+        transform: translateX(0);
+      }
     }
   }
 
-  .button {
-
+  :global(.mantine-Button-section[data-position='right']) {
+    transition: transform 80ms var(--next-story-transition-easing);
+    color: var(--mantine-color-strawberry-pink-4);
+    transform: translateX(rem(-4));
   }
 }
+

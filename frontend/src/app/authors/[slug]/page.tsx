@@ -1,7 +1,10 @@
+import classNames from 'classnames';
 import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
 import { getAuthorsCollection } from '@/data/authors';
-import styles from '@/styles/page.module.scss';
+import { capitalize } from '@/utils/strings';
+import pageStyles from '@/styles/page.module.scss';
+import authorStyles from '@/styles/author-page.module.scss';
 
 export interface AuthorPageProps {
   params: {
@@ -17,11 +20,16 @@ export default async function AuthorPage({params}: AuthorPageProps) {
   if (!authorData) return notFound();
 
   return (
-    <main className={styles.main}>
-      <Title className={styles.pageTitle}>
-        Author: {authorData?.fullName}
-      </Title>
-      <p>{authorData?.biography}</p>
+    <main className={pageStyles.main}>
+
+      <section className={classNames(pageStyles.container, authorStyles.intro)}>
+
+        <Title className={pageStyles.pageTitle}>
+          {capitalize(authorData?.fullName) + '\'s'} Articles
+        </Title>
+        
+      </section>
+
     </main>
   );
 }

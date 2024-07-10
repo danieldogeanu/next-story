@@ -1,0 +1,8 @@
+@import 'mantine';
+
+section.intro {
+  margin-bottom: rem(40);
+  @media (min-width: rem(580)) {
+    margin-bottom: rem(60);
+  }
+}

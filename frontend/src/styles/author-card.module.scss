@@ -1,11 +1,14 @@
 @import 'mantine';
 
 .card {
+  --trans-timing: var(--next-story-transition-timing);
+  --trans-easing: var(--next-story-transition-easing);
+
   background-color: transparent;
   container: author_card / inline-size;
   overflow: visible;
 
-  // Avatar image hover effects.
+  // Author Card hover effects.
   &:hover {
     .avatar {
       box-shadow: var(--mantine-shadow-md);
@@ -22,11 +25,12 @@
         }
       }
     }
-  }
 
-  // Arrow right hover effects.
-  &:hover .button:global(.mantine-Button-root) :global(.mantine-Button-section[data-position='right']) {
-    transform: translateX(0);
+    .button:global(.mantine-Button-root) {
+      :global(.mantine-Button-section[data-position='right']) {
+        transform: translateX(0);
+      }
+    }
   }
 }
 
@@ -44,7 +48,7 @@
   height: rem(140);
   overflow: hidden;
   border-radius: 50%;
-  transition: box-shadow var(--next-story-transition-timing) var(--next-story-transition-easing);
+  transition: box-shadow var(--trans-timing) var(--trans-easing);
 
   .preview {
     position: absolute;
@@ -54,7 +58,7 @@
     height: auto;
     z-index: 2;
     opacity: 0;
-    transition: opacity calc(var(--next-story-transition-timing) * 1.2) var(--next-story-transition-easing);
+    transition: opacity calc(var(--trans-timing) * 1.2) var(--trans-easing);
     color: var(--mantine-color-white);
     @include dark {
       color: var(--mantine-color-black);
@@ -69,7 +73,7 @@
     z-index: 1;
 
     &:global(.mantine-Image-root) {
-      transition: all var(--next-story-transition-timing) var(--next-story-transition-easing);
+      transition: all var(--trans-timing) var(--trans-easing);
     }
   }
 
@@ -132,7 +136,7 @@
   }
 
   :global(.mantine-Button-section[data-position='right']) {
-    transition: transform 80ms var(--next-story-transition-easing);
+    transition: transform 80ms var(--trans-easing);
     color: var(--mantine-color-strawberry-pink-4);
     transform: translateX(rem(-4));
   }

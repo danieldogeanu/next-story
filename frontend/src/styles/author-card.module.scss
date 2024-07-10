@@ -10,6 +10,10 @@
     .avatar {
       box-shadow: var(--mantine-shadow-md);
 
+      .preview {
+        opacity: 0.5;
+      }
+
       :global(.mantine-Image-root) {
         filter: brightness(75%) contrast(150%);
         transform: scale(102%);
@@ -35,15 +39,34 @@
 
 .avatar {
   display: block;
+  position: relative;
   width: rem(140);
   height: rem(140);
   overflow: hidden;
   border-radius: 50%;
   transition: box-shadow var(--next-story-transition-timing) var(--next-story-transition-easing);
 
+  .preview {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity calc(var(--next-story-transition-timing) * 1.2) var(--next-story-transition-easing);
+    color: var(--mantine-color-white);
+    @include dark {
+      color: var(--mantine-color-black);
+    }
+  }
+
   .image {
+    position: absolute;
+    top: 0; left: 0;
     width: 100%;
     height: auto;
+    z-index: 1;
 
     &:global(.mantine-Image-root) {
       transition: all var(--next-story-transition-timing) var(--next-story-transition-easing);

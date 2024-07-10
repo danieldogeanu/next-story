@@ -2,7 +2,7 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import path from 'node:path';
 import { Box, Button, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
-import { IconArrowNarrowRight, IconUser } from '@tabler/icons-react';
+import { IconArrowNarrowRight, IconEyeFilled, IconUser } from '@tabler/icons-react';
 import { SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
@@ -42,6 +42,7 @@ export default function AuthorCard({data}: AuthorCardProps) {
           component={Link}
           href={authorHref}
           title={authorLabel}>
+          <IconEyeFilled className={styles.preview} size={60} />
           {(authorAvatar && authorAvatarUrl) ?
             <Image
               className={styles.image}

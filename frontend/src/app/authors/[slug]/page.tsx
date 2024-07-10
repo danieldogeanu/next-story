@@ -4,6 +4,7 @@ import { Title } from '@mantine/core';
 import { getAuthorsCollection, SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
+import ArticleCard from '@/components/article-card';
 import pageStyles from '@/styles/page.module.scss';
 import authorStyles from '@/styles/author-page.module.scss';
 
@@ -47,6 +48,12 @@ export default async function AuthorPage({params}: AuthorPageProps) {
           {capitalize(authorData?.fullName) + '\'s'} Articles
         </Title>
 
+      </section>
+
+      <section className={pageStyles.grid}>
+        {authorArticlesData?.map((article) => {
+          return <ArticleCard key={article.id} data={article.attributes} />
+        })}
       </section>
 
     </main>

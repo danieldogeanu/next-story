@@ -1,4 +1,5 @@
-import { Attribute } from "@strapi/strapi";
+import { Attribute } from '@strapi/strapi';
+import { getSiteLang } from '@/utils/env';
 
 /**
  * Converts an ISO date string to Unix time string.
@@ -47,4 +48,42 @@ export function convertToReadableDate(isoDate: Attribute.DateTimeValue | undefin
   const longDate = (new Date(isoDate?.toString() as string)).toDateString().replace(/(\s)(?!.*\s)/, ', ');
   const shortDate = (new Date(isoDate?.toString() as string)).toLocaleDateString('en-US');
   return (format && format === 'short') ? shortDate : longDate;
+}
+
+/**
+ * Converts an ISO date string to a human-readable relative time format (e.g., '3 days ago').
+ *
+ * @param {Attribute.DateTimeValue | undefined} isoDate - The ISO date string to convert.
+ * @returns {string} A string representing the relative time from the given date to now.
+ *
+ * @example
+ * // Convert an ISO date to a relative date.
+ * convertToRelativeDate('2023-06-01T12:00:00Z'); // 3 days ago
+ */
+export function convertToRelativeDate(isoDate: Attribute.DateTimeValue | undefined): string {
+  // Extract a usable date from the isoDate.
+  const date = new Date(isoDate?.toString() as string);
+
+  // Convert it to milliseconds (Unix time).
+  const timeMs = date.getTime();
+
+  // Get the amount of seconds between the given date and now.
+  const deltaSeconds = Math.round((timeMs - Date.now()) / 1000);
+
+  // Array reprsenting one minute, hour, day, week, month, etc in seconds.
+  const cutoffs = [60, 3600, 86400, 86400 * 7, 86400 * 30, 86400 * 365, Infinity];
+
+  // Array equivalent to the above but in the string representation of the units.
+  const units: Intl.RelativeTimeFormatUnit[] = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
+
+  // Grab the ideal cutoff unit.
+  const unitIndex = cutoffs.findIndex(cutoff => cutoff > Math.abs(deltaSeconds));
+
+  // Get the divisor to divide from the seconds. E.g. if our unit is 'day' our divisor
+  // is one day in seconds, so we can divide our seconds by this to get the number of days.
+  const divisor = unitIndex ? cutoffs[unitIndex - 1] : 1;
+
+  // Return the formated relative time.
+  const rtf = new Intl.RelativeTimeFormat(getSiteLang(), {numeric: 'auto'});
+  return rtf.format(Math.floor(deltaSeconds / divisor), units[unitIndex]);
 }

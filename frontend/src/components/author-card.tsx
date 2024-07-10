@@ -6,7 +6,7 @@ import { IconArrowNarrowRight, IconUser } from '@tabler/icons-react';
 import { SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
-import { convertToReadableDate } from '@/utils/date';
+import { convertToRelativeDate } from '@/utils/date';
 import SocialIcon from '@/components/social-icon';
 import styles from '@/styles/author-card.module.scss';
 
@@ -65,7 +65,7 @@ export default function AuthorCard({data}: AuthorCardProps) {
       </Link>
 
       <Text className={styles.joined} title='Date Joined'>
-        Joined {convertToReadableDate(data.publishedAt, 'long')}
+        Joined {capitalize(convertToRelativeDate(data.publishedAt))}
       </Text>
 
       <Group className={styles.socials} justify='center'>

@@ -70,17 +70,15 @@ export default function AuthorCard({data}: AuthorCardProps) {
       </Text>
 
       <Group className={styles.socials} justify='center'>
-        {(authorSocials && authorSocials.length > 0) && authorSocials.map((social) => {
-          return (
-            <SocialIcon
-              key={social.id}
-              href={social.link}
-              label={social.label}
-              icon={social.icon || 'IconCircleX'}
-              className={styles.icon}
-              color='dark' />
-          );
-        })}
+        {(authorSocials && authorSocials.length > 0) && authorSocials.map((social) => (
+          <SocialIcon
+            key={social.id}
+            href={social.link}
+            label={social.label}
+            icon={social.icon || 'IconCircleX'}
+            className={styles.icon}
+            color='dark' />
+        ))}
       </Group>
 
       <Group className={styles.articles} justify='center'>

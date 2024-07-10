@@ -45,8 +45,10 @@ export function convertToISODate(unixDate: string): string {
  * convertToReadableDate('2024-06-07T10:20:30Z', 'short'); // 6/7/2024
  */
 export function convertToReadableDate(isoDate: Attribute.DateTimeValue | undefined, format?: 'long' | 'short'): string {
-  const longDate = (new Date(isoDate?.toString() as string)).toDateString().replace(/(\s)(?!.*\s)/, ', ');
-  const shortDate = (new Date(isoDate?.toString() as string)).toLocaleDateString('en-US');
+  const date = new Date(isoDate?.toString() as string);
+  const longOptions: Intl.DateTimeFormatOptions = {weekday: 'short', month: 'short', day: '2-digit', year: 'numeric'};
+  const longDate = new Intl.DateTimeFormat('en-US', longOptions).format(date);
+  const shortDate = date.toLocaleDateString('en-US');
   return (format && format === 'short') ? shortDate : longDate;
 }
 

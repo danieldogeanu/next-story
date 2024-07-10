@@ -5,6 +5,21 @@
   container: author_card / inline-size;
   overflow: visible;
 
+  // Avatar image hover effects.
+  &:hover {
+    .avatar {
+      box-shadow: var(--mantine-shadow-md);
+
+      :global(.mantine-Image-root) {
+        filter: brightness(75%) contrast(150%);
+        transform: scale(102%);
+        @include dark {
+          filter: brightness(120%) contrast(120%);
+        }
+      }
+    }
+  }
+
   // Arrow right hover effects.
   &:hover .button:global(.mantine-Button-root) :global(.mantine-Button-section[data-position='right']) {
     transform: translateX(0);
@@ -24,10 +39,15 @@
   height: rem(140);
   overflow: hidden;
   border-radius: 50%;
+  transition: box-shadow var(--next-story-transition-timing) var(--next-story-transition-easing);
 
   .image {
     width: 100%;
     height: auto;
+
+    &:global(.mantine-Image-root) {
+      transition: all var(--next-story-transition-timing) var(--next-story-transition-easing);
+    }
   }
 
   .default {

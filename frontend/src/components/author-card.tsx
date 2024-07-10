@@ -18,7 +18,7 @@ export interface AuthorCardProps {
 type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
 type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
 type AuthorSocialEntry = AuthorSocials[number] & {id: number};
-type AuthorArticles = NonNullable<SingleAuthor['articles']>['data'];
+type AuthorArticlesData = NonNullable<SingleAuthor['articles']>['data'];
 
 export default function AuthorCard({data}: AuthorCardProps) {
   const authorHref = path.join('/authors', data.slug);
@@ -26,8 +26,8 @@ export default function AuthorCard({data}: AuthorCardProps) {
   const authorAvatarFormats = JSON.parse(JSON.stringify(authorAvatar?.formats));
   const authorAvatarUrl = getFileURL(authorAvatarFormats.small.url);
   const authorSocials = data.socialNetworks as unknown as AuthorSocialEntry[];
-  const authorArticles = data.articles?.data as AuthorArticles;
-  const authorArticlesNumber = (authorArticles && authorArticles.length) ? authorArticles.length : 0;
+  const authorArticlesData = data.articles?.data as AuthorArticlesData;
+  const authorArticlesNumber = (authorArticlesData && authorArticlesData.length) ? authorArticlesData.length : 0;
   const authorLabel = `See ${capitalize(data.fullName)}'s Articles`;
 
   return (

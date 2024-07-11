@@ -9,15 +9,34 @@ section.intro {
 
 .author {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: 1fr;
   grid-template-rows: auto;
-  gap: rem(40);
+  gap: 0;
   width: 100%;
-  padding: rem(32) rem(40);
-  background-color: var(--mantine-color-gray-1);
   border-radius: var(--mantine-radius-lg);
+  background-color: var(--mantine-color-gray-1);
   @include dark {
     background-color: var(--mantine-color-gray-8);
+  }
+
+  @media (min-width: rem(720)) {
+    grid-template-columns: auto 1fr;
+  }
+
+  @media (min-width: rem(820)) {
+    gap: rem(32);
+    background-color: transparent;
+    @include dark {
+      background-color: transparent;
+    }
+  }
+
+  @media (min-width: rem(1024)) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: rem(1392)) {
+    grid-template-columns: repeat(4, 1fr);
   }
 
   .left {
@@ -25,6 +44,24 @@ section.intro {
     flex-direction: column;
     align-items: center;
     gap: rem(8);
+    padding: rem(24) rem(24) rem(16) rem(24);
+    border-radius: var(--mantine-radius-lg);
+    background-color: var(--mantine-color-gray-1);
+    @include dark {
+      background-color: var(--mantine-color-gray-8);
+    }
+
+    @media (min-width: rem(480)) {
+      padding: rem(32) rem(40) rem(16) rem(40);
+    }
+
+    @media (min-width: rem(720)) {
+      padding: rem(32) rem(20) rem(32) rem(40);
+    }
+
+    @media (min-width: rem(820)) {
+      padding: rem(32) rem(40);
+    }
   }
 
   .right {
@@ -32,10 +69,31 @@ section.intro {
     flex-direction: column;
     align-items: start;
     gap: rem(16);
-    padding-left: rem(60);
-    border-left: rem(1) solid var(--mantine-color-gray-3);
+    padding: rem(16) rem(24) rem(24) rem(24);
+    border-radius: var(--mantine-radius-lg);
+    background-color: var(--mantine-color-gray-1);
     @include dark {
-      border-left: rem(1) solid var(--mantine-color-gray-7);
+      background-color: var(--mantine-color-gray-8);
+    }
+
+    @media (min-width: rem(480)) {
+      padding: rem(16) rem(40) rem(32) rem(40);
+    }
+
+    @media (min-width: rem(720)) {
+      padding: rem(32) rem(40) rem(32) rem(20);
+    }
+
+    @media (min-width: rem(820)) {
+      padding: rem(32) rem(40);
+    }
+
+    @media (min-width: rem(1024)) {
+      grid-column: 2 / span 2;
+    }
+
+    @media (min-width: rem(1392)) {
+      grid-column: 2 / span 3;
     }
   }
 }
@@ -64,6 +122,15 @@ section.intro {
   }
   @include dark {
     color: var(--mantine-color-dark-2);
+  }
+}
+
+.name {
+  display: block;
+  text-align: center;
+  width: 100%;
+  @media (min-width: rem(720)) {
+    text-align: left;
   }
 }
 

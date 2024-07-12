@@ -126,10 +126,14 @@ section.intro {
   }
 }
 
-.socials:global(.mantine-Group-root) {
-  --group-gap: var(--mantine-spacing-xs) !important;
-  @media (min-width: rem(1070)) {
-    --group-gap: var(--mantine-spacing-md) !important;
+.socials {
+  max-width: rem(260);
+
+  &:global(.mantine-Group-root) {
+    --group-gap: var(--mantine-spacing-xs) !important;
+    @media (min-width: rem(1070)) {
+      --group-gap: var(--mantine-spacing-md) !important;
+    }
   }
 }
 

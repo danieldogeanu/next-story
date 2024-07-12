@@ -70,7 +70,7 @@ export default function AuthorCard({data}: AuthorCardProps) {
       </Text>
 
       <Group className={styles.socials} justify='center'>
-        {(authorSocials && authorSocials.length > 0) && authorSocials.map((social) => (
+        {(authorSocials && authorSocials.length > 0) && authorSocials.slice(0, 4).map((social) => (
           <SocialIcon
             key={social.id}
             href={social.link}

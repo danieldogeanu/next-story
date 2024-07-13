@@ -33,9 +33,9 @@ export default async function AuthorPage({params}: AuthorPageProps) {
       seo: { populate: '*' },
     },
   })).data.pop()?.attributes;
-  const authorAvatar = authorData?.avatar?.data.attributes as AuthorAvatar;
-  const authorAvatarFormats = JSON.parse(JSON.stringify(authorAvatar?.formats));
-  const authorAvatarUrl = getFileURL(authorAvatarFormats.small.url);
+  const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
+  const authorAvatarFormats = JSON.parse(JSON.stringify(authorAvatar?.formats || ''));
+  const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
   const authorSocials = authorData?.socialNetworks as unknown as AuthorSocialEntry[];
   const authorArticlesData = authorData?.articles?.data as AuthorArticlesData;
   const authorArticlesNumber = (authorArticlesData && authorArticlesData.length) ? authorArticlesData.length : 0;

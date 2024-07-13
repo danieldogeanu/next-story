@@ -3,6 +3,7 @@ import classNames from 'classnames';
 import { notFound } from 'next/navigation';
 import { IconUser } from '@tabler/icons-react';
 import { Box, Group, Image, Text, Title } from '@mantine/core';
+import { StrapiImageFormats } from '@/types/strapi';
 import { getAuthorsCollection, SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
@@ -18,7 +19,6 @@ export interface AuthorPageProps {
   };
 }
 
-// TODO: Fix these types, because they break if a property is undefined.
 type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
 type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
 type AuthorSocialEntry = AuthorSocials[number] & {id: number};
@@ -35,7 +35,7 @@ export default async function AuthorPage({params}: AuthorPageProps) {
     },
   })).data.pop()?.attributes;
   const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
-  const authorAvatarFormats = JSON.parse(JSON.stringify(authorAvatar?.formats || ''));
+  const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
   const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
   const authorSocials = authorData?.socialNetworks as unknown as AuthorSocialEntry[];
   const authorArticlesData = authorData?.articles?.data as AuthorArticlesData;
@@ -62,8 +62,8 @@ export default async function AuthorPage({params}: AuthorPageProps) {
                   className={authorStyles.image}
                   component={NextImage}
                   src={authorAvatarUrl}
-                  width={authorAvatarFormats.small.width}
-                  height={authorAvatarFormats.small.height}
+                  width={authorAvatarFormats.small?.width}
+                  height={authorAvatarFormats.small?.height}
                   alt={authorAvatar?.alternativeText || 'No Description'} />
                 :  
                 <Box className={authorStyles.default}>

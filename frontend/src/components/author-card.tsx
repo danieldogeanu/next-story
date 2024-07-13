@@ -3,6 +3,7 @@ import Link from 'next/link';
 import path from 'node:path';
 import { Box, Button, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { IconArrowNarrowRight, IconEyeFilled, IconUser } from '@tabler/icons-react';
+import { StrapiImageFormats } from '@/types/strapi';
 import { SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
@@ -14,7 +15,6 @@ export interface AuthorCardProps {
   data: SingleAuthor;
 }
 
-// TODO: Fix these types, because they break if a property is undefined.
 type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
 type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
 type AuthorSocialEntry = AuthorSocials[number] & {id: number};
@@ -23,7 +23,7 @@ type AuthorArticlesData = NonNullable<SingleAuthor['articles']>['data'];
 export default function AuthorCard({data}: AuthorCardProps) {
   const authorHref = path.join('/authors', data.slug);
   const authorAvatar = data?.avatar?.data?.attributes as AuthorAvatar;
-  const authorAvatarFormats = JSON.parse(JSON.stringify(authorAvatar?.formats || ''));
+  const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
   const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
   const authorSocials = data.socialNetworks as unknown as AuthorSocialEntry[];
   const authorArticlesData = data.articles?.data as AuthorArticlesData;
@@ -48,8 +48,8 @@ export default function AuthorCard({data}: AuthorCardProps) {
               className={styles.image}
               component={NextImage}
               src={authorAvatarUrl}
-              width={authorAvatarFormats.small.width}
-              height={authorAvatarFormats.small.height}
+              width={authorAvatarFormats.small?.width}
+              height={authorAvatarFormats.small?.height}
               alt={authorAvatar?.alternativeText || 'No Description'} />
             :  
             <Box className={styles.default}>

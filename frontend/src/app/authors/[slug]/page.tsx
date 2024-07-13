@@ -1,6 +1,7 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
 import { notFound } from 'next/navigation';
+import { IconUser } from '@tabler/icons-react';
 import { Box, Group, Image, Text, Title } from '@mantine/core';
 import { getAuthorsCollection, SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
@@ -56,13 +57,19 @@ export default async function AuthorPage({params}: AuthorPageProps) {
           <Box className={authorStyles.left}>
 
             <Box className={authorStyles.avatar}>
-              <Image
-                className={authorStyles.image}
-                component={NextImage}
-                src={authorAvatarUrl}
-                width={authorAvatarFormats.small.width}
-                height={authorAvatarFormats.small.height}
-                alt={authorAvatar?.alternativeText || 'No Description'} />
+              {(authorAvatar && authorAvatarUrl) ?
+                <Image
+                  className={authorStyles.image}
+                  component={NextImage}
+                  src={authorAvatarUrl}
+                  width={authorAvatarFormats.small.width}
+                  height={authorAvatarFormats.small.height}
+                  alt={authorAvatar?.alternativeText || 'No Description'} />
+                :  
+                <Box className={authorStyles.default}>
+                  <IconUser size={100} stroke={1} />
+                </Box>
+              }
             </Box>
 
             <Text className={authorStyles.joined} title='Date Joined'>

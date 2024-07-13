@@ -22,9 +22,9 @@ type AuthorArticlesData = NonNullable<SingleAuthor['articles']>['data'];
 
 export default function AuthorCard({data}: AuthorCardProps) {
   const authorHref = path.join('/authors', data.slug);
-  const authorAvatar = data?.avatar?.data.attributes as AuthorAvatar;
-  const authorAvatarFormats = JSON.parse(JSON.stringify(authorAvatar?.formats));
-  const authorAvatarUrl = getFileURL(authorAvatarFormats.small.url);
+  const authorAvatar = data?.avatar?.data?.attributes as AuthorAvatar;
+  const authorAvatarFormats = JSON.parse(JSON.stringify(authorAvatar?.formats || ''));
+  const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
   const authorSocials = data.socialNetworks as unknown as AuthorSocialEntry[];
   const authorArticlesData = data.articles?.data as AuthorArticlesData;
   const authorArticlesNumber = (authorArticlesData && authorArticlesData.length) ? authorArticlesData.length : 0;

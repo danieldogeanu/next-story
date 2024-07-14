@@ -10,6 +10,11 @@ export interface SingleCategoryResponse extends APIResponse<'api::category.categ
 
 export interface CategoriesCollectionResponse extends APIResponseCollection<'api::category.category'> {}
 
+// Extract smaller subtypes that can be used to further work with data.
+export type CategoryCover = NonNullable<SingleCategory['cover']>['data']['attributes'];
+export type CategorySEO = NonNullable<SingleCategory['seo']>;
+export type CategoryArticles = NonNullable<SingleCategory['articles']>['data'];
+
 /**
  * Fetches a single category from the Strapi backend by their ID.
  *

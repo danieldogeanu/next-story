@@ -2,7 +2,8 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import path from 'node:path';
 import { Box, Card, CardSection, Image, Title } from '@mantine/core';
-import { SingleCategory } from '@/data/categories';
+import { CategoryCover, SingleCategory } from '@/data/categories';
+import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
 import styles from '@/styles/category-card.module.scss';
@@ -13,9 +14,11 @@ export interface CategoryCardProps {
 
 export default function CategoryCard({data}: CategoryCardProps) {
   const categoryHref = path.join('/categories', data.slug);
-  const categoryCover = data?.cover?.data.attributes;
-  const categoryCoverFormats = JSON.parse(JSON.stringify(categoryCover?.formats));
-  const categoryCoverUrl = getFileURL(categoryCoverFormats.small.url);
+  const categoryCover = data?.cover?.data?.attributes as CategoryCover;
+  const categoryCoverFormats = categoryCover?.formats as unknown as StrapiImageFormats;
+  const categoryCoverUrl = (categoryCoverFormats?.small?.url) ? getFileURL(categoryCoverFormats.small.url) : '';
+
+  // TODO: Add image fallback in case the `categoryCoverUrl` is undefined.
   
   return (
     <Card
@@ -35,9 +38,9 @@ export default function CategoryCard({data}: CategoryCardProps) {
           <Image
             component={NextImage}
             src={categoryCoverUrl}
-            width={categoryCoverFormats.small.width}
-            height={categoryCoverFormats.small.height}
-            alt={categoryCover?.alternativeText || 'No Description'}
+            width={categoryCoverFormats?.small?.width}
+            height={categoryCoverFormats?.small?.height}
+            alt={categoryCover?.alternativeText || ''}
             h={140} radius='md' />
         </Box>
       </CardSection>

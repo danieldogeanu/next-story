@@ -10,6 +10,13 @@ export interface SinglePageResponse extends APIResponse<'api::page.page'> {}
 
 export interface PagesCollectionResponse extends APIResponseCollection<'api::page.page'> {}
 
+// Extract smaller subtypes that can be used to further work with data.
+export type PageContent = NonNullable<SinglePage['content']>;
+export type PageCover = NonNullable<SinglePage['cover']>['data']['attributes'];
+export type PageParent = NonNullable<SinglePage['parent']>['data']['attributes'];
+export type PageChildren = NonNullable<SinglePage['children']>['data'];
+export type PageSEO = NonNullable<SinglePage['seo']>;
+
 /**
  * Fetches a single page from the Strapi backend by their ID.
  *

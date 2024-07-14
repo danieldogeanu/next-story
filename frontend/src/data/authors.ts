@@ -14,7 +14,7 @@ export interface AuthorsCollectionResponse extends APIResponseCollection<'api::a
 export type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
 export type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
 export type AuthorSocialEntry = AuthorSocials[number] & IDProperty;
-export type AuthorArticlesData = NonNullable<SingleAuthor['articles']>['data'];
+export type AuthorArticles = NonNullable<SingleAuthor['articles']>['data'];
 export type AuthorSEO = NonNullable<SingleAuthor['seo']>;
 
 /**

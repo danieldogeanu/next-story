@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { IconUser } from '@tabler/icons-react';
 import { Box, Group, Image, Text, Title } from '@mantine/core';
 import { StrapiImageFormats } from '@/types/strapi';
-import { AuthorArticlesData, AuthorAvatar, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
+import { AuthorArticles, AuthorAvatar, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
@@ -33,8 +33,8 @@ export default async function AuthorPage({params}: AuthorPageProps) {
   const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
   const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
   const authorSocials = authorData?.socialNetworks as unknown as AuthorSocialEntry[];
-  const authorArticlesData = authorData?.articles?.data as AuthorArticlesData;
-  const authorArticlesNumber = (authorArticlesData && authorArticlesData.length) ? authorArticlesData.length : 0;
+  const authorArticles = authorData?.articles?.data as AuthorArticles;
+  const authorArticlesNumber = (authorArticles && authorArticles.length) ? authorArticles.length : 0;
 
   if (!authorData) return notFound();
 
@@ -108,7 +108,7 @@ export default async function AuthorPage({params}: AuthorPageProps) {
       </section>
 
       <section className={pageStyles.grid}>
-        {authorArticlesData?.map((article) => {
+        {authorArticles?.map((article) => {
           return <ArticleCard key={article.id} data={article.attributes} />
         })}
       </section>

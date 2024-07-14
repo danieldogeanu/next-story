@@ -4,7 +4,7 @@ import path from 'node:path';
 import { Box, Button, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { IconArrowNarrowRight, IconEyeFilled, IconUser } from '@tabler/icons-react';
 import { StrapiImageFormats } from '@/types/strapi';
-import { AuthorArticlesData, AuthorAvatar, AuthorSocialEntry, SingleAuthor } from '@/data/authors';
+import { AuthorArticles, AuthorAvatar, AuthorSocialEntry, SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
@@ -21,8 +21,8 @@ export default function AuthorCard({data}: AuthorCardProps) {
   const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
   const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
   const authorSocials = data.socialNetworks as unknown as AuthorSocialEntry[];
-  const authorArticlesData = data.articles?.data as AuthorArticlesData;
-  const authorArticlesNumber = (authorArticlesData && authorArticlesData.length) ? authorArticlesData.length : 0;
+  const authorArticles = data.articles?.data as AuthorArticles;
+  const authorArticlesNumber = (authorArticles && authorArticles.length) ? authorArticles.length : 0;
   const authorLabel = `See ${capitalize(data.fullName)}'s Articles`;
 
   return (

@@ -10,6 +10,16 @@ export interface SingleArticleResponse extends APIResponse<'api::article.article
 
 export interface ArticlesCollectionResponse extends APIResponseCollection<'api::article.article'> {}
 
+// Extract smaller subtypes that can be used to further work with data.
+// TODO: Figure out `content` and `comments` subtype for articles data type.
+export type ArticleContent = NonNullable<SingleArticle['content']>;
+export type ArticleCommentsSettings = NonNullable<SingleArticle['comments']>;
+export type ArticleCover = NonNullable<SingleArticle['cover']>['data']['attributes'];
+export type ArticleCategory = NonNullable<SingleArticle['category']>['data']['attributes'];
+export type ArticleTags = NonNullable<SingleArticle['tags']>['data'];
+export type ArticleAuthor = NonNullable<SingleArticle['author']>['data']['attributes'];
+export type ArticleSEO = NonNullable<SingleArticle['seo']>;
+
 /**
  * Fetches a single article from the Strapi backend by its ID.
  *

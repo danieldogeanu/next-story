@@ -1,4 +1,5 @@
 import type { Attribute, Common, Utils } from '@strapi/strapi';
+export type * from '@/types/strapi/static';
 
 /**
  * These types were added here from this Strapi tutorial:
@@ -133,30 +134,3 @@ export interface APIResponseCollection<TContentTypeUID extends Common.UID.Conten
 }
 
 export type APIResponseArray<TContentTypeUID extends Common.UID.ContentType> = GetValues<TContentTypeUID>[];
-
-
-// Static Strapi Types
-// -----------------------------------------------------------------------------
-
-// We use a static interface for Strapi image formats because the `formats` object
-// is of type `JsonValue | undefined`, and it can't be inferred by TypeScript.
-
-export interface StrapiImageFormat {
-  ext: string;
-  url: string;
-  hash: string;
-  mime: string;
-  name: string;
-  path: string | null;
-  size: number;
-  width: number;
-  height: number;
-  sizeInBytes: number;
-}
-
-export interface StrapiImageFormats {
-  thumbnail?: StrapiImageFormat;
-  small?: StrapiImageFormat;
-  medium?: StrapiImageFormat;
-  large?: StrapiImageFormat;
-}

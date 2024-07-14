@@ -59,7 +59,7 @@ export default async function AuthorPage({params}: AuthorPageProps) {
                   src={authorAvatarUrl}
                   width={authorAvatarFormats.small?.width}
                   height={authorAvatarFormats.small?.height}
-                  alt={authorAvatar?.alternativeText || 'No Description'} />
+                  alt={authorAvatar?.alternativeText || ''} />
                 :  
                 <Box className={authorStyles.default}>
                   <IconUser size={100} stroke={1} />

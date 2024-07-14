@@ -45,7 +45,7 @@ export default function AuthorCard({data}: AuthorCardProps) {
               src={authorAvatarUrl}
               width={authorAvatarFormats.small?.width}
               height={authorAvatarFormats.small?.height}
-              alt={authorAvatar?.alternativeText || 'No Description'} />
+              alt={authorAvatar?.alternativeText || ''} />
             :  
             <Box className={styles.default}>
               <IconUser size={80} stroke={1.25} />

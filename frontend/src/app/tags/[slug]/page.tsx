@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
-import { getTagsCollection } from '@/data/tags';
+import { getTagsCollection, TagArticles } from '@/data/tags';
 import ArticleCard from '@/components/article-card';
 import SortBar from '@/components/sort-bar';
 import styles from '@/styles/page.module.scss';
@@ -17,7 +17,7 @@ export default async function TagPage({params}: TagPageProps) {
     filters: { slug: { $eq: params.slug } },
     populate: { articles: { populate: '*' } },
   })).data.pop()?.attributes;
-  const articlesData = tagData?.articles?.data;
+  const articlesData = tagData?.articles?.data as TagArticles;
 
   // TODO: Remove populate for articles in this request, and do a separate request and use filters instead, so that we get pagination and sorting.
 

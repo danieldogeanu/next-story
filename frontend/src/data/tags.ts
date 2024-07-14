@@ -10,6 +10,9 @@ export interface SingleTagResponse extends APIResponse<'api::tag.tag'> {}
 
 export interface TagsCollectionResponse extends APIResponseCollection<'api::tag.tag'> {}
 
+// Extract smaller subtypes that can be used to further work with data.
+export type TagArticles = NonNullable<SingleTag['articles']>['data'];
+
 /**
  * Fetches a single tag from the Strapi backend by their ID.
  *

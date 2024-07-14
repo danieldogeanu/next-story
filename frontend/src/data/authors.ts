@@ -1,5 +1,5 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/env';
 import buildTimeAuthors from '@build-data/authors.json';
@@ -9,6 +9,13 @@ export interface SingleAuthor extends GetValues<'api::author.author'> {}
 export interface SingleAuthorResponse extends APIResponse<'api::author.author'> {}
 
 export interface AuthorsCollectionResponse extends APIResponseCollection<'api::author.author'> {}
+
+// Extract smaller subtypes that can be used to further work with data.
+export type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
+export type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
+export type AuthorSocialEntry = AuthorSocials[number] & IDProperty;
+export type AuthorArticlesData = NonNullable<SingleAuthor['articles']>['data'];
+export type AuthorSEO = NonNullable<SingleAuthor['seo']>;
 
 /**
  * Fetches a single author from the Strapi backend by their ID.

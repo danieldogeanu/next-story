@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { IconUser } from '@tabler/icons-react';
 import { Box, Group, Image, Text, Title } from '@mantine/core';
 import { StrapiImageFormats } from '@/types/strapi';
-import { getAuthorsCollection, SingleAuthor } from '@/data/authors';
+import { AuthorArticlesData, AuthorAvatar, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
@@ -18,11 +18,6 @@ export interface AuthorPageProps {
     slug: string;
   };
 }
-
-type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
-type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
-type AuthorSocialEntry = AuthorSocials[number] & {id: number};
-type AuthorArticlesData = NonNullable<SingleAuthor['articles']>['data'];
 
 export default async function AuthorPage({params}: AuthorPageProps) {
   const authorData = (await getAuthorsCollection({

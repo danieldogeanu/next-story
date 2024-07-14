@@ -4,7 +4,7 @@ import path from 'node:path';
 import { Box, Button, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { IconArrowNarrowRight, IconEyeFilled, IconUser } from '@tabler/icons-react';
 import { StrapiImageFormats } from '@/types/strapi';
-import { SingleAuthor } from '@/data/authors';
+import { AuthorArticlesData, AuthorAvatar, AuthorSocialEntry, SingleAuthor } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
@@ -14,11 +14,6 @@ import styles from '@/styles/author-card.module.scss';
 export interface AuthorCardProps {
   data: SingleAuthor;
 }
-
-type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
-type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
-type AuthorSocialEntry = AuthorSocials[number] & {id: number};
-type AuthorArticlesData = NonNullable<SingleAuthor['articles']>['data'];
 
 export default function AuthorCard({data}: AuthorCardProps) {
   const authorHref = path.join('/authors', data.slug);

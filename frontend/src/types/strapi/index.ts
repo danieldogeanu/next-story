@@ -9,7 +9,7 @@ export type * from '@/types/strapi/static';
  * https://gist.github.com/Convly/6cf1e6d143bb0a90c8de2242fdedda8e
  */
 
-type IDProperty = { id: number };
+export type IDProperty = { id: number };
 
 type InvalidKeys<TSchemaUID extends Common.UID.Schema> = Utils.Object.KeysBy<
   Attribute.GetAll<TSchemaUID>,

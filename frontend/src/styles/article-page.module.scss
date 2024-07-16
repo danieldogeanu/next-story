@@ -4,6 +4,7 @@
   --mantine-h1-font-size: rem(28);
   text-transform: capitalize;
   text-align: center;
+  text-wrap: balance;
   margin-bottom: rem(20);
   @media (min-width: rem(580)) {
     --mantine-h1-font-size: rem(34);

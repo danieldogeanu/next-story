@@ -1,5 +1,16 @@
 @import 'mantine';
 
+.articleTitle {
+  --mantine-h1-font-size: rem(28);
+  text-transform: capitalize;
+  text-align: center;
+  margin-bottom: rem(8);
+  @media (min-width: rem(580)) {
+    --mantine-h1-font-size: rem(34);
+    margin-bottom: rem(12);
+  }
+}
+
 .meta {
   margin-bottom: rem(40);
   gap: rem(32);

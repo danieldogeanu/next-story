@@ -45,7 +45,7 @@ export default async function ArticlePage({params}: ArticlePageProps) {
 
         <header className={pageStyles.intro}>
 
-          <Title className={pageStyles.pageTitle}>
+          <Title className={articleStyles.articleTitle}>
             {articleData?.title}
           </Title>
 

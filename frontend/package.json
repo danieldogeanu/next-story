@@ -17,6 +17,7 @@
     "@mantine/modals": "^7.6.1",
     "@mantine/notifications": "^7.6.1",
     "@mantine/nprogress": "^7.6.1",
+    "@strapi/blocks-react-renderer": "^1.0.1",
     "@tabler/icons-react": "^2.47.0",
     "classnames": "^2.5.1",
     "next": "14.1.3",

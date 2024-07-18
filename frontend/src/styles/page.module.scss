@@ -88,7 +88,7 @@
     margin-right: auto;
     text-wrap: pretty;
     font-size: rem(18);
-    color: var(--mantine-color-dark-8);
+    color: var(--mantine-color-dark-7);
     @include dark {
       color: var(--mantine-color-dark-1);
     }
@@ -113,7 +113,7 @@
     li {
       text-wrap: pretty;
       font-size: rem(18);
-      color: var(--mantine-color-dark-8);
+      color: var(--mantine-color-dark-7);
       @include dark {
         color: var(--mantine-color-dark-1);
       }

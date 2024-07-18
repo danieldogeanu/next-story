@@ -5,12 +5,11 @@ import classNames from 'classnames';
 import { notFound } from 'next/navigation';
 import { Anchor, Box, Group, Image, Title } from '@mantine/core';
 import { IconCalendar, IconCategory, IconUser } from '@tabler/icons-react';
-import { ArticleAuthor, ArticleCategory, ArticleCover, getArticlesCollection } from '@/data/articles';
+import { ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, getArticlesCollection } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
 import { convertToISODate, convertToReadableDate } from '@/utils/date';
 import { capitalize } from '@/utils/strings';
 import { getFileURL } from '@/data/files';
-import { BlocksContent } from '@strapi/blocks-react-renderer';
 import ContentRenderer from '@/components/content-renderer';
 import pageStyles from '@/styles/page.module.scss';
 import articleStyles from '@/styles/article-page.module.scss';
@@ -37,7 +36,7 @@ export default async function ArticlePage({params}: ArticlePageProps) {
   const articleAuthorHref = path.join('/authors', articleAuthor.slug);
   const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
   const articleCategoryHref = path.join('/categories', articleCategory.slug);
-  const articleContent = articleData?.content as BlocksContent;
+  const articleContent = articleData?.content as ArticleContent;
 
   if (!articleData) return notFound();
 

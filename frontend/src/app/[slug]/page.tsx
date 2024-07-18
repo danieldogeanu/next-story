@@ -1,10 +1,9 @@
 import NextImage from 'next/image';
 import { notFound } from 'next/navigation';
 import { Box, Image, Title } from '@mantine/core';
-import { getPagesCollection, PageCover } from '@/data/pages';
+import { getPagesCollection, PageContent, PageCover } from '@/data/pages';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
-import { type BlocksContent } from '@strapi/blocks-react-renderer';
 import ContentRenderer from '@/components/content-renderer';
 import styles from '@/styles/page.module.scss';
 
@@ -21,7 +20,7 @@ export default async function Page({params}: PageProps) {
   const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;
   const pageCoverUrl = (pageCoverFormats?.large?.url) ? getFileURL(pageCoverFormats.large.url) : '';
-  const pageContent = pageData?.content as BlocksContent;
+  const pageContent = pageData?.content as PageContent;
 
   if (!pageData) return notFound();
 

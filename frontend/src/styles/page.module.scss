@@ -120,7 +120,26 @@
     }
   }
 
+  // Change spacing between elements.
+  :where(p) {
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-lg));
+  }
+
   :where(ul, ol):not([data-type='taskList']) {
     padding-inline-start: calc(rem(48) * var(--mantine-scale));
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-lg));
+  }
+
+  :where(p:has(+ ul), p:has(+ ol)):not([data-type='taskList']) {
+    margin-bottom: var(--mantine-spacing-md);
+  }
+
+  :where(h1, h2, h3, h4, h5, h6) {
+    margin-top: calc(rem(20) + var(--mantine-spacing-xl));
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-lg));
+
+    &:has(+ ul), &:has(+ ol) {
+      margin-bottom: var(--mantine-spacing-md);
+    }
   }
 }

@@ -77,3 +77,50 @@
     height: 100%;
   }
 }
+
+.content {
+  display: block;
+  position: relative;
+
+  p {
+    max-width: rem(864);
+    margin-left: auto;
+    margin-right: auto;
+    text-wrap: pretty;
+    font-size: rem(18);
+    color: var(--mantine-color-dark-8);
+    @include dark {
+      color: var(--mantine-color-dark-1);
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    max-width: rem(864);
+    margin-left: auto;
+    margin-right: auto;
+    text-wrap: pretty;
+    color: var(--mantine-color-dark-9);
+    @include dark {
+      color: var(--mantine-color-dark-0);
+    }
+  }
+
+  ul, ol {
+    max-width: rem(864);
+    margin-left: auto;
+    margin-right: auto;
+
+    li {
+      text-wrap: pretty;
+      font-size: rem(18);
+      color: var(--mantine-color-dark-8);
+      @include dark {
+        color: var(--mantine-color-dark-1);
+      }
+    }
+  }
+
+  :where(ul, ol):not([data-type='taskList']) {
+    padding-inline-start: calc(rem(48) * var(--mantine-scale));
+  }
+}

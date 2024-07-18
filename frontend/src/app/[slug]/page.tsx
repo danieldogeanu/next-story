@@ -4,6 +4,8 @@ import { Box, Image, Title } from '@mantine/core';
 import { getPagesCollection, PageCover } from '@/data/pages';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
+import { type BlocksContent } from '@strapi/blocks-react-renderer';
+import ContentRenderer from '@/components/content-renderer';
 import styles from '@/styles/page.module.scss';
 
 export interface PageProps {
@@ -19,6 +21,7 @@ export default async function Page({params}: PageProps) {
   const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;
   const pageCoverUrl = (pageCoverFormats?.large?.url) ? getFileURL(pageCoverFormats.large.url) : '';
+  const pageContent = pageData?.content as BlocksContent;
 
   if (!pageData) return notFound();
 
@@ -47,7 +50,7 @@ export default async function Page({params}: PageProps) {
         </header>
 
         <section className={styles.content}>
-          <p>{pageData?.excerpt}</p>
+          <ContentRenderer content={pageContent} />
         </section>
 
       </article>

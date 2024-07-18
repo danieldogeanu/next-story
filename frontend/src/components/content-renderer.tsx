@@ -7,6 +7,8 @@ export interface ContentRendererProps {
   readonly content: BlocksContent;
 }
 
+// TODO: Replace `image` and `link` components with Next.js/Mantine components.
+
 export default function ContentRenderer({content}: ContentRendererProps) {
   if (!content) return null;
   

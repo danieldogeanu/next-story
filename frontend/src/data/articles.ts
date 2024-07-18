@@ -11,7 +11,7 @@ export interface SingleArticleResponse extends APIResponse<'api::article.article
 export interface ArticlesCollectionResponse extends APIResponseCollection<'api::article.article'> {}
 
 // Extract smaller subtypes that can be used to further work with data.
-// TODO: Figure out `content` and `comments` subtype for articles data type.
+// TODO: Figure out `comments` subtype for articles data type.
 export type ArticleContent = NonNullable<SingleArticle['content']>;
 export type ArticleCommentsSettings = NonNullable<SingleArticle['comments']>;
 export type ArticleCover = NonNullable<SingleArticle['cover']>['data']['attributes'];

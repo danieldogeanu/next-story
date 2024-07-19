@@ -82,7 +82,7 @@
   display: block;
   position: relative;
 
-  :global(.mantine-TypographyStylesProvider-root) > *:not(figure, img) {
+  :global(.mantine-TypographyStylesProvider-root) > *:not(figure, img, ul, ol) {
     padding: 0 rem(8);
     @media (min-width: rem(480)) {
       padding: 0 rem(16);
@@ -154,8 +154,13 @@
   }
 
   :where(ul, ol):not([data-type='taskList']) {
-    padding-inline-start: calc(rem(48) * var(--mantine-scale));
+    padding-inline-start: calc(rem(36) * var(--mantine-scale));
+    padding-inline-end: rem(8);
     margin-bottom: calc(rem(4) + var(--mantine-spacing-lg));
+    @media (min-width: rem(480)) {
+      padding-inline-start: calc(rem(56) * var(--mantine-scale));
+      padding-inline-end: rem(16);
+    }
   }
 
   :where(p:has(+ ul), p:has(+ ol)):not([data-type='taskList']) {

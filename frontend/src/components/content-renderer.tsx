@@ -22,19 +22,21 @@ export default function ContentRenderer({content}: ContentRendererProps) {
             const imageFormats = image.formats as StrapiImageFormats;
             const imageUrl = (imageFormats?.large?.url) ? getFileURL(imageFormats.large.url) : '';
 
-            // TODO: Handle the case where image has a caption.
             // TODO: Open the full resolution in a full screen modal, on click.
             // TODO: Handle the `srcset` prop, so that we can have the right image for the right resolution.
 
             return (
-              <Image
-                className='full-width'
-                component={NextImage}
-                src={imageUrl}
-                width={imageFormats?.large?.width}
-                height={imageFormats?.large?.height}
-                alt={image.alternativeText || ''}
-                radius='md' />
+              <figure className='full-width'>
+                <Image
+                  component={NextImage}
+                  src={imageUrl}
+                  width={imageFormats?.large?.width}
+                  height={imageFormats?.large?.height}
+                  alt={image.alternativeText || ''}
+                  radius='md' />
+                {(image.caption && image.caption !== '') &&
+                  <figcaption>{image.caption}</figcaption>}
+              </figure>
             );
           },
         }}

@@ -82,6 +82,13 @@
   display: block;
   position: relative;
 
+  :global(.mantine-TypographyStylesProvider-root) > *:not(figure, img) {
+    padding: 0 rem(8);
+    @media (min-width: rem(480)) {
+      padding: 0 rem(16);
+    }
+  }
+
   p {
     max-width: rem(864);
     margin-left: auto;

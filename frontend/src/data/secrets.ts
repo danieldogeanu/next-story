@@ -1,7 +1,7 @@
-import { StrapiRequestParams } from "strapi-sdk-js";
-import { APIResponse } from "@/types/strapi";
-import { strapiSDK } from "@/data/strapi";
-import { getAPIKey, isBuildTime } from "@/utils/env";
+import { StrapiRequestParams } from 'strapi-sdk-js';
+import { APIResponse } from '@/types/strapi';
+import { strapiSDK } from '@/data/strapi';
+import { getAPIKey, isBuildTime } from '@/utils/server-env';
 
 export type SiteSecretsType = 'frontend' | 'backend';
 
@@ -35,7 +35,7 @@ export async function getSiteSecrets(
 
   // At build time we return null, because we don't want to expose
   // our secrets to static and unsecure JSON files.
-  if (isBuildTime()) return null;
+  if (await isBuildTime()) return null;
 
   if (secretsType === 'frontend') {
     return await strapiInstance.find('frontend-secret', strapiRequestParams) as FrontendSecretsResponse;

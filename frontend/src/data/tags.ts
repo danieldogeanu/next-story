@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/env';
+import { getAPIKey, isBuildTime } from '@/utils/server-env';
 import buildTimeTags from '@build-data/tags.json';
 
 export interface SingleTag extends GetValues<'api::tag.tag'> {}
@@ -35,7 +35,7 @@ export async function getSingleTag(id: string | number, params?: StrapiRequestPa
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeTags.data.filter(
+  if (await isBuildTime()) return buildTimeTags.data.filter(
     (tag) => (tag.id === Number(id))
   ).pop() as unknown as SingleTagResponse;
 
@@ -66,7 +66,7 @@ export async function getTagsCollection(params?: StrapiRequestParams): Promise<T
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeTags as unknown as TagsCollectionResponse;
+  if (await isBuildTime()) return buildTimeTags as unknown as TagsCollectionResponse;
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

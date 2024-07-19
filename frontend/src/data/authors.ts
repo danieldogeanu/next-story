@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/env';
+import { getAPIKey, isBuildTime } from '@/utils/server-env';
 import buildTimeAuthors from '@build-data/authors.json';
 
 export interface SingleAuthor extends GetValues<'api::author.author'> {}
@@ -39,7 +39,7 @@ export async function getSingleAuthor(id: string | number, params?: StrapiReques
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeAuthors.data.filter(
+  if (await isBuildTime()) return buildTimeAuthors.data.filter(
     (author) => (author.id === Number(id))
   ).pop() as unknown as SingleAuthorResponse;
 
@@ -70,7 +70,7 @@ export async function getAuthorsCollection(params?: StrapiRequestParams): Promis
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeAuthors as unknown as AuthorsCollectionResponse;
+  if (await isBuildTime()) return buildTimeAuthors as unknown as AuthorsCollectionResponse;
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

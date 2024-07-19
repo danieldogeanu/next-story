@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/env';
+import { getAPIKey, isBuildTime } from '@/utils/server-env';
 import buildTimeArticles from '@build-data/articles.json';
 
 export interface SingleArticle extends GetValues<'api::article.article'> {}
@@ -42,7 +42,7 @@ export async function getSingleArticle(id: string | number, params?: StrapiReque
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeArticles.data.filter(
+  if (await isBuildTime()) return buildTimeArticles.data.filter(
     (article) => (article.id === Number(id))
   ).pop() as unknown as SingleArticleResponse;
 
@@ -73,7 +73,7 @@ export async function getArticlesCollection(params?: StrapiRequestParams): Promi
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeArticles as unknown as ArticlesCollectionResponse;
+  if (await isBuildTime()) return buildTimeArticles as unknown as ArticlesCollectionResponse;
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

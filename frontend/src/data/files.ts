@@ -1,7 +1,8 @@
-import { StrapiRequestParams } from "strapi-sdk-js";
-import { APIResponseArray, GetValues } from "@/types/strapi";
-import { getAPIKey, getBackEndURL, isBuildTime } from "@/utils/env";
-import { strapiSDK } from "@/data/strapi";
+import { StrapiRequestParams } from 'strapi-sdk-js';
+import { APIResponseArray, GetValues } from '@/types/strapi';
+import { getAPIKey, isBuildTime } from '@/utils/server-env';
+import { getBackEndURL } from '@/utils/client-env';
+import { strapiSDK } from '@/data/strapi';
 import buildTimeFiles from '@build-data/files.json';
 
 export interface FilesResponse extends APIResponseArray<'plugin::upload.file'> {}
@@ -29,7 +30,7 @@ export async function getFiles(params?: ExtendedStrapiRequestParams): Promise<Fi
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We only take into account `start` and `limit` optional params, and ignore all the rest.
-  if (isBuildTime()) return buildTimeFiles.slice(
+  if (await isBuildTime()) return buildTimeFiles.slice(
     Number(params?.start || 0), (params?.limit) ? Number(params?.start || 0) + Number(params.limit) : undefined
   ) as unknown as FilesResponse;
 
@@ -56,7 +57,7 @@ export async function getSingleFile(id: string | number, params?: StrapiRequestP
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeFiles.filter(
+  if (await isBuildTime()) return buildTimeFiles.filter(
     (file) => (file.id === Number(id))
   ).pop() as unknown as SingleFileResponse;
 

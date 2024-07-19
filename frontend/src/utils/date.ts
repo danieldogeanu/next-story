@@ -1,5 +1,5 @@
 import { Attribute } from '@strapi/strapi';
-import { getSiteLang } from '@/utils/env';
+import { getSiteLang } from '@/utils/client-env';
 
 /**
  * Converts an ISO date string to Unix time string.

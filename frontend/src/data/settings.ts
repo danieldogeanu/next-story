@@ -1,7 +1,7 @@
-import { StrapiRequestParams } from "strapi-sdk-js";
-import { APIResponse } from "@/types/strapi";
-import { strapiSDK } from "@/data/strapi";
-import { getAPIKey, isBuildTime } from "@/utils/env";
+import { StrapiRequestParams } from 'strapi-sdk-js';
+import { APIResponse } from '@/types/strapi';
+import { strapiSDK } from '@/data/strapi';
+import { getAPIKey, isBuildTime } from '@/utils/server-env';
 import buildTimeSettingsData from '@build-data/site-setting.json';
 
 export interface SiteSettingsResponse extends APIResponse<'api::site-setting.site-setting'> {}
@@ -23,7 +23,7 @@ export async function getSiteSettings(params?: StrapiRequestParams): Promise<Sit
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeSettingsData as unknown as SiteSettingsResponse;
+  if (await isBuildTime()) return buildTimeSettingsData as unknown as SiteSettingsResponse;
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

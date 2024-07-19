@@ -5,6 +5,7 @@ import { Image, TypographyStylesProvider } from '@mantine/core';
 import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
+import styles from '@/styles/content-renderer.module.scss';
 
 export interface ContentRendererProps {
   readonly content: BlocksContent;
@@ -14,7 +15,7 @@ export default function ContentRenderer({content}: ContentRendererProps) {
   if (!content) return null;
   
   return (
-    <TypographyStylesProvider>
+    <TypographyStylesProvider className={styles.typography}>
       <BlocksRenderer
         content={content}
         blocks={{

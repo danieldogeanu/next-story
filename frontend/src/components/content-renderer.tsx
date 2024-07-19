@@ -35,7 +35,7 @@ export default function ContentRenderer({content}: ContentRendererProps) {
                   alt={image.alternativeText || ''}
                   radius='md' />
                 {(image.caption && image.caption !== '') &&
-                  <figcaption>{image.caption}</figcaption>}
+                  <figcaption title='Image Caption'>{image.caption}</figcaption>}
               </figure>
             );
           },

@@ -78,8 +78,6 @@
   }
 }
 
-// TODO: Style images and account for float left or right.
-
 .content {
   display: block;
   position: relative;
@@ -120,6 +118,27 @@
         color: var(--mantine-color-dark-1);
       }
     }
+  }
+
+  figure, img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  figure {
+    max-width: rem(1088);
+    margin-top: var(--mantine-spacing-xl);
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-xl));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  figcaption {
+    font-size: rem(15);
+    text-align: center;
+    color: var(--mantine-color-gray-6);
+    margin-top: var(--mantine-spacing-md);
   }
 
   // Change spacing between elements.

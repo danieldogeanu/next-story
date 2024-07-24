@@ -74,6 +74,7 @@ services:
       context: ./fetcher
       dockerfile: Dockerfile.prod
     environment:
+      NEXT_PUBLIC_HOSTNAME: ${NEXT_PUBLIC_HOSTNAME}
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
       NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
@@ -103,6 +104,7 @@ services:
       args:
         # Build time environment variables.
         NEXT_PORT: ${NEXT_PORT}
+        NEXT_PUBLIC_HOSTNAME: ${NEXT_PUBLIC_HOSTNAME}
         NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
         NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
         NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
@@ -110,6 +112,7 @@ services:
     environment:
       # Runtime environment variables.
       NEXT_PORT: ${NEXT_PORT}
+      NEXT_PUBLIC_HOSTNAME: ${NEXT_PUBLIC_HOSTNAME}
       NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
       NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
       NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}

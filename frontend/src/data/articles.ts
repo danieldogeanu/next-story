@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server-env';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import buildTimeArticles from '@build-data/articles.json';
 
 export interface SingleArticle extends GetValues<'api::article.article'> {}

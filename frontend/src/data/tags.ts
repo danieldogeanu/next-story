@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server-env';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import buildTimeTags from '@build-data/tags.json';
 
 export interface SingleTag extends GetValues<'api::tag.tag'> {}

@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponseArray, GetValues } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server-env';
-import { getBackEndURL } from '@/utils/client-env';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
+import { getBackEndURL } from '@/utils/client/env';
 import { strapiSDK } from '@/data/strapi';
 import buildTimeFiles from '@build-data/files.json';
 

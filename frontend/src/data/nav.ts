@@ -2,7 +2,7 @@ import { StrapiRequestParams } from 'strapi-sdk-js';
 import { IconKeys } from '@/components/dynamic-icon';
 import { strapiSDK } from '@/data/strapi';
 import { GetValues } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server-env';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import buildTimeNavData from '@build-data/navigation.json';
 import buildTimeMainNavData from '@build-data/main-navigation.json';
 import buildTimeLegalNavData from '@build-data/legal-navigation.json';

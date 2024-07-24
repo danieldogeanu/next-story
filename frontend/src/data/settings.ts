@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server-env';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import buildTimeSettingsData from '@build-data/site-setting.json';
 
 export interface SiteSettingsResponse extends APIResponse<'api::site-setting.site-setting'> {}

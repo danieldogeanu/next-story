@@ -1,6 +1,6 @@
 import StrapiSDK, { StrapiOptions } from 'strapi-sdk-js';
 import { validateApiKey } from '@/validation/api';
-import { getBackEndURL } from '@/utils/client-env';
+import { getBackEndURL } from '@/utils/client/env';
 
 /**
  * Initializes and returns an instance of the StrapiSDK with the appropriate configuration.

@@ -26,3 +26,15 @@ export function getSiteLang() {
 export function getBackEndURL() {
   return (process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:1337');
 }
+
+/**
+ * Retrieves the hostname from the environment variables.
+ *
+ * This function returns the hostname defined in the `NEXT_PUBLIC_HOSTNAME` environment variable.
+ * If the environment variable is not set, it defaults to 'localhost'.
+ *
+ * @returns The hostname from the environment variables, or 'localhost' if not set.
+ */
+export function getHostname() {
+  return (process.env.NEXT_PUBLIC_HOSTNAME || 'localhost');
+}

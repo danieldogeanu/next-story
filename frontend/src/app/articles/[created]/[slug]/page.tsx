@@ -33,9 +33,9 @@ export default async function ArticlePage({params}: ArticlePageProps) {
   const articleCoverFormats = articleCover?.formats as unknown as StrapiImageFormats;
   const articleCoverUrl = (articleCoverFormats?.large?.url) ? getFileURL(articleCoverFormats.large.url) : '';
   const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
-  const articleAuthorHref = path.join('/authors', articleAuthor.slug);
+  const articleAuthorHref = (articleAuthor) ? path.join('/authors', articleAuthor.slug) : '';
   const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
-  const articleCategoryHref = path.join('/categories', articleCategory.slug);
+  const articleCategoryHref = (articleCategory) ? path.join('/categories', articleCategory.slug) : '';
   const articleContent = articleData?.content as ArticleContent;
 
   if (!articleData) return notFound();

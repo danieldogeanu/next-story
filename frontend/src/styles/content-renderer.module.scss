@@ -18,6 +18,19 @@
     @include dark {
       color: var(--mantine-color-dark-1);
     }
+
+    :where(code) {
+      font-size: rem(16);
+      padding: rem(2) rem(8);
+      @include light {
+        background-color: var(--mantine-color-gray-1);
+        color: var(--mantine-color-dark-8);
+      }
+      @include dark {
+        background-color: var(--mantine-color-gray-8);
+        color: var(--mantine-color-dark-0);
+      }
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {

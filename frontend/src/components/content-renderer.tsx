@@ -1,9 +1,11 @@
 'use client';
 
 import NextImage from 'next/image';
+import NextLink from 'next/link';
 import { Image, TypographyStylesProvider } from '@mantine/core';
 import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
 import { StrapiImageFormats } from '@/types/strapi';
+import { isExternalUrl } from '@/utils/urls';
 import { getFileURL } from '@/data/files';
 import styles from '@/styles/content-renderer.module.scss';
 
@@ -19,6 +21,7 @@ export default function ContentRenderer({content}: ContentRendererProps) {
       <BlocksRenderer
         content={content}
         blocks={{
+
           image: ({image}) => {
             const imageFormats = image.formats as StrapiImageFormats;
             const imageUrl = (imageFormats?.large?.url) ? getFileURL(imageFormats.large.url) : '';
@@ -40,6 +43,15 @@ export default function ContentRenderer({content}: ContentRendererProps) {
               </figure>
             );
           },
+
+          link: ({children, url}) => {
+            return (
+              isExternalUrl(url)
+                ? <a className='external' href={url} target='_blank' referrerPolicy='no-referrer'>{children}</a>
+                : <NextLink className='internal' href={url}>{children}</NextLink>
+            );
+          },
+
         }}
       />
     </TypographyStylesProvider>

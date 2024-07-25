@@ -2,9 +2,12 @@
 
 import NextImage from 'next/image';
 import NextLink from 'next/link';
-import { Image, TypographyStylesProvider } from '@mantine/core';
+import { Children } from 'react';
+import { IconQuote } from '@tabler/icons-react';
+import { Blockquote, Image, TypographyStylesProvider } from '@mantine/core';
 import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
 import { StrapiImageFormats } from '@/types/strapi';
+import { extractTextFromNode } from '@/utils/react';
 import { isExternalUrl } from '@/utils/urls';
 import { getFileURL } from '@/data/files';
 import styles from '@/styles/content-renderer.module.scss';
@@ -49,6 +52,19 @@ export default function ContentRenderer({content}: ContentRendererProps) {
               isExternalUrl(url)
                 ? <a className='external' href={url} target='_blank' referrerPolicy='no-referrer'>{children}</a>
                 : <NextLink className='internal' href={url}>{children}</NextLink>
+            );
+          },
+
+          quote: ({children}) => {
+            const childNode = Children.toArray(children).pop();
+            const textArray = extractTextFromNode(childNode).split('-');
+            const blockquoteText = (textArray[0]) ? textArray[0].trim() : '';
+            const citeAuthor = (textArray[1]) ? '— ' + textArray[1].trim() : '';
+
+            return (
+              <Blockquote cite={citeAuthor} icon={<IconQuote size={36} stroke={2} />} iconSize={60}>
+                {blockquoteText}
+              </Blockquote>
             );
           },
 

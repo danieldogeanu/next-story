@@ -1,7 +1,7 @@
 @import 'mantine';
 
 .typography {
-  &:global(.mantine-TypographyStylesProvider-root) > *:not(figure, img, ul, ol, pre) {
+  &:global(.mantine-TypographyStylesProvider-root) > *:not(figure, img, ul, ol, pre, :global(.code-block)) {
     padding: 0 rem(8);
     @media (min-width: rem(480)) {
       padding: 0 rem(16);
@@ -105,35 +105,43 @@
     }
   }
 
-  pre {
-    display: block;
+  :global(.code-block) {
+    display: grid;
     width: 100%;
+    overflow-x: auto;
+    white-space: pre;
     max-width: rem(1088);
     margin-top: var(--mantine-spacing-xl);
     margin-bottom: calc(rem(4) + var(--mantine-spacing-xl));
     margin-left: auto;
     margin-right: auto;
-    padding: rem(32);
-    border-radius: var(--mantine-radius-lg);
-    background-color: var(--mantine-color-gray-1);
-    @include light {
-      background-color: var(--mantine-color-gray-1);
-    }
-    @include dark {
-      background-color: var(--mantine-color-gray-8);
-    }
 
-    :where(code) {
-      font-size: rem(16);
-      background-color: transparent;
-      color: var(--mantine-color-dark-8);
+    pre {
+      display: block;
+      width: 100%;
+      padding: rem(32);
+      border-radius: var(--mantine-radius-lg);
+      background-color: var(--mantine-color-gray-1);
       @include light {
-        background-color: transparent;
-        color: var(--mantine-color-dark-8);
+        background-color: var(--mantine-color-gray-1);
       }
       @include dark {
+        background-color: var(--mantine-color-gray-8);
+      }
+
+      :where(code) {
+        display: block;
+        font-size: rem(16);
         background-color: transparent;
-        color: var(--mantine-color-dark-0);
+        color: var(--mantine-color-dark-8);
+        @include light {
+          background-color: transparent;
+          color: var(--mantine-color-dark-8);
+        }
+        @include dark {
+          background-color: transparent;
+          color: var(--mantine-color-dark-0);
+        }
       }
     }
   }

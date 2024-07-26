@@ -68,6 +68,14 @@ export default function ContentRenderer({content}: ContentRendererProps) {
             );
           },
 
+          code: ({plainText}) => {            
+            return (
+              <div className='code-block'>
+                <pre><code>{plainText}</code></pre>
+              </div>
+            );
+          },
+
         }}
       />
     </TypographyStylesProvider>

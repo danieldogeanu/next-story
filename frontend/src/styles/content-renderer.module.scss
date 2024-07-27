@@ -1,7 +1,9 @@
 @import 'mantine';
 
 .typography {
-  &:global(.mantine-TypographyStylesProvider-root) > *:not(figure, img, ul, ol, pre, :global(.code-block)) {
+  &:global(.mantine-TypographyStylesProvider-root) > *:not(
+    figure, img, ul, ol, blockquote, pre, :global(.code-block)
+  ) {
     padding: 0 rem(8);
     @media (min-width: rem(480)) {
       padding: 0 rem(16);

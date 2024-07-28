@@ -536,7 +536,10 @@
           "socialNetworks.icon",
           "showComments",
           "siteLogoLight",
-          "siteLogoDark"
+          "siteLogoDark",
+          "siteDescription",
+          "followAllowed",
+          "cacheAllowed"
         ]
       },
       "conditions": []
@@ -567,7 +570,10 @@
           "socialNetworks.icon",
           "showComments",
           "siteLogoLight",
-          "siteLogoDark"
+          "siteLogoDark",
+          "siteDescription",
+          "followAllowed",
+          "cacheAllowed"
         ]
       },
       "conditions": []
@@ -591,7 +597,10 @@
           "socialNetworks.icon",
           "showComments",
           "siteLogoLight",
-          "siteLogoDark"
+          "siteLogoDark",
+          "siteDescription",
+          "followAllowed",
+          "cacheAllowed"
         ]
       },
       "conditions": []

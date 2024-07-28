@@ -67,18 +67,34 @@
       "required": true
     },
     "siteLogoLight": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "siteLogoDark": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "siteDescription": {
+      "type": "text",
+      "maxLength": 160
+    },
+    "followAllowed": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "cacheAllowed": {
+      "type": "boolean",
+      "default": false,
+      "required": true
     }
   }
 }

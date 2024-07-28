@@ -694,6 +694,16 @@ export interface ApiSiteSettingSiteSetting extends Schema.SingleType {
       Attribute.DefaultTo<true>;
     siteLogoLight: Attribute.Media;
     siteLogoDark: Attribute.Media;
+    siteDescription: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 160;
+      }>;
+    followAllowed: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    cacheAllowed: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

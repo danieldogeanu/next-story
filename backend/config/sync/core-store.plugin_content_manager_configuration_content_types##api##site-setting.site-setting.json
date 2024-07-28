@@ -187,6 +187,48 @@
           "sortable": false
         }
       },
+      "siteDescription": {
+        "edit": {
+          "label": "Site Description",
+          "description": "The default meta description that will be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteDescription",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "followAllowed": {
+        "edit": {
+          "label": "Follow Allowed",
+          "description": "Allow search engines to follow links in this site?",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "followAllowed",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "cacheAllowed": {
+        "edit": {
+          "label": "Cache Allowed",
+          "description": "Allow search engines to cache this site?",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "cacheAllowed",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -270,6 +312,12 @@
         ],
         [
           {
+            "name": "siteDescription",
+            "size": 12
+          }
+        ],
+        [
+          {
             "name": "siteLogo",
             "size": 4
           },
@@ -296,9 +344,19 @@
           {
             "name": "showComments",
             "size": 4
-          },
+          }
+        ],
+        [
           {
             "name": "indexAllowed",
+            "size": 4
+          },
+          {
+            "name": "followAllowed",
+            "size": 4
+          },
+          {
+            "name": "cacheAllowed",
             "size": 4
           }
         ],

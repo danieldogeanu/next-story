@@ -1,7 +1,8 @@
 import NextImage from 'next/image';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Box, Image, Title } from '@mantine/core';
-import { getPagesCollection, PageContent, PageCover } from '@/data/pages';
+import { getPagesCollection, PageContent, PageCover, PageSEO } from '@/data/pages';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
 import ContentRenderer from '@/components/content-renderer';
@@ -10,6 +11,20 @@ import styles from '@/styles/page.module.scss';
 export interface PageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const pageData = (await getPagesCollection({
+    filters: { slug: { $eq: params.slug } },
+    populate: { seo: { populate: '*' } },
+  })).data.pop()?.attributes;
+  const pageSEO = pageData?.seo as PageSEO;
+
+  return {
+    title: (pageSEO?.metaTitle) ? pageSEO.metaTitle : pageData?.title,
+    description: (pageSEO?.metaDescription) ? pageSEO?.metaDescription : pageData?.excerpt?.substring(0, 160 - 4) + '...',
+    keywords: pageSEO?.keywords,
   };
 }
 

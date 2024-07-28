@@ -1,7 +1,7 @@
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { ErrorBoundary } from 'react-error-boundary';
 import type { Metadata } from 'next';
 import mantineTheme from '@/theme';
-import { ErrorBoundary } from 'react-error-boundary';
 import ErrorFallback from './error';
 import SiteHeader from '@/layout/header';
 import SiteFooter from '@/layout/footer';
@@ -13,10 +13,13 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
-// SEO Metadata
+// Default SEO Metadata
 export const metadata: Metadata = {
-  title: 'Next Story',
-  description: 'Playground app to figure out how to integrate the chosen tech stack.',
+  title: {
+    template: '%s > Next Story',
+    default: 'Next Story',
+  },
+  description: 'Proof of Concept project, to demonstrate the integration of the chosen tech stack to customers.',
   robots: {
     index: false,
     follow: false,

@@ -6,6 +6,14 @@ import buildTimeSettingsData from '@build-data/site-setting.json';
 
 export interface SiteSettingsResponse extends APIResponse<'api::site-setting.site-setting'> {}
 
+// Extract smaller subtypes that can be used to further work with data.
+export type SiteSettings = NonNullable<SiteSettingsResponse['data']>['attributes'];
+export type SiteCover = NonNullable<SiteSettings['siteCover']>['data']['attributes'];
+export type SiteLogo = NonNullable<SiteSettings['siteLogo']>['data']['attributes'];
+export type SiteLogoLight = NonNullable<SiteSettings['siteLogoLight']>['data']['attributes'];
+export type SiteLogoDark = NonNullable<SiteSettings['siteLogoDark']>['data']['attributes'];
+export type SiteSocialNetworks = NonNullable<SiteSettings['socialNetworks']>;
+
 /**
  * Fetches site settings from the Strapi backend.
  *

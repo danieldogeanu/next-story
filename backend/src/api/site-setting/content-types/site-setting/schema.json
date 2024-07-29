@@ -51,11 +51,6 @@
       "default": true,
       "required": true
     },
-    "indexAllowed": {
-      "type": "boolean",
-      "default": false,
-      "required": true
-    },
     "socialNetworks": {
       "type": "component",
       "repeatable": true,
@@ -86,15 +81,10 @@
       "type": "text",
       "maxLength": 160
     },
-    "followAllowed": {
-      "type": "boolean",
-      "default": false,
-      "required": true
-    },
-    "cacheAllowed": {
-      "type": "boolean",
-      "default": false,
-      "required": true
+    "siteRobots": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.robots"
     }
   }
 }

@@ -34,7 +34,9 @@
           "showComments",
           "allowComments",
           "comments",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -84,7 +86,9 @@
           "showComments",
           "allowComments",
           "comments",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -120,7 +124,9 @@
           "showComments",
           "allowComments",
           "comments",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -139,7 +145,6 @@
           "socialNetworks.link",
           "socialNetworks.icon",
           "articles",
-          "allowIndexing",
           "seo.metaTitle",
           "seo.metaDescription",
           "seo.metaImage",
@@ -151,7 +156,10 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -184,7 +192,6 @@
           "socialNetworks.link",
           "socialNetworks.icon",
           "articles",
-          "allowIndexing",
           "seo.metaTitle",
           "seo.metaDescription",
           "seo.metaImage",
@@ -196,7 +203,10 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -215,7 +225,6 @@
           "socialNetworks.link",
           "socialNetworks.icon",
           "articles",
-          "allowIndexing",
           "seo.metaTitle",
           "seo.metaDescription",
           "seo.metaImage",
@@ -227,7 +236,10 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -297,7 +309,10 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "articles"
+          "articles",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -338,7 +353,10 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "articles"
+          "articles",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -365,7 +383,10 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "articles"
+          "articles",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -438,7 +459,9 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -482,7 +505,9 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -512,7 +537,9 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -530,7 +557,6 @@
           "siteCover",
           "siteLogo",
           "commentsAllowed",
-          "indexAllowed",
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
@@ -538,8 +564,9 @@
           "siteLogoLight",
           "siteLogoDark",
           "siteDescription",
-          "followAllowed",
-          "cacheAllowed"
+          "siteRobots.indexAllowed",
+          "siteRobots.followAllowed",
+          "siteRobots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -564,7 +591,6 @@
           "siteCover",
           "siteLogo",
           "commentsAllowed",
-          "indexAllowed",
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
@@ -572,8 +598,9 @@
           "siteLogoLight",
           "siteLogoDark",
           "siteDescription",
-          "followAllowed",
-          "cacheAllowed"
+          "siteRobots.indexAllowed",
+          "siteRobots.followAllowed",
+          "siteRobots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -591,7 +618,6 @@
           "siteCover",
           "siteLogo",
           "commentsAllowed",
-          "indexAllowed",
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
@@ -599,8 +625,9 @@
           "siteLogoLight",
           "siteLogoDark",
           "siteDescription",
-          "followAllowed",
-          "cacheAllowed"
+          "siteRobots.indexAllowed",
+          "siteRobots.followAllowed",
+          "siteRobots.cacheAllowed"
         ]
       },
       "conditions": []

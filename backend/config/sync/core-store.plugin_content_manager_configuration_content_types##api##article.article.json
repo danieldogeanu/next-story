@@ -218,18 +218,18 @@
           "sortable": false
         }
       },
-      "allowIndexing": {
+      "robots": {
         "edit": {
-          "label": "Allow Indexing",
-          "description": "Show this article in search engines.",
+          "label": "Robots",
+          "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "allowIndexing",
-          "searchable": true,
-          "sortable": true
+          "label": "robots",
+          "searchable": false,
+          "sortable": false
         }
       },
       "createdAt": {
@@ -347,10 +347,12 @@
           {
             "name": "tags",
             "size": 6
-          },
+          }
+        ],
+        [
           {
-            "name": "allowIndexing",
-            "size": 6
+            "name": "robots",
+            "size": 12
           }
         ],
         [

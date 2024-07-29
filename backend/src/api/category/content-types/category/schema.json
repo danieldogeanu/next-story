@@ -45,6 +45,11 @@
       "relation": "oneToMany",
       "target": "api::article.article",
       "mappedBy": "category"
+    },
+    "robots": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.robots"
     }
   }
 }

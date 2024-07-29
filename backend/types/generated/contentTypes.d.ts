@@ -410,7 +410,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     allowComments: Attribute.Boolean & Attribute.DefaultTo<true>;
     comments: Attribute.JSON &
       Attribute.CustomField<'plugin::comments.comments'>;
-    allowIndexing: Attribute.Boolean & Attribute.DefaultTo<true>;
+    robots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -466,8 +466,8 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
       'oneToMany',
       'api::article.article'
     >;
-    allowIndexing: Attribute.Boolean & Attribute.DefaultTo<true>;
     seo: Attribute.Component<'shared.seo'>;
+    robots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -551,6 +551,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'oneToMany',
       'api::article.article'
     >;
+    robots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -636,7 +637,7 @@ export interface ApiPagePage extends Schema.CollectionType {
       'api::page.page'
     >;
     seo: Attribute.Component<'shared.seo'>;
-    allowIndexing: Attribute.Boolean & Attribute.DefaultTo<true>;
+    robots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -685,9 +686,6 @@ export interface ApiSiteSettingSiteSetting extends Schema.SingleType {
     commentsAllowed: Attribute.Boolean &
       Attribute.Required &
       Attribute.DefaultTo<true>;
-    indexAllowed: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
     socialNetworks: Attribute.Component<'shared.social-link', true>;
     showComments: Attribute.Boolean &
       Attribute.Required &
@@ -698,12 +696,7 @@ export interface ApiSiteSettingSiteSetting extends Schema.SingleType {
       Attribute.SetMinMaxLength<{
         maxLength: 160;
       }>;
-    followAllowed: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
-    cacheAllowed: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
+    siteRobots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

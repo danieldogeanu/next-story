@@ -83,10 +83,10 @@
       "type": "customField",
       "customField": "plugin::comments.comments"
     },
-    "allowIndexing": {
-      "type": "boolean",
-      "default": true,
-      "required": false
+    "robots": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.robots"
     }
   }
 }

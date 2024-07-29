@@ -117,20 +117,6 @@
           "sortable": true
         }
       },
-      "indexAllowed": {
-        "edit": {
-          "label": "Index Allowed",
-          "description": "Allow search engines to index this site?",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "indexAllowed",
-          "searchable": true,
-          "sortable": true
-        }
-      },
       "socialNetworks": {
         "edit": {
           "label": "Social Networks",
@@ -201,32 +187,18 @@
           "sortable": true
         }
       },
-      "followAllowed": {
+      "siteRobots": {
         "edit": {
-          "label": "Follow Allowed",
-          "description": "Allow search engines to follow links in this site?",
+          "label": "Site Robots",
+          "description": "",
           "placeholder": "",
           "visible": true,
           "editable": true
         },
         "list": {
-          "label": "followAllowed",
-          "searchable": true,
-          "sortable": true
-        }
-      },
-      "cacheAllowed": {
-        "edit": {
-          "label": "Cache Allowed",
-          "description": "Allow search engines to cache this site?",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "cacheAllowed",
-          "searchable": true,
-          "sortable": true
+          "label": "siteRobots",
+          "searchable": false,
+          "sortable": false
         }
       },
       "createdAt": {
@@ -348,16 +320,8 @@
         ],
         [
           {
-            "name": "indexAllowed",
-            "size": 4
-          },
-          {
-            "name": "followAllowed",
-            "size": 4
-          },
-          {
-            "name": "cacheAllowed",
-            "size": 4
+            "name": "siteRobots",
+            "size": 12
           }
         ],
         [

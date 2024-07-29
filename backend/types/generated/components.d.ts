@@ -23,6 +23,25 @@ export interface SharedMetaSocial extends Schema.Component {
   };
 }
 
+export interface SharedRobots extends Schema.Component {
+  collectionName: 'components_shared_robots';
+  info: {
+    displayName: 'Robots';
+    icon: 'search';
+  };
+  attributes: {
+    indexAllowed: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    followAllowed: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    cacheAllowed: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+  };
+}
+
 export interface SharedSeo extends Schema.Component {
   collectionName: 'components_shared_seos';
   info: {
@@ -144,6 +163,7 @@ declare module '@strapi/types' {
   export module Shared {
     export interface Components {
       'shared.meta-social': SharedMetaSocial;
+      'shared.robots': SharedRobots;
       'shared.seo': SharedSeo;
       'shared.social-link': SharedSocialLink;
       'site.secret-entry': SiteSecretEntry;

@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_shared_robots",
+  "info": {
+    "displayName": "Robots",
+    "icon": "search"
+  },
+  "options": {},
+  "attributes": {
+    "indexAllowed": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "followAllowed": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "cacheAllowed": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    }
+  }
+}

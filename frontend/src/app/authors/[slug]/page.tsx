@@ -1,10 +1,13 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
+import path from 'node:path';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { IconUser } from '@tabler/icons-react';
 import { Box, Group, Image, Text, Title } from '@mantine/core';
+import { AuthorArticles, AuthorAvatar, AuthorRobots, AuthorSEO, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
+import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
 import { StrapiImageFormats } from '@/types/strapi';
-import { AuthorArticles, AuthorAvatar, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
@@ -16,6 +19,35 @@ import authorStyles from '@/styles/author-page.module.scss';
 export interface AuthorPageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({params}: AuthorPageProps): Promise<Metadata> {
+  const siteSettingsResponse = await getSiteSettings({populate: '*'});
+  const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
+  const siteRobots = siteSettings?.siteRobots as SiteRobots;
+  
+  const authorData = (await getAuthorsCollection({
+    filters: { slug: { $eq: params.slug } },
+    populate: {
+      seo: { populate: '*' },
+      robots: { populate: '*' },
+    },
+  })).data.pop()?.attributes;
+  const authorHref = (authorData?.slug) ? path.join('/authors', authorData.slug) : '';
+  const authorRobots = authorData?.robots as AuthorRobots;
+  const authorSEO = authorData?.seo as AuthorSEO;
+
+  return {
+    title: capitalize((authorSEO?.metaTitle.trim() || authorData?.fullName.trim()) as string) + '\'s Articles',
+    description: authorSEO?.metaDescription.trim() || (authorData?.biography?.substring(0, 160 - 4) + '...').trim(),
+    keywords: authorSEO?.keywords,
+    authors: [{name: capitalize(authorData?.fullName as string), url: authorHref}],
+    robots: {
+      index: (siteRobots.indexAllowed === false) ? false : authorRobots.indexAllowed,
+      follow: (siteRobots.followAllowed === false) ? false : authorRobots.followAllowed,
+      nocache: (siteRobots.cacheAllowed === false) ? true : !authorRobots.cacheAllowed,
+    }
   };
 }
 

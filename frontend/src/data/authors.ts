@@ -15,6 +15,7 @@ export type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attribut
 export type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
 export type AuthorSocialEntry = AuthorSocials[number] & IDProperty;
 export type AuthorArticles = NonNullable<SingleAuthor['articles']>['data'];
+export type AuthorRobots = NonNullable<SingleAuthor['robots']>;
 export type AuthorSEO = NonNullable<SingleAuthor['seo']>;
 
 /**

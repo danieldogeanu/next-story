@@ -12,6 +12,7 @@ export interface CategoriesCollectionResponse extends APIResponseCollection<'api
 
 // Extract smaller subtypes that can be used to further work with data.
 export type CategoryCover = NonNullable<SingleCategory['cover']>['data']['attributes'];
+export type CategoryRobots = NonNullable<SingleCategory['robots']>;
 export type CategorySEO = NonNullable<SingleCategory['seo']>;
 export type CategoryArticles = NonNullable<SingleCategory['articles']>['data'];
 

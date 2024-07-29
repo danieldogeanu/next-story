@@ -1,8 +1,10 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Title, Image, Box, Text } from '@mantine/core';
-import { CategoryArticles, CategoryCover, getCategoriesCollection } from '@/data/categories';
+import { CategoryArticles, CategoryCover, CategoryRobots, CategorySEO, getCategoriesCollection } from '@/data/categories';
+import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
 import { getFileURL } from '@/data/files';
@@ -13,6 +15,33 @@ import categoryStyles from '@/styles/category-page.module.scss';
 export interface CategoryPageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({params}: CategoryPageProps): Promise<Metadata> {
+  const siteSettingsResponse = await getSiteSettings({populate: '*'});
+  const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
+  const siteRobots = siteSettings?.siteRobots as SiteRobots;
+  
+  const categoryData = (await getCategoriesCollection({
+    filters: { slug: { $eq: params.slug } },
+    populate: {
+      seo: { populate: '*' },
+      robots: { populate: '*' },
+    },
+  })).data.pop()?.attributes;
+  const categoryRobots = categoryData?.robots as CategoryRobots;
+  const categorySEO = categoryData?.seo as CategorySEO;
+
+  return {
+    title: capitalize((categorySEO?.metaTitle.trim() || categoryData?.name.trim()) as string) + ' Category',
+    description: categorySEO?.metaDescription.trim() || (categoryData?.description?.substring(0, 160 - 4) + '...').trim(),
+    keywords: categorySEO?.keywords,
+    robots: {
+      index: (siteRobots.indexAllowed === false) ? false : categoryRobots.indexAllowed,
+      follow: (siteRobots.followAllowed === false) ? false : categoryRobots.followAllowed,
+      nocache: (siteRobots.cacheAllowed === false) ? true : !categoryRobots.cacheAllowed,
+    }
   };
 }
 

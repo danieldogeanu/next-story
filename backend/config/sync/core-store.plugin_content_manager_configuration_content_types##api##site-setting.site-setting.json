@@ -201,6 +201,20 @@
           "sortable": false
         }
       },
+      "siteKeywords": {
+        "edit": {
+          "label": "Site Keywords",
+          "description": "The default, comma separated, meta keywords that will be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteKeywords",
+          "searchable": true,
+          "sortable": true
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -285,6 +299,12 @@
         [
           {
             "name": "siteDescription",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "siteKeywords",
             "size": 12
           }
         ],

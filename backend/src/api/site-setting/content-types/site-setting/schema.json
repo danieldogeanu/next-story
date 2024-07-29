@@ -85,6 +85,11 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.robots"
+    },
+    "siteKeywords": {
+      "type": "string",
+      "regex": "[^,]+",
+      "maxLength": 160
     }
   }
 }

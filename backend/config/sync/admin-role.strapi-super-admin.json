@@ -566,7 +566,8 @@
           "siteDescription",
           "siteRobots.indexAllowed",
           "siteRobots.followAllowed",
-          "siteRobots.cacheAllowed"
+          "siteRobots.cacheAllowed",
+          "siteKeywords"
         ]
       },
       "conditions": []
@@ -600,7 +601,8 @@
           "siteDescription",
           "siteRobots.indexAllowed",
           "siteRobots.followAllowed",
-          "siteRobots.cacheAllowed"
+          "siteRobots.cacheAllowed",
+          "siteKeywords"
         ]
       },
       "conditions": []
@@ -627,7 +629,8 @@
           "siteDescription",
           "siteRobots.indexAllowed",
           "siteRobots.followAllowed",
-          "siteRobots.cacheAllowed"
+          "siteRobots.cacheAllowed",
+          "siteKeywords"
         ]
       },
       "conditions": []

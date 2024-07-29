@@ -13,6 +13,7 @@ export type SiteLogo = NonNullable<SiteSettings['siteLogo']>['data']['attributes
 export type SiteLogoLight = NonNullable<SiteSettings['siteLogoLight']>['data']['attributes'];
 export type SiteLogoDark = NonNullable<SiteSettings['siteLogoDark']>['data']['attributes'];
 export type SiteSocialNetworks = NonNullable<SiteSettings['socialNetworks']>;
+export type SiteRobots = NonNullable<SiteSettings['siteRobots']>;
 
 /**
  * Fetches site settings from the Strapi backend.

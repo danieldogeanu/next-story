@@ -1,6 +1,6 @@
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { ErrorBoundary } from 'react-error-boundary';
-import { getSiteSettings, SiteSettings } from '@/data/settings';
+import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
 import type { Metadata } from 'next';
 import ErrorFallback from '@/app/error';
 import SiteHeader from '@/layout/header';
@@ -18,6 +18,7 @@ interface RootLayoutProps {
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
+  const siteRobots = siteSettings?.siteRobots as SiteRobots;
   const defaultMetadata = {
     title: {
       template: '%s > Next Story',
@@ -39,9 +40,9 @@ export async function generateMetadata(): Promise<Metadata> {
     },
     description: siteSettings.siteDescription,
     robots: {
-      index: siteSettings.indexAllowed,
-      follow: siteSettings.followAllowed,
-      nocache: !siteSettings.cacheAllowed,
+      index: siteRobots.indexAllowed,
+      follow: siteRobots.followAllowed,
+      nocache: !siteRobots.cacheAllowed,
     },
   };
 }

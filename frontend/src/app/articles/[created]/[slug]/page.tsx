@@ -2,10 +2,12 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import path from 'node:path';
 import classNames from 'classnames';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Anchor, Box, Group, Image, Title } from '@mantine/core';
 import { IconCalendar, IconCategory, IconUser } from '@tabler/icons-react';
-import { ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, getArticlesCollection } from '@/data/articles';
+import { ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, ArticleRobots, ArticleSEO, getArticlesCollection } from '@/data/articles';
+import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
 import { StrapiImageFormats } from '@/types/strapi';
 import { convertToISODate, convertToReadableDate } from '@/utils/date';
 import { capitalize } from '@/utils/strings';
@@ -18,6 +20,35 @@ export interface ArticlePageProps {
   params: {
     created: string;
     slug: string;
+  };
+}
+
+export async function generateMetadata({params}: ArticlePageProps): Promise<Metadata> {
+  const siteSettingsResponse = await getSiteSettings({populate: '*'});
+  const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
+  const siteRobots = siteSettings?.siteRobots as SiteRobots;
+  const articleData = (await getArticlesCollection({
+    filters: {
+      createdAt: { $eq: convertToISODate(params.created) },
+      slug: { $eq: params.slug },
+    },
+    populate: {
+      seo: { populate: '*' },
+      robots: { populate: '*' },
+    },
+  })).data.pop()?.attributes;
+  const articleRobots = articleData?.robots as ArticleRobots;
+  const articleSEO = articleData?.seo as ArticleSEO;
+
+  return {
+    title: articleSEO?.metaTitle.trim() || articleData?.title.trim(),
+    description: articleSEO?.metaDescription.trim() || (articleData?.excerpt?.substring(0, 160 - 4) + '...').trim(),
+    keywords: articleSEO?.keywords,
+    robots: {
+      index: (siteRobots.indexAllowed === false) ? false : articleRobots.indexAllowed,
+      follow: (siteRobots.followAllowed === false) ? false : articleRobots.followAllowed,
+      nocache: (siteRobots.cacheAllowed === false) ? true : !articleRobots.cacheAllowed,
+    }
   };
 }
 

@@ -18,6 +18,7 @@ export type ArticleCover = NonNullable<SingleArticle['cover']>['data']['attribut
 export type ArticleCategory = NonNullable<SingleArticle['category']>['data']['attributes'];
 export type ArticleTags = NonNullable<SingleArticle['tags']>['data'];
 export type ArticleAuthor = NonNullable<SingleArticle['author']>['data']['attributes'];
+export type ArticleRobots = NonNullable<SingleArticle['robots']>;
 export type ArticleSEO = NonNullable<SingleArticle['seo']>;
 
 /**

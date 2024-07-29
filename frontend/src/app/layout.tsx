@@ -1,5 +1,5 @@
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { ErrorBoundary } from 'react-error-boundary';
+import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
 import type { Metadata } from 'next';
 import ErrorFallback from '@/app/error';
@@ -25,6 +25,10 @@ export async function generateMetadata(): Promise<Metadata> {
       default: 'Next Story',
     },
     description: 'Demo Website',
+    applicationName: 'Next Story',
+    keywords: 'next, story',
+    creator: 'Daniel Dogeanu',
+    publisher: 'Daniel Dogeanu',
     robots: {
       index: false,
       follow: false,
@@ -39,6 +43,8 @@ export async function generateMetadata(): Promise<Metadata> {
       default: siteSettings.siteName,
     },
     description: siteSettings.siteDescription,
+    keywords: siteSettings.siteKeywords,
+    applicationName: siteSettings.siteName,
     robots: {
       index: siteRobots.indexAllowed,
       follow: siteRobots.followAllowed,

@@ -15,6 +15,7 @@ export type PageContent = NonNullable<SinglePage['content']>;
 export type PageCover = NonNullable<SinglePage['cover']>['data']['attributes'];
 export type PageParent = NonNullable<SinglePage['parent']>['data']['attributes'];
 export type PageChildren = NonNullable<SinglePage['children']>['data'];
+export type PageRobots = NonNullable<SinglePage['robots']>;
 export type PageSEO = NonNullable<SinglePage['seo']>;
 
 /**

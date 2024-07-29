@@ -1,8 +1,9 @@
 import NextImage from 'next/image';
-import type { Metadata, ResolvingMetadata } from 'next';
+import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Box, Image, Title } from '@mantine/core';
-import { getPagesCollection, PageContent, PageCover, PageSEO } from '@/data/pages';
+import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
+import { getPagesCollection, PageContent, PageCover, PageRobots, PageSEO } from '@/data/pages';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
 import ContentRenderer from '@/components/content-renderer';
@@ -14,17 +15,29 @@ export interface PageProps {
   };
 }
 
-export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  const siteSettingsResponse = await getSiteSettings({populate: '*'});
+  const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
+  const siteRobots = siteSettings?.siteRobots as SiteRobots;
   const pageData = (await getPagesCollection({
     filters: { slug: { $eq: params.slug } },
-    populate: { seo: { populate: '*' } },
+    populate: {
+      seo: { populate: '*' },
+      robots: { populate: '*' },
+    },
   })).data.pop()?.attributes;
+  const pageRobots = pageData?.robots as PageRobots;
   const pageSEO = pageData?.seo as PageSEO;
 
   return {
-    title: (pageSEO?.metaTitle) ? pageSEO.metaTitle : pageData?.title,
-    description: (pageSEO?.metaDescription) ? pageSEO?.metaDescription : pageData?.excerpt?.substring(0, 160 - 4) + '...',
+    title: pageSEO?.metaTitle.trim() || pageData?.title.trim(),
+    description: pageSEO?.metaDescription.trim() || (pageData?.excerpt?.substring(0, 160 - 4) + '...').trim(),
     keywords: pageSEO?.keywords,
+    robots: {
+      index: (siteRobots.indexAllowed === false) ? false : pageRobots.indexAllowed,
+      follow: (siteRobots.followAllowed === false) ? false : pageRobots.followAllowed,
+      nocache: (siteRobots.cacheAllowed === false) ? true : !pageRobots.cacheAllowed,
+    }
   };
 }
 

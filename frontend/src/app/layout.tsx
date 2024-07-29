@@ -1,7 +1,8 @@
+import type { Metadata } from 'next';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
-import type { Metadata } from 'next';
+import { capitalize } from '@/utils/strings';
 import ErrorFallback from '@/app/error';
 import SiteHeader from '@/layout/header';
 import SiteFooter from '@/layout/footer';
@@ -19,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
-  
+
   const defaultMetadata = {
     title: {
       template: '%s > Next Story',
@@ -40,12 +41,12 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     ...defaultMetadata,
     title: {
-      template: `%s > ${siteSettings.siteName}`,
-      default: siteSettings.siteName,
+      template: `%s > ${capitalize(siteSettings.siteName)}`,
+      default: capitalize(siteSettings.siteName),
     },
     description: siteSettings.siteDescription,
     keywords: siteSettings.siteKeywords,
-    applicationName: siteSettings.siteName,
+    applicationName: capitalize(siteSettings.siteName),
     robots: {
       index: siteRobots.indexAllowed,
       follow: siteRobots.followAllowed,

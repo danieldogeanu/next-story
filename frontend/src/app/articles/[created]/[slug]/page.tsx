@@ -27,7 +27,7 @@ export async function generateMetadata({params}: ArticlePageProps): Promise<Meta
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
-  
+
   const articleData = (await getArticlesCollection({
     filters: {
       createdAt: { $eq: convertToISODate(params.created) },
@@ -48,7 +48,7 @@ export async function generateMetadata({params}: ArticlePageProps): Promise<Meta
     title: articleSEO?.metaTitle.trim() || articleData?.title.trim(),
     description: articleSEO?.metaDescription.trim() || (articleData?.excerpt?.substring(0, 160 - 4) + '...').trim(),
     keywords: articleSEO?.keywords,
-    authors: [{name: articleAuthor?.fullName, url: articleAuthorHref}],
+    authors: [{name: capitalize(articleAuthor?.fullName), url: articleAuthorHref}],
     robots: {
       index: (siteRobots.indexAllowed === false) ? false : articleRobots.indexAllowed,
       follow: (siteRobots.followAllowed === false) ? false : articleRobots.followAllowed,

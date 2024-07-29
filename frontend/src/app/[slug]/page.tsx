@@ -19,6 +19,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
+  
   const pageData = (await getPagesCollection({
     filters: { slug: { $eq: params.slug } },
     populate: {

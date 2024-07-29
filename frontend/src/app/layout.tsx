@@ -19,6 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
+  
   const defaultMetadata = {
     title: {
       template: '%s > Next Story',

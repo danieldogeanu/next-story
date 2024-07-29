@@ -27,16 +27,20 @@ export async function generateMetadata({params}: ArticlePageProps): Promise<Meta
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
+  
   const articleData = (await getArticlesCollection({
     filters: {
       createdAt: { $eq: convertToISODate(params.created) },
       slug: { $eq: params.slug },
     },
     populate: {
+      author: { fields: ['slug', 'fullName'] },
       seo: { populate: '*' },
       robots: { populate: '*' },
     },
   })).data.pop()?.attributes;
+  const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
+  const articleAuthorHref = (articleAuthor) ? path.join('/authors', articleAuthor.slug) : '';
   const articleRobots = articleData?.robots as ArticleRobots;
   const articleSEO = articleData?.seo as ArticleSEO;
 
@@ -44,6 +48,7 @@ export async function generateMetadata({params}: ArticlePageProps): Promise<Meta
     title: articleSEO?.metaTitle.trim() || articleData?.title.trim(),
     description: articleSEO?.metaDescription.trim() || (articleData?.excerpt?.substring(0, 160 - 4) + '...').trim(),
     keywords: articleSEO?.keywords,
+    authors: [{name: articleAuthor?.fullName, url: articleAuthorHref}],
     robots: {
       index: (siteRobots.indexAllowed === false) ? false : articleRobots.indexAllowed,
       follow: (siteRobots.followAllowed === false) ? false : articleRobots.followAllowed,

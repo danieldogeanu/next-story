@@ -1,7 +1,9 @@
+import type { Metadata } from 'next';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
 import { getTagsCollection, TagArticles } from '@/data/tags';
+import { capitalize } from '@/utils/strings';
 import ArticleCard from '@/components/article-card';
 import SortBar from '@/components/sort-bar';
 import styles from '@/styles/page.module.scss';
@@ -9,6 +11,23 @@ import styles from '@/styles/page.module.scss';
 export interface TagPageProps {
   params: {
     slug: string;
+  };
+}
+
+export async function generateMetadata({params}: TagPageProps): Promise<Metadata> {
+  const tagData = (await getTagsCollection({
+    filters: { slug: { $eq: params.slug } },
+  })).data.pop()?.attributes;
+
+  return {
+    title: capitalize(tagData?.name.trim() as string) + ' Tag',
+    description: null,
+    keywords: null,
+    robots: {
+      index: false,
+      follow: false,
+      nocache: true,
+    }
   };
 }
 

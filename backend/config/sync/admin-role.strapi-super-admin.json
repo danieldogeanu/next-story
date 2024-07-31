@@ -437,6 +437,88 @@
     {
       "action": "plugin::content-manager.explorer.create",
       "actionParameters": {},
+      "subject": "api::page-setting.page-setting",
+      "properties": {
+        "fields": [
+          "pageSettings.page",
+          "pageSettings.title",
+          "pageSettings.description",
+          "pageSettings.cover",
+          "pageSettings.metaSocial.socialNetwork",
+          "pageSettings.metaSocial.title",
+          "pageSettings.metaSocial.description",
+          "pageSettings.metaSocial.image",
+          "pageSettings.keywords",
+          "pageSettings.robots.indexAllowed",
+          "pageSettings.robots.followAllowed",
+          "pageSettings.robots.cacheAllowed",
+          "pageSettings.structuredData",
+          "pageSettings.viewport",
+          "pageSettings.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::page-setting.page-setting",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::page-setting.page-setting",
+      "properties": {
+        "fields": [
+          "pageSettings.page",
+          "pageSettings.title",
+          "pageSettings.description",
+          "pageSettings.cover",
+          "pageSettings.metaSocial.socialNetwork",
+          "pageSettings.metaSocial.title",
+          "pageSettings.metaSocial.description",
+          "pageSettings.metaSocial.image",
+          "pageSettings.keywords",
+          "pageSettings.robots.indexAllowed",
+          "pageSettings.robots.followAllowed",
+          "pageSettings.robots.cacheAllowed",
+          "pageSettings.structuredData",
+          "pageSettings.viewport",
+          "pageSettings.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::page-setting.page-setting",
+      "properties": {
+        "fields": [
+          "pageSettings.page",
+          "pageSettings.title",
+          "pageSettings.description",
+          "pageSettings.cover",
+          "pageSettings.metaSocial.socialNetwork",
+          "pageSettings.metaSocial.title",
+          "pageSettings.metaSocial.description",
+          "pageSettings.metaSocial.image",
+          "pageSettings.keywords",
+          "pageSettings.robots.indexAllowed",
+          "pageSettings.robots.followAllowed",
+          "pageSettings.robots.cacheAllowed",
+          "pageSettings.structuredData",
+          "pageSettings.viewport",
+          "pageSettings.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
       "subject": "api::page.page",
       "properties": {
         "fields": [

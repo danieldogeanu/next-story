@@ -22,6 +22,9 @@
       "action": "api::category.category.findOne"
     },
     {
+      "action": "api::page-setting.page-setting.find"
+    },
+    {
       "action": "api::page.page.find"
     },
     {

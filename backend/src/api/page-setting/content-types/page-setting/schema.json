@@ -1,0 +1,20 @@
+{
+  "kind": "singleType",
+  "collectionName": "page_settings",
+  "info": {
+    "singularName": "page-setting",
+    "pluralName": "page-settings",
+    "displayName": "Page Settings"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "pageSettings": {
+      "type": "component",
+      "repeatable": true,
+      "component": "pages.settings-entry"
+    }
+  }
+}

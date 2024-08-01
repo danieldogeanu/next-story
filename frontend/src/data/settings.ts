@@ -18,12 +18,12 @@ export type SiteLogoDark = NonNullable<SiteSettings['siteLogoDark']>['data']['at
 export type SiteSocialNetworks = NonNullable<SiteSettings['socialNetworks']>;
 export type SiteRobots = NonNullable<SiteSettings['siteRobots']>;
 
-export type PageSettingsArray = NonNullable<PageSettingsResponse['data']['attributes']['pageSettings']>;
-export type PageSettings = PageSettingsArray[number] & IDProperty;
-export type PageCover = NonNullable<PageSettings['cover']>['data']['attributes'];
-export type PageRobots = NonNullable<PageSettings['robots']>;
-export type PageMetaSocialArray = NonNullable<PageSettings['metaSocial']>;
-export type PageMetaSocial = PageMetaSocialArray[number] & IDProperty;
+export type PageSettings = NonNullable<PageSettingsResponse['data']['attributes']['pageSettings']>;
+export type PageSettingsEntry = PageSettings[number] & IDProperty;
+export type PageCover = NonNullable<PageSettingsEntry['cover']>['data']['attributes'];
+export type PageRobots = NonNullable<PageSettingsEntry['robots']>;
+export type PageMetaSocial = NonNullable<PageSettingsEntry['metaSocial']>;
+export type PageMetaSocialEntry = PageMetaSocial[number] & IDProperty;
 
 /**
  * Fetches site settings from the Strapi backend.
@@ -73,4 +73,29 @@ export async function getPageSettings(params?: StrapiRequestParams): Promise<Pag
   const strapiRequestParams: StrapiRequestParams = {populate: { pageSettings: { populate: '*' } }, ...params};
   const strapiResponse = await strapiInstance.find('page-setting', strapiRequestParams) as PageSettingsResponse;
   return strapiResponse;
+}
+
+/**
+ * Fetches settings for a single page from Strapi.
+ *
+ * @note The `page` here refers to top-level pages for collections (like `categories`, for example),
+ * that can't have their settings and data saved at collection level in Strapi.
+ *
+ * @note Homepage settings are covered in the global site settings.
+ *
+ * @param {string} page - The name of the page to retrieve settings for.
+ * @param {StrapiRequestParams} [params] - Optional Strapi request parameters.
+ * @returns A promise that resolves to the page settings if found, or undefined if not.
+ *
+ * @example
+ * // Fetch settings for a specific page.
+ * getSinglePageSettings('categories');
+ */
+export async function getSinglePageSettings(page: string, params?: StrapiRequestParams): Promise<PageSettingsEntry | undefined> {
+  const pageSettings = await getPageSettings(params);
+  if (pageSettings && typeof page === 'string') {
+    return pageSettings.data.attributes.pageSettings?.filter(
+      (pageSetting) => (pageSetting.page === page.toLowerCase())
+    ).pop() as PageSettingsEntry;
+  }
 }

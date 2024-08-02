@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
+import { getFrontEndURL } from '@/utils/client/env';
 import { capitalize } from '@/utils/strings';
 import ErrorFallback from '@/app/error';
 import SiteHeader from '@/layout/header';
@@ -21,7 +22,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
 
-  const defaultMetadata = {
+  const defaultMetadata: Metadata = {
     title: {
       template: '%s > Next Story',
       default: 'Next Story',
@@ -35,6 +36,17 @@ export async function generateMetadata(): Promise<Metadata> {
       index: false,
       follow: false,
       nocache: true,
+    },
+    openGraph: {
+      title: {
+        template: '%s > Next Story',
+        default: 'Next Story',
+      },
+      description: 'Demo Website',
+      siteName: 'Next Story',
+      url: 'http://localhost:3000',
+      locale: 'en_US',
+      type: 'website',
     },
   };
 
@@ -51,6 +63,15 @@ export async function generateMetadata(): Promise<Metadata> {
       index: siteRobots.indexAllowed,
       follow: siteRobots.followAllowed,
       nocache: !siteRobots.cacheAllowed,
+    },
+    openGraph: {
+      title: {
+        template: `%s > ${capitalize(siteSettings.siteName)}`,
+        default: capitalize(siteSettings.siteName),
+      },
+      description: siteSettings.siteDescription,
+      siteName: capitalize(siteSettings.siteName),
+      url: getFrontEndURL(),
     },
   };
 }

@@ -28,6 +28,15 @@ export function getBackEndURL() {
 }
 
 /**
+ * Retrieves the front-end URL from environment variables.
+ *
+ * @returns The front-end URL. Defaults to 'http://localhost:3000' if not specified in environment variables.
+ */
+export function getFrontEndURL() {
+  return (process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000');
+}
+
+/**
  * Retrieves the hostname from the environment variables.
  *
  * This function returns the hostname defined in the `NEXT_PUBLIC_HOSTNAME` environment variable.
@@ -37,4 +46,13 @@ export function getBackEndURL() {
  */
 export function getHostname() {
   return (process.env.NEXT_PUBLIC_HOSTNAME || 'localhost');
+}
+
+/**
+ * Retrieves the port number from environment variables.
+ *
+ * @returns The port number. Defaults to 3000 if not specified in environment variables.
+ */
+export function getPort() {
+  return Number(process.env.NEXT_PORT || '3000');
 }

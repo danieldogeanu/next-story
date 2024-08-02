@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 import { IconUser } from '@tabler/icons-react';
 import { Box, Group, Image, Text, Title } from '@mantine/core';
 import { AuthorArticles, AuthorAvatar, AuthorRobots, AuthorSEO, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
-import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
+import { generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
@@ -22,11 +22,7 @@ export interface AuthorPageProps {
   };
 }
 
-export async function generateMetadata({params}: AuthorPageProps): Promise<Metadata> {
-  const siteSettingsResponse = await getSiteSettings({populate: '*'});
-  const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
-  const siteRobots = siteSettings?.siteRobots as SiteRobots;
-  
+export async function generateMetadata({params}: AuthorPageProps): Promise<Metadata> {  
   const authorData = (await getAuthorsCollection({
     filters: { slug: { $eq: params.slug } },
     populate: {
@@ -43,11 +39,7 @@ export async function generateMetadata({params}: AuthorPageProps): Promise<Metad
     description: authorSEO?.metaDescription.trim() || (authorData?.biography?.substring(0, 160 - 4) + '...').trim(),
     keywords: authorSEO?.keywords,
     authors: [{name: capitalize(authorData?.fullName as string), url: authorHref}],
-    robots: {
-      index: (siteRobots.indexAllowed === false) ? false : authorRobots.indexAllowed,
-      follow: (siteRobots.followAllowed === false) ? false : authorRobots.followAllowed,
-      nocache: (siteRobots.cacheAllowed === false) ? true : !authorRobots.cacheAllowed,
-    }
+    robots: await generateRobotsObject(authorRobots),
   };
 }
 

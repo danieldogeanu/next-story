@@ -7,9 +7,9 @@ import { notFound } from 'next/navigation';
 import { Anchor, Box, Group, Image, Title } from '@mantine/core';
 import { IconCalendar, IconCategory, IconUser } from '@tabler/icons-react';
 import { ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, ArticleRobots, ArticleSEO, getArticlesCollection } from '@/data/articles';
-import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
 import { StrapiImageFormats } from '@/types/strapi';
 import { convertToISODate, convertToReadableDate } from '@/utils/date';
+import { generateRobotsObject } from '@/utils/server/seo';
 import { capitalize } from '@/utils/strings';
 import { getFileURL } from '@/data/files';
 import ContentRenderer from '@/components/content-renderer';
@@ -24,10 +24,6 @@ export interface ArticlePageProps {
 }
 
 export async function generateMetadata({params}: ArticlePageProps): Promise<Metadata> {
-  const siteSettingsResponse = await getSiteSettings({populate: '*'});
-  const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
-  const siteRobots = siteSettings?.siteRobots as SiteRobots;
-
   const articleData = (await getArticlesCollection({
     filters: {
       createdAt: { $eq: convertToISODate(params.created) },
@@ -49,11 +45,7 @@ export async function generateMetadata({params}: ArticlePageProps): Promise<Meta
     description: articleSEO?.metaDescription.trim() || (articleData?.excerpt?.substring(0, 160 - 4) + '...').trim(),
     keywords: articleSEO?.keywords,
     authors: [{name: capitalize(articleAuthor?.fullName), url: articleAuthorHref}],
-    robots: {
-      index: (siteRobots.indexAllowed === false) ? false : articleRobots.indexAllowed,
-      follow: (siteRobots.followAllowed === false) ? false : articleRobots.followAllowed,
-      nocache: (siteRobots.cacheAllowed === false) ? true : !articleRobots.cacheAllowed,
-    }
+    robots: await generateRobotsObject(articleRobots),
   };
 }
 

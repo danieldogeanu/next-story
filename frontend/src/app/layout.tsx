@@ -50,15 +50,13 @@ export async function generateMetadata(): Promise<Metadata> {
       url: 'http://localhost:3000',
       locale: 'en_US',
       type: 'website',
-      images: [
-        {
-          url: defaultCoverURL,
-          alt: 'Default Next Story Cover',
-          type: (getMimeTypeFromUrl(defaultCoverURL) || undefined),
-          width: defaultCover.width,
-          height: defaultCover.height,
-        },
-      ],
+      images: {
+        url: defaultCoverURL,
+        alt: 'Default Next Story Cover',
+        type: (getMimeTypeFromUrl(defaultCoverURL) || undefined),
+        width: defaultCover.width,
+        height: defaultCover.height,
+      },
     },
   };
 

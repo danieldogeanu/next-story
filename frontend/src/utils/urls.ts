@@ -1,3 +1,4 @@
+import mime from 'mime';
 import { getHostname } from "@/utils/client/env";
 
 
@@ -14,6 +15,27 @@ export function getHostFromUrl(url: string): string | null {
     return null;
   }
 }
+
+/**
+ * Retrieves the MIME type from a given URL.
+ *
+ * @param {string} url - The URL from which to extract the MIME type.
+ * @returns {string | null} The MIME type of the URL, or null if it cannot be determined.
+ */
+export function getMimeTypeFromUrl(url: string): string | null {
+  return mime.getType(url);
+}
+
+/**
+ * Retrieves the file extension from a given URL.
+ *
+ * @param {string} url - The URL from which to extract the file extension.
+ * @returns {string | null} The file extension of the URL, or null if it cannot be determined.
+ */
+export function getExtensionFromUrl(url: string): string | null {
+  return mime.getExtension(url);
+}
+
 
 /**
  * Checks if a given URL is an absolute URL.

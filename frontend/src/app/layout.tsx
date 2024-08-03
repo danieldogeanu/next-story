@@ -3,11 +3,13 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
 import { getFrontEndURL } from '@/utils/client/env';
+import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import ErrorFallback from '@/app/error';
 import SiteHeader from '@/layout/header';
 import SiteFooter from '@/layout/footer';
 import mantineTheme from '@/theme';
+import defaultCover from '@/assets/imgs/default-cover.jpg';
 import '@mantine/core/styles.css';
 import '@/styles/global.scss';
 
@@ -21,6 +23,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
+  const defaultCoverURL = new URL(defaultCover.src, getFrontEndURL()).href;
 
   const defaultMetadata: Metadata = {
     title: {
@@ -47,11 +50,23 @@ export async function generateMetadata(): Promise<Metadata> {
       url: 'http://localhost:3000',
       locale: 'en_US',
       type: 'website',
+      images: [
+        {
+          url: defaultCoverURL,
+          alt: 'Default Next Story Cover',
+          type: (getMimeTypeFromUrl(defaultCoverURL) || undefined),
+          width: defaultCover.width,
+          height: defaultCover.height,
+        },
+      ],
     },
   };
 
+  // TODO: Check if the Open Graph & Twitter cover images are shown in staging/production.
+
   return {
     ...defaultMetadata,
+    metadataBase: new URL(getFrontEndURL()),
     title: {
       template: `%s > ${capitalize(siteSettings.siteName)}`,
       default: capitalize(siteSettings.siteName),

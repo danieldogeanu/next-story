@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-import { getSiteSettings, SiteRobots, SiteSettings } from '@/data/settings';
+import { getSiteSettings, SiteCover, SiteRobots, SiteSettings } from '@/data/settings';
+import { StrapiImageFormats } from '@/types/strapi';
 import { getFrontEndURL } from '@/utils/client/env';
 import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
+import { getFileURL } from '@/data/files';
 import ErrorFallback from '@/app/error';
 import SiteHeader from '@/layout/header';
 import SiteFooter from '@/layout/footer';
@@ -24,6 +26,9 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
   const defaultCoverURL = new URL(defaultCover.src, getFrontEndURL()).href;
+  const siteCover = siteSettings.siteCover?.data?.attributes as SiteCover;
+  const siteCoverFormats = siteCover?.formats as unknown as StrapiImageFormats;
+  const siteCoverURL = (siteCoverFormats?.large?.url) ? getFileURL(siteCoverFormats.large.url) : '';
 
   const defaultMetadata: Metadata = {
     title: {
@@ -60,7 +65,13 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 
-  // TODO: Check if the Open Graph & Twitter cover images are shown in staging/production.
+  // TODO: Change the cover image for Open Graph and Twitter Card to be the correct resolution and format.
+
+  /**
+   * The resolution for Open Graph must be at least `1200x630`, with an aspect ratio of `40:21` and max `8MB` in size.
+   * The resolution for Twitter Card must be at least `1200x600`, with an aspect ratio of `2:1` and max `5MB` in size.
+   * Both type of images must be in `JPEG`, `PNG` or `GIF` formats, as `WEBP` and `AVIF` are not widely supported yet.
+   */
 
   return {
     ...defaultMetadata,
@@ -85,6 +96,13 @@ export async function generateMetadata(): Promise<Metadata> {
       description: siteSettings.siteDescription,
       siteName: capitalize(siteSettings.siteName),
       url: getFrontEndURL(),
+      images: {
+        url: siteCoverURL,
+        alt: siteCover?.alternativeText,
+        type: (getMimeTypeFromUrl(siteCoverURL) || undefined),
+        width: siteCoverFormats?.large?.width,
+        height: siteCoverFormats?.large?.height,
+      },
     },
   };
 }

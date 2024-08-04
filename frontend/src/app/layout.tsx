@@ -3,7 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
-import { getFrontEndURL } from '@/utils/client/env';
+import { getFrontEndURL, getSiteLang } from '@/utils/client/env';
 import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import ErrorFallback from '@/app/error';
@@ -79,6 +79,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: siteSettings.siteDescription,
       siteName: capitalize(siteSettings.siteName),
       url: getFrontEndURL(),
+      locale: getSiteLang(),
       images: await generateCoverImageObject(),
     },
   };
@@ -88,7 +89,7 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
   const colorScheme = 'auto';
 
   return (
-    <html lang='en'>
+    <html lang={getSiteLang()}>
       <head>
         <ColorSchemeScript defaultColorScheme={colorScheme} />
       </head>

@@ -8,29 +8,38 @@ export type RobotsObject = Metadata['robots'];
 export type CoverImageObject = NonNullable<Metadata['openGraph']>['images'];
 
 /**
- * Generates a RobotsObject based on the page-specific and site-wide robots settings.
+ * Generates a robots configuration object based on page-specific and site-wide settings.
  *
  * If site-wide robots options are set to `false`, they will take precedence over the page-specific
  * options, otherwise the current page-specific settings will apply.
  *
- * @param {PageRobots} pageRobots - The robots settings specific to the current page.
- * @returns {Promise<RobotsObject>} A promise that resolves to a RobotsObject object with combined site and page robots settings.
+ * @param {PageRobots} [pageRobots] - Optional robots settings specific to the current page.
+ * @returns {Promise<RobotsObject>} A promise that resolves to an object containing the robots tag settings.
  *
  * @example
- * // Generate robots tag for a page.
- * await generateRobotsObject(pageRobots);
+ * // Generate a robots object using the page-specific settings.
+ * robots: await generateRobotsObject(pageRobots),
  */
-export async function generateRobotsObject(pageRobots: PageRobots): Promise<RobotsObject> {
-  const siteSettingsResponse = await getSiteSettings({populate: '*'});
+export async function generateRobotsObject(pageRobots?: PageRobots): Promise<RobotsObject> {
+  const siteSettingsResponse = await getSiteSettings({ populate: '*' });
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
 
+  if (pageRobots) {
+    return {
+      index: (siteRobots.indexAllowed === false) ? false : pageRobots.indexAllowed,
+      follow: (siteRobots.followAllowed === false) ? false : pageRobots.followAllowed,
+      nocache: (siteRobots.cacheAllowed === false) ? true : !pageRobots.cacheAllowed,
+    };
+  }
+
   return {
-    index: (siteRobots.indexAllowed === false) ? false : pageRobots.indexAllowed,
-    follow: (siteRobots.followAllowed === false) ? false : pageRobots.followAllowed,
-    nocache: (siteRobots.cacheAllowed === false) ? true : !pageRobots.cacheAllowed,
+    index: siteRobots.indexAllowed,
+    follow: siteRobots.followAllowed,
+    nocache: !siteRobots.cacheAllowed,
   };
 }
+
 
 /**
  * Generates an object representing the Open Graph or Twitter Card cover image for a page,

@@ -1,12 +1,11 @@
 import type { Metadata } from 'next';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
-import { getSiteSettings, SiteCover, SiteRobots, SiteSettings } from '@/data/settings';
-import { StrapiImageFormats } from '@/types/strapi';
+import { getSiteSettings, SiteSettings } from '@/data/settings';
+import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getFrontEndURL } from '@/utils/client/env';
 import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
-import { getFileURL } from '@/data/files';
 import ErrorFallback from '@/app/error';
 import SiteHeader from '@/layout/header';
 import SiteFooter from '@/layout/footer';
@@ -14,7 +13,6 @@ import mantineTheme from '@/theme';
 import defaultCover from '@/assets/imgs/default-cover.jpg';
 import '@mantine/core/styles.css';
 import '@/styles/global.scss';
-import { generateCoverImageObject } from '@/utils/server/seo';
 
 // Types
 interface RootLayoutProps {
@@ -25,7 +23,6 @@ interface RootLayoutProps {
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
-  const siteRobots = siteSettings?.siteRobots as SiteRobots;
   const defaultCoverURL = new URL(defaultCover.src, getFrontEndURL()).href;
 
   const defaultMetadata: Metadata = {
@@ -73,11 +70,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: siteSettings.siteDescription,
     keywords: siteSettings.siteKeywords,
     applicationName: capitalize(siteSettings.siteName),
-    robots: {
-      index: siteRobots.indexAllowed,
-      follow: siteRobots.followAllowed,
-      nocache: !siteRobots.cacheAllowed,
-    },
+    robots: await generateRobotsObject(),
     openGraph: {
       title: {
         template: `%s > ${capitalize(siteSettings.siteName)}`,

@@ -1,5 +1,5 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import buildTimePages from '@build-data/pages.json';
@@ -17,6 +17,8 @@ export type PageParent = NonNullable<SinglePage['parent']>['data']['attributes']
 export type PageChildren = NonNullable<SinglePage['children']>['data'];
 export type PageRobots = NonNullable<SinglePage['robots']>;
 export type PageSEO = NonNullable<SinglePage['seo']>;
+export type PageMetaSocial = NonNullable<PageSEO['metaSocial']>;
+export type PageMetaSocialEntry = PageMetaSocial[number] & IDProperty;
 
 /**
  * Fetches a single page from the Strapi backend by their ID.

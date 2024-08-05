@@ -1,9 +1,10 @@
 import NextImage from 'next/image';
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Box, Image, Title } from '@mantine/core';
-import { getPagesCollection, PageContent, PageCover, PageRobots, PageSEO } from '@/data/pages';
-import { generateRobotsObject } from '@/utils/server/seo';
+import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO } from '@/data/pages';
+import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
+import { getFrontEndURL } from '@/utils/client/env';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
 import ContentRenderer from '@/components/content-renderer';
@@ -15,22 +16,38 @@ export interface PageProps {
   };
 }
 
-export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const pageData = (await getPagesCollection({
     filters: { slug: { $eq: params.slug } },
     populate: {
-      seo: { populate: '*' },
+      cover: { populate: '*' },
+      seo: { populate: {
+        metaImage: { populate: '*' },
+        metaSocial: { populate: '*' },
+      } },
       robots: { populate: '*' },
     },
   })).data.pop()?.attributes;
+  const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageRobots = pageData?.robots as PageRobots;
   const pageSEO = pageData?.seo as PageSEO;
+  const pageMetaImage = pageSEO.metaImage?.data?.attributes as PageCover;
+  const pageMetaSocials = pageSEO.metaSocial as PageMetaSocial;
+  const pageMetaFacebook = pageMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const pageMetaFacebookImage = pageMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
-    title: pageSEO?.metaTitle.trim() || pageData?.title.trim(),
-    description: pageSEO?.metaDescription.trim() || (pageData?.excerpt?.substring(0, 160 - 4) + '...').trim(),
-    keywords: pageSEO?.keywords,
+    title: (pageSEO?.metaTitle || pageData?.title)?.trim().substring(0, 60),
+    description: (pageSEO?.metaDescription || pageData?.excerpt)?.trim().substring(0, 160 - 4) + '...',
+    keywords: pageSEO?.keywords?.split(',').slice(0, 10).map(keyword => keyword.trim()).join(', '),
     robots: await generateRobotsObject(pageRobots),
+    openGraph: {
+      ...(await parent).openGraph,
+      title: (pageMetaFacebook?.title || pageSEO?.metaTitle || pageData?.title)?.trim().substring(0, 60),
+      description: (pageMetaFacebook?.description || pageSEO?.metaDescription || pageData?.excerpt)?.trim().substring(0, 65 - 4) + '...',
+      url: new URL((pageSEO?.canonicalURL || pageData?.slug || '') , getFrontEndURL()).href,
+      images: await generateCoverImageObject(pageMetaFacebookImage || pageMetaImage || pageCover),
+    },
   };
 }
 

@@ -72,6 +72,7 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: capitalize(siteSettings.siteName),
     robots: await generateRobotsObject(),
     openGraph: {
+      ...defaultMetadata.openGraph,
       title: {
         template: `%s > ${capitalize(siteSettings.siteName)}`,
         default: capitalize(siteSettings.siteName),

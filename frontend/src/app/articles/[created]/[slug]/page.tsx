@@ -12,7 +12,7 @@ import {
 } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
 import { convertToISODate, convertToReadableDate, convertToUnixTime } from '@/utils/date';
-import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
+import { makeSeoDescription, makeSeoKeywords, makeSeoTags, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getFrontEndURL } from '@/utils/client/env';
 import { capitalize } from '@/utils/strings';
@@ -72,6 +72,7 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
       images: await generateCoverImageObject(articleMetaFacebookImage || articleMetaImage || articleCover),
       authors: capitalize(articleAuthor?.fullName),
       section: capitalize(articleCategory?.name),
+      tags: makeSeoTags(articleSEO?.keywords)?.map((tag) => capitalize(tag)),
     },
   };
 }

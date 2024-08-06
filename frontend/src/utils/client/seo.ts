@@ -54,3 +54,20 @@ export function makeSeoKeywords(keywords: string | string[] | null | undefined, 
   }
 }
 
+/**
+ * Generates an array of SEO-friendly tags for Open Graph, from a string or array of keywords,
+ * truncating the result to the specified limit.
+ *
+ * @param {string | string[] | null | undefined} keywords - The keywords to be formatted, either as a string or an array.
+ * @param {number} [limit=10] - The maximum number of tags to include. Defaults to 10.
+ * @returns {string[] | undefined} The formatted array of SEO tags.
+ */
+export function makeSeoTags(keywords: string | string[] | null | undefined, limit: number = 10): string[] | undefined {
+  if (Array.isArray(keywords)) {
+    return keywords?.slice(0, limit).map(keyword => keyword.trim());
+  }
+
+  if (typeof keywords === 'string') {
+    return keywords?.split(',').slice(0, limit).map(keyword => keyword.trim());
+  }
+}

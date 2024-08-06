@@ -46,11 +46,11 @@ export function makeSeoDescription(description: string | undefined, limit: numbe
  */
 export function makeSeoKeywords(keywords: string | string[] | null | undefined, limit: number = 10): string | undefined {
   if (Array.isArray(keywords)) {
-    return keywords?.slice(0, 10).map(keyword => keyword.trim()).join(', ');
+    return keywords?.slice(0, limit).map(keyword => keyword.trim()).join(', ');
   }
 
   if (typeof keywords === 'string') {
-    return keywords?.split(',').slice(0, 10).map(keyword => keyword.trim()).join(', ');
+    return keywords?.split(',').slice(0, limit).map(keyword => keyword.trim()).join(', ');
   }
 }
 

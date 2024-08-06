@@ -3,6 +3,7 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Box, Image, Title } from '@mantine/core';
 import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO } from '@/data/pages';
+import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getFrontEndURL } from '@/utils/client/env';
 import { StrapiImageFormats } from '@/types/strapi';
@@ -37,14 +38,14 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   const pageMetaFacebookImage = pageMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
-    title: (pageSEO?.metaTitle || pageData?.title)?.trim().substring(0, 60),
-    description: (pageSEO?.metaDescription || pageData?.excerpt)?.trim().substring(0, 160 - 4) + '...',
-    keywords: pageSEO?.keywords?.split(',').slice(0, 10).map(keyword => keyword.trim()).join(', '),
+    title: makeSeoTitle(pageSEO?.metaTitle || pageData?.title),
+    description: makeSeoDescription(pageSEO?.metaDescription || pageData?.excerpt),
+    keywords: makeSeoKeywords(pageSEO?.keywords),
     robots: await generateRobotsObject(pageRobots),
     openGraph: {
       ...(await parent).openGraph,
-      title: (pageMetaFacebook?.title || pageSEO?.metaTitle || pageData?.title)?.trim().substring(0, 60),
-      description: (pageMetaFacebook?.description || pageSEO?.metaDescription || pageData?.excerpt)?.trim().substring(0, 65 - 4) + '...',
+      title: makeSeoTitle(pageMetaFacebook?.title || pageSEO?.metaTitle || pageData?.title),
+      description: makeSeoDescription(pageMetaFacebook?.description || pageSEO?.metaDescription || pageData?.excerpt, 65),
       url: new URL((pageSEO?.canonicalURL || pageData?.slug || '') , getFrontEndURL()).href,
       images: await generateCoverImageObject(pageMetaFacebookImage || pageMetaImage || pageCover),
     },

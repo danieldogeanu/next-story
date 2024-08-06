@@ -2,14 +2,19 @@ import NextImage from 'next/image';
 import Link from 'next/link';
 import path from 'node:path';
 import classNames from 'classnames';
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Anchor, Box, Group, Image, Title } from '@mantine/core';
 import { IconCalendar, IconCategory, IconUser } from '@tabler/icons-react';
-import { ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, ArticleRobots, ArticleSEO, getArticlesCollection } from '@/data/articles';
+import {
+  ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, ArticleMetaSocial, 
+  ArticleMetaSocialEntry, ArticleRobots, ArticleSEO, getArticlesCollection
+} from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
-import { convertToISODate, convertToReadableDate } from '@/utils/date';
-import { generateRobotsObject } from '@/utils/server/seo';
+import { convertToISODate, convertToReadableDate, convertToUnixTime } from '@/utils/date';
+import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
+import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
+import { getFrontEndURL } from '@/utils/client/env';
 import { capitalize } from '@/utils/strings';
 import { getFileURL } from '@/data/files';
 import ContentRenderer from '@/components/content-renderer';
@@ -23,7 +28,8 @@ export interface ArticlePageProps {
   };
 }
 
-export async function generateMetadata({params}: ArticlePageProps): Promise<Metadata> {
+export async function generateMetadata({params}: ArticlePageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const parentData = await parent;
   const articleData = (await getArticlesCollection({
     filters: {
       createdAt: { $eq: convertToISODate(params.created) },
@@ -31,21 +37,39 @@ export async function generateMetadata({params}: ArticlePageProps): Promise<Meta
     },
     populate: {
       author: { fields: ['slug', 'fullName'] },
-      seo: { populate: '*' },
+      cover: { populate: '*' },
+      seo: { populate: {
+        metaImage: { populate: '*' },
+        metaSocial: { populate: '*' },
+      } },
       robots: { populate: '*' },
     },
   })).data.pop()?.attributes;
   const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
   const articleAuthorHref = (articleAuthor) ? path.join('/authors', articleAuthor.slug) : '';
+  const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
   const articleRobots = articleData?.robots as ArticleRobots;
   const articleSEO = articleData?.seo as ArticleSEO;
+  const articleHref = path.join('/articles', convertToUnixTime(articleData?.createdAt), (articleSEO?.canonicalURL || articleData?.slug || ''));
+  const articleMetaImage = articleSEO.metaImage?.data?.attributes as ArticleCover;
+  const articleMetaSocials = articleSEO.metaSocial as ArticleMetaSocial;
+  const articleMetaFacebook = articleMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as ArticleMetaSocialEntry;
+  const articleMetaFacebookImage = articleMetaFacebook?.image?.data?.attributes as ArticleCover;
 
   return {
-    title: articleSEO?.metaTitle.trim() || articleData?.title.trim(),
-    description: articleSEO?.metaDescription.trim() || (articleData?.excerpt?.substring(0, 160 - 4) + '...').trim(),
-    keywords: articleSEO?.keywords,
+    title: makeSeoTitle(articleSEO?.metaTitle || articleData?.title, parentData.applicationName),
+    description: makeSeoDescription(articleSEO?.metaDescription || articleData?.excerpt),
+    keywords: makeSeoKeywords(articleSEO?.keywords),
     authors: [{name: capitalize(articleAuthor?.fullName), url: articleAuthorHref}],
     robots: await generateRobotsObject(articleRobots),
+    openGraph: {
+      ...parentData.openGraph, type: 'article',
+      title: makeSeoTitle(articleMetaFacebook?.title || articleSEO?.metaTitle || articleData?.title, parentData.applicationName),
+      description: makeSeoDescription(articleMetaFacebook?.description || articleSEO?.metaDescription || articleData?.excerpt, 65),
+      url: new URL(articleHref , getFrontEndURL()).href,
+      images: await generateCoverImageObject(articleMetaFacebookImage || articleMetaImage || articleCover),
+      authors: capitalize(articleAuthor?.fullName),
+    },
   };
 }
 

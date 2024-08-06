@@ -1,5 +1,5 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import buildTimeArticles from '@build-data/articles.json';
@@ -20,6 +20,8 @@ export type ArticleTags = NonNullable<SingleArticle['tags']>['data'];
 export type ArticleAuthor = NonNullable<SingleArticle['author']>['data']['attributes'];
 export type ArticleRobots = NonNullable<SingleArticle['robots']>;
 export type ArticleSEO = NonNullable<SingleArticle['seo']>;
+export type ArticleMetaSocial = NonNullable<ArticleSEO['metaSocial']>;
+export type ArticleMetaSocialEntry = ArticleMetaSocial[number] & IDProperty;
 
 /**
  * Fetches a single article from the Strapi backend by its ID.

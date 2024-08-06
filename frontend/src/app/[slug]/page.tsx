@@ -18,6 +18,7 @@ export interface PageProps {
 }
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const parentData = await parent;
   const pageData = (await getPagesCollection({
     filters: { slug: { $eq: params.slug } },
     populate: {
@@ -38,13 +39,13 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   const pageMetaFacebookImage = pageMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
-    title: makeSeoTitle(pageSEO?.metaTitle || pageData?.title),
+    title: makeSeoTitle(pageSEO?.metaTitle || pageData?.title, parentData.applicationName),
     description: makeSeoDescription(pageSEO?.metaDescription || pageData?.excerpt),
     keywords: makeSeoKeywords(pageSEO?.keywords),
     robots: await generateRobotsObject(pageRobots),
     openGraph: {
-      ...(await parent).openGraph,
-      title: makeSeoTitle(pageMetaFacebook?.title || pageSEO?.metaTitle || pageData?.title),
+      ...parentData.openGraph,
+      title: makeSeoTitle(pageMetaFacebook?.title || pageSEO?.metaTitle || pageData?.title, parentData.applicationName),
       description: makeSeoDescription(pageMetaFacebook?.description || pageSEO?.metaDescription || pageData?.excerpt, 65),
       url: new URL((pageSEO?.canonicalURL || pageData?.slug || '') , getFrontEndURL()).href,
       images: await generateCoverImageObject(pageMetaFacebookImage || pageMetaImage || pageCover),

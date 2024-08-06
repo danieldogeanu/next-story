@@ -3,14 +3,22 @@ import { capitalize } from "@/utils/strings";
 
 /**
  * Generates an SEO-friendly title by capitalizing the input title and truncating it to the specified limit.
+ * If a site name is provided, it is accounted for in the character limit.
  *
  * @param {string | undefined} title - The title to be formatted.
+ * @param {string | null | undefined} [siteName] - The name of the site to be included in the title, if any.
  * @param {number} [limit=60] - The character limit for the title. Defaults to 60.
  * @returns {string | undefined} The formatted SEO title.
  */
-export function makeSeoTitle(title: string | undefined, limit: number = 60): string | undefined {
+export function makeSeoTitle(title: string | undefined, siteName?: string | null | undefined, limit: number = 60): string | undefined {
   if (typeof title === 'string') {
-    return capitalize(title?.trim().substring(0, limit) as string);
+    if (typeof siteName === 'string' && siteName !== '') {
+      const remainingLimit = limit - (siteName.length + 3);
+      const processedTitle = (title?.length > remainingLimit)
+        ? title?.trim().substring(0, remainingLimit - 3) + '...'
+        : title?.trim().substring(0, remainingLimit);
+      return capitalize(processedTitle as string);
+    } else return capitalize(title?.trim().substring(0, limit) as string);
   }
 }
 

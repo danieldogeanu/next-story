@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: 'Next Story',
     keywords: 'next, story',
     creator: 'Daniel Dogeanu',
-    publisher: 'Daniel Dogeanu',
+    publisher: 'Next Story',
     robots: {
       index: false,
       follow: false,
@@ -71,6 +71,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description: makeSeoDescription(siteSettings.siteDescription),
     keywords: makeSeoKeywords(siteSettings.siteKeywords),
     applicationName: capitalize(siteSettings.siteName),
+    publisher: capitalize(siteSettings.siteName),
     robots: await generateRobotsObject(),
     openGraph: {
       ...defaultMetadata.openGraph,

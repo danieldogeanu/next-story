@@ -38,6 +38,7 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
     populate: {
       author: { fields: ['slug', 'fullName'] },
       cover: { populate: '*' },
+      category: { fields: ['name'] },
       seo: { populate: {
         metaImage: { populate: '*' },
         metaSocial: { populate: '*' },
@@ -48,6 +49,7 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
   const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
   const articleAuthorHref = (articleAuthor) ? path.join('/authors', articleAuthor.slug) : '';
   const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
+  const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
   const articleRobots = articleData?.robots as ArticleRobots;
   const articleSEO = articleData?.seo as ArticleSEO;
   const articleHref = path.join('/articles', convertToUnixTime(articleData?.createdAt), (articleSEO?.canonicalURL || articleData?.slug || ''));
@@ -69,6 +71,7 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
       url: new URL(articleHref , getFrontEndURL()).href,
       images: await generateCoverImageObject(articleMetaFacebookImage || articleMetaImage || articleCover),
       authors: capitalize(articleAuthor?.fullName),
+      section: capitalize(articleCategory?.name),
     },
   };
 }

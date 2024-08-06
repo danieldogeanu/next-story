@@ -73,6 +73,8 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
       authors: capitalize(articleAuthor?.fullName),
       section: capitalize(articleCategory?.name),
       tags: makeSeoTags(articleSEO?.keywords)?.map((tag) => capitalize(tag)),
+      publishedTime: articleData?.publishedAt?.toString(),
+      modifiedTime: articleData?.updatedAt?.toString(),
     },
   };
 }

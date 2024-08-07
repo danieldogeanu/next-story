@@ -3,7 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
-import { makeSeoDescription, makeSeoKeywords } from '@/utils/client/seo';
+import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { getFrontEndURL, getSiteLang } from '@/utils/client/env';
 import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
@@ -75,10 +75,7 @@ export async function generateMetadata(): Promise<Metadata> {
     robots: await generateRobotsObject(),
     openGraph: {
       ...defaultMetadata.openGraph,
-      title: {
-        template: `%s > ${capitalize(siteSettings.siteName)}`,
-        default: capitalize(siteSettings.siteName),
-      },
+      title: makeSeoTitle(siteSettings.siteTitle),
       description: makeSeoDescription(siteSettings.siteDescription),
       siteName: capitalize(siteSettings.siteName),
       url: getFrontEndURL(),

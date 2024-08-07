@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getArticlesCollection } from '@/data/articles';
-import { capitalize } from '@/utils/strings';
+import { makeSeoTitle } from '@/utils/client/seo';
 import ArticleCard from '@/components/article-card';
 import styles from '@/styles/page.module.scss';
 
@@ -10,7 +10,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
 
   return {
-    title: `${capitalize(siteSettings.siteName)} > ${capitalize(siteSettings?.siteTagline as string)}`,
+    title: makeSeoTitle(`${siteSettings?.siteName} > ${siteSettings?.siteTagline}`),
   };
 }
 

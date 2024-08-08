@@ -17,6 +17,8 @@ export type AuthorSocialEntry = AuthorSocials[number] & IDProperty;
 export type AuthorArticles = NonNullable<SingleAuthor['articles']>['data'];
 export type AuthorRobots = NonNullable<SingleAuthor['robots']>;
 export type AuthorSEO = NonNullable<SingleAuthor['seo']>;
+export type AuthorMetaSocial = NonNullable<AuthorSEO['metaSocial']>;
+export type AuthorMetaSocialEntry = AuthorMetaSocial[number] & IDProperty;
 
 /**
  * Fetches a single author from the Strapi backend by their ID.

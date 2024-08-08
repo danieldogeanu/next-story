@@ -5,12 +5,13 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { IconUser } from '@tabler/icons-react';
 import { Box, Group, Image, Text, Title } from '@mantine/core';
-import { AuthorArticles, AuthorAvatar, AuthorRobots, AuthorSEO, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
+import { AuthorArticles, AuthorAvatar, AuthorMetaSocial, AuthorMetaSocialEntry, AuthorRobots, AuthorSEO, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { generateRobotsObject } from '@/utils/server/seo';
+import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
+import { getFrontEndURL } from '@/utils/client/env';
 import { convertToRelativeDate } from '@/utils/date';
 import ArticleCard from '@/components/article-card';
 import SocialIcon from '@/components/social-icon';
@@ -28,13 +29,22 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
   const authorData = (await getAuthorsCollection({
     filters: { slug: { $eq: params.slug } },
     populate: {
-      seo: { populate: '*' },
+      avatar: { populate: '*' },
+      seo: { populate: {
+        metaImage: { populate: '*' },
+        metaSocial: { populate: '*' },
+      } },
       robots: { populate: '*' },
     },
   })).data.pop()?.attributes;
-  const authorHref = (authorData?.slug) ? path.join('/authors', authorData.slug) : '';
+  const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
   const authorRobots = authorData?.robots as AuthorRobots;
   const authorSEO = authorData?.seo as AuthorSEO;
+  const authorHref = path.join('/authors', (authorSEO?.canonicalURL || authorData?.slug || ''));
+  const authorMetaImage = authorSEO.metaImage?.data?.attributes as AuthorAvatar;
+  const authorMetaSocials = authorSEO.metaSocial as AuthorMetaSocial;
+  const authorMetaFacebook = authorMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
+  const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as AuthorAvatar;
 
   return {
     title: makeSeoTitle((authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
@@ -42,6 +52,13 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
     keywords: makeSeoKeywords(authorSEO?.keywords),
     authors: [{name: capitalize(authorData?.fullName as string), url: authorHref}],
     robots: await generateRobotsObject(authorRobots),
+    openGraph: {
+      ...parentData.openGraph,
+      title: makeSeoTitle((authorMetaFacebook?.title || authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
+      description: makeSeoDescription(authorMetaFacebook?.description || authorSEO?.metaDescription || authorData?.biography, 65),
+      url: new URL(authorHref, getFrontEndURL()).href,
+      images: await generateCoverImageObject(authorMetaFacebookImage || authorMetaImage || authorAvatar),
+    },
   };
 }
 

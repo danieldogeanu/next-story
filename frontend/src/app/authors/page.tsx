@@ -1,20 +1,22 @@
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { Title } from '@mantine/core';
 import { getAuthorsCollection } from '@/data/authors';
 import { getSinglePageSettings, PageRobots } from '@/data/settings';
+import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateRobotsObject } from '@/utils/server/seo';
 import { capitalize } from '@/utils/strings';
 import AuthorCard from '@/components/author-card';
 import styles from '@/styles/page.module.scss';
 
-export async function generateMetadata(): Promise<Metadata> {
+export async function generateMetadata(props: null, parent: ResolvingMetadata): Promise<Metadata> {
+  const parentData = await parent;
   const authorPageSettings = await getSinglePageSettings('authors');
   const authorPageRobots = authorPageSettings?.robots as PageRobots;
 
   return {
-    title: capitalize(authorPageSettings?.title.trim() as string),
-    description: authorPageSettings?.description?.trim().substring(0, 160),
-    keywords: authorPageSettings?.keywords,
+    title: makeSeoTitle(authorPageSettings?.title, parentData.applicationName),
+    description: makeSeoDescription(authorPageSettings?.description),
+    keywords: makeSeoKeywords(authorPageSettings?.keywords),
     robots: await generateRobotsObject(authorPageRobots),
   };
 }

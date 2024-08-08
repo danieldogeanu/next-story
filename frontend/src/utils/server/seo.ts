@@ -67,18 +67,18 @@ export async function generateCoverImageObject(pageCover?: PageCover): Promise<C
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteCover = siteSettings.siteCover?.data?.attributes as SiteCover;
   const siteCoverFormats = siteCover?.formats as unknown as StrapiImageFormats;
-  const siteCoverURL = (siteCoverFormats?.large?.url) ? getFileURL(siteCoverFormats.large.url) : '';
+  const siteCoverURL = (siteCoverFormats?.large?.url) ? getFileURL(siteCoverFormats.large.url) : getFileURL(siteCover.url);
 
   if (pageCover) {
     const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;
-    const pageCoverURL = (pageCoverFormats?.large?.url) ? getFileURL(pageCoverFormats.large.url) : '';
+    const pageCoverURL = (pageCoverFormats?.large?.url) ? getFileURL(pageCoverFormats.large.url) : getFileURL(pageCover.url);
 
     return {
       url: pageCoverURL,
       alt: pageCover?.alternativeText,
       type: (getMimeTypeFromUrl(pageCoverURL) || undefined),
-      width: pageCoverFormats?.large?.width,
-      height: pageCoverFormats?.large?.height,
+      width: (pageCoverFormats?.large) ? pageCoverFormats.large?.width : pageCover?.width,
+      height: (pageCoverFormats?.large) ? pageCoverFormats.large?.height : pageCover?.height,
     };
   }
 
@@ -86,7 +86,7 @@ export async function generateCoverImageObject(pageCover?: PageCover): Promise<C
     url: siteCoverURL,
     alt: siteCover?.alternativeText,
     type: (getMimeTypeFromUrl(siteCoverURL) || undefined),
-    width: siteCoverFormats?.large?.width,
-    height: siteCoverFormats?.large?.height,
+    width: (siteCoverFormats?.large) ? siteCoverFormats.large?.width : siteCover?.width,
+    height: (siteCoverFormats?.large) ? siteCoverFormats.large?.height : siteCover?.height,
   };
 }

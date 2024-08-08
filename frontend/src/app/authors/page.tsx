@@ -1,9 +1,10 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { Title } from '@mantine/core';
 import { getAuthorsCollection } from '@/data/authors';
-import { getSinglePageSettings, PageRobots } from '@/data/settings';
+import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { generateRobotsObject } from '@/utils/server/seo';
+import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
+import { getFrontEndURL } from '@/utils/client/env';
 import { capitalize } from '@/utils/strings';
 import AuthorCard from '@/components/author-card';
 import styles from '@/styles/page.module.scss';
@@ -12,12 +13,23 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
   const parentData = await parent;
   const authorPageSettings = await getSinglePageSettings('authors');
   const authorPageRobots = authorPageSettings?.robots as PageRobots;
+  const authorCover = authorPageSettings?.cover?.data?.attributes as PageCover;
+  const authorMetaSocials = authorPageSettings?.metaSocial as PageMetaSocial;
+  const authorMetaFacebook = authorMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
     title: makeSeoTitle(authorPageSettings?.title, parentData.applicationName),
     description: makeSeoDescription(authorPageSettings?.description),
     keywords: makeSeoKeywords(authorPageSettings?.keywords),
     robots: await generateRobotsObject(authorPageRobots),
+    openGraph: {
+      ...parentData.openGraph,
+      title: makeSeoTitle((authorMetaFacebook?.title || authorPageSettings?.title), parentData.applicationName),
+      description: makeSeoDescription(authorMetaFacebook?.description || authorPageSettings?.description, 65),
+      url: new URL((authorPageSettings?.canonicalURL || 'authors'), getFrontEndURL()).href,
+      images: await generateCoverImageObject(authorMetaFacebookImage || authorCover),
+    },
   };
 }
 

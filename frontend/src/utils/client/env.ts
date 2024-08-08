@@ -10,12 +10,19 @@ export function getNodeEnv() {
 }
 
 /**
- * Retrieves the site's language setting.
+ * Retrieves the site's language setting in the specified format.
  *
- * @returns The site's language setting. Defaults to 'en' if not set.
+ * @note IETF format outputs: `en-US`. This is the default for HTML and JavaScript.
+ * @note POSIX format outputs: `en_US`. This is the default for Open Graph and Unix/Linux systems.
+ * @note The `NEXT_PUBLIC_LANG` env variable should be set in POSIX format, because it might be used in Docker and other places, at the OS level.
+ *
+ * @param {'ietf' | 'posix'} [format='ietf'] - The format of the language setting. Can be 'ietf' (default) or 'posix'.
+ * @returns The site's language setting in the specified format. Defaults to 'en' if not set.
  */
-export function getSiteLang() {
-  return (process.env.NEXT_PUBLIC_LANG || 'en');
+export function getSiteLang(format: 'ietf' | 'posix' = 'ietf') {
+  const publicLang = (process.env.NEXT_PUBLIC_LANG || 'en');
+  if (format === 'posix') return publicLang.replace('-', '_');
+  return publicLang.replace('_', '-');
 }
 
 /**

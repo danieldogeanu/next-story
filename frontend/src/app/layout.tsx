@@ -79,7 +79,7 @@ export async function generateMetadata(): Promise<Metadata> {
       description: makeSeoDescription(siteSettings.siteDescription),
       siteName: capitalize(siteSettings.siteName),
       url: getFrontEndURL(),
-      locale: getSiteLang(),
+      locale: getSiteLang('posix'),
       images: await generateCoverImageObject(),
     },
   };

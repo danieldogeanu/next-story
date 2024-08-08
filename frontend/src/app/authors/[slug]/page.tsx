@@ -1,11 +1,12 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
 import path from 'node:path';
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { IconUser } from '@tabler/icons-react';
 import { Box, Group, Image, Text, Title } from '@mantine/core';
 import { AuthorArticles, AuthorAvatar, AuthorRobots, AuthorSEO, AuthorSocialEntry, getAuthorsCollection } from '@/data/authors';
+import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
@@ -22,7 +23,8 @@ export interface AuthorPageProps {
   };
 }
 
-export async function generateMetadata({params}: AuthorPageProps): Promise<Metadata> {  
+export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const parentData = await parent;
   const authorData = (await getAuthorsCollection({
     filters: { slug: { $eq: params.slug } },
     populate: {
@@ -35,9 +37,9 @@ export async function generateMetadata({params}: AuthorPageProps): Promise<Metad
   const authorSEO = authorData?.seo as AuthorSEO;
 
   return {
-    title: capitalize((authorSEO?.metaTitle.trim() || authorData?.fullName.trim()) as string) + '\'s Articles',
-    description: authorSEO?.metaDescription.trim() || (authorData?.biography?.substring(0, 160 - 4) + '...').trim(),
-    keywords: authorSEO?.keywords,
+    title: makeSeoTitle((authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
+    description: makeSeoDescription(authorSEO?.metaDescription || authorData?.biography),
+    keywords: makeSeoKeywords(authorSEO?.keywords),
     authors: [{name: capitalize(authorData?.fullName as string), url: authorHref}],
     robots: await generateRobotsObject(authorRobots),
   };

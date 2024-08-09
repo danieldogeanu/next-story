@@ -26,7 +26,11 @@ export async function generateMetadata({params}: CategoryPageProps, parent: Reso
   const categoryData = (await getCategoriesCollection({
     filters: { slug: { $eq: params.slug } },
     populate: {
-      seo: { populate: '*' },
+      cover: { populate: '*' },
+      seo: { populate: {
+        metaImage: { populate: '*' },
+        metaSocial: { populate: '*' },
+      } },
       robots: { populate: '*' },
     },
   })).data.pop()?.attributes;

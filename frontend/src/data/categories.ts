@@ -1,5 +1,5 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import buildTimeCategories from '@build-data/categories.json';
@@ -12,9 +12,11 @@ export interface CategoriesCollectionResponse extends APIResponseCollection<'api
 
 // Extract smaller subtypes that can be used to further work with data.
 export type CategoryCover = NonNullable<SingleCategory['cover']>['data']['attributes'];
+export type CategoryArticles = NonNullable<SingleCategory['articles']>['data'];
 export type CategoryRobots = NonNullable<SingleCategory['robots']>;
 export type CategorySEO = NonNullable<SingleCategory['seo']>;
-export type CategoryArticles = NonNullable<SingleCategory['articles']>['data'];
+export type CategoryMetaSocial = NonNullable<CategorySEO['metaSocial']>;
+export type CategoryMetaSocialEntry = CategoryMetaSocial[number] & IDProperty;
 
 /**
  * Fetches a single category from the Strapi backend by their ID.

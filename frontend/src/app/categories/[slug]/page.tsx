@@ -1,12 +1,14 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
+import path from 'node:path';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Title, Image, Box, Text } from '@mantine/core';
-import { CategoryArticles, CategoryCover, CategoryRobots, CategorySEO, getCategoriesCollection } from '@/data/categories';
+import { CategoryArticles, CategoryCover, CategoryMetaSocial, CategoryMetaSocialEntry, CategoryRobots, CategorySEO, getCategoriesCollection } from '@/data/categories';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { generateRobotsObject } from '@/utils/server/seo';
+import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
+import { getFrontEndURL } from '@/utils/client/env';
 import { capitalize } from '@/utils/strings';
 import { getFileURL } from '@/data/files';
 import ArticleCard from '@/components/article-card';
@@ -28,14 +30,27 @@ export async function generateMetadata({params}: CategoryPageProps, parent: Reso
       robots: { populate: '*' },
     },
   })).data.pop()?.attributes;
+  const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
   const categoryRobots = categoryData?.robots as CategoryRobots;
   const categorySEO = categoryData?.seo as CategorySEO;
+  const categoryHref = path.join('/categories', (categorySEO?.canonicalURL || categoryData?.slug || ''));
+  const categoryMetaImage = categorySEO.metaImage?.data?.attributes as CategoryCover;
+  const categoryMetaSocials = categorySEO.metaSocial as CategoryMetaSocial;
+  const categoryMetaFacebook = categoryMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as CategoryMetaSocialEntry;
+  const categoryMetaFacebookImage = categoryMetaFacebook?.image?.data?.attributes as CategoryCover;
 
   return {
     title: makeSeoTitle((categorySEO?.metaTitle || categoryData?.name) + ' Category', parentData.applicationName),
     description: makeSeoDescription(categorySEO?.metaDescription || categoryData?.description),
     keywords: makeSeoKeywords(categorySEO?.keywords),
     robots: await generateRobotsObject(categoryRobots),
+    openGraph: {
+      ...parentData.openGraph,
+      title: makeSeoTitle((categoryMetaFacebook?.title || categorySEO?.metaTitle || categoryData?.name) + ' Category', parentData.applicationName),
+      description: makeSeoDescription(categoryMetaFacebook?.description || categorySEO?.metaDescription || categoryData?.description, 65),
+      url: new URL(categoryHref, getFrontEndURL()).href,
+      images: await generateCoverImageObject(categoryMetaFacebookImage || categoryMetaImage || categoryCover),
+    },
   };
 }
 

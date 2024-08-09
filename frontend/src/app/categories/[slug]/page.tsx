@@ -1,9 +1,10 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Title, Image, Box, Text } from '@mantine/core';
 import { CategoryArticles, CategoryCover, CategoryRobots, CategorySEO, getCategoriesCollection } from '@/data/categories';
+import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
@@ -18,7 +19,8 @@ export interface CategoryPageProps {
   };
 }
 
-export async function generateMetadata({params}: CategoryPageProps): Promise<Metadata> {
+export async function generateMetadata({params}: CategoryPageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const parentData = await parent;
   const categoryData = (await getCategoriesCollection({
     filters: { slug: { $eq: params.slug } },
     populate: {
@@ -30,9 +32,9 @@ export async function generateMetadata({params}: CategoryPageProps): Promise<Met
   const categorySEO = categoryData?.seo as CategorySEO;
 
   return {
-    title: capitalize((categorySEO?.metaTitle.trim() || categoryData?.name.trim()) as string) + ' Category',
-    description: categorySEO?.metaDescription.trim() || (categoryData?.description?.substring(0, 160 - 4) + '...').trim(),
-    keywords: categorySEO?.keywords,
+    title: makeSeoTitle((categorySEO?.metaTitle || categoryData?.name) + ' Category', parentData.applicationName),
+    description: makeSeoDescription(categorySEO?.metaDescription || categoryData?.description),
+    keywords: makeSeoKeywords(categorySEO?.keywords),
     robots: await generateRobotsObject(categoryRobots),
   };
 }

@@ -1,6 +1,5 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
-import path from 'node:path';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { IconUser } from '@tabler/icons-react';
@@ -14,7 +13,7 @@ import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/s
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
-import { getFrontEndURL } from '@/utils/client/env';
+import { getPageUrl } from '@/utils/urls';
 import { convertToRelativeDate } from '@/utils/date';
 import ArticleCard from '@/components/article-card';
 import SocialIcon from '@/components/social-icon';
@@ -43,7 +42,7 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
   const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
   const authorRobots = authorData?.robots as AuthorRobots;
   const authorSEO = authorData?.seo as AuthorSEO;
-  const authorHref = path.join('/authors', (authorSEO?.canonicalURL || authorData?.slug || ''));
+  const authorURL = getPageUrl((authorSEO?.canonicalURL || authorData?.slug), '/authors');
   const authorMetaImage = authorSEO.metaImage?.data?.attributes as AuthorAvatar;
   const authorMetaSocials = authorSEO.metaSocial as AuthorMetaSocial;
   const authorMetaFacebook = authorMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
@@ -53,13 +52,12 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
     title: makeSeoTitle((authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
     description: makeSeoDescription(authorSEO?.metaDescription || authorData?.biography),
     keywords: makeSeoKeywords(authorSEO?.keywords),
-    authors: [{name: capitalize(authorData?.fullName as string), url: authorHref}],
+    authors: [{name: capitalize(authorData?.fullName as string), url: authorURL}],
     robots: await generateRobotsObject(authorRobots),
     openGraph: {
-      ...parentData.openGraph,
+      ...parentData.openGraph, url: authorURL,
       title: makeSeoTitle((authorMetaFacebook?.title || authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
       description: makeSeoDescription(authorMetaFacebook?.description || authorSEO?.metaDescription || authorData?.biography, 65),
-      url: new URL(authorHref, getFrontEndURL()).href,
       images: await generateCoverImageObject(authorMetaFacebookImage || authorMetaImage || authorAvatar),
     },
   };

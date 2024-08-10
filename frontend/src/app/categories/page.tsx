@@ -4,8 +4,8 @@ import { getCategoriesCollection } from '@/data/categories';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
-import { getFrontEndURL } from '@/utils/client/env';
 import { capitalize } from '@/utils/strings';
+import { getPageUrl } from '@/utils/urls';
 import CategoryCard from '@/components/category-card';
 import styles from '@/styles/page.module.scss';
 
@@ -25,9 +25,9 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
     robots: await generateRobotsObject(categoriesPageRobots),
     openGraph: {
       ...parentData.openGraph,
+      url: getPageUrl(categoriesPageSettings?.canonicalURL || 'categories'),
       title: makeSeoTitle((categoriesMetaFacebook?.title || categoriesPageSettings?.title), parentData.applicationName),
       description: makeSeoDescription(categoriesMetaFacebook?.description || categoriesPageSettings?.description, 65),
-      url: new URL((categoriesPageSettings?.canonicalURL || 'categories'), getFrontEndURL()).href,
       images: await generateCoverImageObject(categoriesMetaFacebookImage || categoriesCover),
     },
   };

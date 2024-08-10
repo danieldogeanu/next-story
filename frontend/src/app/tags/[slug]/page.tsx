@@ -1,11 +1,10 @@
-import path from 'node:path';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
 import { getTagsCollection, TagArticles } from '@/data/tags';
 import { makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { getFrontEndURL } from '@/utils/client/env';
+import { getPageUrl } from '@/utils/urls';
 import ArticleCard from '@/components/article-card';
 import SortBar from '@/components/sort-bar';
 import styles from '@/styles/page.module.scss';
@@ -21,7 +20,6 @@ export async function generateMetadata({params}: TagPageProps, parent: Resolving
   const tagData = (await getTagsCollection({
     filters: { slug: { $eq: params.slug } },
   })).data.pop()?.attributes;
-  const tagHref = path.join('/tags', (tagData?.slug || ''));
 
   return {
     title: makeSeoTitle(tagData?.name + ' Tag', parentData.applicationName),
@@ -34,8 +32,8 @@ export async function generateMetadata({params}: TagPageProps, parent: Resolving
     },
     openGraph: {
       ...parentData.openGraph,
+      url: getPageUrl(tagData?.slug, '/tags'),
       title: makeSeoTitle(tagData?.name + ' Tag', parentData.applicationName),
-      url: new URL(tagHref, getFrontEndURL()).href,
       description: undefined,
     },
   };

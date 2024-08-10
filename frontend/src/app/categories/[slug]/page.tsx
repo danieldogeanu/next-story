@@ -1,6 +1,5 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
-import path from 'node:path';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Title, Image, Box, Text } from '@mantine/core';
@@ -8,8 +7,8 @@ import { CategoryArticles, CategoryCover, CategoryMetaSocial, CategoryMetaSocial
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
-import { getFrontEndURL } from '@/utils/client/env';
 import { capitalize } from '@/utils/strings';
+import { getPageUrl } from '@/utils/urls';
 import { getFileURL } from '@/data/files';
 import ArticleCard from '@/components/article-card';
 import pageStyles from '@/styles/page.module.scss';
@@ -37,7 +36,6 @@ export async function generateMetadata({params}: CategoryPageProps, parent: Reso
   const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
   const categoryRobots = categoryData?.robots as CategoryRobots;
   const categorySEO = categoryData?.seo as CategorySEO;
-  const categoryHref = path.join('/categories', (categorySEO?.canonicalURL || categoryData?.slug || ''));
   const categoryMetaImage = categorySEO.metaImage?.data?.attributes as CategoryCover;
   const categoryMetaSocials = categorySEO.metaSocial as CategoryMetaSocial;
   const categoryMetaFacebook = categoryMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as CategoryMetaSocialEntry;
@@ -50,9 +48,9 @@ export async function generateMetadata({params}: CategoryPageProps, parent: Reso
     robots: await generateRobotsObject(categoryRobots),
     openGraph: {
       ...parentData.openGraph,
+      url: getPageUrl((categorySEO?.canonicalURL || categoryData?.slug), '/categories'),
       title: makeSeoTitle((categoryMetaFacebook?.title || categorySEO?.metaTitle || categoryData?.name) + ' Category', parentData.applicationName),
       description: makeSeoDescription(categoryMetaFacebook?.description || categorySEO?.metaDescription || categoryData?.description, 65),
-      url: new URL(categoryHref, getFrontEndURL()).href,
       images: await generateCoverImageObject(categoryMetaFacebookImage || categoryMetaImage || categoryCover),
     },
   };

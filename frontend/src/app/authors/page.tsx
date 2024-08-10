@@ -4,7 +4,7 @@ import { getAuthorsCollection } from '@/data/authors';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
-import { getFrontEndURL } from '@/utils/client/env';
+import { getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import AuthorCard from '@/components/author-card';
 import styles from '@/styles/page.module.scss';
@@ -25,9 +25,9 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
     robots: await generateRobotsObject(authorPageRobots),
     openGraph: {
       ...parentData.openGraph,
+      url: getPageUrl(authorPageSettings?.canonicalURL || 'authors'),
       title: makeSeoTitle((authorMetaFacebook?.title || authorPageSettings?.title), parentData.applicationName),
       description: makeSeoDescription(authorMetaFacebook?.description || authorPageSettings?.description, 65),
-      url: new URL((authorPageSettings?.canonicalURL || 'authors'), getFrontEndURL()).href,
       images: await generateCoverImageObject(authorMetaFacebookImage || authorCover),
     },
   };

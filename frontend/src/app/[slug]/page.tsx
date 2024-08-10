@@ -5,8 +5,8 @@ import { Box, Image, Title } from '@mantine/core';
 import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO } from '@/data/pages';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
-import { getFrontEndURL } from '@/utils/client/env';
 import { StrapiImageFormats } from '@/types/strapi';
+import { getPageUrl } from '@/utils/urls';
 import { getFileURL } from '@/data/files';
 import ContentRenderer from '@/components/content-renderer';
 import styles from '@/styles/page.module.scss';
@@ -45,9 +45,9 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
     robots: await generateRobotsObject(pageRobots),
     openGraph: {
       ...parentData.openGraph,
+      url: getPageUrl(pageSEO?.canonicalURL || pageData?.slug),
       title: makeSeoTitle(pageMetaFacebook?.title || pageSEO?.metaTitle || pageData?.title, parentData.applicationName),
       description: makeSeoDescription(pageMetaFacebook?.description || pageSEO?.metaDescription || pageData?.excerpt, 65),
-      url: new URL((pageSEO?.canonicalURL || pageData?.slug || '') , getFrontEndURL()).href,
       images: await generateCoverImageObject(pageMetaFacebookImage || pageMetaImage || pageCover),
     },
   };

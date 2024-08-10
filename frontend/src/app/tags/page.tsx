@@ -4,8 +4,8 @@ import { getTagsCollection } from '@/data/tags';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
-import { getFrontEndURL } from '@/utils/client/env';
 import { capitalize } from '@/utils/strings';
+import { getPageUrl } from '@/utils/urls';
 import TagCard from '@/components/tag-card';
 import styles from '@/styles/page.module.scss';
 
@@ -25,9 +25,9 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
     robots: await generateRobotsObject(tagsPageRobots),
     openGraph: {
       ...parentData.openGraph,
+      url: getPageUrl(tagsPageSettings?.canonicalURL || 'tags'),
       title: makeSeoTitle((tagsMetaFacebook?.title || tagsPageSettings?.title), parentData.applicationName),
       description: makeSeoDescription(tagsMetaFacebook?.description || tagsPageSettings?.description, 65),
-      url: new URL((tagsPageSettings?.canonicalURL || 'tags'), getFrontEndURL()).href,
       images: await generateCoverImageObject(tagsMetaFacebookImage || tagsCover),
     },
   };

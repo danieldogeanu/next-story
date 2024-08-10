@@ -1,6 +1,8 @@
 import mime from 'mime';
 import path from 'path';
-import { getFrontEndURL, getHostname } from "@/utils/client/env";
+import { z as val } from 'zod';
+import { getFrontEndURL, getHostname } from '@/utils/client/env';
+import { convertToUnixTime } from '@/utils/date';
 
 
 /**
@@ -88,6 +90,24 @@ export function getPageUrl(pageSlug: string | undefined, rootPage?: string | und
       return new URL(path.join(rootPage, pageSlug), getFrontEndURL()).href;
     }
     return new URL(pageSlug, getFrontEndURL()).href;
+  }
+}
+
+/**
+ * Constructs the full URL for an article based on its creation date and slug.
+ *
+ * @param {string | Date | undefined} created - The creation date of the article, in ISO format or as a Date object.
+ * @param {string | undefined} slug - The slug of the article.
+ * @returns {string | undefined} The fully constructed URL for the given article. Returns `undefined` if the `created` date or `slug` is invalid or missing.
+ */
+export function getArticleUrl(created: string | Date | undefined, slug: string | undefined): string | undefined {
+  if (typeof created !== 'undefined' && typeof slug !== 'undefined') {
+    const dateTimeSchema = val.string().datetime();
+
+    if (dateTimeSchema.safeParse(created).success && typeof slug === 'string') {
+      const articlePath = path.join('/articles', convertToUnixTime(created), slug);
+      return new URL(articlePath, getFrontEndURL()).href;
+    }
   }
 }
 

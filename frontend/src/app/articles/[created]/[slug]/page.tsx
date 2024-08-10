@@ -11,10 +11,10 @@ import {
   ArticleMetaSocialEntry, ArticleRobots, ArticleSEO, getArticlesCollection
 } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
-import { convertToISODate, convertToReadableDate, convertToUnixTime } from '@/utils/date';
+import { convertToISODate, convertToReadableDate } from '@/utils/date';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTags, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
-import { getFrontEndURL } from '@/utils/client/env';
+import { getArticleUrl, getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import { getFileURL } from '@/data/files';
 import ContentRenderer from '@/components/content-renderer';
@@ -47,12 +47,10 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
     },
   })).data.pop()?.attributes;
   const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
-  const articleAuthorHref = (articleAuthor) ? path.join('/authors', articleAuthor.slug) : '';
   const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
   const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
   const articleRobots = articleData?.robots as ArticleRobots;
   const articleSEO = articleData?.seo as ArticleSEO;
-  const articleHref = path.join('/articles', convertToUnixTime(articleData?.createdAt), (articleSEO?.canonicalURL || articleData?.slug || ''));
   const articleMetaImage = articleSEO.metaImage?.data?.attributes as ArticleCover;
   const articleMetaSocials = articleSEO.metaSocial as ArticleMetaSocial;
   const articleMetaFacebook = articleMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as ArticleMetaSocialEntry;
@@ -62,13 +60,13 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
     title: makeSeoTitle(articleSEO?.metaTitle || articleData?.title, parentData.applicationName),
     description: makeSeoDescription(articleSEO?.metaDescription || articleData?.excerpt),
     keywords: makeSeoKeywords(articleSEO?.keywords),
-    authors: [{name: capitalize(articleAuthor?.fullName), url: articleAuthorHref}],
+    authors: [{name: capitalize(articleAuthor?.fullName), url: getPageUrl(articleAuthor?.slug, '/authors')}],
     robots: await generateRobotsObject(articleRobots),
     openGraph: {
       ...parentData.openGraph, type: 'article',
+      url: getArticleUrl(articleData?.createdAt, (articleSEO?.canonicalURL || articleData?.slug)),
       title: makeSeoTitle(articleMetaFacebook?.title || articleSEO?.metaTitle || articleData?.title, parentData.applicationName),
       description: makeSeoDescription(articleMetaFacebook?.description || articleSEO?.metaDescription || articleData?.excerpt, 65),
-      url: new URL(articleHref , getFrontEndURL()).href,
       images: await generateCoverImageObject(articleMetaFacebookImage || articleMetaImage || articleCover),
       authors: capitalize(articleAuthor?.fullName),
       section: capitalize(articleCategory?.name),

@@ -1,10 +1,10 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
-import path from 'node:path';
 import { Box, Card, CardSection, Image, Title } from '@mantine/core';
 import { CategoryCover, SingleCategory } from '@/data/categories';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
+import { getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import styles from '@/styles/category-card.module.scss';
 
@@ -13,7 +13,7 @@ export interface CategoryCardProps {
 }
 
 export default function CategoryCard({data}: CategoryCardProps) {
-  const categoryHref = path.join('/categories', data.slug);
+  const categoryUrl = getPageUrl(data.slug, '/categories');
   const categoryCover = data?.cover?.data?.attributes as CategoryCover;
   const categoryCoverFormats = categoryCover?.formats as unknown as StrapiImageFormats;
   const categoryCoverUrl = (categoryCoverFormats?.small?.url) ? getFileURL(categoryCoverFormats.small.url) : '';
@@ -29,7 +29,7 @@ export default function CategoryCard({data}: CategoryCardProps) {
       <CardSection
         className={styles.cover}
         component={Link}
-        href={categoryHref}
+        href={categoryUrl || ''}
         title={`See Articles in ${capitalize(data.name)} Category`}>
         <Box className={styles.preview}>
           <Title className={styles.title} order={2}>

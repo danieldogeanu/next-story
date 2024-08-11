@@ -41,6 +41,9 @@ export async function generateMetadata(): Promise<Metadata> {
       follow: false,
       nocache: true,
     },
+    alternates: {
+      canonical: 'http://localhost:3000',
+    },
     openGraph: {
       title: {
         template: '%s > Next Story',
@@ -73,6 +76,9 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: capitalize(siteSettings.siteName),
     publisher: capitalize(siteSettings.siteName),
     robots: await generateRobotsObject(),
+    alternates: {
+      canonical: getFrontEndURL(),
+    },
     openGraph: {
       ...defaultMetadata.openGraph,
       title: makeSeoTitle(siteSettings.siteTitle),

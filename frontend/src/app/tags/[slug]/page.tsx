@@ -25,6 +25,9 @@ export async function generateMetadata({params}: TagPageProps, parent: Resolving
     title: makeSeoTitle(tagData?.name + ' Tag', parentData.applicationName),
     keywords: makeSeoKeywords(tagData?.slug),
     description: undefined,
+    alternates: {
+      canonical: getPageUrl(tagData?.slug, '/tags'),
+    },
     robots: {
       index: false,
       follow: false,

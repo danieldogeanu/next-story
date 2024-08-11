@@ -13,6 +13,9 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
 
   return {
     title: makeSeoTitle(`${siteSettings?.siteName} > ${siteSettings?.siteTagline}`),
+    alternates: {
+      canonical: getFrontEndURL(),
+    },
     openGraph: {
       ...parentData.openGraph,
       url: getFrontEndURL(),

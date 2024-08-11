@@ -54,6 +54,9 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
     keywords: makeSeoKeywords(authorSEO?.keywords),
     authors: [{name: capitalize(authorData?.fullName as string), url: authorURL}],
     robots: await generateRobotsObject(authorRobots),
+    alternates: {
+      canonical: authorURL,
+    },
     openGraph: {
       ...parentData.openGraph, url: authorURL,
       title: makeSeoTitle((authorMetaFacebook?.title || authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),

@@ -46,6 +46,9 @@ export async function generateMetadata({params}: CategoryPageProps, parent: Reso
     description: makeSeoDescription(categorySEO?.metaDescription || categoryData?.description),
     keywords: makeSeoKeywords(categorySEO?.keywords),
     robots: await generateRobotsObject(categoryRobots),
+    alternates: {
+      canonical: getPageUrl((categorySEO?.canonicalURL || categoryData?.slug), '/categories'),
+    },
     openGraph: {
       ...parentData.openGraph,
       url: getPageUrl((categorySEO?.canonicalURL || categoryData?.slug), '/categories'),

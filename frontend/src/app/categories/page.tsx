@@ -23,6 +23,9 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
     description: makeSeoDescription(categoriesPageSettings?.description),
     keywords: makeSeoKeywords(categoriesPageSettings?.keywords),
     robots: await generateRobotsObject(categoriesPageRobots),
+    alternates: {
+      canonical: getPageUrl(categoriesPageSettings?.canonicalURL || 'categories'),
+    },
     openGraph: {
       ...parentData.openGraph,
       url: getPageUrl(categoriesPageSettings?.canonicalURL || 'categories'),

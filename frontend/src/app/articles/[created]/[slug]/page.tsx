@@ -62,6 +62,9 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
     keywords: makeSeoKeywords(articleSEO?.keywords),
     authors: [{name: capitalize(articleAuthor?.fullName), url: getPageUrl(articleAuthor?.slug, '/authors')}],
     robots: await generateRobotsObject(articleRobots),
+    alternates: {
+      canonical: getArticleUrl(articleData?.createdAt, (articleSEO?.canonicalURL || articleData?.slug)),
+    },
     openGraph: {
       ...parentData.openGraph, type: 'article',
       url: getArticleUrl(articleData?.createdAt, (articleSEO?.canonicalURL || articleData?.slug)),

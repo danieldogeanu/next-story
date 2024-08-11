@@ -43,6 +43,9 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
     description: makeSeoDescription(pageSEO?.metaDescription || pageData?.excerpt),
     keywords: makeSeoKeywords(pageSEO?.keywords),
     robots: await generateRobotsObject(pageRobots),
+    alternates: {
+      canonical: getPageUrl(pageSEO?.canonicalURL || pageData?.slug),
+    },
     openGraph: {
       ...parentData.openGraph,
       url: getPageUrl(pageSEO?.canonicalURL || pageData?.slug),

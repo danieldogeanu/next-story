@@ -1,6 +1,5 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
-import path from 'node:path';
 import classNames from 'classnames';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
@@ -93,9 +92,9 @@ export default async function ArticlePage({params}: ArticlePageProps) {
   const articleCoverFormats = articleCover?.formats as unknown as StrapiImageFormats;
   const articleCoverUrl = (articleCoverFormats?.large?.url) ? getFileURL(articleCoverFormats.large.url) : '';
   const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
-  const articleAuthorHref = (articleAuthor) ? path.join('/authors', articleAuthor.slug) : '';
+  const articleAuthorUrl = getPageUrl(articleAuthor?.slug, '/authors');
   const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
-  const articleCategoryHref = (articleCategory) ? path.join('/categories', articleCategory.slug) : '';
+  const articleCategoryUrl = getPageUrl(articleCategory?.slug, '/categories');
   const articleContent = articleData?.content as ArticleContent;
 
   if (!articleData) return notFound();
@@ -115,7 +114,7 @@ export default async function ArticlePage({params}: ArticlePageProps) {
 
             <Anchor
               className={classNames(articleStyles.entry, articleStyles.author)}
-              component={Link} href={articleAuthorHref} title='Article Author' underline='never'>
+              component={Link} href={articleAuthorUrl || ''} title='Article Author' underline='never'>
               <IconUser size={24} stroke={1.5} />
               {capitalize(articleAuthor?.fullName)}
             </Anchor>
@@ -129,7 +128,7 @@ export default async function ArticlePage({params}: ArticlePageProps) {
 
             <Anchor
               className={classNames(articleStyles.entry, articleStyles.category)}
-              component={Link} href={articleCategoryHref} title='Article Category' underline='never'>
+              component={Link} href={articleCategoryUrl || ''} title='Article Category' underline='never'>
               <IconCategory size={24} stroke={1.5} />
               {capitalize(articleCategory?.name)}
             </Anchor>

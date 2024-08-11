@@ -1,10 +1,10 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
-import path from 'node:path';
-import { ActionIcon, Box, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { IconArrowNarrowRight, IconEyeFilled } from '@tabler/icons-react';
-import { convertToReadableDate, convertToUnixTime } from '@/utils/date';
+import { ActionIcon, Box, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { ArticleAuthor, ArticleCategory, ArticleCover, SingleArticle } from '@/data/articles';
+import { getArticleUrl, getPageUrl } from '@/utils/urls';
+import { convertToReadableDate } from '@/utils/date';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
 import { getFileURL } from '@/data/files';
@@ -15,14 +15,14 @@ export interface ArticleCardProps {
 }
 
 export default function ArticleCard({data}: ArticleCardProps) {
-  const articleHref = path.join('/articles', convertToUnixTime(data.createdAt), data.slug);
+  const articleUrl = getArticleUrl(data?.createdAt, data?.slug);
   const articleCover = data?.cover?.data?.attributes as ArticleCover;
   const articleCoverFormats = articleCover?.formats as unknown as StrapiImageFormats;
   const articleCoverUrl = (articleCoverFormats?.small?.url) ? getFileURL(articleCoverFormats.small.url) : '';
   const articleCategory = data.category?.data?.attributes as ArticleCategory;
-  const articleCategoryHref = path.join('/categories', articleCategory?.slug || '');
+  const articleCategoryUrl = getPageUrl(articleCategory?.slug, '/categories');
   const articleAuthor = data.author?.data?.attributes as ArticleAuthor;
-  const articleAuthorHref = path.join('/authors', articleAuthor?.slug || '');
+  const articleAuthorUrl = getPageUrl(articleAuthor?.slug, '/authors');
   
   // TODO: Add image fallback in case the `articleCoverUrl` is undefined.
 
@@ -36,7 +36,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
       <CardSection
         className={styles.cover}
         component={Link}
-        href={articleHref}
+        href={articleUrl || ''}
         title='Read Article'>
         <Box className={styles.preview}>
           <IconEyeFilled size={120} />
@@ -52,7 +52,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
       
       <Group className={styles.meta} justify='space-between'>
         <Text title='Category'>
-          <Link href={articleCategoryHref}>
+          <Link href={articleCategoryUrl || ''}>
             {capitalize(articleCategory?.name as string)}
           </Link>
         </Text>
@@ -66,7 +66,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
         </Text>
       </Group>
 
-      <Link href={articleHref} title={capitalize(data.title)}>
+      <Link href={articleUrl || ''} title={capitalize(data.title)}>
         <Title className={styles.title} order={2}>
           {capitalize(data.title.substring(0, 60))}
         </Title>
@@ -74,13 +74,13 @@ export default function ArticleCard({data}: ArticleCardProps) {
 
       <Group className={styles.author} justify='space-between'>
         <Text title='Author'>
-          <Link href={articleAuthorHref}>
+          <Link href={articleAuthorUrl || ''}>
             {capitalize(articleAuthor?.fullName as string)}
           </Link>
         </Text>
         <ActionIcon 
           component={Link}
-          href={articleHref}
+          href={articleUrl || ''}
           size='lg' variant='subtle'
           title='Read Article'
           aria-label='Read Article'>

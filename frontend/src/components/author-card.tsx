@@ -1,11 +1,11 @@
 import NextImage from 'next/image';
 import Link from 'next/link';
-import path from 'node:path';
 import { Box, Button, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { IconArrowNarrowRight, IconEyeFilled, IconUser } from '@tabler/icons-react';
-import { StrapiImageFormats } from '@/types/strapi';
 import { AuthorArticles, AuthorAvatar, AuthorSocialEntry, SingleAuthor } from '@/data/authors';
+import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL } from '@/data/files';
+import { getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
 import SocialIcon from '@/components/social-icon';
@@ -16,7 +16,7 @@ export interface AuthorCardProps {
 }
 
 export default function AuthorCard({data}: AuthorCardProps) {
-  const authorHref = path.join('/authors', data.slug);
+  const authorUrl = getPageUrl(data.slug, '/authors');
   const authorAvatar = data?.avatar?.data?.attributes as AuthorAvatar;
   const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
   const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
@@ -35,7 +35,7 @@ export default function AuthorCard({data}: AuthorCardProps) {
         <Box
           className={styles.avatar}
           component={Link}
-          href={authorHref}
+          href={authorUrl || ''}
           title={authorLabel}>
           <IconEyeFilled className={styles.preview} size={60} />
           {(authorAvatar && authorAvatarUrl) ?
@@ -54,7 +54,7 @@ export default function AuthorCard({data}: AuthorCardProps) {
         </Box>
       </CardSection>
 
-      <Link href={authorHref} title={capitalize(data.fullName)}>
+      <Link href={authorUrl || ''} title={capitalize(data.fullName)}>
         <Title className={styles.name} order={2}>
           {capitalize(data.fullName.substring(0, 60))}
         </Title>
@@ -80,7 +80,7 @@ export default function AuthorCard({data}: AuthorCardProps) {
         <Button
           className={styles.button}
           component={Link}
-          href={authorHref}
+          href={authorUrl || ''}
           title={authorLabel}
           variant='subtle'
           color='dark'

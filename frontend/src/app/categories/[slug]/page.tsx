@@ -45,6 +45,7 @@ export async function generateMetadata({params}: CategoryPageProps, parent: Reso
     title: makeSeoTitle((categorySEO?.metaTitle || categoryData?.name) + ' Category', parentData.applicationName),
     description: makeSeoDescription(categorySEO?.metaDescription || categoryData?.description),
     keywords: makeSeoKeywords(categorySEO?.keywords),
+    category: makeSeoTitle(categorySEO?.metaTitle || categoryData?.name),
     robots: await generateRobotsObject(categoryRobots),
     alternates: {
       canonical: getPageUrl((categorySEO?.canonicalURL || categoryData?.slug), '/categories'),

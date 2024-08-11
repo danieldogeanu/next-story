@@ -2,6 +2,9 @@ import StrapiSDK, { StrapiOptions } from 'strapi-sdk-js';
 import { validateApiKey } from '@/validation/api';
 import { getBackEndURL } from '@/utils/client/env';
 
+// TODO: Refactor all Strapi data functions to use try/catch blocks and return empty responses.
+// TODO: Remove fetcher container and fetcher data during build time and use empty responses instead.
+
 /**
  * Initializes and returns an instance of the StrapiSDK with the appropriate configuration.
  *

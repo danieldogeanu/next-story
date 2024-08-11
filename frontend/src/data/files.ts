@@ -70,6 +70,8 @@ export async function getSingleFile(id: string | number, params?: StrapiRequestP
 /**
  * Constructs a full URL for a given file path.
  *
+ * // TODO: Move this to `utils/urls.ts` and refactor it to include `undefined` and `backend` and `frontend` urls.
+ *
  * @param {string} url - The relative URL of the file.
  * @returns {string} The full URL of the file.
  *

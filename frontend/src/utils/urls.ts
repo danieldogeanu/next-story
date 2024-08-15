@@ -138,8 +138,6 @@ export function getArticleUrl(created: string | Date | undefined, slug: string |
 /**
  * Constructs the full URL for a given file path based on its source (frontend or backend).
  *
- * // TODO: Handle absolute URLs, because there are some inconsistencies in the Strapi API.
- *
  * @param {string | undefined} url - The relative URL path of the file.
  * @param {'frontend' | 'backend'} [source='backend'] - The source of the URL, either 'frontend' or 'backend'. Defaults to 'backend'.
  * @returns {string | undefined} The fully constructed URL for the given file. Returns `undefined` if the `url` is invalid or not provided.

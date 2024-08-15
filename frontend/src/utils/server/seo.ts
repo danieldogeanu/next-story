@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import { getSiteSettings, PageCover, PageRobots, SiteCover, SiteRobots, SiteSettings } from '@/data/settings';
 import { StrapiImageFormats } from '@/types/strapi';
-import { getFileURL } from '@/data/files';
-import { getMimeTypeFromUrl } from '@/utils/urls';
+import { getFileURL, getMimeTypeFromUrl } from '@/utils/urls';
 
 export type RobotsObject = Metadata['robots'];
 export type CoverImageObject = NonNullable<Metadata['openGraph']>['images'];
@@ -74,19 +73,20 @@ export async function generateCoverImageObject(pageCover?: PageCover): Promise<C
     const pageCoverURL = (pageCoverFormats?.large?.url) ? getFileURL(pageCoverFormats.large.url) : getFileURL(pageCover.url);
 
     return {
-      url: pageCoverURL,
+      url: pageCoverURL ?? '',
       alt: pageCover?.alternativeText,
-      type: (getMimeTypeFromUrl(pageCoverURL) || undefined),
-      width: (pageCoverFormats?.large) ? pageCoverFormats.large?.width : pageCover?.width,
-      height: (pageCoverFormats?.large) ? pageCoverFormats.large?.height : pageCover?.height,
+      type: getMimeTypeFromUrl(pageCoverURL || '') || undefined,
+      width: pageCoverFormats?.large?.width ?? pageCover?.width ?? undefined,
+      height: pageCoverFormats?.large?.height ?? pageCover?.height ?? undefined,
     };
   }
 
   return {
-    url: siteCoverURL,
+    url: siteCoverURL ?? '',
     alt: siteCover?.alternativeText,
-    type: (getMimeTypeFromUrl(siteCoverURL) || undefined),
-    width: (siteCoverFormats?.large) ? siteCoverFormats.large?.width : siteCover?.width,
-    height: (siteCoverFormats?.large) ? siteCoverFormats.large?.height : siteCover?.height,
+    type: getMimeTypeFromUrl(siteCoverURL || '') || undefined,
+    width: siteCoverFormats?.large?.width ?? siteCover?.width ?? undefined,
+    height: siteCoverFormats?.large?.height ?? siteCover?.height ?? undefined,
   };
 }
+

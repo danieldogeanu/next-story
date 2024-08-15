@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { IconArrowNarrowRight, IconEyeFilled } from '@tabler/icons-react';
 import { ActionIcon, Box, Card, CardSection, Group, Image, Text, Title } from '@mantine/core';
 import { ArticleAuthor, ArticleCategory, ArticleCover, SingleArticle } from '@/data/articles';
-import { getArticleUrl, getPageUrl } from '@/utils/urls';
+import { getArticleUrl, getFileURL, getPageUrl } from '@/utils/urls';
 import { convertToReadableDate } from '@/utils/date';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
-import { getFileURL } from '@/data/files';
 import styles from '@/styles/article-card.module.scss';
 
 export interface ArticleCardProps {

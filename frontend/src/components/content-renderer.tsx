@@ -8,8 +8,7 @@ import { Blockquote, Image, TypographyStylesProvider } from '@mantine/core';
 import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
 import { StrapiImageFormats } from '@/types/strapi';
 import { extractTextFromNode } from '@/utils/react';
-import { isExternalUrl } from '@/utils/urls';
-import { getFileURL } from '@/data/files';
+import { getFileURL, isExternalUrl } from '@/utils/urls';
 import styles from '@/styles/content-renderer.module.scss';
 
 export interface ContentRendererProps {

@@ -11,9 +11,8 @@ import {
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
-import { getFileURL } from '@/data/files';
 import { capitalize } from '@/utils/strings';
-import { getPageUrl } from '@/utils/urls';
+import { getFileURL, getPageUrl } from '@/utils/urls';
 import { convertToRelativeDate } from '@/utils/date';
 import ArticleCard from '@/components/article-card';
 import SocialIcon from '@/components/social-icon';

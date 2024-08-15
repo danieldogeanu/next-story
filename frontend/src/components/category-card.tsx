@@ -3,8 +3,7 @@ import Link from 'next/link';
 import { Box, Card, CardSection, Image, Title } from '@mantine/core';
 import { CategoryCover, SingleCategory } from '@/data/categories';
 import { StrapiImageFormats } from '@/types/strapi';
-import { getFileURL } from '@/data/files';
-import { getPageUrl } from '@/utils/urls';
+import { getFileURL, getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import styles from '@/styles/category-card.module.scss';
 

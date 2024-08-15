@@ -6,8 +6,7 @@ import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMe
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
-import { getPageUrl } from '@/utils/urls';
-import { getFileURL } from '@/data/files';
+import { getPageUrl, getFileURL } from '@/utils/urls';
 import ContentRenderer from '@/components/content-renderer';
 import styles from '@/styles/page.module.scss';
 

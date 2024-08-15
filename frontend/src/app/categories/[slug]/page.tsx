@@ -8,8 +8,7 @@ import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/clien
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
-import { getPageUrl } from '@/utils/urls';
-import { getFileURL } from '@/data/files';
+import { getFileURL, getPageUrl } from '@/utils/urls';
 import ArticleCard from '@/components/article-card';
 import pageStyles from '@/styles/page.module.scss';
 import categoryStyles from '@/styles/category-page.module.scss';

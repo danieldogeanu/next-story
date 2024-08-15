@@ -4,8 +4,7 @@ import { Box, Button, Card, CardSection, Group, Image, Text, Title } from '@mant
 import { IconArrowNarrowRight, IconEyeFilled, IconUser } from '@tabler/icons-react';
 import { AuthorArticles, AuthorAvatar, AuthorSocialEntry, SingleAuthor } from '@/data/authors';
 import { StrapiImageFormats } from '@/types/strapi';
-import { getFileURL } from '@/data/files';
-import { getPageUrl } from '@/utils/urls';
+import { getFileURL, getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
 import SocialIcon from '@/components/social-icon';

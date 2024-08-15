@@ -70,10 +70,10 @@ export function getMimeTypeFromUrl(url: string | undefined): string | undefined 
  * Retrieves the file extension from a given URL.
  *
  * @param {string} url - The URL from which to extract the file extension.
- * @returns {string | null} The file extension of the URL, or null if it cannot be determined.
+ * @returns {string | undefined} The file extension of the URL, or undefined if it cannot be determined.
  */
-export function getExtensionFromUrl(url: string): string | null {
-  return mime.getExtension(url);
+export function getExtensionFromUrl(url: string | undefined): string | undefined {
+  if (typeof url === 'string') return mime.getExtension(url) ?? undefined;
 }
 
 /**

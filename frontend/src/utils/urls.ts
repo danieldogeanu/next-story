@@ -49,6 +49,24 @@ export function isExternalUrl(url: string | undefined): boolean {
 }
 
 /**
+ * Retrieves the relative URL from an absolute URL or returns the given URL if it's already relative.
+ *
+ * @param {string | undefined} url - The URL to be processed. Can be an absolute or relative URL.
+ * @returns {string | undefined} The relative URL if the input is an absolute URL, or the original URL if it is already relative.
+ * @note It returns `undefined` if the input URL is invalid or not provided.
+ */
+export function getRelativeUrl(url: string | undefined): string | undefined {
+  try {
+    if (typeof url === 'string') {
+      if (isAbsoluteUrl(url)) {
+        const parsedUrl = new URL(url);
+        return parsedUrl.pathname + parsedUrl.search + parsedUrl.hash;
+      } else return url;
+    }
+  } catch (e) { return; }
+}
+
+/**
  * Extracts the hostname from a given URL, removing 'www.' if present.
  *
  * @param {string | undefined} url - The URL from which to extract the hostname.

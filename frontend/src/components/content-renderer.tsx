@@ -8,7 +8,7 @@ import { Blockquote, Image, TypographyStylesProvider } from '@mantine/core';
 import { BlocksRenderer, type BlocksContent } from '@strapi/blocks-react-renderer';
 import { StrapiImageFormats } from '@/types/strapi';
 import { extractTextFromNode } from '@/utils/react';
-import { getFileURL, isExternalUrl } from '@/utils/urls';
+import { getFileURL, getRelativeUrl, isAbsoluteUrl, isExternalUrl } from '@/utils/urls';
 import styles from '@/styles/content-renderer.module.scss';
 
 export interface ContentRendererProps {
@@ -25,8 +25,15 @@ export default function ContentRenderer({content}: ContentRendererProps) {
         blocks={{
 
           image: ({image}) => {
+            // We need to account for external URLs and if not external, we need to make the URLs relative, 
+            // so that we can return the correct URL, because Strapi is inconsistent with the image URLs.
+            const processImageUrl = (url: string | undefined) => {
+              return (isAbsoluteUrl(url) && isExternalUrl(url)) ? url : getFileURL(getRelativeUrl(url));
+            };
+
             const imageFormats = image.formats as StrapiImageFormats;
-            const imageUrl = (imageFormats?.large?.url) ? getFileURL(imageFormats.large.url) : getFileURL(image?.url);
+            const imageUrl = (imageFormats?.large?.url)
+              ? processImageUrl(imageFormats.large.url) : processImageUrl(image?.url);
 
             // TODO: Open the full resolution in a full screen modal, on click.
             // TODO: Handle the `srcset` prop, so that we can have the right image for the right resolution.

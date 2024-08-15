@@ -77,7 +77,7 @@ export async function generateCoverImageObject(pageCover?: PageCover): Promise<C
     return {
       url: pageCoverURL ?? defaultCoverURL,
       alt: pageCover?.alternativeText,
-      type: getMimeTypeFromUrl(pageCoverURL || '') || undefined,
+      type: getMimeTypeFromUrl(pageCoverURL),
       width: pageCoverFormats?.large?.width ?? pageCover?.width ?? defaultCover.width,
       height: pageCoverFormats?.large?.height ?? pageCover?.height ?? defaultCover.height,
     };
@@ -86,7 +86,7 @@ export async function generateCoverImageObject(pageCover?: PageCover): Promise<C
   return {
     url: siteCoverURL ?? defaultCoverURL,
     alt: siteCover?.alternativeText,
-    type: getMimeTypeFromUrl(siteCoverURL || '') || undefined,
+    type: getMimeTypeFromUrl(siteCoverURL),
     width: siteCoverFormats?.large?.width ?? siteCover?.width ?? defaultCover.width,
     height: siteCoverFormats?.large?.height ?? siteCover?.height ?? defaultCover.height,
   };

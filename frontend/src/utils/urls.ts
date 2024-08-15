@@ -60,10 +60,10 @@ export function getHostFromUrl(url: string): string | null {
  * Retrieves the MIME type from a given URL.
  *
  * @param {string} url - The URL from which to extract the MIME type.
- * @returns {string | null} The MIME type of the URL, or null if it cannot be determined.
+ * @returns {string | undefined} The MIME type of the URL, or undefined if it cannot be determined.
  */
-export function getMimeTypeFromUrl(url: string): string | null {
-  return mime.getType(url);
+export function getMimeTypeFromUrl(url: string | undefined): string | undefined {
+  if (typeof url === 'string') return mime.getType(url) ?? undefined;
 }
 
 /**

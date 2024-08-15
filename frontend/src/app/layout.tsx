@@ -57,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
       images: {
         url: defaultCoverURL,
         alt: 'Default Next Story Cover',
-        type: (getMimeTypeFromUrl(defaultCoverURL) || undefined),
+        type: getMimeTypeFromUrl(defaultCoverURL),
         width: defaultCover.width,
         height: defaultCover.height,
       },

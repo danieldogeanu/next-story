@@ -1,7 +1,6 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponseArray, GetValues } from '@/types/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
-import { getBackEndURL } from '@/utils/client/env';
 import { strapiSDK } from '@/data/strapi';
 import buildTimeFiles from '@build-data/files.json';
 
@@ -65,34 +64,4 @@ export async function getSingleFile(id: string | number, params?: StrapiRequestP
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.findOne('upload/files', id, params) as unknown as SingleFileResponse;
   return strapiResponse;
-}
-
-/**
- * Constructs a full URL for a given file path.
- *
- * // TODO: Move this to `utils/urls.ts` and refactor it to include `undefined` and `backend` and `frontend` urls.
- *
- * @param {string} url - The relative URL of the file.
- * @returns {string} The full URL of the file.
- *
- * @example
- * // Get the full URL of a file.
- * const fileUrl = getFileURL('/uploads/myfile.jpg');
- * console.log(fileUrl); // 'https://backend-url.com/uploads/myfile.jpg'
- */
-export function getFileURL(url: string): string {
-  let fileUrl = new URL('', getBackEndURL());
-
-  if (typeof url !== 'string') {
-    console.error('The URL provided is not a string:', JSON.stringify(url));
-    return fileUrl.href;
-  }
-
-  if (!/^\/(?!\/|[a-zA-Z0-9_-]+:).*\.[a-z]+$/i.test(url)) {
-    console.error('The URL provided is not a relative path or doesn\'t have a file extension:', JSON.stringify(url));
-    return fileUrl.href;
-  }
-
-  fileUrl = new URL(url, getBackEndURL());
-  return fileUrl.href;
 }

@@ -8,6 +8,7 @@ import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/s
 import { StrapiImageFormats } from '@/types/strapi';
 import { getPageUrl, getFileURL } from '@/utils/urls';
 import ContentRenderer from '@/components/content-renderer';
+import defaultCover from '@/assets/imgs/default-cover.jpg';
 import styles from '@/styles/page.module.scss';
 
 export interface PageProps {
@@ -61,7 +62,8 @@ export default async function Page({params}: PageProps) {
   })).data.pop()?.attributes;
   const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;
-  const pageCoverUrl = (pageCoverFormats?.large?.url) ? getFileURL(pageCoverFormats.large.url) : '';
+  const pageCoverUrl = (pageCoverFormats?.large?.url)
+    ? getFileURL(pageCoverFormats.large.url) : getFileURL(defaultCover.src, 'frontend');
   const pageContent = pageData?.content as PageContent;
 
   if (!pageData) return notFound();
@@ -82,8 +84,8 @@ export default async function Page({params}: PageProps) {
               className={styles.image}
               component={NextImage}
               src={pageCoverUrl}
-              width={pageCoverFormats?.large?.width}
-              height={pageCoverFormats?.large?.height}
+              width={pageCoverFormats?.large?.width ?? defaultCover.width}
+              height={pageCoverFormats?.large?.height ?? defaultCover.height}
               alt={pageCover?.alternativeText || ''}
               priority={true} />
           </Box>

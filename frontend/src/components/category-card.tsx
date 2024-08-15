@@ -5,6 +5,7 @@ import { CategoryCover, SingleCategory } from '@/data/categories';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL, getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
+import defaultCover from '@/assets/imgs/default-cover.jpg';
 import styles from '@/styles/category-card.module.scss';
 
 export interface CategoryCardProps {
@@ -15,10 +16,9 @@ export default function CategoryCard({data}: CategoryCardProps) {
   const categoryUrl = getPageUrl(data.slug, '/categories');
   const categoryCover = data?.cover?.data?.attributes as CategoryCover;
   const categoryCoverFormats = categoryCover?.formats as unknown as StrapiImageFormats;
-  const categoryCoverUrl = (categoryCoverFormats?.small?.url) ? getFileURL(categoryCoverFormats.small.url) : '';
+  const categoryCoverUrl = (categoryCoverFormats?.small?.url)
+    ? getFileURL(categoryCoverFormats.small.url) : getFileURL(defaultCover.src, 'frontend');
 
-  // TODO: Add image fallback in case the `categoryCoverUrl` is undefined.
-  
   return (
     <Card
       className={styles.card}
@@ -37,8 +37,8 @@ export default function CategoryCard({data}: CategoryCardProps) {
           <Image
             component={NextImage}
             src={categoryCoverUrl}
-            width={categoryCoverFormats?.small?.width}
-            height={categoryCoverFormats?.small?.height}
+            width={categoryCoverFormats?.small?.width ?? defaultCover.width}
+            height={categoryCoverFormats?.small?.height ?? defaultCover.height}
             alt={categoryCover?.alternativeText || ''}
             h={140} radius='md' />
         </Box>

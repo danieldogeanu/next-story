@@ -26,7 +26,7 @@ export default function ContentRenderer({content}: ContentRendererProps) {
 
           image: ({image}) => {
             const imageFormats = image.formats as StrapiImageFormats;
-            const imageUrl = (imageFormats?.large?.url) ? getFileURL(imageFormats.large.url) : '';
+            const imageUrl = (imageFormats?.large?.url) ? getFileURL(imageFormats.large.url) : getFileURL(image?.url);
 
             // TODO: Open the full resolution in a full screen modal, on click.
             // TODO: Handle the `srcset` prop, so that we can have the right image for the right resolution.
@@ -36,8 +36,8 @@ export default function ContentRenderer({content}: ContentRendererProps) {
                 <Image
                   component={NextImage}
                   src={imageUrl}
-                  width={imageFormats?.large?.width}
-                  height={imageFormats?.large?.height}
+                  width={imageFormats?.large?.width ?? image?.width}
+                  height={imageFormats?.large?.height ?? image?.height}
                   alt={image.alternativeText || ''}
                   radius='md' />
                 {(image.caption && image.caption !== '') &&

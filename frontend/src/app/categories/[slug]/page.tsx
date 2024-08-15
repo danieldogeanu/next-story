@@ -10,6 +10,7 @@ import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
 import { getFileURL, getPageUrl } from '@/utils/urls';
 import ArticleCard from '@/components/article-card';
+import defaultCover from '@/assets/imgs/default-cover.jpg';
 import pageStyles from '@/styles/page.module.scss';
 import categoryStyles from '@/styles/category-page.module.scss';
 
@@ -70,11 +71,9 @@ export default async function CategoryPage({params}: CategoryPageProps) {
   })).data.pop()?.attributes;
   const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
   const categoryCoverFormats = categoryCover?.formats as unknown as StrapiImageFormats;
-  const categoryCoverUrl = (categoryCoverFormats?.large?.url) ? getFileURL(categoryCoverFormats.large.url) : '';
+  const categoryCoverUrl = (categoryCoverFormats?.large?.url)
+    ? getFileURL(categoryCoverFormats.large.url) : getFileURL(defaultCover.src, 'frontend');
   const categoryArticles = categoryData?.articles?.data as CategoryArticles;
-
-  // TODO: Add image fallback in case the `categoryCoverUrl` is undefined.
-  // TODO: Add larger image format that is more suitable for cover images.
 
   if (!categoryData) return notFound();
 
@@ -92,8 +91,8 @@ export default async function CategoryPage({params}: CategoryPageProps) {
             className={categoryStyles.cover}
             component={NextImage}
             src={categoryCoverUrl}
-            width={categoryCoverFormats?.large?.width}
-            height={categoryCoverFormats?.large?.height}
+            width={categoryCoverFormats?.large?.width ?? defaultCover.width}
+            height={categoryCoverFormats?.large?.height ?? defaultCover.height}
             alt={categoryCover?.alternativeText || ''}
             radius='lg' />
           <Box className={categoryStyles.description}>

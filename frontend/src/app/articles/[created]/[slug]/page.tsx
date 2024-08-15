@@ -16,6 +16,7 @@ import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/s
 import { getArticleUrl, getPageUrl, getFileURL } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import ContentRenderer from '@/components/content-renderer';
+import defaultCover from '@/assets/imgs/default-cover.jpg';
 import pageStyles from '@/styles/page.module.scss';
 import articleStyles from '@/styles/article-page.module.scss';
 
@@ -89,7 +90,8 @@ export default async function ArticlePage({params}: ArticlePageProps) {
   })).data.pop()?.attributes;
   const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
   const articleCoverFormats = articleCover?.formats as unknown as StrapiImageFormats;
-  const articleCoverUrl = (articleCoverFormats?.large?.url) ? getFileURL(articleCoverFormats.large.url) : '';
+  const articleCoverUrl = (articleCoverFormats?.large?.url)
+    ? getFileURL(articleCoverFormats.large.url) : getFileURL(defaultCover.src, 'frontend');
   const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
   const articleAuthorUrl = getPageUrl(articleAuthor?.slug, '/authors');
   const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
@@ -139,8 +141,8 @@ export default async function ArticlePage({params}: ArticlePageProps) {
               className={pageStyles.image}
               component={NextImage}
               src={articleCoverUrl}
-              width={articleCoverFormats?.large?.width}
-              height={articleCoverFormats?.large?.height}
+              width={articleCoverFormats?.large?.width ?? defaultCover.width}
+              height={articleCoverFormats?.large?.height ?? defaultCover.height}
               alt={articleCover?.alternativeText || ''}
               priority={true} />
           </Box>

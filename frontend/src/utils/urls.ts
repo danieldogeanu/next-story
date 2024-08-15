@@ -1,7 +1,7 @@
 import mime from 'mime';
 import path from 'path';
 import { z as val } from 'zod';
-import { getFrontEndURL, getHostname } from '@/utils/client/env';
+import { getBackEndURL, getFrontEndURL, getHostname } from '@/utils/client/env';
 import { convertToUnixTime } from '@/utils/date';
 
 
@@ -111,3 +111,18 @@ export function getArticleUrl(created: string | Date | undefined, slug: string |
   }
 }
 
+/**
+ * Constructs the full URL for a given file path based on its source (frontend or backend).
+ *
+ * @param {string | undefined} url - The relative URL path of the file.
+ * @param {'frontend' | 'backend'} [source='backend'] - The source of the URL, either 'frontend' or 'backend'. Defaults to 'backend'.
+ * @returns {string | undefined} The fully constructed URL for the given file. Returns `undefined` if the `url` is invalid or not provided.
+ */
+export function getFileURL(url: string | undefined, source: 'frontend' | 'backend' = 'backend'): string | undefined {
+  const relativeUrlRegex = /^\/(?!\/|[a-zA-Z0-9_-]+:).*\.[a-z]+$/i;
+
+  if (typeof url === 'string' && typeof source === 'string' && relativeUrlRegex.test(url)) {
+    if (source === 'frontend') return new URL(url, getFrontEndURL()).href;
+    return new URL(url, getBackEndURL()).href;
+  }
+}

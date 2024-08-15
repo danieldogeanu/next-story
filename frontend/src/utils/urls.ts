@@ -8,35 +8,41 @@ import { convertToUnixTime } from '@/utils/date';
 /**
  * Checks if a given URL is an absolute URL.
  *
- * @param {string} url - The URL to check.
+ * @param {string | undefined} url - The URL to check.
  * @returns {boolean} True if the URL is absolute, otherwise false.
  */
-export function isAbsoluteUrl(url: string): boolean {
-  return url.toLowerCase().startsWith('http') || url.toLowerCase().startsWith('https');
+export function isAbsoluteUrl(url: string | undefined): boolean {
+  if (typeof url === 'string') {
+    return url.toLowerCase().startsWith('http') || url.toLowerCase().startsWith('https');
+  } else return false;
 }
 
 /**
  * Checks if a given URL is a relative URL.
  *
- * @param {string} url - The URL to check.
+ * @param {string | undefined} url - The URL to check.
  * @returns {boolean} True if the URL is relative, otherwise false.
  */
-export function isRelativeUrl(url: string): boolean {
-  return !isAbsoluteUrl(url) && url.toLowerCase().startsWith('/');
+export function isRelativeUrl(url: string | undefined): boolean {
+  if (typeof url === 'string') {
+    return !isAbsoluteUrl(url) && url.toLowerCase().startsWith('/');
+  } else return false;
 }
 
 /**
  * Determines if a given URL is external compared to the current hostname.
  *
- * @param {string} url - The URL to check.
+ * @param {string | undefined} url - The URL to check.
  * @returns {boolean} True if the URL is external, otherwise false.
  */
-export function isExternalUrl(url: string): boolean {
+export function isExternalUrl(url: string | undefined): boolean {
   const currentHostname = getHostname();
 
   try {
-    const parsedHostname = new URL(url).hostname.replace('www.', '');
-    return parsedHostname !== currentHostname;
+    if (typeof url === 'string') {
+      const parsedHostname = new URL(url).hostname.replace('www.', '');
+      return parsedHostname !== currentHostname;
+    } else return false;
   } catch (e) {
     return false;
   }
@@ -45,21 +51,21 @@ export function isExternalUrl(url: string): boolean {
 /**
  * Extracts the hostname from a given URL, removing 'www.' if present.
  *
- * @param {string} url - The URL from which to extract the hostname.
- * @returns {string | null} The hostname without 'www.' or null if the URL is invalid.
+ * @param {string | undefined} url - The URL from which to extract the hostname.
+ * @returns {string | undefined} The hostname without 'www.' or undefined if the URL is invalid.
  */
-export function getHostFromUrl(url: string): string | null {
+export function getHostFromUrl(url: string | undefined): string | undefined {
   try {
-    return new URL(url).hostname.replace('www.', '');
-  } catch (e) {
-    return null;
-  }
+    if (typeof url === 'string') {
+      return new URL(url).hostname.replace('www.', '');
+    }
+  } catch (e) { return; }
 }
 
 /**
  * Retrieves the MIME type from a given URL.
  *
- * @param {string} url - The URL from which to extract the MIME type.
+ * @param {string | undefined} url - The URL from which to extract the MIME type.
  * @returns {string | undefined} The MIME type of the URL, or undefined if it cannot be determined.
  */
 export function getMimeTypeFromUrl(url: string | undefined): string | undefined {
@@ -69,7 +75,7 @@ export function getMimeTypeFromUrl(url: string | undefined): string | undefined 
 /**
  * Retrieves the file extension from a given URL.
  *
- * @param {string} url - The URL from which to extract the file extension.
+ * @param {string | undefined} url - The URL from which to extract the file extension.
  * @returns {string | undefined} The file extension of the URL, or undefined if it cannot be determined.
  */
 export function getExtensionFromUrl(url: string | undefined): string | undefined {

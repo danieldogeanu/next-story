@@ -43,7 +43,7 @@ export default async function TagsPage() {
   return (
     <main className={styles.main}>
       <Title className={styles.pageTitle}>
-        {capitalize(tagsPageSettings?.title.trim() as string)}
+        {capitalize(tagsPageSettings?.title.trim())}
       </Title>
       <section className={styles.grid}>
         {tagsCollection.data.map((tag) => {

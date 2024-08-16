@@ -52,7 +52,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
       <Group className={styles.meta} justify='space-between'>
         <Text title='Category'>
           <Link href={articleCategoryUrl || ''}>
-            {capitalize(articleCategory?.name as string)}
+            {capitalize(articleCategory?.name)}
           </Link>
         </Text>
         <Text className={styles.date} title='Date Created'>
@@ -74,7 +74,7 @@ export default function ArticleCard({data}: ArticleCardProps) {
       <Group className={styles.author} justify='space-between'>
         <Text title='Author'>
           <Link href={articleAuthorUrl || ''}>
-            {capitalize(articleAuthor?.fullName as string)}
+            {capitalize(articleAuthor?.fullName)}
           </Link>
         </Text>
         <ActionIcon 

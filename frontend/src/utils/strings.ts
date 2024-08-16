@@ -1,23 +1,18 @@
-import { z as val } from 'zod';
+
 
 /**
- * Capitalizes the first letter of each word in a given text string.
+ * Capitalizes the first letter of each word in a given string.
  *
- * @param {string} text - The text string to capitalize.
- * @returns {string} The capitalized text string. Returns an empty string if the input is not valid.
+ * @param {string | undefined} text - The text to be processed.
+ * @returns {string} - The capitalized text, or an empty string if input is undefined.
  */
-export function capitalize(text: string): string {
-  const textSchema = val.string();
-  const parsedText = textSchema.safeParse(text);
-  if (!parsedText.success) {
-    console.error('Capitalization Error:', parsedText.error.errors[0].message);
-    return '';
-  }
+export function capitalize(text: string | undefined): string {
+  if (typeof text === 'string') {
+    const textArr = text.split(' ');
+    const processedStrArr = textArr.map((word) => {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    });
 
-  const textArr = text.split(' ');
-  const processedStrArr = textArr.map((word) => {
-    return word.charAt(0).toUpperCase() + word.slice(1);
-  });
-
-  return processedStrArr.join(' ');
+    return processedStrArr.join(' ');
+  } else return '';
 }

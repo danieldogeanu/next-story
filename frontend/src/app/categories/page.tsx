@@ -43,7 +43,7 @@ export default async function CategoriesPage() {
   return (
     <main className={styles.main}>
       <Title className={styles.pageTitle}>
-        {capitalize(categoriesPageSettings?.title.trim() as string)}
+        {capitalize(categoriesPageSettings?.title.trim())}
       </Title>
       <section className={styles.grid}>
         {categoriesCollection.data.map((category) => {

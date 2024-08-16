@@ -43,7 +43,7 @@ export default async function AuthorsPage() {
   return (
     <main className={styles.main}>
       <Title className={styles.pageTitle}>
-        {capitalize(authorPageSettings?.title.trim() as string)}
+        {capitalize(authorPageSettings?.title.trim())}
       </Title>
       <section className={styles.grid}>
         {authorsCollection.data.map((author) => {

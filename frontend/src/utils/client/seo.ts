@@ -17,8 +17,8 @@ export function makeSeoTitle(title: string | undefined, siteName?: string | null
       const processedTitle = (title?.length > remainingLimit)
         ? title?.trim().substring(0, remainingLimit - 3) + '...'
         : title?.trim().substring(0, remainingLimit);
-      return capitalize(processedTitle as string);
-    } else return capitalize(title?.trim().substring(0, limit) as string);
+      return capitalize(processedTitle);
+    } else return capitalize(title?.trim().substring(0, limit));
   }
 }
 

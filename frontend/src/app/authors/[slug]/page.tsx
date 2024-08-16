@@ -51,7 +51,7 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
     title: makeSeoTitle((authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
     description: makeSeoDescription(authorSEO?.metaDescription || authorData?.biography),
     keywords: makeSeoKeywords(authorSEO?.keywords),
-    authors: [{name: capitalize(authorData?.fullName as string), url: authorURL}],
+    authors: [{name: capitalize(authorData?.fullName), url: authorURL}],
     robots: await generateRobotsObject(authorRobots),
     alternates: {
       canonical: authorURL,

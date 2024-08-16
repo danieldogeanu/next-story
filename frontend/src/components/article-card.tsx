@@ -7,7 +7,7 @@ import { getArticleUrl, getFileURL, getPageUrl } from '@/utils/urls';
 import { convertToReadableDate } from '@/utils/date';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
-import defaultCover from '@/assets/imgs/default-cover.jpg';
+import defaultCover from '@/assets/imgs/default-cover-small.webp';
 import styles from '@/styles/article-card.module.scss';
 
 export interface ArticleCardProps {
@@ -24,8 +24,6 @@ export default function ArticleCard({data}: ArticleCardProps) {
   const articleCategoryUrl = getPageUrl(articleCategory?.slug, '/categories');
   const articleAuthor = data.author?.data?.attributes as ArticleAuthor;
   const articleAuthorUrl = getPageUrl(articleAuthor?.slug, '/authors');
-
-  // TODO: Load a smaller image for default cover fallback.
   
   return (
     <Card

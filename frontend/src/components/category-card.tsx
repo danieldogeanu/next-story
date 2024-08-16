@@ -5,7 +5,7 @@ import { CategoryCover, SingleCategory } from '@/data/categories';
 import { StrapiImageFormats } from '@/types/strapi';
 import { getFileURL, getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
-import defaultCover from '@/assets/imgs/default-cover.jpg';
+import defaultCover from '@/assets/imgs/default-cover-small.webp';
 import styles from '@/styles/category-card.module.scss';
 
 export interface CategoryCardProps {

@@ -1,38 +1,37 @@
-import { Attribute } from '@strapi/strapi';
 import { getSiteLang } from '@/utils/client/env';
 
 /**
  * Converts an ISO date string to Unix time string.
  *
- * @param {Attribute.DateTimeValue | undefined} isoDate - The ISO date string to convert.
+ * @param {string | Date | undefined} isoDate - The ISO date string to convert.
  * @returns {string} The Unix time in milliseconds as a string.
  *
  * @example
  * // Convert an ISO date to Unix time.
  * convertToUnixTime('2024-06-07T10:20:30Z');
  */
-export function convertToUnixTime(isoDate: Attribute.DateTimeValue | undefined): string {
+export function convertToUnixTime(isoDate: string | Date | undefined): string {
   return (new Date(isoDate?.toString() as string)).getTime().toString();
 }
 
 /**
  * Converts a Unix time string to an ISO date string.
  *
- * @param {string} unixDate - The Unix time string to convert.
+ * @param {number | string | undefined} unixDate - The Unix time to convert.
  * @returns {string} The ISO date string.
  *
  * @example
  * // Convert a Unix time to ISO date.
  * convertToISODate('1715100030000');
  */
-export function convertToISODate(unixDate: string): string {
-  return (new Date(parseInt(unixDate))).toISOString();
+export function convertToISODate(unixDate: number | string | undefined): string {
+  return (new Date(parseInt(unixDate?.toString() as string))).toISOString();
 }
 
 /**
  * Converts an ISO date string to a readable date string in either long or short format.
  *
- * @param {Attribute.DateTimeValue | undefined} isoDate - The ISO date string to convert.
+ * @param {string | Date | undefined} isoDate - The ISO date string to convert.
  * @param {'long' | 'short'} [format] - The desired date format. Defaults to 'long'.
  * @returns {string} A readable date string in the specified format.
  *
@@ -44,7 +43,7 @@ export function convertToISODate(unixDate: string): string {
  * // Convert an ISO date to a short readable date string.
  * convertToReadableDate('2024-06-07T10:20:30Z', 'short'); // 6/7/2024
  */
-export function convertToReadableDate(isoDate: Attribute.DateTimeValue | undefined, format?: 'long' | 'short'): string {
+export function convertToReadableDate(isoDate: string | Date | undefined, format?: 'long' | 'short'): string {
   const date = new Date(isoDate?.toString() as string);
   const longOptions: Intl.DateTimeFormatOptions = {weekday: 'short', month: 'short', day: '2-digit', year: 'numeric'};
   const longDate = new Intl.DateTimeFormat('en-US', longOptions).format(date);
@@ -55,14 +54,14 @@ export function convertToReadableDate(isoDate: Attribute.DateTimeValue | undefin
 /**
  * Converts an ISO date string to a human-readable relative time format (e.g., '3 days ago').
  *
- * @param {Attribute.DateTimeValue | undefined} isoDate - The ISO date string to convert.
+ * @param {string | Date | undefined} isoDate - The ISO date string to convert.
  * @returns {string} A string representing the relative time from the given date to now.
  *
  * @example
  * // Convert an ISO date to a relative date.
  * convertToRelativeDate('2023-06-01T12:00:00Z'); // 3 days ago
  */
-export function convertToRelativeDate(isoDate: Attribute.DateTimeValue | undefined): string {
+export function convertToRelativeDate(isoDate: string | Date | undefined): string {
   // Extract a usable date from the isoDate.
   const date = new Date(isoDate?.toString() as string);
 

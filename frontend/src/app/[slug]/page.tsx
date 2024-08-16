@@ -8,7 +8,7 @@ import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/s
 import { StrapiImageFormats } from '@/types/strapi';
 import { getPageUrl, getFileURL } from '@/utils/urls';
 import ContentRenderer from '@/components/content-renderer';
-import defaultCover from '@/assets/imgs/default-cover.jpg';
+import defaultCover from '@/assets/imgs/default-cover.webp';
 import styles from '@/styles/page.module.scss';
 
 export interface PageProps {

@@ -16,7 +16,7 @@ import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/s
 import { getArticleUrl, getPageUrl, getFileURL } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import ContentRenderer from '@/components/content-renderer';
-import defaultCover from '@/assets/imgs/default-cover.jpg';
+import defaultCover from '@/assets/imgs/default-cover.webp';
 import pageStyles from '@/styles/page.module.scss';
 import articleStyles from '@/styles/article-page.module.scss';
 

@@ -10,7 +10,7 @@ import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
 import { getFileURL, getPageUrl } from '@/utils/urls';
 import ArticleCard from '@/components/article-card';
-import defaultCover from '@/assets/imgs/default-cover.jpg';
+import defaultCover from '@/assets/imgs/default-cover.webp';
 import pageStyles from '@/styles/page.module.scss';
 import categoryStyles from '@/styles/category-page.module.scss';
 

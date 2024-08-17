@@ -82,3 +82,12 @@
   display: block;
   position: relative;
 }
+
+.outro {
+  margin-top: rem(40);
+  margin-bottom: rem(40);
+  @media (min-width: rem(580)) {
+    margin-top: rem(60);
+    margin-bottom: rem(60);
+  }
+}

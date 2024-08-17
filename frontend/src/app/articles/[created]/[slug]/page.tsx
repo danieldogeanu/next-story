@@ -7,7 +7,7 @@ import { Anchor, Box, Group, Image, Title } from '@mantine/core';
 import { IconCalendar, IconCategory, IconUser } from '@tabler/icons-react';
 import {
   ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, ArticleMetaSocial, 
-  ArticleMetaSocialEntry, ArticleRobots, ArticleSEO, getArticlesCollection
+  ArticleMetaSocialEntry, ArticleRobots, ArticleSEO, ArticleTags, getArticlesCollection
 } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
 import { convertToISODate, convertToReadableDate } from '@/utils/date';
@@ -15,6 +15,7 @@ import { makeSeoDescription, makeSeoKeywords, makeSeoTags, makeSeoTitle } from '
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticleUrl, getPageUrl, getFileURL } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
+import Tag from '@/components/tag';
 import ContentRenderer from '@/components/content-renderer';
 import defaultCover from '@/assets/imgs/default-cover.webp';
 import pageStyles from '@/styles/page.module.scss';
@@ -97,6 +98,7 @@ export default async function ArticlePage({params}: ArticlePageProps) {
   const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
   const articleCategoryUrl = getPageUrl(articleCategory?.slug, '/categories');
   const articleContent = articleData?.content as ArticleContent;
+  const articleTags = articleData?.tags?.data as ArticleTags;
 
   if (!articleData) return notFound();
 
@@ -152,6 +154,16 @@ export default async function ArticlePage({params}: ArticlePageProps) {
         <section className={pageStyles.content}>
           <ContentRenderer content={articleContent} />
         </section>
+
+        <footer className={pageStyles.outro}>
+
+          <aside className={articleStyles.tags}>
+            {articleTags?.map((tag) => {
+              return <Tag key={tag.id} data={tag.attributes} />;
+            })}
+          </aside>
+
+        </footer>
 
       </article>
       

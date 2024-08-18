@@ -1,0 +1,34 @@
+@import 'mantine';
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: rem(4);
+
+  &:hover .labels {
+    .default {
+      display: none;
+    }
+
+    .hover {
+      display: block;
+    }
+  }
+}
+
+.labels {
+  display: block;
+  position: relative;
+  width: auto;
+  color: var(--mantine-color-gray-7);
+
+  .default {
+    display: block;
+  }
+
+  .hover {
+    display: none;
+  }
+}

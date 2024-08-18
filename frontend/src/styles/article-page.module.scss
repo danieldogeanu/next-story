@@ -54,3 +54,18 @@
     padding: 0 rem(16);
   }
 }
+
+.divider {
+  margin: rem(40) auto;
+  max-width: rem(864);
+}
+
+.actionBar {
+  width: 100%;
+  max-width: rem(864);
+  margin: 0 auto;
+  padding: 0 rem(8);
+  @media (min-width: rem(480)) {
+    padding: 0 rem(16);
+  }
+}

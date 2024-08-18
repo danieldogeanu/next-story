@@ -3,7 +3,7 @@ import Link from 'next/link';
 import classNames from 'classnames';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
-import { Anchor, Box, Group, Image, Title } from '@mantine/core';
+import { Anchor, Box, Divider, Group, Image, Title } from '@mantine/core';
 import { IconCalendar, IconCategory, IconUser } from '@tabler/icons-react';
 import {
   ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, ArticleMetaSocial, 
@@ -15,8 +15,9 @@ import { makeSeoDescription, makeSeoKeywords, makeSeoTags, makeSeoTitle } from '
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticleUrl, getPageUrl, getFileURL } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
-import Tag from '@/components/tag';
 import ContentRenderer from '@/components/content-renderer';
+import ActionBar from '@/components/action-bar';
+import Tag from '@/components/tag';
 import defaultCover from '@/assets/imgs/default-cover.webp';
 import pageStyles from '@/styles/page.module.scss';
 import articleStyles from '@/styles/article-page.module.scss';
@@ -157,11 +158,15 @@ export default async function ArticlePage({params}: ArticlePageProps) {
 
         <footer className={pageStyles.outro}>
 
-          <aside className={articleStyles.tags}>
+          <nav className={articleStyles.tags}>
             {articleTags?.map((tag) => {
               return <Tag key={tag.id} data={tag.attributes} />;
             })}
-          </aside>
+          </nav>
+
+          <Divider className={articleStyles.divider} />
+
+          <ActionBar className={articleStyles.actionBar} />
 
         </footer>
 

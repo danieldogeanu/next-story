@@ -1,0 +1,28 @@
+@import 'mantine';
+
+.container {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  grid-template-rows: auto;
+  width: 100%;
+}
+
+.socials {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  gap: rem(16);
+}
+
+.actions {
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
+  align-items: center;
+  gap: rem(16);
+
+  button {
+    font-weight: 400;
+  }
+}

@@ -32,7 +32,7 @@ export default function ActionBar({className, ...other}: ActionBarProps) {
           }} />
 
         <SocialButton
-          className={styles.likeButton}
+          className={styles.commentButton}
           icon={IconMessageCircle}
           labels={{
             default: '6 Comments',

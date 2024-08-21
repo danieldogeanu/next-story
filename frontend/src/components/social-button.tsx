@@ -20,7 +20,10 @@ export default function SocialButton({icon, labels, className, ...other}: Social
   const TablerIcon = icon;
   
   return (
-    <Box className={classNames(styles.wrapper, className)} {...other}>
+    <Box 
+      component='label' htmlFor={uuid}
+      className={classNames(styles.wrapper, className)}
+      {...other}>
 
       <ActionIcon
         className={styles.button} id={uuid}
@@ -30,9 +33,9 @@ export default function SocialButton({icon, labels, className, ...other}: Social
         <TablerIcon size={24} stroke={1.5} />
       </ActionIcon>
 
-      <Text className={styles.labels}>
-        <label htmlFor={uuid} className={styles.default}>{labels.default}</label>
-        <label htmlFor={uuid} className={styles.hover}>{labels.hover}</label>
+      <Text component='div' className={styles.labels}>
+        <span className={styles.default}>{labels.default}</span>
+        <span className={styles.hover}>{labels.hover}</span>
       </Text>
 
     </Box>

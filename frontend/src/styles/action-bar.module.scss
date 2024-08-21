@@ -2,27 +2,63 @@
 
 .container {
   display: grid;
-  grid-template-columns: auto 1fr auto;
-  grid-template-rows: auto;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  gap: rem(24);
   width: 100%;
+  @media (min-width: rem(900)) {
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto;
+    gap: 0;
+  }
 }
 
 .socials {
   display: flex;
-  flex-direction: row;
-  justify-content: start;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
   align-items: center;
-  gap: rem(16);
+  gap: rem(4);
+  padding: 0;
+
+  @media (min-width: rem(360)) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: rem(4) rem(16);
+    padding: 0 rem(16);
+  }
+  @media (min-width: rem(480)) {
+    padding: 0;
+  }
+  @media (min-width: rem(600)) {
+    flex-wrap: nowrap;
+  }
+  @media (min-width: rem(900)) {
+    justify-content: start;
+  }
 }
 
 .actions {
   display: flex;
-  flex-direction: row;
-  justify-content: end;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: rem(16);
+  @media (min-width: rem(360)) {
+    flex-direction: row;
+  }
+  @media (min-width: rem(900)) {
+    justify-content: end;
+  }
 
   button {
     font-weight: 400;
+    width: 100%;
+    @media (min-width: rem(360)) {
+      width: auto;
+    }
   }
 }

@@ -30,7 +30,7 @@ export default function SocialButton({icon, labels, className, ...other}: Social
         size={(width > 360) ? 'xl' : 'lg'}
         variant='subtle' color='dark' radius='xl'
         aria-label={labels.hover} title={labels.hover}>
-        <TablerIcon size={24} stroke={1.5} />
+        <TablerIcon size={(width > 360) ? 24 : 20} stroke={1.5} />
       </ActionIcon>
 
       <Text component='div' className={styles.labels}>

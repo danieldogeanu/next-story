@@ -8,13 +8,14 @@ import styles from '@/styles/social-button.module.scss';
 
 export interface SocialButtonProps extends BoxProps {
   icon: React.FC<TablerIconsProps>;
+  iconProps?: TablerIconsProps;
   labels: {
     default: string;
     hover: string;
   };
 }
 
-export default function SocialButton({icon, labels, className, ...other}: SocialButtonProps) {
+export default function SocialButton({icon, iconProps, labels, className, ...other}: SocialButtonProps) {
   const {width} = useViewportSize();
   const uuid = useId();
   const TablerIcon = icon;
@@ -30,7 +31,7 @@ export default function SocialButton({icon, labels, className, ...other}: Social
         size={(width > 360) ? 'xl' : 'lg'}
         variant='subtle' color='dark' radius='xl'
         aria-label={labels.hover} title={labels.hover}>
-        <TablerIcon size={(width > 360) ? 24 : 20} stroke={1.5} />
+        <TablerIcon size={(width > 360) ? 24 : 20} stroke={1.5} {...iconProps} />
       </ActionIcon>
 
       <Text component='div' className={styles.labels}>

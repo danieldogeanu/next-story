@@ -9,6 +9,10 @@ import styles from '@/styles/action-bar.module.scss';
 export interface ActionBarProps extends BoxProps {}
 
 export default function ActionBar({className, ...other}: ActionBarProps) {
+  // TODO: Replace likes and shares props from Article schema with relationships.
+  // TODO: Get the number of comments for the comments button and link to the comment section.
+  // TODO: Add modal and subscription form for the Subscribe button.
+  // TODO: Add modal with options for the Sponsor button.
   
   return (
     <Box className={classNames(styles.container, className)} {...other}>

@@ -85,10 +85,19 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
 export default async function ArticlePage({params}: ArticlePageProps) {
   // Filters must match both createdAt and slug fields.
   const articleData = (await getArticlesCollection({
-    populate: '*', filters: {
+    filters: {
       createdAt: { $eq: convertToISODate(params.created) },
       slug: { $eq: params.slug },
-    }
+    },
+    populate: {
+      author: { populate: {
+        avatar: true,
+        socialNetworks: true,
+      } },
+      cover: { populate: 'formats' },
+      category: true,
+      tags: true,
+    },
   })).data.pop()?.attributes;
   const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
   const articleCoverFormats = articleCover?.formats as unknown as StrapiImageFormats;

@@ -3,13 +3,14 @@ import NextImage from 'next/image';
 import NextLink from 'next/link';
 import { IconUser } from '@tabler/icons-react';
 import { Box, BoxProps, Button, Group, Image, Text, Title } from '@mantine/core';
+import { AuthorAvatar, AuthorSocialEntry } from '@/data/authors';
 import { ArticleAuthor } from '@/data/articles';
-import { AuthorAvatar } from '@/data/authors';
 import { StrapiImageFormats } from '@/types/strapi';
 import { makeSeoDescription } from '@/utils/client/seo';
 import { getFileURL, getPageUrl } from '@/utils/urls';
 import { convertToRelativeDate } from '@/utils/date';
 import { capitalize } from '@/utils/strings';
+import SocialIcon from '@/components/social-icon';
 import styles from '@/styles/author-bio.module.scss';
 
 export interface AuthorBioProps extends BoxProps {
@@ -21,6 +22,7 @@ export default function AuthorBio({data, className, ...other}: AuthorBioProps) {
   const authorAvatar = data?.avatar?.data?.attributes as AuthorAvatar;
   const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
   const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
+  const authorSocials = data?.socialNetworks as unknown as AuthorSocialEntry[];
   const authorLabel = `See ${capitalize(data.fullName)}'s Articles`;
   
   return (
@@ -73,9 +75,20 @@ export default function AuthorBio({data, className, ...other}: AuthorBioProps) {
             title={authorLabel}
             variant='light'
             color='dark'
-            radius='xl'>
+            radius='xl'
+            size='md'>
             Read Full Bio
           </Button>
+
+          {(authorSocials && authorSocials.length > 0) && authorSocials.map((social) => (
+            <SocialIcon
+              key={social.id}
+              href={social.link}
+              label={social.label}
+              icon={social.icon || 'IconCircleX'}
+              className={styles.icon}
+              color='dark' />
+          ))}
 
         </Group>
 

@@ -44,6 +44,7 @@
   align-items: stretch;
   max-height: rem(44);
   overflow: hidden;
+  cursor: pointer;
   font-size: rem(14);
   color: var(--mantine-color-gray-7);
   @media (min-width: rem(360)) {

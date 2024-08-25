@@ -47,6 +47,9 @@
   cursor: pointer;
   font-size: rem(14);
   color: var(--mantine-color-gray-7);
+  @include dark {
+    color: var(--mantine-color-gray-5);
+  }
   @media (min-width: rem(360)) {
     font-size: rem(16);
   }

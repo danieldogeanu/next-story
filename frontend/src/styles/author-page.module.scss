@@ -108,6 +108,11 @@ section.intro {
   overflow: hidden;
   border-radius: 50%;
   margin-bottom: rem(20);
+  transition: outline var(--next-story-transition-timing) var(--next-story-transition-easing);
+  outline: rem(8) solid var(--mantine-color-dark-light);
+  &:hover {
+    outline: rem(12) solid var(--mantine-color-dark-light);
+  }
 
   .image {
     width: 100%;
@@ -121,12 +126,19 @@ section.intro {
     justify-content: center;
     width: 100%;
     height: 100%;
-    background-color: var(--mantine-color-gray-0);
-    border: rem(4) solid var(--mantine-color-gray-3);
     border-radius: 50%;
+    background-color: var(--mantine-color-gray-0);
+    border: rem(4) solid var(--mantine-color-gray-4);
+    @include dark {
+      background-color: var(--mantine-color-gray-9);
+      border: rem(4) solid var(--mantine-color-gray-7);
+    }
 
     svg {
       color: var(--mantine-color-gray-5);
+      @include dark {
+        color: var(--mantine-color-gray-6);
+      }
     }
   }
 }
@@ -136,11 +148,11 @@ section.intro {
   text-align: center;
   font-size: rem(14);
   color: var(--mantine-color-dark-3);
+  @include dark {
+    color: var(--mantine-color-gray-6);
+  }
   @media (min-width: rem(480)) {
     font-size: rem(15);
-  }
-  @include dark {
-    color: var(--mantine-color-dark-2);
   }
 }
 

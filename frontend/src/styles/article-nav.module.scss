@@ -12,7 +12,10 @@
   &.prev {
     &:hover .navButton {
       transform: translateX(rem(-8));
-      background-color: var(--mantine-color-default-hover);
+      background-color: var(--mantine-color-gray-0);
+      @include dark {
+        background-color: var(--mantine-color-gray-8);
+      }
     }
     .textStack {
       text-align: left;
@@ -22,7 +25,10 @@
   &.next {
     &:hover .navButton {
       transform: translateX(rem(8));
-      background-color: var(--mantine-color-default-hover);
+      background-color: var(--mantine-color-gray-0);
+      @include dark {
+        background-color: var(--mantine-color-gray-8);
+      }
     }
     .textStack {
       text-align: right;
@@ -34,6 +40,13 @@
   height: 100%;
   transform: translateX(0);
   transition: transform 80ms ease-in;
+  background-color: transparent;
+  &:hover {
+    background-color: var(--mantine-color-gray-0);
+    @include dark {
+      background-color: var(--mantine-color-gray-8);
+    }
+  }
 }
 
 .textStack {
@@ -51,5 +64,8 @@
     font-weight: 800;
     line-height: 1.4;
     color: var(--mantine-color-dark-6);
+    @include dark {
+      color: var(--mantine-color-dark-1);
+    }
   }
 }

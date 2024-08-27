@@ -33,7 +33,7 @@ export default function ArticleNav({data, className, ...other}: ArticleNavProps)
 
         <Stack
           className={styles.textStack}
-          align='flex-start' gap='xs'>
+          align='flex-start' justify='center' gap='xs'>
           <Text className={styles.label}>Previous Article</Text>
           <Text className={styles.title} component={NextLink} href='#'>Maecenas at sed lacinia mi tincidunt sapien</Text>
         </Stack>
@@ -49,7 +49,7 @@ export default function ArticleNav({data, className, ...other}: ArticleNavProps)
 
         <Stack
           className={styles.textStack}
-          align='flex-end' gap='xs'>
+          align='flex-end' justify='center' gap='xs'>
           <Text className={styles.label}>Next Article</Text>
           <Text className={styles.title} component={NextLink} href='#'>Ut massa pellentesque nisi interdum mattis purus</Text>
         </Stack>

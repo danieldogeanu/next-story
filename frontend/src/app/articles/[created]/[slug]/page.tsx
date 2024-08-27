@@ -18,6 +18,7 @@ import { capitalize } from '@/utils/strings';
 import ContentRenderer from '@/components/content-renderer';
 import ActionBar from '@/components/action-bar';
 import AuthorBio from '@/components/author-bio';
+import ArticleNav from '@/components/article-nav';
 import Tag from '@/components/tag';
 import defaultCover from '@/assets/imgs/default-cover.webp';
 import pageStyles from '@/styles/page.module.scss';
@@ -179,6 +180,8 @@ export default async function ArticlePage({params}: ArticlePageProps) {
           <ActionBar className={articleStyles.actionBar} />
 
           <AuthorBio className={articleStyles.authorBio} data={articleAuthor} />
+
+          <ArticleNav className={articleStyles.articleNav} data={articleData} />
 
         </footer>
 

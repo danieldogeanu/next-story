@@ -74,3 +74,12 @@
   max-width: rem(1088);
   margin: rem(40) auto;
 }
+
+.articleNav {
+  max-width: rem(864);
+  margin: 0 auto;
+  padding: 0 rem(8);
+  @media (min-width: rem(480)) {
+    padding: 0 rem(16);
+  }
+}

@@ -60,6 +60,7 @@
     justify-content: start;
     align-content: center;
     align-items: center;
+    user-select: none;
     height: 100%;
     min-height: rem(34);
     transition: all 140ms ease;

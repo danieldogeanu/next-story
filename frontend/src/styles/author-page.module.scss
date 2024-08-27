@@ -186,3 +186,22 @@ section.intro {
     margin-bottom: rem(12);
   }
 }
+
+.actions {
+  &:global(.mantine-Group-root) {
+    width: 100%;
+    --group-justify: center !important;
+    @media (min-width: rem(720)) {
+      --group-justify: flex-start !important;
+    }
+  }
+
+  :global(.mantine-Button-root) {
+    display: block;
+    width: 100%;
+    @media (min-width: rem(392)) {
+      display: inline-block;
+      width: auto;
+    }
+  }
+}

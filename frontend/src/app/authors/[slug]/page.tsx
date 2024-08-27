@@ -2,8 +2,8 @@ import NextImage from 'next/image';
 import classNames from 'classnames';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
-import { IconUser } from '@tabler/icons-react';
-import { Box, Group, Image, Text, Title } from '@mantine/core';
+import { IconCoin, IconMailPlus, IconUser } from '@tabler/icons-react';
+import { Box, Button, Group, Image, Text, Title } from '@mantine/core';
 import {
   AuthorArticles, AuthorAvatar, AuthorMetaSocial, AuthorMetaSocialEntry, AuthorRobots,
   AuthorSEO, AuthorSocialEntry, getAuthorsCollection
@@ -146,6 +146,20 @@ export default async function AuthorPage({params}: AuthorPageProps) {
                 return <Text key={index}>{paragraph.trim()}</Text>;
               })}
             </Box>
+
+            <Group className={authorStyles.actions}>
+
+              <Button
+                className={authorStyles.subscribeButton}
+                leftSection={<IconMailPlus size={24} stroke={1.5} />}
+                color='blue' variant='filled' size='md'>Subscribe</Button>
+
+              <Button
+                className={authorStyles.sponsorButton}
+                leftSection={<IconCoin size={24} stroke={1.5} />}
+                variant='filled' size='md'>Sponsor</Button>
+
+            </Group>
 
           </Box>
 

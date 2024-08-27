@@ -66,31 +66,34 @@ export default function AuthorBio({data, className, ...other}: AuthorBioProps) {
           {makeSeoDescription(data.biography, 320)}
         </Text>
 
-        <Group className={styles.socials}>
+        <Box className={styles.actions}>
 
-          <Button
-            className={styles.more}
-            component={NextLink}
-            href={authorUrl || ''}
-            title={authorLabel}
-            variant='light'
-            color='dark'
-            radius='xl'
-            size='md'>
-            Read Full Bio
-          </Button>
+          <Box className={styles.more}>
+            <Button
+              component={NextLink}
+              href={authorUrl || ''}
+              title={authorLabel}
+              variant='light'
+              color='dark'
+              radius='xl'
+              size='md'>
+              Read Full Bio
+            </Button>
+          </Box>
 
-          {(authorSocials && authorSocials.length > 0) && authorSocials.map((social) => (
-            <SocialIcon
-              key={social.id}
-              href={social.link}
-              label={social.label}
-              icon={social.icon || 'IconCircleX'}
-              className={styles.icon}
-              color='dark' />
-          ))}
+          <Group className={styles.socials}>
+            {(authorSocials && authorSocials.length > 0) && authorSocials.map((social) => (
+              <SocialIcon
+                key={social.id}
+                href={social.link}
+                label={social.label}
+                icon={social.icon || 'IconCircleX'}
+                className={styles.icon}
+                color='dark' />
+            ))}
+          </Group>
 
-        </Group>
+        </Box>
 
       </Box>
       

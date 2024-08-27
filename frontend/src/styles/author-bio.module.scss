@@ -2,22 +2,33 @@
 
 .container {
   display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto;
-  gap: rem(32);
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  gap: rem(4);
   width: 100%;
-  padding: rem(32) rem(40);
+  padding: rem(32) rem(28);
   border-radius: var(--mantine-radius-lg);
   background-color: var(--mantine-color-gray-2);
   @include dark {
     background-color: var(--mantine-color-gray-8);
+  }
+  @media (min-width: rem(480)) {
+    padding: rem(32) rem(40);
+  }
+  @media (min-width: rem(540)) {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
+    gap: rem(32);
   }
 
   .left {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: rem(100);
+    width: 100%;
+    @media (min-width: rem(540)) {
+      max-width: rem(100);
+    }
   }
 }
 
@@ -79,12 +90,17 @@
 }
 
 .name {
-  display: inline-block;
+  display: block;
   font-size: rem(24);
   margin-bottom: rem(16);
+  text-align: center;
   color: var(--mantine-color-dark-6);
   @include dark {
     color: var(--mantine-color-dark-0);
+  }
+  @media (min-width: rem(540)) {
+    display: inline-block;
+    text-align: left;
   }
 }
 
@@ -96,7 +112,31 @@
   }
 }
 
-.socials {
-  margin-top: rem(20);
+.actions {
+  display: grid;
+  grid-template-columns: auto;
+  grid-template-rows: auto auto;
+  gap: rem(16);
+  margin-top: rem(32);
   margin-bottom: rem(4);
+  @media (min-width: rem(720)) {
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto;
+    gap: rem(24);
+    margin-top: rem(20);
+  }
+
+  .more :global(.mantine-Button-root) {
+    display: block;
+    @media (min-width: rem(540)) {
+      display: inline-block;
+    }
+  }
+
+  .socials:global(.mantine-Group-root) {
+    --group-justify: center !important;
+    @media (min-width: rem(540)) {
+      --group-justify: flex-start !important;
+    }
+  }
 }

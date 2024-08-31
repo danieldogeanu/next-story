@@ -7,8 +7,8 @@
       "searchable": true,
       "pageSize": 50,
       "mainField": "title",
-      "defaultSortBy": "title",
-      "defaultSortOrder": "ASC"
+      "defaultSortBy": "id",
+      "defaultSortOrder": "DESC"
     },
     "metadatas": {
       "id": {

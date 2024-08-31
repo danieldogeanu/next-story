@@ -2,7 +2,7 @@ import NextImage from 'next/image';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Box, Image, Title } from '@mantine/core';
-import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO } from '@/data/pages';
+import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO, SinglePage } from '@/data/pages';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
@@ -29,7 +29,8 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
       } },
       robots: { populate: '*' },
     },
-  })).data.pop()?.attributes;
+    pagination: { start: 0, limit: 1 },
+  })).data.pop()?.attributes as SinglePage;
   const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageRobots = pageData?.robots as PageRobots;
   const pageSEO = pageData?.seo as PageSEO;
@@ -58,8 +59,9 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
 
 export default async function Page({params}: PageProps) {
   const pageData = (await getPagesCollection({
-    populate: '*', filters: { slug: { $eq: params.slug } }
-  })).data.pop()?.attributes;
+    populate: '*', filters: { slug: { $eq: params.slug } },
+    pagination: { start: 0, limit: 1 },
+  })).data.pop()?.attributes as SinglePage;
   const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;
   const pageCoverUrl = (pageCoverFormats?.large?.url)

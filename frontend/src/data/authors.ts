@@ -1,13 +1,13 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
-import { strapiSDK } from '@/data/strapi';
+import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
+import { strapiSDK } from '@/data/strapi';
 import buildTimeAuthors from '@build-data/authors.json';
 
+// Rename Strapi types to make it more clear what we're working with.
 export interface SingleAuthor extends GetValues<'api::author.author'> {}
-
+export interface SingleAuthorData extends APIResponseData<'api::author.author'> {}
 export interface SingleAuthorResponse extends APIResponse<'api::author.author'> {}
-
 export interface AuthorsCollectionResponse extends APIResponseCollection<'api::author.author'> {}
 
 // Extract smaller subtypes that can be used to further work with data.

@@ -1,13 +1,13 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
-import { strapiSDK } from '@/data/strapi';
+import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
+import { strapiSDK } from '@/data/strapi';
 import buildTimeCategories from '@build-data/categories.json';
 
+// Rename Strapi types to make it more clear what we're working with.
 export interface SingleCategory extends GetValues<'api::category.category'> {}
-
+export interface SingleCategoryData extends APIResponseData<'api::category.category'> {}
 export interface SingleCategoryResponse extends APIResponse<'api::category.category'> {}
-
 export interface CategoriesCollectionResponse extends APIResponseCollection<'api::category.category'> {}
 
 // Extract smaller subtypes that can be used to further work with data.

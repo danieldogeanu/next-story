@@ -1,15 +1,17 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, IDProperty } from '@/types/strapi';
-import { strapiSDK } from '@/data/strapi';
+import { APIResponse, APIResponseData, IDProperty } from '@/types/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
+import { strapiSDK } from '@/data/strapi';
 import buildTimeSiteSettingsData from '@build-data/site-setting.json';
 import buildTimePageSettingsData from '@build-data/page-setting.json';
 
+// Rename Strapi types to make it more clear what we're working with.
+export interface SiteSettingsData extends APIResponseData<'api::site-setting.site-setting'> {}
+export interface PageSettingsData extends APIResponseData<'api::page-setting.page-setting'> {}
 export interface SiteSettingsResponse extends APIResponse<'api::site-setting.site-setting'> {}
-
 export interface PageSettingsResponse extends APIResponse<'api::page-setting.page-setting'> {}
 
-// Extract smaller subtypes that can be used to further work with data.
+// Extract smaller site settings subtypes that can be used to further work with data.
 export type SiteSettings = NonNullable<SiteSettingsResponse['data']>['attributes'];
 export type SiteCover = NonNullable<SiteSettings['siteCover']>['data']['attributes'];
 export type SiteLogo = NonNullable<SiteSettings['siteLogo']>['data']['attributes'];
@@ -18,6 +20,7 @@ export type SiteLogoDark = NonNullable<SiteSettings['siteLogoDark']>['data']['at
 export type SiteSocialNetworks = NonNullable<SiteSettings['socialNetworks']>;
 export type SiteRobots = NonNullable<SiteSettings['siteRobots']>;
 
+// Extract smaller page settings subtypes that can be used to further work with data.
 export type PageSettings = NonNullable<PageSettingsResponse['data']['attributes']['pageSettings']>;
 export type PageSettingsEntry = PageSettings[number] & IDProperty;
 export type PageCover = NonNullable<PageSettingsEntry['cover']>['data']['attributes'];

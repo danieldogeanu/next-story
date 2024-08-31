@@ -4,8 +4,8 @@ import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { strapiSDK } from '@/data/strapi';
 import buildTimeFiles from '@build-data/files.json';
 
+// Rename Strapi types to make it more clear what we're working with.
 export interface FilesResponse extends APIResponseArray<'plugin::upload.file'> {}
-
 export interface SingleFileResponse extends GetValues<'plugin::upload.file'> {}
 
 export interface ExtendedStrapiRequestParams extends StrapiRequestParams {

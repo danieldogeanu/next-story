@@ -1,13 +1,13 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
-import { strapiSDK } from '@/data/strapi';
+import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
+import { strapiSDK } from '@/data/strapi';
 import buildTimePages from '@build-data/pages.json';
 
+// Rename Strapi types to make it more clear what we're working with.
 export interface SinglePage extends GetValues<'api::page.page'> {}
-
+export interface SinglePageData extends APIResponseData<'api::page.page'> {}
 export interface SinglePageResponse extends APIResponse<'api::page.page'> {}
-
 export interface PagesCollectionResponse extends APIResponseCollection<'api::page.page'> {}
 
 // Extract smaller subtypes that can be used to further work with data.

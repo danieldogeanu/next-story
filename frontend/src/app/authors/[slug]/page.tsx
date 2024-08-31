@@ -6,7 +6,7 @@ import { IconCoin, IconMailPlus, IconUser } from '@tabler/icons-react';
 import { Box, Button, Group, Image, Text, Title } from '@mantine/core';
 import {
   AuthorArticles, AuthorAvatar, AuthorMetaSocial, AuthorMetaSocialEntry, AuthorRobots,
-  AuthorSEO, AuthorSocialEntry, getAuthorsCollection
+  AuthorSEO, AuthorSocialEntry, getAuthorsCollection, SingleAuthor
 } from '@/data/authors';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
@@ -37,7 +37,8 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
       } },
       robots: { populate: '*' },
     },
-  })).data.pop()?.attributes;
+    pagination: { start: 0, limit: 1 },
+  })).data.pop()?.attributes as SingleAuthor;
   const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
   const authorRobots = authorData?.robots as AuthorRobots;
   const authorSEO = authorData?.seo as AuthorSEO;
@@ -74,7 +75,8 @@ export default async function AuthorPage({params}: AuthorPageProps) {
       articles: { populate: '*' },
       seo: { populate: '*' },
     },
-  })).data.pop()?.attributes;
+    pagination: { start: 0, limit: 1 },
+  })).data.pop()?.attributes as SingleAuthor;
   const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
   const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
   const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;

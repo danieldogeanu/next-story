@@ -7,7 +7,8 @@ import { Anchor, Box, Divider, Group, Image, Title } from '@mantine/core';
 import { IconCalendar, IconCategory, IconUser } from '@tabler/icons-react';
 import {
   ArticleAuthor, ArticleCategory, ArticleContent, ArticleCover, ArticleMetaSocial, 
-  ArticleMetaSocialEntry, ArticleRobots, ArticleSEO, ArticleTags, getArticlesCollection
+  ArticleMetaSocialEntry, ArticleRobots, ArticleSEO, ArticleTags, SingleArticle,
+  SingleArticleData, getArticlesCollection, getNextArticle, getPreviousArticle
 } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
 import { convertToISODate, convertToReadableDate } from '@/utils/date';
@@ -48,7 +49,8 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
       } },
       robots: { populate: '*' },
     },
-  })).data.pop()?.attributes;
+    pagination: { start: 0, limit: 1 },
+  })).data.pop()?.attributes as SingleArticle;
   const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
   const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
   const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
@@ -86,7 +88,7 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
 
 export default async function ArticlePage({params}: ArticlePageProps) {
   // Filters must match both createdAt and slug fields.
-  const articleData = (await getArticlesCollection({
+  const articleResponse = (await getArticlesCollection({
     filters: {
       createdAt: { $eq: convertToISODate(params.created) },
       slug: { $eq: params.slug },
@@ -100,7 +102,9 @@ export default async function ArticlePage({params}: ArticlePageProps) {
       category: true,
       tags: true,
     },
-  })).data.pop()?.attributes;
+    pagination: { start: 0, limit: 1 },
+  })).data.pop() as SingleArticleData;
+  const articleData = articleResponse?.attributes as SingleArticle;
   const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
   const articleCoverFormats = articleCover?.formats as unknown as StrapiImageFormats;
   const articleCoverUrl = (articleCoverFormats?.large?.url)
@@ -111,6 +115,11 @@ export default async function ArticlePage({params}: ArticlePageProps) {
   const articleCategoryUrl = getPageUrl(articleCategory?.slug, '/categories');
   const articleContent = articleData?.content as ArticleContent;
   const articleTags = articleData?.tags?.data as ArticleTags;
+
+  // Get next and previous page based on the current article ID.
+  const paginationRequestParams = { fields: ['title', 'slug', 'createdAt', 'publishedAt'] };
+  const previousArticle = await getPreviousArticle(articleResponse?.id, paginationRequestParams);
+  const nextArticle = await getNextArticle(articleResponse?.id, paginationRequestParams);
 
   if (!articleData) return notFound();
 
@@ -181,7 +190,7 @@ export default async function ArticlePage({params}: ArticlePageProps) {
 
           <AuthorBio className={articleStyles.authorBio} data={articleAuthor} />
 
-          <ArticleNav className={articleStyles.articleNav} data={articleData} />
+          <ArticleNav className={articleStyles.articleNav} prev={previousArticle} next={nextArticle} />
 
         </footer>
 

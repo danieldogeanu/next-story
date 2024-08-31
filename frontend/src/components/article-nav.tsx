@@ -2,15 +2,16 @@ import classNames from 'classnames';
 import NextLink from 'next/link';
 import { ActionIcon, Divider, Group, Stack, Text } from '@mantine/core';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
-import { SingleArticle } from '@/data/articles';
+import { SingleArticleData } from '@/data/articles';
 import styles from '@/styles/article-nav.module.scss';
 
 
 export interface ArticleNavProps extends React.HTMLAttributes<HTMLElement> {
-  data: SingleArticle;
+  prev: SingleArticleData | undefined;
+  next: SingleArticleData | undefined;
 }
 
-export default function ArticleNav({data, className, ...other}: ArticleNavProps) {
+export default function ArticleNav({prev, next, className, ...other}: ArticleNavProps) {
   
   return (
     <nav className={classNames(styles.container, className)} {...other}>

@@ -1,13 +1,13 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues, IDProperty } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
 import { strapiSDK } from '@/data/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import buildTimeArticles from '@build-data/articles.json';
 
+// Rename Strapi types to make it more clear what we're working with.
 export interface SingleArticle extends GetValues<'api::article.article'> {}
-
+export interface SingleArticleData extends APIResponseData<'api::article.article'> {}
 export interface SingleArticleResponse extends APIResponse<'api::article.article'> {}
-
 export interface ArticlesCollectionResponse extends APIResponseCollection<'api::article.article'> {}
 
 // Extract smaller subtypes that can be used to further work with data.
@@ -82,4 +82,36 @@ export async function getArticlesCollection(params?: StrapiRequestParams): Promi
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
   const strapiResponse = await strapiInstance.find('articles', params) as unknown as ArticlesCollectionResponse;
   return strapiResponse;
+}
+
+/**
+ * Retrieves the previous article based on the current article's ID.
+ *
+ * @param {number | undefined} currentId - The ID of the current article. If `undefined`, no previous article will be retrieved.
+ * @param {StrapiRequestParams} [params] - Additional parameters for the Strapi request, such as filters, pagination, and sorting options.
+ * @returns {Promise<SingleArticleData | undefined>} A promise that resolves to the data of the previous article if found, or `undefined` if no previous article exists or an error occurs.
+ *
+ * @throws Will log an error to the console if the request fails or if an unexpected error occurs.
+ *
+ * @example
+ * // Fetch the previous article with extra params.
+ * await getPreviousArticle(10, { fields: ['title', 'slug', 'publishedAt'] });
+ */
+export async function getPreviousArticle(currentId: number | undefined, params?: StrapiRequestParams): Promise<SingleArticleData | undefined> {
+  try {
+    if (typeof currentId === 'number') {
+      const previousArticleResponse = await getArticlesCollection({
+        filters: { id: { $lt: currentId } },
+        pagination: { start: 0, limit: 1 },
+        sort: 'id:desc',
+        ...params,
+      });
+
+      if (previousArticleResponse.data.length > 0) {
+        return previousArticleResponse.data.pop();
+      }
+    }
+  } catch (e) {
+    console.error('Error:', (e instanceof Error) ? e.message : e);
+  }
 }

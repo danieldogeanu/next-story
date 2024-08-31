@@ -111,7 +111,7 @@ export type GetValue<TAttribute extends Attribute.Attribute> = Utils.Expression.
   unknown
 >;
 
-interface APIResponseData<TContentTypeUID extends Common.UID.ContentType> extends IDProperty {
+export interface APIResponseData<TContentTypeUID extends Common.UID.ContentType> extends IDProperty {
   attributes: GetValues<TContentTypeUID>;
 }
 

@@ -3,7 +3,10 @@ import classNames from 'classnames';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Title, Image, Box, Text } from '@mantine/core';
-import { CategoryArticles, CategoryCover, CategoryMetaSocial, CategoryMetaSocialEntry, CategoryRobots, CategorySEO, getCategoriesCollection } from '@/data/categories';
+import {
+  CategoryArticles, CategoryCover, CategoryMetaSocial, CategoryMetaSocialEntry, CategoryRobots, 
+  CategorySEO, getCategoriesCollection, SingleCategory
+} from '@/data/categories';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
@@ -32,7 +35,8 @@ export async function generateMetadata({params}: CategoryPageProps, parent: Reso
       } },
       robots: { populate: '*' },
     },
-  })).data.pop()?.attributes;
+    pagination: { start: 0, limit: 1 },
+  })).data.pop()?.attributes as SingleCategory;
   const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
   const categoryRobots = categoryData?.robots as CategoryRobots;
   const categorySEO = categoryData?.seo as CategorySEO;
@@ -68,7 +72,8 @@ export default async function CategoryPage({params}: CategoryPageProps) {
       seo: { populate: '*' },
       articles: { populate: '*' },
     },
-  })).data.pop()?.attributes;
+    pagination: { start: 0, limit: 1 },
+  })).data.pop()?.attributes as SingleCategory;
   const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
   const categoryCoverFormats = categoryCover?.formats as unknown as StrapiImageFormats;
   const categoryCoverUrl = (categoryCoverFormats?.large?.url)

@@ -115,3 +115,35 @@ export async function getPreviousArticle(currentId: number | undefined, params?:
     console.error('Error:', (e instanceof Error) ? e.message : e);
   }
 }
+
+/**
+ * Retrieves the next article based on the current article's ID.
+ *
+ * @param {number | undefined} currentId - The ID of the current article. If `undefined`, no next article will be retrieved.
+ * @param {StrapiRequestParams} [params] - Additional parameters for the Strapi request, such as filters, pagination, and sorting options.
+ * @returns {Promise<SingleArticleData | undefined>} A promise that resolves to the data of the next article if found, or `undefined` if no next article exists or an error occurs.
+ *
+ * @throws Will log an error to the console if the request fails or if an unexpected error occurs.
+ *
+ * @example
+ * // Fetch the next article with extra params.
+ * await getNextArticle(10, { fields: ['title', 'slug', 'publishedAt'] });
+ */
+export async function getNextArticle(currentId: number | undefined, params?: StrapiRequestParams): Promise<SingleArticleData | undefined> {
+  try {
+    if (typeof currentId === 'number') {
+      const nextArticleResponse = await getArticlesCollection({
+        filters: { id: { $gt: currentId } },
+        pagination: { start: 0, limit: 1 },
+        sort: 'id:asc',
+        ...params,
+      });
+
+      if (nextArticleResponse.data.length > 0) {
+        return nextArticleResponse.data.pop();
+      }
+    }
+  } catch (e) {
+    console.error('Error:', (e instanceof Error) ? e.message : e);
+  }
+}

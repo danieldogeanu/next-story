@@ -37,7 +37,7 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
 }
 
 export default async function TagsPage() {
-  const tagsCollection = await getTagsCollection({populate: '*'});
+  const tagsCollection = await getTagsCollection({populate: '*', sort: 'id:desc'});
   const tagsPageSettings = await getSinglePageSettings('tags');
 
   return (

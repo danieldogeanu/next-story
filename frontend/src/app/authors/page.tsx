@@ -37,7 +37,7 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
 }
 
 export default async function AuthorsPage() {
-  const authorsCollection = await getAuthorsCollection({populate: '*'});
+  const authorsCollection = await getAuthorsCollection({populate: '*', sort: 'id:desc'});
   const authorPageSettings = await getSinglePageSettings('authors');
 
   return (

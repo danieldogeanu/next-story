@@ -37,7 +37,7 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
 }
 
 export default async function CategoriesPage() {
-  const categoriesCollection = await getCategoriesCollection({populate: '*'});
+  const categoriesCollection = await getCategoriesCollection({populate: '*', sort: 'id:desc'});
   const categoriesPageSettings = await getSinglePageSettings('categories');
 
   return (

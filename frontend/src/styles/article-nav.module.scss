@@ -67,11 +67,16 @@
   }
 
   .title {
+    --title-fz: rem(18);
+    --title-lh: 1.4;
+
     display: none;
+    overflow: hidden;
     text-transform: capitalize;
-    font-size: rem(18);
     font-weight: 800;
-    line-height: 1.4;
+    font-size: var(--title-fz);
+    line-height: var(--title-lh);
+    max-height: calc((var(--title-fz) * var(--title-lh)) * 2);
     color: var(--mantine-color-dark-6);
     @include dark {
       color: var(--mantine-color-dark-1);
@@ -80,7 +85,7 @@
       display: block;
     }
     @media (min-width: rem(840)) {
-      font-size: rem(20);
+      --title-fz: rem(20);
     }
   }
 }

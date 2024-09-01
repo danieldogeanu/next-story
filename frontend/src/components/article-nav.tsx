@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { ActionIcon, Divider, Group, Stack, Text } from '@mantine/core';
 import { IconChevronLeft, IconChevronRight } from '@tabler/icons-react';
 import { SingleArticle, SingleArticleData } from '@/data/articles';
-import { capitalize } from '@/utils/strings';
+import { makeSeoTitle } from '@/utils/client/seo';
 import { getArticleUrl } from '@/utils/urls';
 import styles from '@/styles/article-nav.module.scss';
 
@@ -17,19 +17,21 @@ export interface ArticleNavProps extends React.HTMLAttributes<HTMLElement> {
 export default function ArticleNav({prev, next, className, ...other}: ArticleNavProps) {
   // Process previous article data.
   const prevArticleData = prev?.attributes as SingleArticle;
-  const prevArticleTitle = capitalize(prevArticleData?.title);
+  const prevArticleTitle = makeSeoTitle(prevArticleData?.title);
+  const prevArticleLabel = `Previous Article: ${prevArticleTitle}`;
   const prevArticleUrl = getArticleUrl(prevArticleData?.createdAt, prevArticleData?.slug);
   
   // Process next article data.
   const nextArticleData = next?.attributes as SingleArticle;
-  const nextArticleTitle = capitalize(nextArticleData?.title);
+  const nextArticleTitle = makeSeoTitle(nextArticleData?.title);
+  const nextArticleLabel = `Next Article: ${nextArticleTitle}`;
   const nextArticleUrl = getArticleUrl(nextArticleData?.createdAt, nextArticleData?.slug);
   
   return (
     <nav className={classNames(styles.container, className)} {...other}>
 
       <Group 
-        title='Previous Article'
+        title={prevArticleLabel}
         className={classNames(styles.side, styles.prev)}
         justify='flex-start' align='stretch' wrap='nowrap'>
 
@@ -39,8 +41,8 @@ export default function ArticleNav({prev, next, className, ...other}: ArticleNav
               className={styles.navButton}
               component={NextLink}
               href={prevArticleUrl || ''}
+              aria-label={prevArticleLabel}
               rel='prev'
-              aria-label='Previous Article'
               variant='default'
               radius='md'
               size='xl'>
@@ -63,7 +65,7 @@ export default function ArticleNav({prev, next, className, ...other}: ArticleNav
       <Divider className={styles.divider} orientation='vertical' />
 
       <Group
-        title='Next Article'
+        title={nextArticleLabel}
         className={classNames(styles.side, styles.next)}
         justify='flex-end' align='stretch' wrap='nowrap'>
 
@@ -82,8 +84,8 @@ export default function ArticleNav({prev, next, className, ...other}: ArticleNav
               className={styles.navButton}
               component={NextLink}
               href={nextArticleUrl || ''}
+              aria-label={nextArticleLabel}
               rel='next'
-              aria-label='Next Article'
               variant='default'
               radius='md'
               size='xl'>

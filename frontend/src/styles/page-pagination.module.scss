@@ -9,4 +9,8 @@
     --group-justify: center !important;
     --pagination-control-fz: var(--mantine-font-size-md);
   }
+
+  :global(.mantine-Pagination-control:not([data-active='true'])):not(:hover) {
+    background-color: transparent;
+  }
 }

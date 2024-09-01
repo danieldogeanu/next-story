@@ -14,7 +14,7 @@ export interface HomeProps {
   };
 }
 
-export async function generateMetadata({params}: HomeProps, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({params}: Readonly<HomeProps>, parent: ResolvingMetadata): Promise<Metadata> {
   const parentData = await parent;
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
@@ -32,7 +32,9 @@ export async function generateMetadata({params}: HomeProps, parent: ResolvingMet
   };
 }
 
-export default async function Home({params}: HomeProps) {
+export default async function Home({params}: Readonly<HomeProps>) {
+  if (isNaN(Number(params.number))) return notFound();
+
   // If it's the first page, we need to redirect to avoid page duplicates.
   if (Number(params.number) === 1) permanentRedirect(getFrontEndURL(), RedirectType.replace);
 

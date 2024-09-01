@@ -3,11 +3,18 @@ import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getArticlesCollection } from '@/data/articles';
 import { makeSeoTitle } from '@/utils/client/seo';
 import { getFrontEndURL } from '@/utils/client/env';
+import { permanentRedirect, RedirectType } from 'next/navigation';
 import ArticleCard from '@/components/article-card';
 import PagePagination from '@/components/page-pagination';
 import styles from '@/styles/page.module.scss';
 
-export async function generateMetadata(props: null, parent: ResolvingMetadata): Promise<Metadata> {
+export interface HomeProps {
+  params: {
+    number: string;
+  };
+}
+
+export async function generateMetadata({params}: HomeProps, parent: ResolvingMetadata): Promise<Metadata> {
   const parentData = await parent;
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
@@ -25,10 +32,13 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
   };
 }
 
-export default async function Home() {
+export default async function Home({params}: HomeProps) {
+  // If it's the first page, we need to redirect to avoid page duplicates.
+  if (Number(params.number) === 1) permanentRedirect(getFrontEndURL(), RedirectType.replace);
+
   const articlesCollection = await getArticlesCollection({
     populate: '*', sort: 'id:desc',
-    pagination: { page: 1, pageSize: 4 },
+    pagination: { page: Number(params.number), pageSize: 4 },
   });
 
   return (

@@ -1,0 +1,12 @@
+@import 'mantine';
+
+.container {
+  display: block;
+  width: 100%;
+  margin: rem(40) 0;
+
+  :global(.mantine-Group-root) {
+    --group-justify: center !important;
+    --pagination-control-fz: var(--mantine-font-size-md);
+  }
+}

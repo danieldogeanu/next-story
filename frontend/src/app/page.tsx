@@ -28,7 +28,7 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
 export default async function Home() {
   const articlesCollection = await getArticlesCollection({
     populate: '*', sort: 'id:desc',
-    pagination: { page: 1, pageSize: 4 },
+    pagination: { page: 1, pageSize: 24 },
   });
   const articlesPagination = articlesCollection.meta.pagination;
 

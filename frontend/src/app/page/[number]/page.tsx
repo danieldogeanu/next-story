@@ -48,7 +48,7 @@ export default async function Home({params}: Readonly<HomeProps>) {
 
   const articlesCollection = await getArticlesCollection({
     populate: '*', sort: 'id:desc',
-    pagination: { page: Number(params.number), pageSize: 4 },
+    pagination: { page: Number(params.number), pageSize: 24 },
   });
   const articlesPagination = articlesCollection.meta.pagination;
   const isOutOfBounds = Number(params.number) > Number(articlesPagination.pageCount);

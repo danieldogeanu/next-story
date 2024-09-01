@@ -3,7 +3,7 @@ import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getArticlesCollection } from '@/data/articles';
 import { makeSeoTitle } from '@/utils/client/seo';
 import { getFrontEndURL } from '@/utils/client/env';
-import { permanentRedirect, RedirectType } from 'next/navigation';
+import { notFound, permanentRedirect, RedirectType } from 'next/navigation';
 import ArticleCard from '@/components/article-card';
 import PagePagination from '@/components/page-pagination';
 import styles from '@/styles/page.module.scss';
@@ -40,6 +40,10 @@ export default async function Home({params}: HomeProps) {
     populate: '*', sort: 'id:desc',
     pagination: { page: Number(params.number), pageSize: 4 },
   });
+  const articlesPagination = articlesCollection.meta.pagination;
+  const isOutOfBounds = Number(params.number) > Number(articlesPagination.pageCount);
+
+  if (articlesCollection.data.length === 0 && isOutOfBounds) return notFound();
 
   return (
     <main className={styles.main}>
@@ -50,7 +54,7 @@ export default async function Home({params}: HomeProps) {
         })}
       </section>
 
-      <PagePagination data={articlesCollection.meta.pagination} />
+      <PagePagination data={articlesPagination} />
 
     </main>
   );

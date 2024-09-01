@@ -30,6 +30,7 @@ export default async function Home() {
     populate: '*', sort: 'id:desc',
     pagination: { page: 1, pageSize: 4 },
   });
+  const articlesPagination = articlesCollection.meta.pagination;
 
   return (
     <main className={styles.main}>
@@ -40,7 +41,7 @@ export default async function Home() {
         })}
       </section>
 
-      <PagePagination data={articlesCollection.meta.pagination} />
+      <PagePagination data={articlesPagination} />
 
     </main>
   );

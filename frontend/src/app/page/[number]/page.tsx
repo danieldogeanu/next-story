@@ -1,9 +1,10 @@
 import type { Metadata, ResolvingMetadata } from 'next';
+import { notFound, permanentRedirect, RedirectType } from 'next/navigation';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getArticlesCollection } from '@/data/articles';
 import { makeSeoTitle } from '@/utils/client/seo';
 import { getFrontEndURL } from '@/utils/client/env';
-import { notFound, permanentRedirect, RedirectType } from 'next/navigation';
+import { getPageUrl } from '@/utils/urls';
 import ArticleCard from '@/components/article-card';
 import PagePagination from '@/components/page-pagination';
 import styles from '@/styles/page.module.scss';
@@ -15,20 +16,27 @@ export interface HomeProps {
 }
 
 export async function generateMetadata({params}: Readonly<HomeProps>, parent: ResolvingMetadata): Promise<Metadata> {
+  if (isNaN(Number(params.number))) return {};
+
   const parentData = await parent;
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
 
   return {
-    title: makeSeoTitle(`${siteSettings?.siteName} > ${siteSettings?.siteTagline}`),
+    title: {
+      absolute: makeSeoTitle(`Page ${params.number} > ${siteSettings?.siteName} > ${siteSettings?.siteTagline}`) as string,
+    },
     alternates: {
-      canonical: getFrontEndURL(),
+      canonical: getPageUrl(params.number, '/page'),
+    },
+    robots: {
+      index: false, follow: false, nocache: true,
     },
     openGraph: {
       ...parentData.openGraph,
-      url: getFrontEndURL(),
-      title: makeSeoTitle(siteSettings?.siteTagline),
-    }
+      url: getPageUrl(params.number, '/page'),
+      title: makeSeoTitle(`Page ${params.number} > ${siteSettings?.siteTagline}`),
+    },
   };
 }
 

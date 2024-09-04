@@ -20,7 +20,7 @@ export default function PagePagination({data: {page, pageCount}, className, ...o
   return (
     <nav className={classNames(styles.container, className)} {...other}>
       <Pagination total={pageCount} defaultValue={page} onChange={(pageNumber) => {
-        const cleanPath = pathname.split('/page/')[0];
+        const cleanPath = pathname.replace(/page.*/, '');
         const newPath = path.join(cleanPath, (pageNumber > 1) ?  `/page/${pageNumber}` : '/');
         router.push(newPath);
       }} size='lg' />

@@ -1,6 +1,6 @@
 import NextImage from 'next/image';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, permanentRedirect, RedirectType } from 'next/navigation';
 import { Box, Image, Title } from '@mantine/core';
 import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO, SinglePage } from '@/data/pages';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
@@ -31,12 +31,15 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
     },
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SinglePage;
+
+  if (typeof pageData === 'undefined') return {};
+
   const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageRobots = pageData?.robots as PageRobots;
   const pageSEO = pageData?.seo as PageSEO;
-  const pageMetaImage = pageSEO.metaImage?.data?.attributes as PageCover;
-  const pageMetaSocials = pageSEO.metaSocial as PageMetaSocial;
-  const pageMetaFacebook = pageMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const pageMetaImage = pageSEO?.metaImage?.data?.attributes as PageCover;
+  const pageMetaSocials = pageSEO?.metaSocial as PageMetaSocial;
+  const pageMetaFacebook = pageMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
   const pageMetaFacebookImage = pageMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
@@ -58,17 +61,20 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
 }
 
 export default async function Page({params}: PageProps) {
+  if (params.slug === 'page') return permanentRedirect('/', RedirectType.replace);
+
   const pageData = (await getPagesCollection({
     populate: '*', filters: { slug: { $eq: params.slug } },
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SinglePage;
+
+  if (!pageData) return notFound();
+
   const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;
   const pageCoverUrl = (pageCoverFormats?.large?.url)
     ? getFileURL(pageCoverFormats.large.url) : getFileURL(defaultCover.src, 'frontend');
   const pageContent = pageData?.content as PageContent;
-
-  if (!pageData) return notFound();
 
   return (
     <main className={styles.main}>

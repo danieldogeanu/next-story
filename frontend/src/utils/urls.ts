@@ -150,3 +150,53 @@ export function getFileURL(url: string | undefined, source: 'frontend' | 'backen
     return new URL(url, getBackEndURL()).href;
   }
 }
+
+/**
+ * Extracts the slug and page number from an array of strings based on the presence of the `page` keyword.
+ *
+ * The function looks for the keyword `page` in the provided array. If found, it considers the element immediately
+ * before `page` as the slug and the element immediately after `page` as the page number. If `page` is not present,
+ * the function assumes the last element of the array to be the slug and returns `null` for the page number.
+ *
+ * @param {string[]} slugArray - An array of strings containing potential slug and page number information.
+ * @returns {{ slug: string | null, pageNumber: number | null }} An object with two properties:
+ *   - `slug`: The extracted slug, or `null` if no valid slug is found.
+ *   - `pageNumber`: The extracted page number as a number, or `null` if no valid page number is found.
+ *
+ * @example
+ * // Example 1: Array with `page` keyword.
+ * extractSlugAndPage(['example-slug', 'page', '2']); // Output: { slug: 'example-slug', pageNumber: 2 }
+ *
+ * // Example 2: Array without `page` keyword.
+ * extractSlugAndPage(['example-slug']); // Output: { slug: 'example-slug', pageNumber: null }
+ *
+ * // Example 3: Array with `page` keyword but no page number.
+ * extractSlugAndPage(['example-slug', 'page']); // Output: { slug: 'example-slug', pageNumber: null }
+ */
+export function extractSlugAndPage(slugArray: string[]): { slug: string | null; pageNumber: number | null; } {
+  let slug = null;
+  let pageNumber = null;
+
+  if (Array.isArray(slugArray)) {
+      // Check if the array contains `page`.
+      const pageIndex = slugArray.indexOf('page');
+
+      if (pageIndex !== -1) {
+          // Extract the slug (element before `page`), only if it's a valid index.
+          if (pageIndex > 0) {
+              slug = slugArray[pageIndex - 1];
+          }
+
+          // Extract the page number (element after `page`) only if it exists.
+          if (pageIndex + 1 < slugArray.length) {
+              const extractedNumber = Number(slugArray[pageIndex + 1]);
+              pageNumber = (!isNaN(extractedNumber)) ? extractedNumber : null;
+          }
+      } else if (slugArray.length > 0) {
+          // If `page` is not present, the last element is considered the slug.
+          slug = slugArray[slugArray.length - 1];
+      }
+  }
+
+  return { slug, pageNumber };
+}

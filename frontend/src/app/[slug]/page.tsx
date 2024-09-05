@@ -17,7 +17,6 @@ export interface PageProps {
   };
 }
 
-// TODO: Add undefined and not found guards for all pages.
 // TODO: Try to refactor collection pages to merge them into a single page with optional params.
 // TODO: Add pagination to the merged optional params pages.
 
@@ -72,7 +71,7 @@ export default async function Page({params}: PageProps) {
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SinglePage;
 
-  if (!pageData) return notFound();
+  if (typeof pageData === 'undefined') return notFound();
 
   const pageCover = pageData?.cover?.data?.attributes as PageCover;
   const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;

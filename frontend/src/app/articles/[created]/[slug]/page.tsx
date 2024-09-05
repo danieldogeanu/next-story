@@ -51,14 +51,17 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
     },
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SingleArticle;
+
+  if (typeof articleData === 'undefined') return {};
+
   const articleAuthor = articleData?.author?.data?.attributes as ArticleAuthor;
   const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
   const articleCategory = articleData?.category?.data?.attributes as ArticleCategory;
   const articleRobots = articleData?.robots as ArticleRobots;
   const articleSEO = articleData?.seo as ArticleSEO;
-  const articleMetaImage = articleSEO.metaImage?.data?.attributes as ArticleCover;
-  const articleMetaSocials = articleSEO.metaSocial as ArticleMetaSocial;
-  const articleMetaFacebook = articleMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as ArticleMetaSocialEntry;
+  const articleMetaImage = articleSEO?.metaImage?.data?.attributes as ArticleCover;
+  const articleMetaSocials = articleSEO?.metaSocial as ArticleMetaSocial;
+  const articleMetaFacebook = articleMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as ArticleMetaSocialEntry;
   const articleMetaFacebookImage = articleMetaFacebook?.image?.data?.attributes as ArticleCover;
 
   return {
@@ -104,6 +107,9 @@ export default async function ArticlePage({params}: ArticlePageProps) {
     },
     pagination: { start: 0, limit: 1 },
   })).data.pop() as SingleArticleData;
+
+  if (typeof articleResponse === 'undefined') return notFound();
+
   const articleData = articleResponse?.attributes as SingleArticle;
   const articleCover = articleData?.cover?.data?.attributes as ArticleCover;
   const articleCoverFormats = articleCover?.formats as unknown as StrapiImageFormats;
@@ -120,8 +126,6 @@ export default async function ArticlePage({params}: ArticlePageProps) {
   const paginationRequestParams = { fields: ['title', 'slug', 'createdAt', 'publishedAt'] };
   const previousArticle = await getPreviousArticle(articleResponse?.id, paginationRequestParams);
   const nextArticle = await getNextArticle(articleResponse?.id, paginationRequestParams);
-
-  if (!articleData) return notFound();
 
   return (
     <main className={pageStyles.main}>

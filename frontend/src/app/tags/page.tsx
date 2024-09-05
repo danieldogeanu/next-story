@@ -12,10 +12,13 @@ import styles from '@/styles/page.module.scss';
 export async function generateMetadata(props: null, parent: ResolvingMetadata): Promise<Metadata> {
   const parentData = await parent;
   const tagsPageSettings = await getSinglePageSettings('tags');
+
+  if (typeof tagsPageSettings === 'undefined') return {};
+
   const tagsPageRobots = tagsPageSettings?.robots as PageRobots;
   const tagsCover = tagsPageSettings?.cover?.data?.attributes as PageCover;
   const tagsMetaSocials = tagsPageSettings?.metaSocial as PageMetaSocial;
-  const tagsMetaFacebook = tagsMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const tagsMetaFacebook = tagsMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
   const tagsMetaFacebookImage = tagsMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
@@ -43,7 +46,7 @@ export default async function TagsPage() {
   return (
     <main className={styles.main}>
       <Title className={styles.pageTitle}>
-        {capitalize(tagsPageSettings?.title.trim())}
+        {capitalize(tagsPageSettings?.title.trim() || 'Tags')}
       </Title>
       <section className={styles.grid}>
         {tagsCollection.data.map((tag) => {

@@ -22,6 +22,8 @@ export async function generateMetadata({params}: TagPageProps, parent: Resolving
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SingleTag;
 
+  if (typeof tagData === 'undefined') return {};
+
   return {
     title: makeSeoTitle(tagData?.name + ' Tag', parentData.applicationName),
     keywords: makeSeoKeywords(tagData?.slug),
@@ -49,11 +51,12 @@ export default async function TagPage({params}: TagPageProps) {
     populate: { articles: { populate: '*' } },
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SingleTag;
+
+  if (typeof tagData === 'undefined') return notFound();
+
   const articlesData = tagData?.articles?.data as TagArticles;
 
   // TODO: Remove populate for articles in this request, and do a separate request and use filters instead, so that we get pagination and sorting.
-
-  if (!tagData) return notFound();
 
   return (
     <main className={styles.main}>

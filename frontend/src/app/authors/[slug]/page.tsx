@@ -39,13 +39,16 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
     },
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SingleAuthor;
+
+  if (typeof authorData === 'undefined') return {};
+
   const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
   const authorRobots = authorData?.robots as AuthorRobots;
   const authorSEO = authorData?.seo as AuthorSEO;
   const authorURL = getPageUrl((authorSEO?.canonicalURL || authorData?.slug), '/authors');
-  const authorMetaImage = authorSEO.metaImage?.data?.attributes as AuthorAvatar;
-  const authorMetaSocials = authorSEO.metaSocial as AuthorMetaSocial;
-  const authorMetaFacebook = authorMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
+  const authorMetaImage = authorSEO?.metaImage?.data?.attributes as AuthorAvatar;
+  const authorMetaSocials = authorSEO?.metaSocial as AuthorMetaSocial;
+  const authorMetaFacebook = authorMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
   const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as AuthorAvatar;
 
   return {
@@ -77,14 +80,15 @@ export default async function AuthorPage({params}: AuthorPageProps) {
     },
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SingleAuthor;
+
+  if (typeof authorData === 'undefined') return notFound();
+
   const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
   const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
   const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
   const authorSocials = authorData?.socialNetworks as unknown as AuthorSocialEntry[];
   const authorArticles = authorData?.articles?.data as AuthorArticles;
   const authorArticlesNumber = (authorArticles && authorArticles.length) ? authorArticles.length : 0;
-
-  if (!authorData) return notFound();
 
   return (
     <main className={pageStyles.main}>

@@ -12,10 +12,13 @@ import styles from '@/styles/page.module.scss';
 export async function generateMetadata(props: null, parent: ResolvingMetadata): Promise<Metadata> {
   const parentData = await parent;
   const authorPageSettings = await getSinglePageSettings('authors');
+
+  if (typeof authorPageSettings === 'undefined') return {};
+
   const authorPageRobots = authorPageSettings?.robots as PageRobots;
   const authorCover = authorPageSettings?.cover?.data?.attributes as PageCover;
   const authorMetaSocials = authorPageSettings?.metaSocial as PageMetaSocial;
-  const authorMetaFacebook = authorMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const authorMetaFacebook = authorMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
   const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
@@ -43,7 +46,7 @@ export default async function AuthorsPage() {
   return (
     <main className={styles.main}>
       <Title className={styles.pageTitle}>
-        {capitalize(authorPageSettings?.title.trim())}
+        {capitalize(authorPageSettings?.title.trim() || 'Authors')}
       </Title>
       <section className={styles.grid}>
         {authorsCollection.data.map((author) => {

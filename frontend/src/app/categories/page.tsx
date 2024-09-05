@@ -12,10 +12,13 @@ import styles from '@/styles/page.module.scss';
 export async function generateMetadata(props: null, parent: ResolvingMetadata): Promise<Metadata> {
   const parentData = await parent;
   const categoriesPageSettings = await getSinglePageSettings('categories');
+
+  if (typeof categoriesPageSettings === 'undefined') return {};
+
   const categoriesPageRobots = categoriesPageSettings?.robots as PageRobots;
   const categoriesCover = categoriesPageSettings?.cover?.data?.attributes as PageCover;
   const categoriesMetaSocials = categoriesPageSettings?.metaSocial as PageMetaSocial;
-  const categoriesMetaFacebook = categoriesMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const categoriesMetaFacebook = categoriesMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
   const categoriesMetaFacebookImage = categoriesMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
@@ -43,7 +46,7 @@ export default async function CategoriesPage() {
   return (
     <main className={styles.main}>
       <Title className={styles.pageTitle}>
-        {capitalize(categoriesPageSettings?.title.trim())}
+        {capitalize(categoriesPageSettings?.title.trim() || 'Categories')}
       </Title>
       <section className={styles.grid}>
         {categoriesCollection.data.map((category) => {

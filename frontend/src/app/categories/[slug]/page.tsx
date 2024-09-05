@@ -37,12 +37,15 @@ export async function generateMetadata({params}: CategoryPageProps, parent: Reso
     },
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SingleCategory;
+
+  if (typeof categoryData === 'undefined') return {};
+
   const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
   const categoryRobots = categoryData?.robots as CategoryRobots;
   const categorySEO = categoryData?.seo as CategorySEO;
-  const categoryMetaImage = categorySEO.metaImage?.data?.attributes as CategoryCover;
-  const categoryMetaSocials = categorySEO.metaSocial as CategoryMetaSocial;
-  const categoryMetaFacebook = categoryMetaSocials.filter((social) => (social.socialNetwork === 'Facebook')).pop() as CategoryMetaSocialEntry;
+  const categoryMetaImage = categorySEO?.metaImage?.data?.attributes as CategoryCover;
+  const categoryMetaSocials = categorySEO?.metaSocial as CategoryMetaSocial;
+  const categoryMetaFacebook = categoryMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as CategoryMetaSocialEntry;
   const categoryMetaFacebookImage = categoryMetaFacebook?.image?.data?.attributes as CategoryCover;
 
   return {
@@ -74,13 +77,14 @@ export default async function CategoryPage({params}: CategoryPageProps) {
     },
     pagination: { start: 0, limit: 1 },
   })).data.pop()?.attributes as SingleCategory;
+
+  if (typeof categoryData === 'undefined') return notFound();
+
   const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
   const categoryCoverFormats = categoryCover?.formats as unknown as StrapiImageFormats;
   const categoryCoverUrl = (categoryCoverFormats?.large?.url)
     ? getFileURL(categoryCoverFormats.large.url) : getFileURL(defaultCover.src, 'frontend');
   const categoryArticles = categoryData?.articles?.data as CategoryArticles;
-
-  if (!categoryData) return notFound();
 
   return (
     <main className={pageStyles.main}>

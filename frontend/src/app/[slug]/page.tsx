@@ -17,6 +17,10 @@ export interface PageProps {
   };
 }
 
+// TODO: Add undefined and not found guards for all pages.
+// TODO: Try to refactor collection pages to merge them into a single page with optional params.
+// TODO: Add pagination to the merged optional params pages.
+
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const parentData = await parent;
   const pageData = (await getPagesCollection({

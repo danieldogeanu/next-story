@@ -64,6 +64,8 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 
+  if (typeof siteSettingsResponse === 'undefined') return defaultMetadata;
+
   return {
     ...defaultMetadata,
     metadataBase: new URL(getFrontEndURL()),

@@ -22,6 +22,8 @@ export async function generateMetadata({params}: Readonly<HomeProps>, parent: Re
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
 
+  if (typeof siteSettingsResponse === 'undefined') return {};
+
   return {
     title: {
       absolute: makeSeoTitle(`Page ${params.number} > ${siteSettings?.siteName} > ${siteSettings?.siteTagline}`) as string,
@@ -50,7 +52,7 @@ export default async function Home({params}: Readonly<HomeProps>) {
     populate: '*', sort: 'id:desc',
     pagination: { page: Number(params.number), pageSize: 24 },
   });
-  const articlesPagination = articlesCollection.meta.pagination;
+  const articlesPagination = articlesCollection?.meta?.pagination;
   const isOutOfBounds = Number(params.number) > Number(articlesPagination.pageCount);
 
   if (articlesCollection.data.length === 0 && isOutOfBounds) return notFound();

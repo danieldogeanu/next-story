@@ -12,6 +12,8 @@ export async function generateMetadata(props: null, parent: ResolvingMetadata): 
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
 
+  if (typeof siteSettingsResponse === 'undefined') return {};
+
   return {
     title: makeSeoTitle(`${siteSettings?.siteName} > ${siteSettings?.siteTagline}`),
     alternates: {
@@ -30,7 +32,7 @@ export default async function Home() {
     populate: '*', sort: 'id:desc',
     pagination: { page: 1, pageSize: 24 },
   });
-  const articlesPagination = articlesCollection.meta.pagination;
+  const articlesPagination = articlesCollection?.meta?.pagination;
 
   return (
     <main className={styles.main}>

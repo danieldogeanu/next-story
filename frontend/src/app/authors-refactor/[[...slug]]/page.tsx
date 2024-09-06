@@ -54,6 +54,12 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
 
+  // If it's the first page, we need to redirect to avoid page duplicates.
+  if (Number(pageNumber) === 1) redirect(
+    (typeof slug === 'string') ? `/authors-refactor/${slug}` : `/authors-refactor`,
+    RedirectType.replace
+  );
+
   return (
     <main className={pageStyles.main}>
 

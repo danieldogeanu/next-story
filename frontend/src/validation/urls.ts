@@ -30,13 +30,13 @@
  * // Example 6: Invalid slug array with a numeric slug.
  * isSlugArrayValid(['123']); // Output: false
  */
-function isSlugArrayValid(slugArray: string[] | undefined): boolean {
+export function isSlugArrayValid(slugArray: string[] | undefined): boolean {
   const numberRegex = /^\d+$/;
 
   // Check if the slug is valid. There can be only one or no slug segment and it must be a string.
   const isValidSlug = (segments: string[]) => {
     switch(segments.length) {
-      case 1: return !numberRegex.test(segments.pop() as string);
+      case 1: return !numberRegex.test(segments[0] as string);
       case 0: return true;
       default: return false;
     }
@@ -50,7 +50,7 @@ function isSlugArrayValid(slugArray: string[] | undefined): boolean {
 
   if (pageIndex === -1) {
       // If `page` is not present and the array has only one segment, it's valid.
-      return (slugArray.length === 1 && !numberRegex.test(slugArray.pop() as string));
+      return (slugArray.length === 1 && !numberRegex.test(slugArray[0] as string));
   } else {
       // If `page` is present, check the conditions:
       if (pageIndex >= 0 && pageIndex + 1 < slugArray.length) {

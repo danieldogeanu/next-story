@@ -8,7 +8,7 @@ import {
   AuthorArticles, AuthorAvatar, AuthorMetaSocial, AuthorMetaSocialEntry, AuthorRobots,
   AuthorSEO, AuthorSocialEntry, getAuthorsCollection, SingleAuthor
 } from '@/data/authors';
-import { checkSlugAndRedirect, extractSlugAndPage, getFileURL, getPageUrl } from '@/utils/urls';
+import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl } from '@/utils/urls';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
@@ -45,10 +45,7 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
 
   // If it's the first page, we need to redirect to avoid page duplicates.
-  if (Number(pageNumber) === 1) redirect(
-    (typeof slug === 'string') ? `/authors-refactor/${slug}` : `/authors-refactor`,
-    RedirectType.replace
-  );
+  firstPageRedirect(slug, pageNumber, '/authors-refactor');
 
   return (
     <main className={pageStyles.main}>

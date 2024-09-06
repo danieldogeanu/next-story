@@ -250,3 +250,45 @@ export function checkSlugAndRedirect(slugArray: string[], rootPage: string, test
     return notFound();
   }
 }
+
+/**
+ * Redirects to the first page of a paginated resource if the provided page number is 1, in order to avoid page duplicates for SEO purposes.
+ *
+ * - If `pageNumber` equals 1, the function redirects to the root page or a specific slug.
+ * - This redirection is important for SEO optimization, preventing duplicate content issues caused by URLs like `/page/1`.
+ * - If a `slug` is provided, the redirection path will include the slug.
+ * - The function supports a test mode where the redirection is simulated instead of performing a permanent redirect.
+ *
+ * @param {string | null | undefined} slug - The slug for the resource. If not provided, the redirection will be to the root page.
+ * @param {string | number | null | undefined} pageNumber - The page number to check. If it equals 1, a redirect will occur.
+ * @param {string | null | undefined} rootPage - The root page URL for the redirection. If not provided, defaults to '/'.
+ * @param {boolean} [test=false] - A flag to simulate redirection instead of performing a permanent redirect. Defaults to `false`.
+ *
+ * @returns {void} Redirects to the appropriate URL if the page number is 1.
+ *
+ * @example
+ * // Example 1: Redirect to the slug path for the first page (SEO optimization).
+ * firstPageRedirect('example-slug', 1, '/authors');
+ * // Redirects to /authors/example-slug.
+ *
+ * // Example 2: Redirect to the root page for the first page.
+ * firstPageRedirect(null, 1, '/authors');
+ * // Redirects to /authors.
+ *
+ * // Example 3: Test mode enabled.
+ * firstPageRedirect('example-slug', 1, '/authors', true);
+ * // Simulates redirection without performing a permanent redirect.
+ */
+export function firstPageRedirect(
+  slug: string | null | undefined,
+  pageNumber: string | number | null | undefined,
+  rootPage: string | null | undefined,
+  test: boolean = false
+): void {
+  if (Number(pageNumber) === 1) {
+    const rootPath = (typeof rootPage === 'string') ? rootPage : '/';
+    const redirectPath = (typeof slug === 'string') ? path.join(rootPath, slug) : path.join(rootPath);
+    if (test) redirect(redirectPath, RedirectType.replace);
+    else permanentRedirect(redirectPath, RedirectType.replace);
+  }
+}

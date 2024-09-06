@@ -1,7 +1,7 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { notFound } from 'next/navigation';
+import { notFound, redirect, RedirectType } from 'next/navigation';
 import { IconCoin, IconMailPlus, IconUser } from '@tabler/icons-react';
 import { Box, Button, Group, Image, Text, Title } from '@mantine/core';
 import {
@@ -12,8 +12,9 @@ import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/clien
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
-import { getFileURL, getPageUrl } from '@/utils/urls';
+import { extractSlugAndPage, getFileURL, getPageUrl } from '@/utils/urls';
 import { convertToRelativeDate } from '@/utils/date';
+import { isSlugArrayValid } from '@/validation/urls';
 import ArticleCard from '@/components/article-card';
 import SocialIcon from '@/components/social-icon';
 import pageStyles from '@/styles/page.module.scss';
@@ -26,6 +27,8 @@ export interface AuthorPageProps {
 }
 
 export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  if (!isSlugArrayValid(params.slug)) return {};
+  
   const parentData = await parent;
 
   return {
@@ -34,9 +37,23 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
 }
 
 export default async function AuthorsPage({params}: AuthorPageProps) {
+  // Check if the slug array is a valid path and if not, return a 404.
+  // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
+  if (!isSlugArrayValid(params.slug)) {
+    if (params.slug.length === 2 && params.slug[1] === 'page') {
+      redirect(`/authors-refactor/${params.slug[0]}`, RedirectType.replace);
+    }
 
-  console.log('PARAMS:', params);
-  
+    if (params.slug.length === 1 && params.slug[0] === 'page') {
+      redirect(`/authors-refactor`, RedirectType.replace);
+    }
+
+    return notFound();
+  }
+
+  // If the slug array is valid, proceed to extract the slug and page number if they're present.
+  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+
   return (
     <main className={pageStyles.main}>
 

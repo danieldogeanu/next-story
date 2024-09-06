@@ -1,7 +1,9 @@
 import mime from 'mime';
 import path from 'path';
 import { z as val } from 'zod';
+import { notFound, permanentRedirect, redirect, RedirectType } from 'next/navigation';
 import { getBackEndURL, getFrontEndURL, getHostname } from '@/utils/client/env';
+import { isSlugArrayValid } from '@/validation/urls';
 import { convertToUnixTime } from '@/utils/date';
 
 
@@ -199,4 +201,52 @@ export function extractSlugAndPage(slugArray: string[]): { slug: string | null; 
   }
 
   return { slug, pageNumber };
+}
+
+/**
+ * Validates the slug array and redirects to a proper URL if the slug array is invalid.
+ *
+ * - If the slug array contains exactly two segments and the second segment is 'page', it redirects to the root page with the first segment.
+ * - If the slug array contains one segment which is 'page', it redirects to the root page.
+ * - If the slug array is invalid and does not match the above cases, it triggers a 'not found' response.
+ *
+ * The function supports a testing mode where redirections are simulated via the `redirect` function instead of actual permanent redirection.
+ *
+ * @param {string[]} slugArray - The array of slug segments to validate and process.
+ * @param {string} rootPage - The root page URL to be used for redirection.
+ * @param {boolean} [test=false] - A flag to simulate redirection instead of performing a permanent redirect. Defaults to `false`.
+ *
+ * @returns {void} Redirects or triggers a 'not found' response if the slug array is invalid.
+ *
+ * @example
+ * // Example 1: Invalid slug array with two segments.
+ * checkSlugAndRedirect(['example-slug', 'page'], '/authors');
+ * // Redirects to /authors/example-slug.
+ *
+ * // Example 2: Invalid slug array with one segment.
+ * checkSlugAndRedirect(['page'], '/authors');
+ * // Redirects to /authors.
+ *
+ * // Example 3: Valid slug array, no redirection.
+ * checkSlugAndRedirect(['example-slug'], '/authors');
+ * // No redirection, returns undefined.
+ *
+ * // Example 4: Test mode enabled.
+ * checkSlugAndRedirect(['example-slug', 'page'], '/authors', true);
+ * // Simulates redirection without performing a permanent redirect.
+ */
+export function checkSlugAndRedirect(slugArray: string[], rootPage: string, test: boolean = false): void {
+  if (!isSlugArrayValid(slugArray)) {
+    if (slugArray.length === 2 && slugArray[1] === 'page') {
+      if (test) redirect(path.join(rootPage, slugArray[0]), RedirectType.replace);
+      else permanentRedirect(path.join(rootPage, slugArray[0]), RedirectType.replace);
+    }
+
+    if (slugArray.length === 1 && slugArray[0] === 'page') {
+      if (test) redirect(path.join(rootPage), RedirectType.replace);
+      else permanentRedirect(path.join(rootPage), RedirectType.replace);
+    }
+
+    return notFound();
+  }
 }

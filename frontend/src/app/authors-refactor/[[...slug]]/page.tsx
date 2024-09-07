@@ -32,11 +32,16 @@ export interface AuthorPageProps {
 
 export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};
+  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+  const pageNumberSlug = (typeof pageNumber === 'number') ? `/page/${pageNumber}` : '';
+  const pageNumberTitle = (typeof pageNumber === 'number') ? `Page ${pageNumber} > ` : '';
+  const pageNumberDescription = (typeof pageNumber === 'number') ? `Page ${pageNumber}: ` : '';
+  const pageNumberKeyword = (typeof pageNumber === 'number') ? `page ${pageNumber},` : '';
   
   const parentData = await parent;
 
   // Authors Page
-  // -----------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   
   // If there's no slug, we're on the root Authors page, so we should get the page settings.
   const authorPageSettings = await getSinglePageSettings('authors');
@@ -49,18 +54,18 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
   const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
-    title: makeSeoTitle(authorPageSettings?.title, parentData.applicationName),
-    description: makeSeoDescription(authorPageSettings?.description),
-    keywords: makeSeoKeywords(authorPageSettings?.keywords),
+    title: makeSeoTitle(pageNumberTitle + authorPageSettings?.title, parentData.applicationName),
+    description: makeSeoDescription(pageNumberDescription + authorPageSettings?.description),
+    keywords: makeSeoKeywords(pageNumberKeyword + authorPageSettings?.keywords),
     robots: await generateRobotsObject(authorPageRobots),
     alternates: {
-      canonical: getPageUrl(authorPageSettings?.canonicalURL || 'authors'),
+      canonical: getPageUrl('/authors' + pageNumberSlug),
     },
     openGraph: {
       ...parentData.openGraph,
-      url: getPageUrl(authorPageSettings?.canonicalURL || 'authors'),
-      title: makeSeoTitle((authorMetaFacebook?.title || authorPageSettings?.title), parentData.applicationName),
-      description: makeSeoDescription(authorMetaFacebook?.description || authorPageSettings?.description, 65),
+      url: getPageUrl('/authors' + pageNumberSlug),
+      title: makeSeoTitle(pageNumberTitle + (authorMetaFacebook?.title || authorPageSettings?.title), parentData.applicationName),
+      description: makeSeoDescription(pageNumberDescription + (authorMetaFacebook?.description || authorPageSettings?.description), 65),
       images: await generateCoverImageObject(authorMetaFacebookImage || authorCover),
     },
   };
@@ -217,7 +222,7 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   // If there's no slug, we're on the root Authors page. 
   const authorsCollection = await getAuthorsCollection({
     populate: '*', sort: 'id:desc',
-    pagination: { page: pageNumber || 1, pageSize: 12 },
+    pagination: { page: pageNumber || 1, pageSize: 2 },
   });
   const authorPageSettings = await getSinglePageSettings('authors');
   const authorPagination = authorsCollection?.meta?.pagination;

@@ -42,6 +42,52 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
   
   const parentData = await parent;
 
+  // Single Author Page
+  // ---------------------------------------------------------------------------
+  
+  // If there's a slug, we're most likely on the Single Author page.
+  if (typeof slug === 'string') {
+    const authorData = (await getAuthorsCollection({
+      filters: { slug: { $eq: slug } },
+      populate: {
+        avatar: { populate: '*' },
+        seo: { populate: {
+          metaImage: { populate: '*' },
+          metaSocial: { populate: '*' },
+        } },
+        robots: { populate: '*' },
+      },
+      pagination: { start: 0, limit: 1 },
+    })).data.pop()?.attributes as SingleAuthor;
+    if (typeof authorData === 'undefined') return {};
+  
+    const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
+    const authorRobots = authorData?.robots as AuthorRobots;
+    const authorSEO = authorData?.seo as AuthorSEO;
+    const authorURL = getPageUrl((authorSEO?.canonicalURL || authorData?.slug), '/authors');
+    const authorMetaImage = authorSEO?.metaImage?.data?.attributes as AuthorAvatar;
+    const authorMetaSocials = authorSEO?.metaSocial as AuthorMetaSocial;
+    const authorMetaFacebook = authorMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
+    const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as AuthorAvatar;
+  
+    return {
+      title: makeSeoTitle((authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
+      description: makeSeoDescription(authorSEO?.metaDescription || authorData?.biography),
+      keywords: makeSeoKeywords(authorSEO?.keywords),
+      authors: [{name: capitalize(authorData?.fullName), url: authorURL}],
+      robots: await generateRobotsObject(authorRobots),
+      alternates: {
+        canonical: authorURL,
+      },
+      openGraph: {
+        ...parentData.openGraph, url: authorURL,
+        title: makeSeoTitle((authorMetaFacebook?.title || authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
+        description: makeSeoDescription(authorMetaFacebook?.description || authorSEO?.metaDescription || authorData?.biography, 65),
+        images: await generateCoverImageObject(authorMetaFacebookImage || authorMetaImage || authorAvatar),
+      },
+    };
+  } // Single Author Page  
+
   // Authors Page
   // ---------------------------------------------------------------------------
   

@@ -11,6 +11,7 @@ import {
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
+import { getArticlesCollection } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
@@ -55,27 +56,39 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   
   // If there's a slug, we're most likely on the Single Author page.
   if (typeof slug === 'string') {
-
+    
+    // Get single author data without articles, so we can handle pagination later.
     const authorData = (await getAuthorsCollection({
-      filters: { slug: { $eq: params.slug } },
+      filters: { slug: { $eq: slug } },
       populate: {
         avatar: { populate: '*' },
         socialNetworks: { populate: '*' },
-        articles: { populate: '*' },
         seo: { populate: '*' },
       },
       pagination: { start: 0, limit: 1 },
     })).data.pop()?.attributes as SingleAuthor;
-  
+
+    // If the authorData array is empty or undefined, it means no author was found.
     if (typeof authorData === 'undefined') return notFound();
   
+    // Process author data so we can use it in our page.
     const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
     const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
     const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
     const authorSocials = authorData?.socialNetworks as unknown as AuthorSocialEntry[];
-    const authorArticles = authorData?.articles?.data as AuthorArticles;
-    const authorArticlesNumber = (authorArticles && authorArticles.length) ? authorArticles.length : 0;
-  
+    
+    // Get all articles that belong to the current author, and split it into pages.
+    const articlesResponse = (await getArticlesCollection({
+      populate: '*', filters: { author: { slug: { $eq: slug } } },
+      pagination: { page: pageNumber || 1, pageSize: 24 },
+    }));
+    const articlesData = articlesResponse?.data as AuthorArticles;
+    const articlesPagination = articlesResponse?.meta?.pagination;
+    const articlesNumber = articlesPagination?.total || 0;
+
+    // If the page number is beyond of the page count, we return a 404.
+    outOfBoundsRedirect(pageNumber, articlesPagination?.pageCount, articlesData?.length);
+
     return (
       <main className={pageStyles.main}>
   
@@ -122,7 +135,7 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
               </Group>
   
               <Text className={authorStyles.total} title='Total Articles'>
-                Written {authorArticlesNumber} {(authorArticlesNumber === 1) ? 'Article' : 'Articles'}
+                Written {articlesNumber} {(articlesNumber === 1) ? 'Article' : 'Articles'}
               </Text>
   
             </Box>
@@ -160,10 +173,12 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
         </section>
   
         <section className={pageStyles.grid}>
-          {authorArticles?.map((article) => {
+          {articlesData?.map((article) => {
             return <ArticleCard key={article.id} data={article.attributes} />
           })}
         </section>
+
+        <PagePagination data={articlesPagination} />
   
       </main>
     );

@@ -292,3 +292,25 @@ export function firstPageRedirect(
     else permanentRedirect(redirectPath, RedirectType.replace);
   }
 }
+
+/**
+ * Redirects to a 404 Not Found page if the requested page number exceeds the total page count, or if there is no data available for the current page.
+ *
+ * - This function checks whether the requested `pageNumber` is out of bounds by comparing it to the total `pageCount`.
+ * - If the `dataLength` is 0 and `pageNumber` exceeds `pageCount`, a 404 error is triggered to avoid accessing non-existent pages.
+ *
+ * @param {number | null | undefined} pageNumber - The current page number to validate.
+ * @param {number | null | undefined} pageCount - The total number of pages available for the resource.
+ * @param {number} dataLength - The amount of data available for the current page. A value of `0` indicates no data.
+ *
+ * @returns {void} Triggers a 404 Not Found response if the page number is out of bounds.
+ */
+export function outOfBoundsRedirect(
+  pageNumber: number | null | undefined,
+  pageCount: number | null | undefined,
+  dataLength: number
+): void {
+  if (Number(dataLength) === 0 && Number(pageNumber) > Number(pageCount)) {
+    return notFound();
+  }
+}

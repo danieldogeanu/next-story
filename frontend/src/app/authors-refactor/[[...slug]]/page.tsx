@@ -8,7 +8,7 @@ import {
   AuthorArticles, AuthorAvatar, AuthorMetaSocial, AuthorMetaSocialEntry, AuthorRobots,
   AuthorSEO, AuthorSocialEntry, getAuthorsCollection, SingleAuthor
 } from '@/data/authors';
-import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl } from '@/utils/urls';
+import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { StrapiImageFormats } from '@/types/strapi';
@@ -57,6 +57,9 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   });
   const authorPageSettings = await getSinglePageSettings('authors');
   const authorPagination = authorsCollection?.meta?.pagination;
+
+  // If the page number is beyond of the page count, we return a 404.
+  outOfBoundsRedirect(pageNumber, authorPagination?.pageCount, authorsCollection?.data?.length);
 
   return (
     <main className={pageStyles.main}>

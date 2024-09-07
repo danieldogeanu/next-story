@@ -1,7 +1,7 @@
 import NextImage from 'next/image';
 import classNames from 'classnames';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { notFound, redirect, RedirectType } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { IconCoin, IconMailPlus, IconUser } from '@tabler/icons-react';
 import { Box, Button, Group, Image, Text, Title } from '@mantine/core';
 import {
@@ -35,6 +35,8 @@ const rootPageSlug = '/authors-refactor';
 export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
+
+  // Process the page number or return an empty string if no page number is present.
   const pageNumberSlug = (typeof pageNumber === 'number') ? `/page/${pageNumber}` : '';
   const pageNumberTitle = (typeof pageNumber === 'number') ? `Page ${pageNumber} > ` : '';
   const pageNumberDescription = (typeof pageNumber === 'number') ? `Page ${pageNumber}: ` : '';
@@ -47,6 +49,8 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
   
   // If there's a slug, we're most likely on the Single Author page.
   if (typeof slug === 'string') {
+    // Get single author data and return empty metadata if author is not found.
+    // We don't need to handle pagination here, we only need one result.
     const authorData = (await getAuthorsCollection({
       filters: { slug: { $eq: slug } },
       populate: {
@@ -64,29 +68,31 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
     const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
     const authorRobots = authorData?.robots as AuthorRobots;
     const authorSEO = authorData?.seo as AuthorSEO;
-    const authorURL = getPageUrl((authorSEO?.canonicalURL || authorData?.slug), '/authors');
     const authorMetaImage = authorSEO?.metaImage?.data?.attributes as AuthorAvatar;
     const authorMetaSocials = authorSEO?.metaSocial as AuthorMetaSocial;
     const authorMetaFacebook = authorMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
     const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as AuthorAvatar;
+
+    const makeAuthorTitle = (title: string) => (`${pageNumberTitle + title}'s Articles`);
   
     return {
-      title: makeSeoTitle((authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
-      description: makeSeoDescription(authorSEO?.metaDescription || authorData?.biography),
-      keywords: makeSeoKeywords(authorSEO?.keywords),
-      authors: [{name: capitalize(authorData?.fullName), url: authorURL}],
+      title: makeSeoTitle(makeAuthorTitle(authorSEO?.metaTitle || authorData?.fullName), parentData.applicationName),
+      description: makeSeoDescription(pageNumberDescription + (authorSEO?.metaDescription || authorData?.biography)),
+      keywords: makeSeoKeywords(pageNumberKeyword + authorSEO?.keywords),
+      authors: [{name: capitalize(authorData?.fullName), url: getPageUrl(authorData?.slug, rootPageSlug)}],
       robots: await generateRobotsObject(authorRobots),
       alternates: {
-        canonical: authorURL,
+        canonical: getPageUrl(authorData?.slug + pageNumberSlug, rootPageSlug),
       },
       openGraph: {
-        ...parentData.openGraph, url: authorURL,
-        title: makeSeoTitle((authorMetaFacebook?.title || authorSEO?.metaTitle || authorData?.fullName) + '\'s Articles', parentData.applicationName),
-        description: makeSeoDescription(authorMetaFacebook?.description || authorSEO?.metaDescription || authorData?.biography, 65),
+        ...parentData.openGraph, 
+        url: getPageUrl(authorData?.slug + pageNumberSlug, rootPageSlug),
+        title: makeSeoTitle(makeAuthorTitle(authorMetaFacebook?.title || authorSEO?.metaTitle || authorData?.fullName), parentData.applicationName),
+        description: makeSeoDescription(pageNumberDescription + (authorMetaFacebook?.description || authorSEO?.metaDescription || authorData?.biography), 65),
         images: await generateCoverImageObject(authorMetaFacebookImage || authorMetaImage || authorAvatar),
       },
     };
-  } // Single Author Page  
+  } // Single Author Page
 
   // Authors Page
   // ---------------------------------------------------------------------------

@@ -15,7 +15,10 @@ import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
 import { isSlugArrayValid } from '@/validation/urls';
+import { getSinglePageSettings } from '@/data/settings';
+import PagePagination from '@/components/page-pagination';
 import ArticleCard from '@/components/article-card';
+import AuthorCard from '@/components/author-card';
 import SocialIcon from '@/components/social-icon';
 import pageStyles from '@/styles/page.module.scss';
 import authorStyles from '@/styles/author-page.module.scss';
@@ -47,12 +50,28 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, '/authors-refactor');
 
+  // If there's no slug, we're on the root `authors` page. 
+  const authorsCollection = await getAuthorsCollection({
+    populate: '*', sort: 'id:desc',
+    pagination: { page: pageNumber || 1, pageSize: 12 },
+  });
+  const authorPageSettings = await getSinglePageSettings('authors');
+  const authorPagination = authorsCollection?.meta?.pagination;
+
   return (
     <main className={pageStyles.main}>
 
       <Title className={pageStyles.pageTitle}>
-        Authors
+        {capitalize(authorPageSettings?.title.trim() || 'Authors')}
       </Title>
+
+      <section className={pageStyles.grid}>
+        {authorsCollection.data.map((author) => {
+          return (<AuthorCard key={author.id} data={author.attributes} />);
+        })}
+      </section>
+
+      <PagePagination data={authorPagination} />
 
     </main>
   );

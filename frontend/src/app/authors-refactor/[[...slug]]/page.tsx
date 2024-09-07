@@ -8,6 +8,7 @@ import {
   AuthorArticles, AuthorAvatar, AuthorMetaSocial, AuthorMetaSocialEntry, AuthorRobots,
   AuthorSEO, AuthorSocialEntry, getAuthorsCollection, SingleAuthor
 } from '@/data/authors';
+import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
@@ -16,7 +17,6 @@ import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
 import { isSlugArrayValid } from '@/validation/urls';
-import { getSinglePageSettings } from '@/data/settings';
 import PagePagination from '@/components/page-pagination';
 import ArticleCard from '@/components/article-card';
 import AuthorCard from '@/components/author-card';
@@ -35,8 +35,34 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
   
   const parentData = await parent;
 
-  return {
+  // Authors Page
+  // -----------------------------------------------------------------------------
+  
+  // If there's no slug, we're on the root Authors page, so we should get the page settings.
+  const authorPageSettings = await getSinglePageSettings('authors');
+  if (typeof authorPageSettings === 'undefined') return {};
 
+  const authorPageRobots = authorPageSettings?.robots as PageRobots;
+  const authorCover = authorPageSettings?.cover?.data?.attributes as PageCover;
+  const authorMetaSocials = authorPageSettings?.metaSocial as PageMetaSocial;
+  const authorMetaFacebook = authorMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as PageCover;
+
+  return {
+    title: makeSeoTitle(authorPageSettings?.title, parentData.applicationName),
+    description: makeSeoDescription(authorPageSettings?.description),
+    keywords: makeSeoKeywords(authorPageSettings?.keywords),
+    robots: await generateRobotsObject(authorPageRobots),
+    alternates: {
+      canonical: getPageUrl(authorPageSettings?.canonicalURL || 'authors'),
+    },
+    openGraph: {
+      ...parentData.openGraph,
+      url: getPageUrl(authorPageSettings?.canonicalURL || 'authors'),
+      title: makeSeoTitle((authorMetaFacebook?.title || authorPageSettings?.title), parentData.applicationName),
+      description: makeSeoDescription(authorMetaFacebook?.description || authorPageSettings?.description, 65),
+      images: await generateCoverImageObject(authorMetaFacebookImage || authorCover),
+    },
   };
 }
 

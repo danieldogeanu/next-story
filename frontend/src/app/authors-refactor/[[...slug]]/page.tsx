@@ -30,6 +30,8 @@ export interface AuthorPageProps {
   },
 }
 
+const rootPageSlug = '/authors-refactor';
+
 export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
@@ -59,11 +61,11 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
     keywords: makeSeoKeywords(pageNumberKeyword + authorPageSettings?.keywords),
     robots: await generateRobotsObject(authorPageRobots),
     alternates: {
-      canonical: getPageUrl('/authors' + pageNumberSlug),
+      canonical: getPageUrl(rootPageSlug + pageNumberSlug),
     },
     openGraph: {
       ...parentData.openGraph,
-      url: getPageUrl('/authors' + pageNumberSlug),
+      url: getPageUrl(rootPageSlug + pageNumberSlug),
       title: makeSeoTitle(pageNumberTitle + (authorMetaFacebook?.title || authorPageSettings?.title), parentData.applicationName),
       description: makeSeoDescription(pageNumberDescription + (authorMetaFacebook?.description || authorPageSettings?.description), 65),
       images: await generateCoverImageObject(authorMetaFacebookImage || authorCover),
@@ -74,13 +76,13 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
 export default async function AuthorsPage({params}: AuthorPageProps) {
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
-  checkSlugAndRedirect(params.slug, '/authors-refactor');
+  checkSlugAndRedirect(params.slug, rootPageSlug);
 
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
 
   // If it's the first page, we need to redirect to avoid page duplicates.
-  firstPageRedirect(slug, pageNumber, '/authors-refactor');
+  firstPageRedirect(slug, pageNumber, rootPageSlug);
 
   // Single Author Page
   // ---------------------------------------------------------------------------
@@ -222,7 +224,7 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   // If there's no slug, we're on the root Authors page. 
   const authorsCollection = await getAuthorsCollection({
     populate: '*', sort: 'id:desc',
-    pagination: { page: pageNumber || 1, pageSize: 2 },
+    pagination: { page: pageNumber || 1, pageSize: 12 },
   });
   const authorPageSettings = await getSinglePageSettings('authors');
   const authorPagination = authorsCollection?.meta?.pagination;

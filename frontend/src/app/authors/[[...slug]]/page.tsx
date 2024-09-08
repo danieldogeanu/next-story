@@ -24,10 +24,11 @@ import SocialIcon from '@/components/social-icon';
 import pageStyles from '@/styles/page.module.scss';
 import authorStyles from '@/styles/author-page.module.scss';
 
+
 export interface AuthorPageProps {
   params: {
     slug: string[];
-  },
+  };
 }
 
 const rootPageSlug = '/authors';

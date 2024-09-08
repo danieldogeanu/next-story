@@ -8,7 +8,7 @@ import {
   CategorySEO, getCategoriesCollection, SingleCategory
 } from '@/data/categories';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
-import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
+import { makeSeoDescription, makeSeoKeywords, makeSeoPageNumber, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getSinglePageSettings } from '@/data/settings';
 import { getArticlesCollection } from '@/data/articles';
@@ -34,6 +34,7 @@ const rootPageSlug = '/categories-refactor';
 export async function generateMetadata({params}: CategoriesPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
+  const {pageNumberSlug, pageNumberTitle, pageNumberDescription, pageNumberKeyword} = makeSeoPageNumber(pageNumber);
   
   const parentData = await parent;
 

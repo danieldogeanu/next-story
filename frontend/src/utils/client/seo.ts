@@ -71,3 +71,29 @@ export function makeSeoTags(keywords: string | string[] | null | undefined, limi
     return keywords?.split(',').slice(0, limit).map(keyword => keyword.trim());
   }
 }
+
+/**
+ * Generates SEO-related components (slug, title, description, keyword) for a specific page number.
+ *
+ * - This function helps create SEO-friendly values related to a given `pageNumber`, which can be used in URLs, titles, meta descriptions, and keywords.
+ * - If the `pageNumber` is not a number, the function returns empty strings for all components.
+ *
+ * @param {number | null | undefined} pageNumber - The current page number for which SEO components are generated.
+ *
+ * @returns {{pageNumberSlug: string, pageNumberTitle: string, pageNumberDescription: string, pageNumberKeyword: string}}
+ * An object containing SEO-friendly components for the page number:
+ *   - `pageNumberSlug`: The URL segment for the page number (e.g., `/page/2`).
+ *   - `pageNumberTitle`: The title prefix (e.g., `Page 2 > `).
+ *   - `pageNumberDescription`: The meta description prefix (e.g., `Page 2: `).
+ *   - `pageNumberKeyword`: The keyword for SEO (e.g., `page 2,`).
+ */
+export function makeSeoPageNumber(pageNumber: number | null | undefined): {
+  pageNumberSlug: string; pageNumberTitle: string; pageNumberDescription: string; pageNumberKeyword: string;
+} {
+  const pageNumberSlug = (typeof pageNumber === 'number') ? `/page/${pageNumber}` : '';
+  const pageNumberTitle = (typeof pageNumber === 'number') ? `Page ${pageNumber} > ` : '';
+  const pageNumberDescription = (typeof pageNumber === 'number') ? `Page ${pageNumber}: ` : '';
+  const pageNumberKeyword = (typeof pageNumber === 'number') ? `page ${pageNumber},` : '';
+
+  return {pageNumberSlug, pageNumberTitle, pageNumberDescription, pageNumberKeyword};
+}

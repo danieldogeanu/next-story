@@ -10,7 +10,7 @@ import {
 } from '@/data/authors';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
-import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
+import { makeSeoDescription, makeSeoKeywords, makeSeoPageNumber, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
@@ -35,12 +35,7 @@ const rootPageSlug = '/authors';
 export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
-
-  // Process the page number or return an empty string if no page number is present.
-  const pageNumberSlug = (typeof pageNumber === 'number') ? `/page/${pageNumber}` : '';
-  const pageNumberTitle = (typeof pageNumber === 'number') ? `Page ${pageNumber} > ` : '';
-  const pageNumberDescription = (typeof pageNumber === 'number') ? `Page ${pageNumber}: ` : '';
-  const pageNumberKeyword = (typeof pageNumber === 'number') ? `page ${pageNumber},` : '';
+  const {pageNumberSlug, pageNumberTitle, pageNumberDescription, pageNumberKeyword} = makeSeoPageNumber(pageNumber);
   
   const parentData = await parent;
 

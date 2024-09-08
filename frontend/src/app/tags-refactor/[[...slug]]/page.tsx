@@ -4,8 +4,10 @@ import { notFound } from 'next/navigation';
 import { Title } from '@mantine/core';
 import { getTagsCollection, SingleTag, TagArticles } from '@/data/tags';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
-import { makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { getSinglePageSettings } from '@/data/settings';
+import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
+import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
+import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
+import { getArticlesCollection } from '@/data/articles';
 import { isSlugArrayValid } from '@/validation/urls';
 import { capitalize } from '@/utils/strings';
 import PagePagination from '@/components/page-pagination';
@@ -13,7 +15,6 @@ import ArticleCard from '@/components/article-card';
 import SortBar from '@/components/sort-bar';
 import TagCard from '@/components/tag-card';
 import styles from '@/styles/page.module.scss';
-import { getArticlesCollection } from '@/data/articles';
 
 
 export interface TagsPageProps {
@@ -29,8 +30,36 @@ export async function generateMetadata({params}: TagsPageProps, parent: Resolvin
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
 
   const parentData = await parent;
+
+  // Tags Page
+  // ---------------------------------------------------------------------------
   
-  return {};
+  // If there's no slug, we're on the root Tags page, so we should get the page settings.
+  const tagsPageSettings = await getSinglePageSettings('tags');
+  if (typeof tagsPageSettings === 'undefined') return {};
+
+  const tagsPageRobots = tagsPageSettings?.robots as PageRobots;
+  const tagsCover = tagsPageSettings?.cover?.data?.attributes as PageCover;
+  const tagsMetaSocials = tagsPageSettings?.metaSocial as PageMetaSocial;
+  const tagsMetaFacebook = tagsMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const tagsMetaFacebookImage = tagsMetaFacebook?.image?.data?.attributes as PageCover;
+
+  return {
+    title: makeSeoTitle(addPageNumber(tagsPageSettings?.title, pageNumber, 'title'), parentData.applicationName),
+    description: makeSeoDescription(tagsPageSettings?.description),
+    keywords: makeSeoKeywords(tagsPageSettings?.keywords),
+    robots: await generateRobotsObject(tagsPageRobots),
+    alternates: {
+      canonical: getPageUrl(addPageNumber(rootPageSlug, pageNumber, 'slug')),
+    },
+    openGraph: {
+      ...parentData.openGraph,
+      url: getPageUrl(addPageNumber(rootPageSlug, pageNumber, 'slug')),
+      title: makeSeoTitle(addPageNumber(tagsMetaFacebook?.title || tagsPageSettings?.title, pageNumber, 'title'), parentData.applicationName),
+      description: makeSeoDescription(tagsMetaFacebook?.description || tagsPageSettings?.description, 65),
+      images: await generateCoverImageObject(tagsMetaFacebookImage || tagsCover),
+    },
+  };
 }
 
 export default async function TagsPage({params}: TagsPageProps) {

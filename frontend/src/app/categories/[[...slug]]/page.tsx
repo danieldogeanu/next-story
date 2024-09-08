@@ -29,7 +29,7 @@ export interface CategoriesPageProps {
   };
 }
 
-const rootPageSlug = '/categories-refactor';
+const rootPageSlug = '/categories';
 
 export async function generateMetadata({params}: CategoriesPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};
@@ -46,7 +46,7 @@ export async function generateMetadata({params}: CategoriesPageProps, parent: Re
     // Get single category data and return empty metadata if category is not found.
     // We don't need to handle pagination here, we only need one result.
     const categoryData = (await getCategoriesCollection({
-      filters: { slug: { $eq: params.slug } },
+      filters: { slug: { $eq: slug } },
       populate: {
         cover: { populate: '*' },
         seo: { populate: {

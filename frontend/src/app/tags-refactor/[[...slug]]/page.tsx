@@ -31,6 +31,41 @@ export async function generateMetadata({params}: TagsPageProps, parent: Resolvin
 
   const parentData = await parent;
 
+  // Single Tag Page
+  // -----------------------------------------------------------------------------
+  
+  // If there's a slug, we're most likely on the Single Tag page.
+  if (typeof slug === 'string') {
+    // Get single tag data and return empty metadata if tag is not found.
+    // We don't need to handle pagination here, we only need one result.
+    const tagData = (await getTagsCollection({
+      filters: { slug: { $eq: slug } },
+      pagination: { start: 0, limit: 1 },
+    })).data.pop()?.attributes as SingleTag;
+    if (typeof tagData === 'undefined') return {};
+  
+    const makeTagTitle = (title: string) => (`${addPageNumber(title, pageNumber, 'title')} Tag`);
+
+    return {
+      title: makeSeoTitle(makeTagTitle(tagData?.name), parentData.applicationName),
+      keywords: makeSeoKeywords(tagData?.slug),
+      description: undefined,
+      alternates: {
+        canonical: getPageUrl(addPageNumber(tagData?.slug, pageNumber, 'slug'), rootPageSlug),
+      },
+      robots: {
+        index: false, follow: false, nocache: true,
+      },
+      openGraph: {
+        ...parentData.openGraph,
+        url: getPageUrl(addPageNumber(tagData?.slug, pageNumber, 'slug'), rootPageSlug),
+        title: makeSeoTitle(makeTagTitle(tagData?.name), parentData.applicationName),
+        description: undefined,
+      },
+    };
+
+  } // Single Tag Page
+
   // Tags Page
   // ---------------------------------------------------------------------------
   

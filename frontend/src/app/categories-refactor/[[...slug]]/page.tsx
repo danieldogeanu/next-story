@@ -7,11 +7,12 @@ import {
   CategoryArticles, CategoryCover, CategoryMetaSocial, CategoryMetaSocialEntry, CategoryRobots, 
   CategorySEO, getCategoriesCollection, SingleCategory
 } from '@/data/categories';
+import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl } from '@/utils/urls';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
+import { isSlugArrayValid } from '@/validation/urls';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
-import { getFileURL, getPageUrl } from '@/utils/urls';
 import ArticleCard from '@/components/article-card';
 import defaultCover from '@/assets/imgs/default-cover.webp';
 import pageStyles from '@/styles/page.module.scss';
@@ -27,11 +28,24 @@ export interface CategoriesPageProps {
 const rootPageSlug = '/categories-refactor';
 
 export async function generateMetadata({params}: CategoriesPageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  if (!isSlugArrayValid(params.slug)) return {};
+  const {slug, pageNumber} = extractSlugAndPage(params.slug);
   
+  const parentData = await parent;
+
   return {};
 }
 
 export default async function CategoriesPage({params}: CategoriesPageProps) {
+  // Check if the slug array is a valid path and if not, return a 404.
+  // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
+  checkSlugAndRedirect(params.slug, rootPageSlug);
+
+  // If the slug array is valid, proceed to extract the slug and page number if they're present.
+  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+
+  // If it's the first page, we need to redirect to avoid page duplicates.
+  firstPageRedirect(slug, pageNumber, rootPageSlug);
   
   return (
     <main className={pageStyles.main}>

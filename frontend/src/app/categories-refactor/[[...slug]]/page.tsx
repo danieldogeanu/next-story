@@ -11,6 +11,7 @@ import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getSinglePageSettings } from '@/data/settings';
+import { getArticlesCollection } from '@/data/articles';
 import { isSlugArrayValid } from '@/validation/urls';
 import { StrapiImageFormats } from '@/types/strapi';
 import { capitalize } from '@/utils/strings';
@@ -49,9 +50,83 @@ export default async function CategoriesPage({params}: CategoriesPageProps) {
 
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, rootPageSlug);
+
+  // Single Category Page
+  // ---------------------------------------------------------------------------
+  
+  // If there's a slug, we're most likely on the Single Category page.
+  if (typeof slug === 'string') {
+
+    // Get single category data without articles, so we can handle pagination later.
+    const categoryData = (await getCategoriesCollection({
+      filters: { slug: { $eq: slug } },
+      populate: {
+        cover: { populate: '*' },
+        seo: { populate: '*' },
+      },
+      pagination: { start: 0, limit: 1 },
+    })).data.pop()?.attributes as SingleCategory;
+  
+    // If the categoryData array is empty or undefined, it means no author was found.
+    if (typeof categoryData === 'undefined') return notFound();
+  
+    // Process category data so we can use it in our page.
+    const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
+    const categoryCoverFormats = categoryCover?.formats as unknown as StrapiImageFormats;
+    const categoryCoverUrl = (categoryCoverFormats?.large?.url)
+      ? getFileURL(categoryCoverFormats.large.url) : getFileURL(defaultCover.src, 'frontend');
+
+    // Get all articles that belong to the current category, and split it into pages.
+    const articlesResponse = (await getArticlesCollection({
+      populate: '*', filters: { category: { slug: { $eq: slug } } },
+      pagination: { page: pageNumber || 1, pageSize: 24 },
+    }));
+    const articlesData = articlesResponse?.data as CategoryArticles;
+    const articlesPagination = articlesResponse?.meta?.pagination;
+
+    // If the page number is beyond of the page count, we return a 404.
+    outOfBoundsRedirect(pageNumber, articlesPagination?.pageCount, articlesData?.length);
+
+    return (
+      <main className={pageStyles.main}>
+  
+        <section className={classNames(pageStyles.container, categoryStyles.intro)}>
+  
+          <Title className={pageStyles.pageTitle}>
+            {capitalize(categoryData?.name)} Category
+          </Title>
+  
+          <Box className={categoryStyles.hero}>
+            <Image
+              className={categoryStyles.cover}
+              component={NextImage}
+              src={categoryCoverUrl}
+              width={categoryCoverFormats?.large?.width ?? defaultCover.width}
+              height={categoryCoverFormats?.large?.height ?? defaultCover.height}
+              alt={categoryCover?.alternativeText || ''}
+              radius='lg' />
+            <Box className={categoryStyles.description}>
+              <Text>{categoryData?.description}</Text>
+            </Box>
+          </Box>
+  
+        </section>
+  
+        <section className={pageStyles.grid}>
+          {articlesData?.map((article) => {
+            return <ArticleCard key={article.id} data={article.attributes} />;
+          })}
+        </section>
+
+        <PagePagination data={articlesPagination} />
+  
+      </main>
+    );
+
+  } // Single Category Page
   
   // Categories Page
-  // -----------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   
   // If there's no slug, we're on the root Categories page.
   const categoriesCollection = await getCategoriesCollection({

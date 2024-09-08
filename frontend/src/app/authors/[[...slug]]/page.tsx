@@ -30,7 +30,7 @@ export interface AuthorPageProps {
   },
 }
 
-const rootPageSlug = '/authors-refactor';
+const rootPageSlug = '/authors';
 
 export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};

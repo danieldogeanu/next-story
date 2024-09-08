@@ -38,6 +38,56 @@ export async function generateMetadata({params}: CategoriesPageProps, parent: Re
   
   const parentData = await parent;
 
+  // Single Category Page
+  // -----------------------------------------------------------------------------
+  
+  // If there's a slug, we're most likely on the Single Category page.
+  if (typeof slug === 'string') {
+    // Get single category data and return empty metadata if category is not found.
+    // We don't need to handle pagination here, we only need one result.
+    const categoryData = (await getCategoriesCollection({
+      filters: { slug: { $eq: params.slug } },
+      populate: {
+        cover: { populate: '*' },
+        seo: { populate: {
+          metaImage: { populate: '*' },
+          metaSocial: { populate: '*' },
+        } },
+        robots: { populate: '*' },
+      },
+      pagination: { start: 0, limit: 1 },
+    })).data.pop()?.attributes as SingleCategory;  
+    if (typeof categoryData === 'undefined') return {};
+  
+    const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
+    const categoryRobots = categoryData?.robots as CategoryRobots;
+    const categorySEO = categoryData?.seo as CategorySEO;
+    const categoryMetaImage = categorySEO?.metaImage?.data?.attributes as CategoryCover;
+    const categoryMetaSocials = categorySEO?.metaSocial as CategoryMetaSocial;
+    const categoryMetaFacebook = categoryMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as CategoryMetaSocialEntry;
+    const categoryMetaFacebookImage = categoryMetaFacebook?.image?.data?.attributes as CategoryCover;
+
+    const makeCategoryTitle = (title: string) => (`${pageNumberTitle + title} Category`);
+  
+    return {
+      title: makeSeoTitle(makeCategoryTitle(categorySEO?.metaTitle || categoryData?.name), parentData.applicationName),
+      description: makeSeoDescription(pageNumberDescription + (categorySEO?.metaDescription || categoryData?.description)),
+      keywords: makeSeoKeywords(pageNumberKeyword + categorySEO?.keywords),
+      category: makeSeoTitle(categorySEO?.metaTitle || categoryData?.name),
+      robots: await generateRobotsObject(categoryRobots),
+      alternates: {
+        canonical: getPageUrl(categoryData?.slug + pageNumberSlug, rootPageSlug),
+      },
+      openGraph: {
+        ...parentData.openGraph,
+        url: getPageUrl(categoryData?.slug + pageNumberSlug, rootPageSlug),
+        title: makeSeoTitle(makeCategoryTitle(categoryMetaFacebook?.title || categorySEO?.metaTitle || categoryData?.name), parentData.applicationName),
+        description: makeSeoDescription(pageNumberDescription + (categoryMetaFacebook?.description || categorySEO?.metaDescription || categoryData?.description), 65),
+        images: await generateCoverImageObject(categoryMetaFacebookImage || categoryMetaImage || categoryCover),
+      },
+    };
+  } // Single Category Page
+
   // Categories Page
   // ---------------------------------------------------------------------------
   

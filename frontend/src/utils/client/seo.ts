@@ -73,27 +73,24 @@ export function makeSeoTags(keywords: string | string[] | null | undefined, limi
 }
 
 /**
- * Generates SEO-related components (slug, title, description, keyword) for a specific page number.
+ * Appends a page number to a string, either as a URL slug or as part of a title, depending on the specified type.
  *
- * - This function helps create SEO-friendly values related to a given `pageNumber`, which can be used in URLs, titles, meta descriptions, and keywords.
- * - If the `pageNumber` is not a number, the function returns empty strings for all components.
+ * - This function is useful for adding pagination to URLs or titles for SEO purposes.
+ * - If the `pageNumber` is not provided or is not a number, the original string is returned unchanged.
+ * - If the `type` is 'slug', the page number is appended as `/page/{pageNumber}`.
+ * - If the `type` is 'title', the page number is prefixed as `Page {pageNumber} >`.
  *
- * @param {number | null | undefined} pageNumber - The current page number for which SEO components are generated.
+ * @param {string | undefined} string - The original string to which the page number will be appended (e.g., a slug or title).
+ * @param {number | null | undefined} pageNumber - The current page number to append.
+ * @param {'slug' | 'title'} type - Specifies whether to append the page number as part of a URL slug or as part of a title.
  *
- * @returns {{pageNumberSlug: string, pageNumberTitle: string, pageNumberDescription: string, pageNumberKeyword: string}}
- * An object containing SEO-friendly components for the page number:
- *   - `pageNumberSlug`: The URL segment for the page number (e.g., `/page/2`).
- *   - `pageNumberTitle`: The title prefix (e.g., `Page 2 > `).
- *   - `pageNumberDescription`: The meta description prefix (e.g., `Page 2: `).
- *   - `pageNumberKeyword`: The keyword for SEO (e.g., `page 2,`).
+ * @returns {string} The modified string with the page number appended (if applicable), or an empty string if input is invalid.
  */
-export function makeSeoPageNumber(pageNumber: number | null | undefined): {
-  pageNumberSlug: string; pageNumberTitle: string; pageNumberDescription: string; pageNumberKeyword: string;
-} {
-  const pageNumberSlug = (typeof pageNumber === 'number') ? `/page/${pageNumber}` : '';
-  const pageNumberTitle = (typeof pageNumber === 'number') ? `Page ${pageNumber} > ` : '';
-  const pageNumberDescription = (typeof pageNumber === 'number') ? `Page ${pageNumber}: ` : '';
-  const pageNumberKeyword = (typeof pageNumber === 'number') ? `page ${pageNumber},` : '';
+export function addPageNumber(string: string | undefined, pageNumber: number | null | undefined, type: 'slug' | 'title'): string {
+  if (typeof string === 'string' && typeof type === 'string') {
+    if (type === 'slug') return (typeof pageNumber === 'number') ? `${string}/page/${pageNumber}` : string;
+    if (type === 'title') return (typeof pageNumber === 'number') ? `Page ${pageNumber} > ${string}` : string;
+  }
 
-  return {pageNumberSlug, pageNumberTitle, pageNumberDescription, pageNumberKeyword};
+  return '';
 }

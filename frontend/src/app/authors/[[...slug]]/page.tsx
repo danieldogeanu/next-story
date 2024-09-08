@@ -10,7 +10,7 @@ import {
 } from '@/data/authors';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
-import { makeSeoDescription, makeSeoKeywords, makeSeoPageNumber, makeSeoTitle } from '@/utils/client/seo';
+import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
@@ -35,7 +35,6 @@ const rootPageSlug = '/authors';
 export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
-  const {pageNumberSlug, pageNumberTitle, pageNumberDescription, pageNumberKeyword} = makeSeoPageNumber(pageNumber);
   
   const parentData = await parent;
 
@@ -68,22 +67,22 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
     const authorMetaFacebook = authorMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
     const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as AuthorAvatar;
 
-    const makeAuthorTitle = (title: string) => (`${pageNumberTitle + title}'s Articles`);
+    const makeAuthorTitle = (title: string) => (`${addPageNumber(title, pageNumber, 'title')}'s Articles`);
   
     return {
       title: makeSeoTitle(makeAuthorTitle(authorSEO?.metaTitle || authorData?.fullName), parentData.applicationName),
-      description: makeSeoDescription(pageNumberDescription + (authorSEO?.metaDescription || authorData?.biography)),
-      keywords: makeSeoKeywords(pageNumberKeyword + authorSEO?.keywords),
+      description: makeSeoDescription(authorSEO?.metaDescription || authorData?.biography),
+      keywords: makeSeoKeywords(authorSEO?.keywords),
       authors: [{name: capitalize(authorData?.fullName), url: getPageUrl(authorData?.slug, rootPageSlug)}],
       robots: await generateRobotsObject(authorRobots),
       alternates: {
-        canonical: getPageUrl(authorData?.slug + pageNumberSlug, rootPageSlug),
+        canonical: getPageUrl(addPageNumber(authorData?.slug, pageNumber, 'slug'), rootPageSlug),
       },
       openGraph: {
         ...parentData.openGraph, 
-        url: getPageUrl(authorData?.slug + pageNumberSlug, rootPageSlug),
+        url: getPageUrl(addPageNumber(authorData?.slug, pageNumber, 'slug'), rootPageSlug),
         title: makeSeoTitle(makeAuthorTitle(authorMetaFacebook?.title || authorSEO?.metaTitle || authorData?.fullName), parentData.applicationName),
-        description: makeSeoDescription(pageNumberDescription + (authorMetaFacebook?.description || authorSEO?.metaDescription || authorData?.biography), 65),
+        description: makeSeoDescription(authorMetaFacebook?.description || authorSEO?.metaDescription || authorData?.biography, 65),
         images: await generateCoverImageObject(authorMetaFacebookImage || authorMetaImage || authorAvatar),
       },
     };
@@ -103,18 +102,18 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
   const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
-    title: makeSeoTitle(pageNumberTitle + authorPageSettings?.title, parentData.applicationName),
-    description: makeSeoDescription(pageNumberDescription + authorPageSettings?.description),
-    keywords: makeSeoKeywords(pageNumberKeyword + authorPageSettings?.keywords),
+    title: makeSeoTitle(addPageNumber(authorPageSettings?.title, pageNumber, 'title'), parentData.applicationName),
+    description: makeSeoDescription(authorPageSettings?.description),
+    keywords: makeSeoKeywords(authorPageSettings?.keywords),
     robots: await generateRobotsObject(authorPageRobots),
     alternates: {
-      canonical: getPageUrl(rootPageSlug + pageNumberSlug),
+      canonical: getPageUrl(addPageNumber(rootPageSlug, pageNumber, 'slug')),
     },
     openGraph: {
       ...parentData.openGraph,
-      url: getPageUrl(rootPageSlug + pageNumberSlug),
-      title: makeSeoTitle(pageNumberTitle + (authorMetaFacebook?.title || authorPageSettings?.title), parentData.applicationName),
-      description: makeSeoDescription(pageNumberDescription + (authorMetaFacebook?.description || authorPageSettings?.description), 65),
+      url: getPageUrl(addPageNumber(rootPageSlug, pageNumber, 'slug')),
+      title: makeSeoTitle(addPageNumber(authorMetaFacebook?.title || authorPageSettings?.title, pageNumber, 'title'), parentData.applicationName),
+      description: makeSeoDescription(authorMetaFacebook?.description || authorPageSettings?.description, 65),
       images: await generateCoverImageObject(authorMetaFacebookImage || authorCover),
     },
   };

@@ -9,7 +9,7 @@ import {
 } from '@/data/categories';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
-import { makeSeoDescription, makeSeoKeywords, makeSeoPageNumber, makeSeoTitle } from '@/utils/client/seo';
+import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
 import { isSlugArrayValid } from '@/validation/urls';
@@ -34,7 +34,6 @@ const rootPageSlug = '/categories';
 export async function generateMetadata({params}: CategoriesPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
-  const {pageNumberSlug, pageNumberTitle, pageNumberDescription, pageNumberKeyword} = makeSeoPageNumber(pageNumber);
   
   const parentData = await parent;
 
@@ -67,22 +66,22 @@ export async function generateMetadata({params}: CategoriesPageProps, parent: Re
     const categoryMetaFacebook = categoryMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as CategoryMetaSocialEntry;
     const categoryMetaFacebookImage = categoryMetaFacebook?.image?.data?.attributes as CategoryCover;
 
-    const makeCategoryTitle = (title: string) => (`${pageNumberTitle + title} Category`);
+    const makeCategoryTitle = (title: string) => (`${addPageNumber(title, pageNumber, 'title')} Category`);
   
     return {
       title: makeSeoTitle(makeCategoryTitle(categorySEO?.metaTitle || categoryData?.name), parentData.applicationName),
-      description: makeSeoDescription(pageNumberDescription + (categorySEO?.metaDescription || categoryData?.description)),
-      keywords: makeSeoKeywords(pageNumberKeyword + categorySEO?.keywords),
+      description: makeSeoDescription(categorySEO?.metaDescription || categoryData?.description),
+      keywords: makeSeoKeywords(categorySEO?.keywords),
       category: makeSeoTitle(categorySEO?.metaTitle || categoryData?.name),
       robots: await generateRobotsObject(categoryRobots),
       alternates: {
-        canonical: getPageUrl(categoryData?.slug + pageNumberSlug, rootPageSlug),
+        canonical: getPageUrl(addPageNumber(categoryData?.slug, pageNumber, 'slug'), rootPageSlug),
       },
       openGraph: {
         ...parentData.openGraph,
-        url: getPageUrl(categoryData?.slug + pageNumberSlug, rootPageSlug),
+        url: getPageUrl(addPageNumber(categoryData?.slug, pageNumber, 'slug'), rootPageSlug),
         title: makeSeoTitle(makeCategoryTitle(categoryMetaFacebook?.title || categorySEO?.metaTitle || categoryData?.name), parentData.applicationName),
-        description: makeSeoDescription(pageNumberDescription + (categoryMetaFacebook?.description || categorySEO?.metaDescription || categoryData?.description), 65),
+        description: makeSeoDescription(categoryMetaFacebook?.description || categorySEO?.metaDescription || categoryData?.description, 65),
         images: await generateCoverImageObject(categoryMetaFacebookImage || categoryMetaImage || categoryCover),
       },
     };
@@ -102,18 +101,18 @@ export async function generateMetadata({params}: CategoriesPageProps, parent: Re
   const categoriesMetaFacebookImage = categoriesMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
-    title: makeSeoTitle(pageNumberTitle + categoriesPageSettings?.title, parentData.applicationName),
-    description: makeSeoDescription(pageNumberDescription + categoriesPageSettings?.description),
-    keywords: makeSeoKeywords(pageNumberKeyword + categoriesPageSettings?.keywords),
+    title: makeSeoTitle(addPageNumber(categoriesPageSettings?.title, pageNumber, 'title'), parentData.applicationName),
+    description: makeSeoDescription(categoriesPageSettings?.description),
+    keywords: makeSeoKeywords(categoriesPageSettings?.keywords),
     robots: await generateRobotsObject(categoriesPageRobots),
     alternates: {
-      canonical: getPageUrl(rootPageSlug + pageNumberSlug),
+      canonical: getPageUrl(addPageNumber(rootPageSlug, pageNumber, 'slug')),
     },
     openGraph: {
       ...parentData.openGraph,
-      url: getPageUrl(rootPageSlug + pageNumberSlug),
-      title: makeSeoTitle(pageNumberTitle + (categoriesMetaFacebook?.title || categoriesPageSettings?.title), parentData.applicationName),
-      description: makeSeoDescription(pageNumberDescription + (categoriesMetaFacebook?.description || categoriesPageSettings?.description), 65),
+      url: getPageUrl(addPageNumber(rootPageSlug, pageNumber, 'slug')),
+      title: makeSeoTitle(addPageNumber(categoriesMetaFacebook?.title || categoriesPageSettings?.title, pageNumber, 'title'), parentData.applicationName),
+      description: makeSeoDescription(categoriesMetaFacebook?.description || categoriesPageSettings?.description, 65),
       images: await generateCoverImageObject(categoriesMetaFacebookImage || categoriesCover),
     },
   };

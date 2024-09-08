@@ -23,7 +23,7 @@ export interface TagsPageProps {
   };
 }
 
-const rootPageSlug = '/tags-refactor';
+const rootPageSlug = '/tags';
 
 export async function generateMetadata({params}: TagsPageProps, parent: ResolvingMetadata): Promise<Metadata> {
   if (!isSlugArrayValid(params.slug)) return {};

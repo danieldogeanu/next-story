@@ -33,9 +33,6 @@ export async function generateMetadata({params}: Readonly<HomeProps>, parent: Re
     alternates: {
       canonical: getPageUrl(addPageNumber('', Number(params.number), 'slug')),
     },
-    robots: {
-      index: false, follow: false, nocache: true,
-    },
     openGraph: {
       ...parentData.openGraph,
       url: getPageUrl(addPageNumber('', Number(params.number), 'slug')),

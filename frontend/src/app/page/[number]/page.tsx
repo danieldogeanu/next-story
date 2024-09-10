@@ -2,7 +2,7 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound, permanentRedirect, RedirectType } from 'next/navigation';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getArticlesCollection } from '@/data/articles';
-import { makeSeoTitle } from '@/utils/client/seo';
+import { addPageNumber, makeSeoTitle } from '@/utils/client/seo';
 import { getFrontEndURL } from '@/utils/client/env';
 import { getPageUrl } from '@/utils/urls';
 import ArticleCard from '@/components/article-card';
@@ -26,18 +26,20 @@ export async function generateMetadata({params}: Readonly<HomeProps>, parent: Re
 
   return {
     title: {
-      absolute: makeSeoTitle(`Page ${params.number} > ${siteSettings?.siteName} > ${siteSettings?.siteTagline}`) as string,
+      absolute: makeSeoTitle(addPageNumber(
+        `${siteSettings?.siteName} > ${siteSettings?.siteTagline}`,
+        Number(params.number), 'title')) as string,
     },
     alternates: {
-      canonical: getPageUrl(params.number, '/page'),
+      canonical: getPageUrl(addPageNumber('', Number(params.number), 'slug')),
     },
     robots: {
       index: false, follow: false, nocache: true,
     },
     openGraph: {
       ...parentData.openGraph,
-      url: getPageUrl(params.number, '/page'),
-      title: makeSeoTitle(`Page ${params.number} > ${siteSettings?.siteTagline}`),
+      url: getPageUrl(addPageNumber('', Number(params.number), 'slug')),
+      title: makeSeoTitle(addPageNumber(siteSettings?.siteTagline, Number(params.number), 'title')),
     },
   };
 }

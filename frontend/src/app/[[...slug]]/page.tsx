@@ -37,6 +37,11 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   
   // If there's a slug, we're most likely on the Single Page.
   if (typeof slug === 'string') {
+
+    // We don't have pagination on single pages, so we must return 
+    // an empty metadata object if the slug array contains 'page'.
+    if (Array.isArray(params.slug) && params.slug.includes('page')) return {};
+
     // Get single page data and return empty metadata if page is not found.
     // We don't need to handle pagination here, we only need one result.
     const pageData = (await getPagesCollection({

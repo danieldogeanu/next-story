@@ -32,8 +32,55 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   
   const parentData = await parent;
 
+  // Single Page
+  // ---------------------------------------------------------------------------
+  
+  // If there's a slug, we're most likely on the Single Page.
+  if (typeof slug === 'string') {
+    // Get single page data and return empty metadata if page is not found.
+    // We don't need to handle pagination here, we only need one result.
+    const pageData = (await getPagesCollection({
+      filters: { slug: { $eq: slug } },
+      populate: {
+        cover: { populate: '*' },
+        seo: { populate: {
+          metaImage: { populate: '*' },
+          metaSocial: { populate: '*' },
+        } },
+        robots: { populate: '*' },
+      },
+      pagination: { start: 0, limit: 1 },
+    })).data.pop()?.attributes as SinglePage;
+    if (typeof pageData === 'undefined') return {};
+  
+    const pageCover = pageData?.cover?.data?.attributes as PageCover;
+    const pageRobots = pageData?.robots as PageRobots;
+    const pageSEO = pageData?.seo as PageSEO;
+    const pageMetaImage = pageSEO?.metaImage?.data?.attributes as PageCover;
+    const pageMetaSocials = pageSEO?.metaSocial as PageMetaSocial;
+    const pageMetaFacebook = pageMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+    const pageMetaFacebookImage = pageMetaFacebook?.image?.data?.attributes as PageCover;
+  
+    return {
+      title: makeSeoTitle(pageSEO?.metaTitle || pageData?.title, parentData.applicationName),
+      description: makeSeoDescription(pageSEO?.metaDescription || pageData?.excerpt),
+      keywords: makeSeoKeywords(pageSEO?.keywords),
+      robots: await generateRobotsObject(pageRobots),
+      alternates: {
+        canonical: getPageUrl(pageData?.slug),
+      },
+      openGraph: {
+        ...parentData.openGraph, url: getPageUrl(pageData?.slug),
+        title: makeSeoTitle(pageMetaFacebook?.title || pageSEO?.metaTitle || pageData?.title, parentData.applicationName),
+        description: makeSeoDescription(pageMetaFacebook?.description || pageSEO?.metaDescription || pageData?.excerpt, 65),
+        images: await generateCoverImageObject(pageMetaFacebookImage || pageMetaImage || pageCover),
+      },
+    };
+
+  } // Single Page
+
   // Homepage
-  // -----------------------------------------------------------------------------
+  // ---------------------------------------------------------------------------
   
   // If there's no slug, we're on the homepage, so we should get the site settings.
   const siteSettingsResponse = await getSiteSettings({populate: '*'});

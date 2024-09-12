@@ -6,7 +6,7 @@ import { getArticlesCollection } from '@/data/articles';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO, SinglePage } from '@/data/pages';
 import { getPageUrl, getFileURL, checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, outOfBoundsRedirect } from '@/utils/urls';
-import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
+import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { isSlugArrayValid } from '@/validation/urls';
 import { getFrontEndURL } from '@/utils/client/env';
@@ -31,8 +31,30 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
   
   const parentData = await parent;
+
+  // Homepage
+  // -----------------------------------------------------------------------------
   
-  return {};
+  // If there's no slug, we're on the homepage, so we should get the site settings.
+  const siteSettingsResponse = await getSiteSettings({populate: '*'});
+  const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
+  if (typeof siteSettingsResponse === 'undefined') return {};
+
+  return {
+    title: {
+      absolute: makeSeoTitle(addPageNumber(
+        `${siteSettings?.siteName} > ${siteSettings?.siteTagline}`,
+        pageNumber, 'title')) as string,
+    },
+    alternates: {
+      canonical: getPageUrl(addPageNumber('', pageNumber, 'slug')),
+    },
+    openGraph: {
+      ...parentData.openGraph,
+      url: getPageUrl(addPageNumber('', pageNumber, 'slug')),
+      title: makeSeoTitle(addPageNumber(siteSettings?.siteTagline, pageNumber, 'title')),
+    },
+  };
 }
 
 

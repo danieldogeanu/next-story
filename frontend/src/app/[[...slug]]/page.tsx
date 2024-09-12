@@ -44,14 +44,14 @@ export default async function Page({params}: PageProps) {
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
   const {slug, pageNumber} = extractSlugAndPage(params.slug);
 
-  // If it's the first page, we need to redirect to avoid page duplicates.
-  firstPageRedirect(slug, pageNumber, rootPageSlug);
-
   // Single Page
   // ---------------------------------------------------------------------------
   
   // If there's a slug, we're most likely on the Single Page.
   if (typeof slug === 'string') {
+
+    // We don't have pagination on single pages, so we must return a 404 if the slug array contains 'page'.
+    if (Array.isArray(params.slug) && params.slug.includes('page')) return notFound();
 
     // Get single page data; we don't need to handle pagination here as there is none.
     const pageData = (await getPagesCollection({
@@ -104,6 +104,9 @@ export default async function Page({params}: PageProps) {
 
   // Homepage
   // ---------------------------------------------------------------------------
+  
+  // If it's the first page, we need to redirect to avoid page duplicates.
+  firstPageRedirect(slug, pageNumber, rootPageSlug);
   
   // If there's no slug, we're on the Homepage.
   const articlesCollection = await getArticlesCollection({

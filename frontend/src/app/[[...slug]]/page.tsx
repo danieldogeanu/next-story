@@ -1,6 +1,6 @@
 import NextImage from 'next/image';
 import type { Metadata, ResolvingMetadata } from 'next';
-import { notFound, permanentRedirect, RedirectType } from 'next/navigation';
+import { notFound } from 'next/navigation';
 import { Box, Image, Title } from '@mantine/core';
 import { getArticlesCollection } from '@/data/articles';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
@@ -9,7 +9,6 @@ import { getPageUrl, getFileURL, checkSlugAndRedirect, extractSlugAndPage, first
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { isSlugArrayValid } from '@/validation/urls';
-import { getFrontEndURL } from '@/utils/client/env';
 import { StrapiImageFormats } from '@/types/strapi';
 import ArticleCard from '@/components/article-card';
 import ContentRenderer from '@/components/content-renderer';

@@ -47,6 +47,61 @@ export default async function Page({params}: PageProps) {
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, rootPageSlug);
 
+  // Single Page
+  // ---------------------------------------------------------------------------
+  
+  // If there's a slug, we're most likely on the Single Page.
+  if (typeof slug === 'string') {
+
+    // Get single page data; we don't need to handle pagination here as there is none.
+    const pageData = (await getPagesCollection({
+      populate: '*', filters: { slug: { $eq: slug } },
+      pagination: { start: 0, limit: 1 },
+    })).data.pop()?.attributes as SinglePage;
+  
+    if (typeof pageData === 'undefined') return notFound();
+  
+    const pageCover = pageData?.cover?.data?.attributes as PageCover;
+    const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;
+    const pageCoverUrl = (pageCoverFormats?.large?.url)
+      ? getFileURL(pageCoverFormats.large.url) : getFileURL(defaultCover.src, 'frontend');
+    const pageContent = pageData?.content as PageContent;
+  
+    return (
+      <main className={styles.main}>
+  
+        <article className={styles.container}>
+  
+          <header className={styles.intro}>
+  
+            <Title className={styles.pageTitle}>
+              {pageData?.title}
+            </Title>
+  
+            <Box className={styles.cover}>
+              <Image
+                className={styles.image}
+                component={NextImage}
+                src={pageCoverUrl}
+                width={pageCoverFormats?.large?.width ?? defaultCover.width}
+                height={pageCoverFormats?.large?.height ?? defaultCover.height}
+                alt={pageCover?.alternativeText || ''}
+                priority={true} />
+            </Box>
+  
+          </header>
+  
+          <section className={styles.content}>
+            <ContentRenderer content={pageContent} />
+          </section>
+  
+        </article>
+        
+      </main>
+    );
+
+  } // Single Page
+
   // Homepage
   // ---------------------------------------------------------------------------
   

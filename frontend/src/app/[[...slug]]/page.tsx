@@ -5,7 +5,7 @@ import { Box, Image, Title } from '@mantine/core';
 import { getArticlesCollection } from '@/data/articles';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO, SinglePage } from '@/data/pages';
-import { getPageUrl, getFileURL, checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect } from '@/utils/urls';
+import { getPageUrl, getFileURL, checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, outOfBoundsRedirect } from '@/utils/urls';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { isSlugArrayValid } from '@/validation/urls';
@@ -47,12 +47,29 @@ export default async function Page({params}: PageProps) {
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, rootPageSlug);
 
+  // Homepage
+  // ---------------------------------------------------------------------------
+  
+  // If there's no slug, we're on the Homepage.
+  const articlesCollection = await getArticlesCollection({
+    populate: '*', sort: 'id:desc',
+    pagination: { page: pageNumber || 1, pageSize: 24 },
+  });
+  const articlesPagination = articlesCollection?.meta?.pagination;
+
+  // If the page number is beyond of the page count, we return a 404.
+  outOfBoundsRedirect(pageNumber, articlesPagination.pageCount, articlesCollection.data.length);
+
   return (
     <main className={styles.main}>
 
-      <Title className={styles.pageTitle}>
-        Homepage Refactor
-      </Title>
+      <section className={styles.grid}>
+        {articlesCollection.data.map((article) => {
+          return (<ArticleCard key={article.id} data={article.attributes} />);
+        })}
+      </section>
+
+      <PagePagination data={articlesPagination} />
 
     </main>
   );

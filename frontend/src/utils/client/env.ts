@@ -10,6 +10,17 @@ export function getNodeEnv() {
 }
 
 /**
+ * Checks if the application is running in a local environment based on the `LOCAL_ENV` environment variable.
+ *
+ * @note This environment variable shouldn't be set on the server. We only need it locally so that we can dynamically generate the hostname.
+ *
+ * @returns Returns `true` if `LOCAL_ENV` is set to a truthy value, otherwise `false`.
+ */
+export function getLocalEnv() {
+  return (Boolean(process.env.LOCAL_ENV) || false);
+}
+
+/**
  * Retrieves the site's language setting in the specified format.
  *
  * @note IETF format outputs: `en-US`. This is the default for HTML and JavaScript.

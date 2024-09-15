@@ -1,10 +1,12 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { getFrontEndURL, getSiteLang } from '@/utils/client/env';
+import { getFrontEndURL, getHostname, getNodeEnv, getSiteLang } from '@/utils/client/env';
+import { HostnameProvider } from '@/providers/hostname';
 import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import ErrorFallback from '@/app/error';
@@ -96,21 +98,41 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   const colorScheme = 'auto';
 
+  // Load hostname and href, so that we can build the frontend URLs.
+  let hostname = null;
+  let href = null;
+
+  // If we're in the development environment, we need to get hostname dynamically.
+  // We do this so we can access the website on mobile devices for testing.
+  if (getNodeEnv() === 'development') {
+    const headersList = headers();
+    const host = headersList.get('host');
+    const protocol = headersList.get('x-forwarded-proto');
+    const fullUrl = new URL(`${protocol}://${host}`);
+    hostname = fullUrl.hostname;
+    href = fullUrl.href;
+  } else {
+    hostname = getHostname();
+    href = getFrontEndURL();
+  }
+
   return (
     <html lang={getSiteLang()}>
       <head>
         <ColorSchemeScript defaultColorScheme={colorScheme} />
       </head>
       <body>
-        <MantineProvider defaultColorScheme={colorScheme} theme={mantineTheme}>
-          <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <SiteHeader />
+        <HostnameProvider hostname={hostname} href={href}>
+          <MantineProvider defaultColorScheme={colorScheme} theme={mantineTheme}>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              {children}
+              <SiteHeader />
+              <ErrorBoundary FallbackComponent={ErrorFallback}>
+                {children}
+              </ErrorBoundary>
+              <SiteFooter />
             </ErrorBoundary>
-            <SiteFooter />
-          </ErrorBoundary>
-        </MantineProvider>
+          </MantineProvider>
+        </HostnameProvider>
       </body>
     </html>
   );

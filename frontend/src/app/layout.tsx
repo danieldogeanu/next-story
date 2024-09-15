@@ -109,9 +109,17 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
     const host = headersList.get('host');
     const protocol = headersList.get('x-forwarded-proto');
     const fullUrl = new URL(`${protocol}://${host}`);
+
+    // Set variables so that we can pass them to the HostnameProvider.
     hostname = fullUrl.hostname;
     href = fullUrl.href;
+
+    // Pass variables to the environment so that we can use them in utils functions.
+    // We can't use any other method to do this, because of the RSC architecture.
+    process.env.CURRENT_HOSTNAME = fullUrl.hostname;
+    process.env.CURRENT_HREF = fullUrl.href;
   } else {
+    // If we're on production, we pass the domain name from the environment variables.
     hostname = getHostname();
     href = getFrontEndURL();
   }

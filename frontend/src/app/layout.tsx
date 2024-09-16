@@ -1,12 +1,13 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ColorSchemeScript, MantineProvider } from '@mantine/core';
+import { ColorSchemeScript, MantineColorScheme, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { getFrontEndURL, getHostname, getLocalEnv, getSiteLang } from '@/utils/client/env';
 import { HostnameProvider } from '@/providers/hostname';
+import { combineProviders } from '@/providers';
 import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import ErrorFallback from '@/app/error';
@@ -96,7 +97,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
-  const colorScheme = 'auto';
+  const colorScheme: MantineColorScheme = 'auto';
 
   // Load hostname and href, so that we can build the frontend URLs.
   let hostname = null;
@@ -124,23 +125,36 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
     href = getFrontEndURL();
   }
 
+
+  /**
+   * The `Providers` constant combines multiple context providers into a single component.
+   * 
+   * The `combineProviders` function accepts an array of tuples where each tuple has the shape:
+   * [ProviderComponent, providerProps]. This allows for wrapping the application with various providers,
+   * each receiving its specific props.
+   * 
+   * The order of providers in the array is important as it determines the nesting and context accessibility.
+   */
+  const Providers = combineProviders([
+    [HostnameProvider, {hostname: hostname, href: href}],
+    [MantineProvider, {defaultColorScheme: colorScheme, theme: mantineTheme}],
+  ]);
+
   return (
     <html lang={getSiteLang()}>
       <head>
         <ColorSchemeScript defaultColorScheme={colorScheme} />
       </head>
       <body>
-        <HostnameProvider hostname={hostname} href={href}>
-          <MantineProvider defaultColorScheme={colorScheme} theme={mantineTheme}>
+        <Providers>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <SiteHeader />
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <SiteHeader />
-              <ErrorBoundary FallbackComponent={ErrorFallback}>
-                {children}
-              </ErrorBoundary>
-              <SiteFooter />
+              {children}
             </ErrorBoundary>
-          </MantineProvider>
-        </HostnameProvider>
+            <SiteFooter />
+          </ErrorBoundary>
+        </Providers>
       </body>
     </html>
   );

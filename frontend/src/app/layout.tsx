@@ -5,7 +5,7 @@ import { ColorSchemeScript, MantineProvider } from '@mantine/core';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { getFrontEndURL, getHostname, getNodeEnv, getSiteLang } from '@/utils/client/env';
+import { getFrontEndURL, getHostname, getLocalEnv, getSiteLang } from '@/utils/client/env';
 import { HostnameProvider } from '@/providers/hostname';
 import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
@@ -102,9 +102,9 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
   let hostname = null;
   let href = null;
 
-  // If we're in the development environment, we need to get hostname dynamically.
+  // If we're running in a local environment, we need to get the hostname dynamically.
   // We do this so we can access the website on mobile devices for testing.
-  if (getNodeEnv() === 'development') {
+  if (getLocalEnv()) {
     const headersList = headers();
     const host = headersList.get('host');
     const protocol = headersList.get('x-forwarded-proto');

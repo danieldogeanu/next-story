@@ -46,24 +46,31 @@ export function getBackEndURL() {
 }
 
 /**
- * Retrieves the front-end URL from environment variables.
+ * Retrieves the front-end URL based on the environment.
  *
- * @returns The front-end URL. Defaults to 'http://localhost:3000' if not specified in environment variables.
+ * This function checks if the application is running in a local environment by using `getLocalEnv()`.
+ * If running locally, it returns the `CURRENT_HREF` from the environment variables.
+ * Otherwise, it returns `NEXT_PUBLIC_FRONTEND_URL`. If neither is set, it defaults to 'http://localhost:3000'.
+ *
+ * @returns The current front-end URL or 'http://localhost:3000' if not set.
  */
 export function getFrontEndURL() {
-  return (process.env.NEXT_PUBLIC_FRONTEND_URL || 'http://localhost:3000');
+  const currentFrontendUrl = getLocalEnv() ? process.env.CURRENT_HREF : process.env.NEXT_PUBLIC_FRONTEND_URL;
+  return (currentFrontendUrl || 'http://localhost:3000');
 }
 
 /**
- * Retrieves the hostname from the environment variables.
+ * Retrieves the hostname based on the environment.
  *
- * This function returns the hostname defined in the `NEXT_PUBLIC_HOSTNAME` environment variable.
- * If the environment variable is not set, it defaults to 'localhost'.
+ * This function checks if the application is running in a local environment by using `getLocalEnv()`.
+ * If running locally, it returns the `CURRENT_HOSTNAME` from the environment variables.
+ * Otherwise, it returns `NEXT_PUBLIC_HOSTNAME`. If neither is set, it defaults to 'localhost'.
  *
- * @returns The hostname from the environment variables, or 'localhost' if not set.
+ * @returns The current hostname or 'localhost' if not set.
  */
 export function getHostname() {
-  return (process.env.NEXT_PUBLIC_HOSTNAME || 'localhost');
+  const currentHostname = getLocalEnv() ? process.env.CURRENT_HOSTNAME : process.env.NEXT_PUBLIC_HOSTNAME;
+  return (currentHostname || 'localhost');
 }
 
 /**

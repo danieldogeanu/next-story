@@ -106,10 +106,11 @@ export function validateParams(params: any): PageParams | null {
 }
 
 /**
- * Validates the sorting parameter(s) to ensure they conform to specific schema rules.
+ * Validates the sorting parameter(s) to ensure they conform to specific schema rules and sanitizes the input.
  *
  * This function checks if the input sorting parameter(s) are valid according to a predefined schema.
  * It supports single or multiple sorting parameters and ensures each one follows a valid format.
+ * It also sanitizes the input string(s) before validation.
  *
  * @param {string | string[] | undefined} param - The sorting parameter(s) to validate.
  * - Can be a single string, an array of strings, or `undefined`.
@@ -117,40 +118,41 @@ export function validateParams(params: any): PageParams | null {
  *   or a property with an optional sorting direction (e.g., `name`, `createdAt:asc`, `updatedAt:desc`).
  * - Allowed properties: `name`, `title`, `createdAt`, `updatedAt`, `publishedAt`.
  *
- * @returns {string | string[] | undefined}
- * - Returns the validated sorting parameter if it is valid.
+ * @returns {string | string[] | null}
+ * - Returns the validated and sanitized sorting parameter if valid.
  * - Returns an array of validated sorting parameters if multiple are provided.
- * - Returns `undefined` if no valid sorting parameters are found.
+ * - Returns `null` if no valid sorting parameters are found.
  *
  * ### Validation Logic:
- * - For each sorting parameter:
- *   - It must either be one of the allowed properties (`name`, `title`, `createdAt`, `updatedAt`, `publishedAt`), or
- *   - A string in the format `property:direction` where the direction can be `asc` or `desc`.
+ * - Each sorting parameter is sanitized before validation.
+ * - Sorting parameter must either:
+ *   - Be one of the allowed properties (`name`, `title`, `createdAt`, `updatedAt`, `publishedAt`), or
+ *   - Be in the format `property:direction` where direction can be `asc` or `desc`.
  * - If multiple sorting parameters are provided in an array:
- *   - Each element is validated individually.
+ *   - Each element is sanitized and validated individually.
  *   - Invalid elements are filtered out.
- *   - If no valid elements remain, `undefined` is returned.
- * - If a single string is provided, it is validated and returned if valid, otherwise `undefined`.
+ *   - If no valid elements remain, `null` is returned.
+ * - If a single string is provided, it is sanitized and validated. Returns the value if valid, otherwise `null`.
  */
-export function validateSortParam(param: string | string[] | undefined): string | string[] | undefined {
+export function validateSortParam(param: string | string[] | undefined): string | string[] | null {
   const sortPropsSchema = z.enum(['name', 'createdAt', 'updatedAt', 'title', 'publishedAt']);
   const sortCombinedSchema = z.string().regex(/^(name|createdAt|updatedAt|title|publishedAt)(:(asc|desc))?$/);
   const sortValueSchema = z.union([sortPropsSchema, sortCombinedSchema]);
 
-  const validateSingleSort = (singleParam: string): string | undefined => {
+  const validateSingleSort = (singleParam: string): string | null => {
     const sanitizedParam = sanitizeString(singleParam);
     const result = sortValueSchema.safeParse(sanitizedParam);
-    return result.success ? result.data : undefined;
+    return result.success ? result.data : null;
   };
 
   if (Array.isArray(param) && param.length !== 0) {
-    const validatedArray = param.map(validateSingleSort).filter((item) => (typeof item !== 'undefined'));
-    return (validatedArray.length > 0) ? validatedArray : undefined;
+    const validatedArray = param.map(validateSingleSort).filter((item) => (typeof item === 'string'));
+    return (validatedArray.length > 0) ? validatedArray : null;
   }
 
   if (typeof param === 'string') {
     return validateSingleSort(param);
   }
 
-  return undefined;
+  return null;
 }

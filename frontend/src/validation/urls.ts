@@ -1,3 +1,4 @@
+import { sanitizeString } from '@/utils/sanitization';
 import { z } from 'zod';
 
 
@@ -105,7 +106,8 @@ export function validateSortParam(param: string | string[] | undefined): string 
   const sortValueSchema = z.union([sortPropsSchema, sortCombinedSchema]);
 
   const validateSingleSort = (singleParam: string): string | undefined => {
-    const result = sortValueSchema.safeParse(singleParam);
+    const sanitizedParam = sanitizeString(singleParam);
+    const result = sortValueSchema.safeParse(sanitizedParam);
     return result.success ? result.data : undefined;
   };
 

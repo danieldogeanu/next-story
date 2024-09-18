@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 
 /**
  * Validates an array of strings to determine if it follows the expected structure for a slug with optional pagination.
@@ -68,4 +70,53 @@ export function isSlugArrayValid(slugArray: string[] | undefined): boolean {
       // If any of the above conditions fail, it's invalid.
       return false;
   }
+}
+
+/**
+ * Validates the sorting parameter(s) to ensure they conform to specific schema rules.
+ *
+ * This function checks if the input sorting parameter(s) are valid according to a predefined schema.
+ * It supports single or multiple sorting parameters and ensures each one follows a valid format.
+ *
+ * @param {string | string[] | undefined} param - The sorting parameter(s) to validate.
+ * - Can be a single string, an array of strings, or `undefined`.
+ * - Each sorting parameter must match one of the allowed properties
+ *   or a property with an optional sorting direction (e.g., `name`, `createdAt:asc`, `updatedAt:desc`).
+ * - Allowed properties: `name`, `title`, `createdAt`, `updatedAt`, `publishedAt`.
+ *
+ * @returns {string | string[] | undefined}
+ * - Returns the validated sorting parameter if it is valid.
+ * - Returns an array of validated sorting parameters if multiple are provided.
+ * - Returns `undefined` if no valid sorting parameters are found.
+ *
+ * ### Validation Logic:
+ * - For each sorting parameter:
+ *   - It must either be one of the allowed properties (`name`, `title`, `createdAt`, `updatedAt`, `publishedAt`), or
+ *   - A string in the format `property:direction` where the direction can be `asc` or `desc`.
+ * - If multiple sorting parameters are provided in an array:
+ *   - Each element is validated individually.
+ *   - Invalid elements are filtered out.
+ *   - If no valid elements remain, `undefined` is returned.
+ * - If a single string is provided, it is validated and returned if valid, otherwise `undefined`.
+ */
+export function validateSortParam(param: string | string[] | undefined): string | string[] | undefined {
+  const sortPropsSchema = z.enum(['name', 'createdAt', 'updatedAt', 'title', 'publishedAt']);
+  const sortCombinedSchema = z.string().regex(/^(name|createdAt|updatedAt|title|publishedAt)(:(asc|desc))?$/);
+  const sortValueSchema = z.union([sortPropsSchema, sortCombinedSchema]);
+
+  const validateSingleSort = (singleParam: string): string | undefined => {
+    const result = sortValueSchema.safeParse(singleParam);
+    return result.success ? result.data : undefined;
+  };
+
+  if (Array.isArray(param) && param.length !== 0) {
+    const validatedArray = param.map(validateSingleSort).filter((item) => (typeof item !== 'undefined'));
+    return (validatedArray.length > 0) ? validatedArray : undefined;
+  }
+
+  if (typeof param === 'string') {
+    return validateSingleSort(param);
+  }
+
+  return undefined;
 }

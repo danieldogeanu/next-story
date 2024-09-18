@@ -1,5 +1,6 @@
-import { sanitizeString } from '@/utils/sanitization';
 import { z } from 'zod';
+import { sanitizeString } from '@/utils/sanitization';
+import type { PageParams } from '@/types';
 
 
 /**
@@ -71,6 +72,37 @@ export function isSlugArrayValid(slugArray: string[] | undefined): boolean {
       // If any of the above conditions fail, it's invalid.
       return false;
   }
+}
+
+/**
+ * Validates and sanitizes route parameters based on a schema.
+ *
+ * - First, it validates the input `params` against a schema.
+ * - If the validation fails, logs errors and returns `null`.
+ * - If validation succeeds, it sanitizes the `slug` array and validates again.
+ *
+ * @param {any} params - The route parameters to validate.
+ * @returns {PageParams | null} The validated and sanitized parameters, or `null` if validation fails.
+ */
+export function validateParams(params: any): PageParams | null {
+  const paramsSchema = z.object({
+    slug: z.array(z.string()),
+  });
+
+  const firstPass = paramsSchema.safeParse(params);
+
+  if (!firstPass.success) {
+    console.error('Invalid Params:', firstPass.error.errors);
+    return null;
+  }
+
+  const sanitizedParams = {
+    slug: firstPass.data.slug.map(sanitizeString),
+  };
+
+  const secondPass = paramsSchema.safeParse(sanitizedParams);
+  if (!secondPass.success) console.error('Invalid Params:', secondPass.error.errors);
+  return secondPass.success ? secondPass.data : null;
 }
 
 /**

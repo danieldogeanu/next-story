@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { sanitizeString } from '@/utils/sanitization';
-import type { PageParams } from '@/types';
+import { sanitizeString, sanitizeStringArray } from '@/utils/sanitization';
+import type { PageParams, SearchParams } from '@/types';
 
 
 /**
@@ -92,7 +92,6 @@ export function validateParams(params: any): PageParams | null {
   });
 
   const firstPass = paramsSchema.safeParse(params);
-
   if (!firstPass.success) {
     console.error('Invalid Params:', firstPass.error.errors);
     return null;
@@ -104,6 +103,64 @@ export function validateParams(params: any): PageParams | null {
 
   const secondPass = paramsSchema.safeParse(sanitizedParams);
   if (!secondPass.success) console.error('Invalid Params:', secondPass.error.errors);
+  return secondPass.success ? secondPass.data : null;
+}
+
+/**
+ * Validates and sanitizes search parameters.
+ *
+ * This function validates the given search parameters against a schema, ensuring
+ * that each key is a string and each value is either a string, an array of strings,
+ * or `undefined`. The function also sanitizes the keys and values to ensure they are clean.
+ *
+ * @param {any} searchParams - The search parameters to validate and sanitize.
+ * - Keys should be strings.
+ * - Values should be strings, arrays of strings, or `undefined`.
+ *
+ * @returns {SearchParams | null}
+ * - Returns sanitized and validated search parameters if valid.
+ * - Returns `null` if the validation fails.
+ *
+ * ### Process:
+ * - First, the input is validated against the schema.
+ * - If valid, keys and values are sanitized:
+ *   - Keys are sanitized to ensure they are strings.
+ *   - Values can be either:
+ *     - A sanitized string,
+ *     - A sanitized array of strings (empty strings allowed),
+ *     - `undefined`.
+ * - If any invalid search parameters are found, the function logs an error and returns `null`.
+ * - If valid after sanitization, the function returns the sanitized search parameters.
+ */
+export function validateSearchParams(searchParams: any): SearchParams | null {
+  const searchParamsSchema = z.record(z.union([z.string(), z.array(z.string()), z.undefined()]));
+
+  const firstPass = searchParamsSchema.safeParse(searchParams);
+  if (!firstPass.success) {
+    console.error('Invalid Search Params:', firstPass.error.errors);
+    return null;
+  }
+
+  const sanitizedEntries = Array.from(Object.entries(searchParams)).map(([key, value]) => {
+    const sanitizedKey = sanitizeString(key);
+
+    if (typeof sanitizedKey === 'string') {
+      if (Array.isArray(value)) {
+        // Sanitize each item in the array, and allow empty strings.
+        return [sanitizedKey, sanitizeStringArray(value)];
+      } else if (typeof value === 'string') {
+        // Allow empty strings to pass through.
+        return [sanitizedKey, sanitizeString(value)];
+      } else if (typeof value === 'undefined') {
+        // Allow undefined values to pass through.
+        return [sanitizedKey, undefined];
+      }
+    }
+  }).filter(item => typeof item !== 'undefined');
+  const sanitizedSearchParams = Object.fromEntries(sanitizedEntries) as SearchParams;
+
+  const secondPass = searchParamsSchema.safeParse(sanitizedSearchParams);
+  if (!secondPass.success) console.error('Invalid Search Params:', secondPass.error.errors);
   return secondPass.success ? secondPass.data : null;
 }
 

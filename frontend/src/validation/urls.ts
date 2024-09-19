@@ -86,7 +86,9 @@ export function isSlugArrayValid(slugArray: string[] | undefined): boolean {
  */
 export function validateParams(params: any): PageParams | null {
   const paramsSchema = z.object({
-    slug: z.array(z.string()),
+    slug: z.array(z.string().regex(
+      /^[a-zA-Z0-9_-]+$/, 'Slug must contain only alphanumeric characters, dashes, or underscores.'
+    )).optional().default([]),
   });
 
   const firstPass = paramsSchema.safeParse(params);

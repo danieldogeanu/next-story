@@ -97,7 +97,6 @@ export default async function TagsPage({params, searchParams}: PageProps) {
   // Validate the page params and search params before proceeding with rendering the page.
   const validatedParams = validateParams(params);
   const validatedSearchParams = validateSearchParams(searchParams);
-  const validatedSort = validateSortParam(validatedSearchParams?.sort);
 
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
@@ -124,6 +123,9 @@ export default async function TagsPage({params, searchParams}: PageProps) {
     // If the tagData array is empty or undefined, it means no tag was found.
     if (typeof tagData === 'undefined') return notFound();
   
+    // Validate the `sort` param and pass it to the collection's get request.
+    const validatedSort = validateSortParam(validatedSearchParams?.sort, ['title', 'publishedAt']);
+
     // Get all articles that belong to the current tag, and split it into pages.
     const articlesResponse = (await getArticlesCollection({
       populate: '*', sort: validatedSort || 'id:desc',
@@ -167,7 +169,12 @@ export default async function TagsPage({params, searchParams}: PageProps) {
   // Tags Page
   // ---------------------------------------------------------------------------
   
-  // If there's no slug, we're on the root Tags page. 
+  // If there's no slug, we're on the root Tags page.
+
+  // Validate the `sort` param and pass it to the collection's get request.
+  const validatedSort = validateSortParam(validatedSearchParams?.sort, ['name']);
+
+  // Get all the tags and split them into pages.
   const tagsCollection = await getTagsCollection({
     populate: '*', sort: validatedSort || 'id:desc',
     pagination: { page: pageNumber || 1, pageSize: 24 },

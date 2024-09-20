@@ -165,17 +165,20 @@ export function validateSearchParams(searchParams: any): SearchParams | null {
 }
 
 /**
- * Validates the sorting parameter(s) to ensure they conform to specific schema rules and sanitizes the input.
+ * Validates and sanitizes the sorting parameter(s) to ensure they conform to specific schema rules.
  *
- * This function checks if the input sorting parameter(s) are valid according to a predefined schema.
+ * This function checks if the input sorting parameter(s) are valid according to a predefined or customized schema.
  * It supports single or multiple sorting parameters and ensures each one follows a valid format.
- * It also sanitizes the input string(s) before validation.
+ * Additionally, it sanitizes the input string(s) before validation.
  *
  * @param {string | string[] | undefined} param - The sorting parameter(s) to validate.
  * - Can be a single string, an array of strings, or `undefined`.
- * - Each sorting parameter must match one of the allowed properties
- *   or a property with an optional sorting direction (e.g., `name`, `createdAt:asc`, `updatedAt:desc`).
- * - Allowed properties: `name`, `title`, `createdAt`, `updatedAt`, `publishedAt`.
+ * - Each sorting parameter must match one of the allowed properties or a property with an optional sorting direction
+ *   (e.g., `id`, `title`, `createdAt:asc`, `updatedAt:desc`).
+ * - Allowed properties are provided through the `allowed` parameter or default to: `id`, `createdAt`, `updatedAt`.
+ *
+ * @param {string[]} [allowed=[]] - Additional allowed properties for sorting.
+ * - These are combined with the default allowed properties (`id`, `createdAt`, `updatedAt`).
  *
  * @returns {string | string[] | null}
  * - Returns the validated and sanitized sorting parameter if valid.
@@ -183,24 +186,40 @@ export function validateSearchParams(searchParams: any): SearchParams | null {
  * - Returns `null` if no valid sorting parameters are found.
  *
  * ### Validation Logic:
- * - Each sorting parameter is sanitized before validation.
- * - Sorting parameter must either:
- *   - Be one of the allowed properties (`name`, `title`, `createdAt`, `updatedAt`, `publishedAt`), or
- *   - Be in the format `property:direction` where direction can be `asc` or `desc`.
+ * - Allowed properties are merged with default allowed values (`id`, `createdAt`, `updatedAt`) and sanitized.
+ * - Sorting parameters must either:
+ *   - Be one of the allowed properties, or
+ *   - Be in the format `property:direction` where the direction can be `asc` or `desc`.
  * - If multiple sorting parameters are provided in an array:
  *   - Each element is sanitized and validated individually.
  *   - Invalid elements are filtered out.
  *   - If no valid elements remain, `null` is returned.
  * - If a single string is provided, it is sanitized and validated. Returns the value if valid, otherwise `null`.
  */
-export function validateSortParam(param: string | string[] | undefined): string | string[] | null {
-  const sortPropsSchema = z.enum(['name', 'createdAt', 'updatedAt', 'title', 'publishedAt']);
-  const sortCombinedSchema = z.string().regex(/^(name|createdAt|updatedAt|title|publishedAt)(:(asc|desc))?$/);
+export function validateSortParam(param: string | string[] | undefined, allowed: string[] = []): string | string[] | null {
+  // Default allowed values.
+  const defaultAllowed = ['id', 'createdAt', 'updatedAt'];
+
+  // Merge allowed with default values and remove duplicates.
+  const mergedAllowed = Array.from(new Set([...allowed, ...defaultAllowed]));
+
+  // Create a regex pattern from the merged allowed array.
+  const allowedPropsPattern = mergedAllowed.map(prop => prop.replace(/[-\/\\^$.*+?()[\]{}|]/g, '\\$&')).join('|');
+  const sortCombinedRegex = new RegExp(`^(${allowedPropsPattern})(:(asc|desc))?$`);
+
+  // Create Zod schemas with custom error messages.
+  const sortPropsSchema = z.enum(mergedAllowed as [string, ...string[]], {
+    errorMap: () => ({ message: `Sort parameter must be one of: ${mergedAllowed.join(', ')}.` }),
+  });
+  const sortCombinedSchema = z.string().regex(sortCombinedRegex, {
+    message: `Sort parameter must match the format '<prop>:<asc|desc>', where prop is one of: ${mergedAllowed.join(', ')}.`,
+  });
   const sortValueSchema = z.union([sortPropsSchema, sortCombinedSchema]);
 
   const validateSingleSort = (singleParam: string): string | null => {
     const sanitizedParam = sanitizeString(singleParam);
     const result = sortValueSchema.safeParse(sanitizedParam);
+    if (!result.success) console.error(result.error.errors);
     return result.success ? result.data : null;
   };
 

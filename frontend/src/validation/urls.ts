@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { sanitizeString, sanitizeStringArray } from '@/utils/sanitization';
-import type { PageParams, SearchParams } from '@/types';
+import type { PageParams, SearchParams } from '@/types/page';
 
 
 /**

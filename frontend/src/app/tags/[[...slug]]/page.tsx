@@ -6,10 +6,11 @@ import { getTagsCollection, SingleTag, TagArticles } from '@/data/tags';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
+import { isSlugArrayValid, validateParams, validateSearchParams } from '@/validation/urls';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
-import { isSlugArrayValid } from '@/validation/urls';
 import { capitalize } from '@/utils/strings';
+import { PageProps } from '@/types/page';
 import PagePagination from '@/components/page-pagination';
 import ArticleCard from '@/components/article-card';
 import SortBar from '@/components/sort-bar';
@@ -17,17 +18,12 @@ import TagCard from '@/components/tag-card';
 import styles from '@/styles/page.module.scss';
 
 
-export interface TagsPageProps {
-  params: {
-    slug: string[];
-  };
-}
-
 const rootPageSlug = '/tags';
 
-export async function generateMetadata({params}: TagsPageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  if (!isSlugArrayValid(params.slug)) return {};
-  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const validatedParams = validateParams(params);
+  if (!isSlugArrayValid(validatedParams?.slug)) return {};
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
 
   const parentData = await parent;
 
@@ -97,13 +93,17 @@ export async function generateMetadata({params}: TagsPageProps, parent: Resolvin
   };
 }
 
-export default async function TagsPage({params}: TagsPageProps) {
+export default async function TagsPage({params, searchParams}: PageProps) {
+  // Validate the page params and search params before proceeding with rendering the page.
+  const validatedParams = validateParams(params);
+  const validatedSearchParams = validateSearchParams(searchParams);
+
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
-  checkSlugAndRedirect(params.slug, rootPageSlug);
+  checkSlugAndRedirect(validatedParams?.slug as string[], rootPageSlug);
 
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
-  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
 
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, rootPageSlug);

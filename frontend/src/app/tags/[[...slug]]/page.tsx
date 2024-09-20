@@ -6,7 +6,7 @@ import { getTagsCollection, SingleTag, TagArticles } from '@/data/tags';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { isSlugArrayValid, validateParams, validateSearchParams } from '@/validation/urls';
+import { isSlugArrayValid, validateParams, validateSearchParams, validateSortParam } from '@/validation/urls';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
 import { capitalize } from '@/utils/strings';
@@ -97,6 +97,7 @@ export default async function TagsPage({params, searchParams}: PageProps) {
   // Validate the page params and search params before proceeding with rendering the page.
   const validatedParams = validateParams(params);
   const validatedSearchParams = validateSearchParams(searchParams);
+  const validatedSort = validateSortParam(validatedSearchParams?.sort);
 
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
@@ -125,7 +126,8 @@ export default async function TagsPage({params, searchParams}: PageProps) {
   
     // Get all articles that belong to the current tag, and split it into pages.
     const articlesResponse = (await getArticlesCollection({
-      populate: '*', filters: { tags: { slug: { $eq: slug } } },
+      populate: '*', sort: validatedSort || 'id:desc',
+      filters: { tags: { slug: { $eq: slug } } },
       pagination: { page: pageNumber || 1, pageSize: 24 },
     }));
     const articlesData = articlesResponse?.data as TagArticles;
@@ -167,7 +169,7 @@ export default async function TagsPage({params, searchParams}: PageProps) {
   
   // If there's no slug, we're on the root Tags page. 
   const tagsCollection = await getTagsCollection({
-    populate: '*', sort: 'id:desc',
+    populate: '*', sort: validatedSort || 'id:desc',
     pagination: { page: pageNumber || 1, pageSize: 24 },
   });
   const tagsPageSettings = await getSinglePageSettings('tags');

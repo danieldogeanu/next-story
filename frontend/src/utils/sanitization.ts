@@ -1,10 +1,18 @@
-import { JSDOM } from 'jsdom';
 import DOMPurify from 'dompurify';
 
 // We initialize a fake DOM, because we don't have `window` object in Node.
 // DOMPurify requires a `window` object to do its magic.
-const currentWindow = (typeof window !== 'undefined') ? window : (new JSDOM('')).window;
-const purify = DOMPurify(currentWindow);
+let purify: ReturnType<typeof DOMPurify>;
+if (typeof window === 'undefined') {
+  // Server-Side DOMPurify setup uses JSDOM to get the `window` object.
+  // We use require to avoid bundling it in the client.
+  const { JSDOM } = require('jsdom');
+  const window = new JSDOM('').window;
+  purify = DOMPurify(window);
+} else {
+  // Client-Side DOMPurify uses the actual `window` object.
+  purify = DOMPurify(window);
+}
 
 /**
  * Sanitizes a string using the DOMPurify library.

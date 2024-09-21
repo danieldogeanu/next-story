@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z as val } from 'zod';
 import { sanitizeString, sanitizeStringArray } from '@/utils/sanitization';
 import type { PageParams, SearchParams } from '@/types/page';
 
@@ -85,8 +85,8 @@ export function isSlugArrayValid(slugArray: string[] | undefined): boolean {
  * @returns {PageParams | null} The validated and sanitized parameters, or `null` if validation fails.
  */
 export function validateParams(params: any): PageParams | null {
-  const paramsSchema = z.object({
-    slug: z.array(z.string().regex(
+  const paramsSchema = val.object({
+    slug: val.array(val.string().regex(
       /^[a-zA-Z0-9_-]+$/, 'Slug must contain only alphanumeric characters, dashes, or underscores.'
     )).optional().default([]),
   });
@@ -133,7 +133,7 @@ export function validateParams(params: any): PageParams | null {
  * - If valid after sanitization, the function returns the sanitized search parameters.
  */
 export function validateSearchParams(searchParams: any): SearchParams | null {
-  const searchParamsSchema = z.record(z.union([z.string(), z.array(z.string()), z.undefined()]));
+  const searchParamsSchema = val.record(val.union([val.string(), val.array(val.string()), val.undefined()]));
 
   const firstPass = searchParamsSchema.safeParse(searchParams);
   if (!firstPass.success) {
@@ -208,13 +208,13 @@ export function validateSortParam(param: string | string[] | undefined, allowed:
   const sortCombinedRegex = new RegExp(`^(${allowedPropsPattern})(:(asc|desc))?$`);
 
   // Create Zod schemas with custom error messages.
-  const sortPropsSchema = z.enum(mergedAllowed as [string, ...string[]], {
+  const sortPropsSchema = val.enum(mergedAllowed as [string, ...string[]], {
     errorMap: () => ({ message: `Sort parameter must be one of: ${mergedAllowed.join(', ')}.` }),
   });
-  const sortCombinedSchema = z.string().regex(sortCombinedRegex, {
+  const sortCombinedSchema = val.string().regex(sortCombinedRegex, {
     message: `Sort parameter must match the format '<prop>:<asc|desc>', where prop is one of: ${mergedAllowed.join(', ')}.`,
   });
-  const sortValueSchema = z.union([sortPropsSchema, sortCombinedSchema]);
+  const sortValueSchema = val.union([sortPropsSchema, sortCombinedSchema]);
 
   const validateSingleSort = (singleParam: string): string | null => {
     const sanitizedParam = sanitizeString(singleParam);

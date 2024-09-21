@@ -1,22 +1,37 @@
 'use client';
 
+import classNames from 'classnames';
+import { useMediaQuery } from '@mantine/hooks';
 import { ActionIcon, Box, Group, Select, Text } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
-import { useMediaQuery } from '@mantine/hooks';
-import classNames from 'classnames';
 import styles from '@/styles/sort-bar.module.scss';
 
 
-export default function SortBar() {
+// Construct the allowed sort props and collections for the SortBar.
+export type SortCollection = 'pages' | 'articles' | 'authors' | 'categories' | 'tags' | 'comments';
+export type SortProps = 'id' | 'name' | 'title' | 'fullName' | 'createdAt' | 'updatedAt' | 'publishedAt';
+export type SortOrder = 'asc' | 'desc';
+export type SortCombined = `${SortProps}:${SortOrder}`;
+export type SortValue = SortProps | SortCombined;
+
+export interface SortBarProps {
+  totalItems: number;
+  collectionType: SortCollection;
+}
+
+export default function SortBar({totalItems, collectionType}: SortBarProps) {
   const isMobile = useMediaQuery(`(max-width: 480px)`, false);
   const actionButtonSize = isMobile ? 'lg' : 'md';
   const actionIconSize = isMobile ? 36 : 24;
   const sortSelectSize = isMobile ? 'md' : 'sm';
   const sortSelectData = [
-    { value: 'publishedAt', label: 'Published Date' },
+    { value: 'id', label: 'ID' },
+    { value: 'title', label: 'Title' },
+    { value: 'name', label: 'Name' },
+    { value: 'fullName', label: 'Author Name' },
     { value: 'createdAt', label: 'Created Date' },
     { value: 'updatedAt', label: 'Updated Date' },
-    { value: 'title', label: 'Title' },
+    { value: 'publishedAt', label: 'Published Date' },
   ];
 
   return (

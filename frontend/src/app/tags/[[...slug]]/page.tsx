@@ -148,7 +148,7 @@ export default async function TagsPage({params, searchParams}: PageProps) {
           </Title>
 
           <Suspense fallback={null}>
-            <SortBar />
+            <SortBar totalItems={articlesPagination.total} collectionType='articles' />
           </Suspense>
 
         </section>

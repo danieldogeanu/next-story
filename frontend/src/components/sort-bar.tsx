@@ -31,9 +31,10 @@ const sortSelectData = [
   { value: 'publishedAt', label: 'Published Date' },
 ];
 
-// Define the types for sort order and sort collection.
+// Define the types for sort order, sort props and sort collection.
 export type SortOrder = 'asc' | 'desc';
-export type SortCombined = `${string}:${SortOrder}`;
+export type SortProps = typeof SortPropsMapping[keyof typeof SortPropsMapping][number];
+export type SortCombined = `${SortProps}:${SortOrder}`;
 export type SortCollection = keyof typeof SortPropsMapping;
 
 export interface SortBarProps {

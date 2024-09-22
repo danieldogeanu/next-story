@@ -45,14 +45,23 @@
   grid-area: order;
 
   .chevron {
-    color: var(--mantine-color-gray-5);
     transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
+    color: var(--mantine-color-gray-5);
+    @include dark {
+      color: var(--mantine-color-gray-6);
+    }
     &:hover {
       color: var(--mantine-color-gray-8);
+      @include dark {
+        color: var(--mantine-color-gray-2);
+      }
     }
     &:disabled {
-      color: var(--mantine-color-gray-8);
       background-color: transparent;
+      color: var(--mantine-color-gray-8);
+      @include dark {
+        color: var(--mantine-color-gray-2);
+      }
     }
   }
 }

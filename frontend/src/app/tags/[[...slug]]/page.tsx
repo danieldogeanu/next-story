@@ -1,7 +1,7 @@
 import type { Metadata, ResolvingMetadata } from 'next';
 import { Suspense } from 'react';
 import { notFound } from 'next/navigation';
-import { Title } from '@mantine/core';
+import { Skeleton, Title } from '@mantine/core';
 import { getTagsCollection, SingleTag, TagArticles } from '@/data/tags';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
@@ -147,7 +147,7 @@ export default async function TagsPage({params, searchParams}: PageProps) {
             {capitalize(tagData?.name.trim())} Tag
           </Title>
 
-          <Suspense fallback={null}>
+          <Suspense fallback={<Skeleton height={36} radius='md' />}>
             <SortBar totalItems={articlesPagination.total} collectionType='articles' />
           </Suspense>
 

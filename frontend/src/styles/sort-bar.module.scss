@@ -47,8 +47,12 @@
   .chevron {
     color: var(--mantine-color-gray-6);
     transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
-    &:hover, &.active {
+    &:hover {
       color: var(--mantine-color-gray-8);
+    }
+    &:disabled {
+      color: var(--mantine-color-gray-8);
+      background-color: transparent;
     }
   }
 }

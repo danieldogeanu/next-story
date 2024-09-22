@@ -93,6 +93,14 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
     return labels[sortDirection] + activeLabel;
   };
 
+  // Set correct label for the select dropdown, including the current sort prop label.
+  const setSelectTitle = () => {
+    const selectedPropLabel = filteredSortSelectData.filter(
+      (item) => (item.value === sortProp)
+    ).pop()?.label;
+    return `Sort by: ${selectedPropLabel}`;
+  };
+
   return (
     <Box className={styles.container}>
       <Text className={styles.total}>
@@ -128,8 +136,8 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
         size={sortSelectSize}
         defaultValue={sortProp}
         withCheckIcon={false}
-        aria-label='Sort by:'
-        title='Sort by:'
+        aria-label={setSelectTitle()}
+        title={setSelectTitle()}
         onChange={(value) => {
           const newSortParam = `${value}:${sortOrder || 'desc'}`;
           const newSearchParams = new URLSearchParams(searchParams.toString());

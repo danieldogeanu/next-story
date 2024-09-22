@@ -45,7 +45,7 @@
   grid-area: order;
 
   .chevron {
-    color: var(--mantine-color-gray-6);
+    color: var(--mantine-color-gray-5);
     transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
     &:hover {
       color: var(--mantine-color-gray-8);

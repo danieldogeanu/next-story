@@ -86,6 +86,13 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
     router.push(`?${newSearchParams.toString()}`);
   };
 
+  // Set correct labels to the buttons, including the selected sort order.
+  const setButtonTitle = (sortDirection: SortOrder) => {
+    const labels = { asc: 'Ascending', desc: 'Descending' };
+    const activeLabel = (sortOrder === sortDirection) ? ' (Selected)' : '';
+    return labels[sortDirection] + activeLabel;
+  };
+
   return (
     <Box className={styles.container}>
       <Text className={styles.total}>
@@ -98,8 +105,8 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
           onClick={() => setSortOrder('asc')}
           disabled={sortOrder === 'asc'}
           size={actionButtonSize}
-          title='Ascending'
-          aria-label='Ascending'
+          title={setButtonTitle('asc')}
+          aria-label={setButtonTitle('asc')}
           variant='transparent'>
           <IconChevronUp size={actionIconSize} stroke={1.5} />
         </ActionIcon>
@@ -108,8 +115,8 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
           onClick={() => setSortOrder('desc')}
           disabled={sortOrder === 'desc'}
           size={actionButtonSize}
-          title='Descending'
-          aria-label='Descending'
+          title={setButtonTitle('desc')}
+          aria-label={setButtonTitle('desc')}
           variant='transparent'>
           <IconChevronDown size={actionIconSize} stroke={1.5} />
         </ActionIcon>

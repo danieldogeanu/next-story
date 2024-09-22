@@ -132,6 +132,7 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
 
       <Select
         className={styles.sort}
+        classNames={{dropdown: styles.sortDropdown}}
         data={filteredSortSelectData}
         size={sortSelectSize}
         defaultValue={sortProp}

@@ -1,5 +1,9 @@
 @import 'mantine';
 
+// We set the color this way, because we can't process CSS variables.
+// The unprocessed background color is equivalent to: `--mantine-color-gray-8`.
+$sort-select-bg: darken(#343a40, 5%);
+
 .container {
   display: grid;
   grid-template-areas: 'total total' 'order sort';
@@ -71,5 +75,17 @@
 
   :global(.mantine-Select-input) {
     color: var(--mantine-color-gray-7);
+    @include dark {
+      color: var(--mantine-color-gray-5);
+      background-color: $sort-select-bg;
+    }
+  }
+
+}
+
+// This should not be nested, because the dropdown is rendered in a portal.
+.sortDropdown {
+  @include dark {
+    background-color: $sort-select-bg;
   }
 }

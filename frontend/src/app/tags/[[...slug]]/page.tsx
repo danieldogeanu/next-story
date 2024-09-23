@@ -151,15 +151,15 @@ export default async function TagsPage({params, searchParams}: PageProps) {
             <SortBar totalItems={articlesPagination.total} collectionType='articles' />
           </Suspense>
 
-        </section>
-  
-        <section className={styles.grid}>
-          {articlesData?.map((article) => {
-            return <ArticleCard key={article.id} data={article.attributes} />;
-          })}
-        </section>
+          <section className={styles.grid}>
+            {articlesData?.map((article) => {
+              return <ArticleCard key={article.id} data={article.attributes} />;
+            })}
+          </section>
 
-        <PagePagination data={articlesPagination} />
+          <PagePagination data={articlesPagination} />
+
+        </section>
   
       </main>
     );
@@ -188,17 +188,21 @@ export default async function TagsPage({params, searchParams}: PageProps) {
   return (
     <main className={styles.main}>
 
-      <Title className={styles.pageTitle}>
-        {capitalize(tagsPageSettings?.title.trim() || 'Tags')}
-      </Title>
+      <section className={styles.container}>
 
-      <section className={styles.grid}>
-        {tagsCollection.data.map((tag) => {
-          return (<TagCard key={tag.id} data={tag.attributes} />);
-        })}
+        <Title className={styles.pageTitle}>
+          {capitalize(tagsPageSettings?.title.trim() || 'Tags')}
+        </Title>
+
+        <section className={styles.grid}>
+          {tagsCollection.data.map((tag) => {
+            return (<TagCard key={tag.id} data={tag.attributes} />);
+          })}
+        </section>
+
+        <PagePagination data={tagsPagination} />
+
       </section>
-
-      <PagePagination data={tagsPagination} />
 
     </main>
   );

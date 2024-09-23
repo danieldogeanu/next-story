@@ -194,6 +194,10 @@ export default async function TagsPage({params, searchParams}: PageProps) {
           {capitalize(tagsPageSettings?.title.trim() || 'Tags')}
         </Title>
 
+        <Suspense fallback={<SortFallback />}>
+          <SortBar totalItems={tagsPagination.total} collectionType='tags' />
+        </Suspense>
+
         <section className={styles.grid}>
           {tagsCollection.data.map((tag) => {
             return (<TagCard key={tag.id} data={tag.attributes} />);

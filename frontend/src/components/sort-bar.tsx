@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import { useMediaQuery } from '@mantine/hooks';
-import { ActionIcon, Box, Group, Select, Text } from '@mantine/core';
+import { ActionIcon, Box, Group, Select, Skeleton, Text } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { validateSortParam } from '@/validation/urls';
@@ -146,6 +146,16 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
           router.push(`?${newSearchParams.toString()}`);
         }}
       />
+    </Box>
+  );
+}
+
+// Fallback component for use in `Suspense`.
+export function SortFallback() {
+  const isMobile = useMediaQuery(`(max-width: 480px)`, false);
+  return (
+    <Box className={classNames(styles.container, styles.fallback)}>
+      <Skeleton height={isMobile ? 42 : 36} radius='sm' />
     </Box>
   );
 }

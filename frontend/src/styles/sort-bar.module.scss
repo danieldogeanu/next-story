@@ -22,6 +22,16 @@ $sort-select-bg: darken(#343a40, 5%);
     grid-template-columns: 1fr auto auto;
     gap: rem(24);
   }
+
+  &.fallback {
+    grid-template-areas: 'fallback';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+
+    :global(.mantine-Skeleton-root) {
+      grid-area: fallback;
+    }
+  }
 }
 
 .total {

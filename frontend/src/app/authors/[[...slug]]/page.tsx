@@ -1,5 +1,4 @@
 import NextImage from 'next/image';
-import classNames from 'classnames';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { IconCoin, IconMailPlus, IconUser } from '@tabler/icons-react';
@@ -172,7 +171,7 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
     return (
       <main className={pageStyles.main}>
   
-        <section className={classNames(pageStyles.container, authorStyles.intro)}>
+        <section className={pageStyles.container}>
   
           <Title className={pageStyles.pageTitle}>
             {capitalize(authorData?.fullName) + '\'s'} Articles
@@ -249,16 +248,16 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
             </Box>
   
           </Box>
-  
-        </section>
-  
-        <section className={pageStyles.grid}>
-          {articlesData?.map((article) => {
-            return <ArticleCard key={article.id} data={article.attributes} />
-          })}
-        </section>
+    
+          <section className={pageStyles.grid}>
+            {articlesData?.map((article) => {
+              return <ArticleCard key={article.id} data={article.attributes} />
+            })}
+          </section>
 
-        <PagePagination data={articlesPagination} />
+          <PagePagination data={articlesPagination} />
+  
+        </section>
   
       </main>
     );
@@ -282,17 +281,21 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   return (
     <main className={pageStyles.main}>
 
-      <Title className={pageStyles.pageTitle}>
-        {capitalize(authorPageSettings?.title.trim() || 'Authors')}
-      </Title>
+      <section className={pageStyles.container}>
 
-      <section className={pageStyles.grid}>
-        {authorsCollection.data.map((author) => {
-          return (<AuthorCard key={author.id} data={author.attributes} />);
-        })}
+        <Title className={pageStyles.pageTitle}>
+          {capitalize(authorPageSettings?.title.trim() || 'Authors')}
+        </Title>
+
+        <section className={pageStyles.grid}>
+          {authorsCollection.data.map((author) => {
+            return (<AuthorCard key={author.id} data={author.attributes} />);
+          })}
+        </section>
+
+        <PagePagination data={authorPagination} />
+
       </section>
-
-      <PagePagination data={authorPagination} />
 
     </main>
   );

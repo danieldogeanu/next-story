@@ -32,6 +32,8 @@ export interface ArticlePageProps {
   };
 }
 
+// TODO: Validate page params for Articles page. The `validateParams` function needs to be updated.
+
 export async function generateMetadata({params}: ArticlePageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const parentData = await parent;
   const articleData = (await getArticlesCollection({

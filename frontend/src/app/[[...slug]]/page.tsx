@@ -1,15 +1,18 @@
 import NextImage from 'next/image';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { Box, Image, Title } from '@mantine/core';
 import { getArticlesCollection } from '@/data/articles';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO, SinglePage } from '@/data/pages';
 import { getPageUrl, getFileURL, checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, outOfBoundsRedirect } from '@/utils/urls';
+import { isSlugArrayValid, validateParams, validateSearchParams, validateSortParam } from '@/validation/urls';
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
-import { isSlugArrayValid } from '@/validation/urls';
+import { PageProps } from '@/types/page';
 import { StrapiImageFormats } from '@/types/strapi';
+import SortBar, { SortFallback } from '@/components/sort-bar';
 import ArticleCard from '@/components/article-card';
 import ContentRenderer from '@/components/content-renderer';
 import PagePagination from '@/components/page-pagination';
@@ -17,17 +20,12 @@ import defaultCover from '@/assets/imgs/default-cover.webp';
 import styles from '@/styles/page.module.scss';
 
 
-export interface PageProps {
-  params: {
-    slug: string[];
-  };
-}
-
 const rootPageSlug = '/';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  if (!isSlugArrayValid(params.slug)) return {};
-  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+  const validatedParams = validateParams(params);
+  if (!isSlugArrayValid(validatedParams?.slug)) return {};
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
   
   const parentData = await parent;
 
@@ -109,13 +107,17 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
 }
 
 
-export default async function Page({params}: PageProps) {
+export default async function Page({params, searchParams}: PageProps) {
+  // Validate the page params and search params before proceeding with rendering the page.
+  const validatedParams = validateParams(params);
+  const validatedSearchParams = validateSearchParams(searchParams);
+  
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
-  checkSlugAndRedirect(params.slug, rootPageSlug);
+  checkSlugAndRedirect(validatedParams?.slug as string[], rootPageSlug);
 
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
-  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
 
   // Single Page
   // ---------------------------------------------------------------------------
@@ -178,12 +180,17 @@ export default async function Page({params}: PageProps) {
   // Homepage
   // ---------------------------------------------------------------------------
   
+  // If there's no slug, we're on the Homepage.
+
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, rootPageSlug);
+
+  // Validate the `sort` param and pass it to the collection's get request.
+  const validatedSort = validateSortParam(validatedSearchParams?.sort, ['title', 'publishedAt']);
   
-  // If there's no slug, we're on the Homepage.
+  // Get all the articles and split them into pages.
   const articlesCollection = await getArticlesCollection({
-    populate: '*', sort: 'id:desc',
+    populate: '*', sort: validatedSort || 'id:desc',
     pagination: { page: pageNumber || 1, pageSize: 24 },
   });
   const articlesPagination = articlesCollection?.meta?.pagination;
@@ -196,6 +203,10 @@ export default async function Page({params}: PageProps) {
 
       <section className={styles.container}>
 
+        <Suspense fallback={<SortFallback />}>
+          <SortBar totalItems={articlesPagination.total} collectionType='articles' />
+        </Suspense>
+        
         <section className={styles.grid}>
           {articlesCollection.data.map((article) => {
             return (<ArticleCard key={article.id} data={article.attributes} />);

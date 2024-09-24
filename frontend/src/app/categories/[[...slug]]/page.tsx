@@ -1,7 +1,7 @@
 import NextImage from 'next/image';
-import classNames from 'classnames';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { Title, Image, Box, Text } from '@mantine/core';
 import {
   CategoryArticles, CategoryCover, CategoryMetaSocial, CategoryMetaSocialEntry, CategoryRobots, 
@@ -9,12 +9,14 @@ import {
 } from '@/data/categories';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
+import { isSlugArrayValid, validateParams, validateSearchParams, validateSortParam } from '@/validation/urls';
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
-import { isSlugArrayValid } from '@/validation/urls';
 import { StrapiImageFormats } from '@/types/strapi';
+import { PageProps } from '@/types/page';
 import { capitalize } from '@/utils/strings';
+import SortBar, { SortFallback } from '@/components/sort-bar';
 import ArticleCard from '@/components/article-card';
 import CategoryCard from '@/components/category-card';
 import PagePagination from '@/components/page-pagination';
@@ -23,17 +25,12 @@ import pageStyles from '@/styles/page.module.scss';
 import categoryStyles from '@/styles/category-page.module.scss';
 
 
-export interface CategoriesPageProps {
-  params: {
-    slug: string[];
-  };
-}
-
 const rootPageSlug = '/categories';
 
-export async function generateMetadata({params}: CategoriesPageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  if (!isSlugArrayValid(params.slug)) return {};
-  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const validatedParams = validateParams(params);
+  if (!isSlugArrayValid(validatedParams?.slug)) return {};
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
   
   const parentData = await parent;
 
@@ -118,13 +115,17 @@ export async function generateMetadata({params}: CategoriesPageProps, parent: Re
   };
 }
 
-export default async function CategoriesPage({params}: CategoriesPageProps) {
+export default async function CategoriesPage({params, searchParams}: PageProps) {
+  // Validate the page params and search params before proceeding with rendering the page.
+  const validatedParams = validateParams(params);
+  const validatedSearchParams = validateSearchParams(searchParams);
+
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
-  checkSlugAndRedirect(params.slug, rootPageSlug);
+  checkSlugAndRedirect(validatedParams?.slug as string[], rootPageSlug);
 
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
-  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
 
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, rootPageSlug);
@@ -154,9 +155,13 @@ export default async function CategoriesPage({params}: CategoriesPageProps) {
     const categoryCoverUrl = (categoryCoverFormats?.large?.url)
       ? getFileURL(categoryCoverFormats.large.url) : getFileURL(defaultCover.src, 'frontend');
 
+    // Validate the `sort` param and pass it to the collection's get request.
+    const validatedSort = validateSortParam(validatedSearchParams?.sort, ['title', 'publishedAt']);
+    
     // Get all articles that belong to the current category, and split it into pages.
     const articlesResponse = (await getArticlesCollection({
-      populate: '*', filters: { category: { slug: { $eq: slug } } },
+      populate: '*', sort: validatedSort || 'id:desc',
+      filters: { category: { slug: { $eq: slug } } },
       pagination: { page: pageNumber || 1, pageSize: 24 },
     }));
     const articlesData = articlesResponse?.data as CategoryArticles;
@@ -188,6 +193,10 @@ export default async function CategoriesPage({params}: CategoriesPageProps) {
             </Box>
           </Box>
     
+          <Suspense fallback={<SortFallback />}>
+            <SortBar totalItems={articlesPagination.total} collectionType='articles' />
+          </Suspense>
+          
           <section className={pageStyles.grid}>
             {articlesData?.map((article) => {
               return <ArticleCard key={article.id} data={article.attributes} />;
@@ -207,8 +216,12 @@ export default async function CategoriesPage({params}: CategoriesPageProps) {
   // ---------------------------------------------------------------------------
   
   // If there's no slug, we're on the root Categories page.
+
+  // Validate the `sort` param and pass it to the collection's get request.
+  const validatedSort = validateSortParam(validatedSearchParams?.sort, ['name', 'publishedAt']);
+
   const categoriesCollection = await getCategoriesCollection({
-    populate: '*', sort: 'id:desc',
+    populate: '*', sort: validatedSort || 'id:desc',
     pagination: { page: pageNumber || 1, pageSize: 12 },
   });
   const categoriesPageSettings = await getSinglePageSettings('categories');
@@ -225,6 +238,10 @@ export default async function CategoriesPage({params}: CategoriesPageProps) {
         <Title className={pageStyles.pageTitle}>
           {capitalize(categoriesPageSettings?.title.trim() || 'Categories')}
         </Title>
+
+        <Suspense fallback={<SortFallback />}>
+          <SortBar totalItems={categoriesPagination.total} collectionType='categories' />
+        </Suspense>
 
         <section className={pageStyles.grid}>
           {categoriesCollection.data.map((category) => {

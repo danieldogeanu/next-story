@@ -1,6 +1,7 @@
 import NextImage from 'next/image';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { IconCoin, IconMailPlus, IconUser } from '@tabler/icons-react';
 import { Box, Button, Group, Image, Text, Title } from '@mantine/core';
 import {
@@ -9,13 +10,15 @@ import {
 } from '@/data/authors';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
+import { isSlugArrayValid, validateParams, validateSearchParams, validateSortParam } from '@/validation/urls';
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
 import { StrapiImageFormats } from '@/types/strapi';
+import { PageProps } from '@/types/page';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
-import { isSlugArrayValid } from '@/validation/urls';
+import SortBar, { SortFallback } from '@/components/sort-bar';
 import PagePagination from '@/components/page-pagination';
 import ArticleCard from '@/components/article-card';
 import AuthorCard from '@/components/author-card';
@@ -24,17 +27,12 @@ import pageStyles from '@/styles/page.module.scss';
 import authorStyles from '@/styles/author-page.module.scss';
 
 
-export interface AuthorPageProps {
-  params: {
-    slug: string[];
-  };
-}
-
 const rootPageSlug = '/authors';
 
-export async function generateMetadata({params}: AuthorPageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  if (!isSlugArrayValid(params.slug)) return {};
-  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const validatedParams = validateParams(params);
+  if (!isSlugArrayValid(validatedParams?.slug)) return {};
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
   
   const parentData = await parent;
 
@@ -119,13 +117,17 @@ export async function generateMetadata({params}: AuthorPageProps, parent: Resolv
   };
 }
 
-export default async function AuthorsPage({params}: AuthorPageProps) {
+export default async function AuthorsPage({params, searchParams}: PageProps) {
+  // Validate the page params and search params before proceeding with rendering the page.
+  const validatedParams = validateParams(params);
+  const validatedSearchParams = validateSearchParams(searchParams);
+  
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
-  checkSlugAndRedirect(params.slug, rootPageSlug);
+  checkSlugAndRedirect(validatedParams?.slug as string[], rootPageSlug);
 
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
-  const {slug, pageNumber} = extractSlugAndPage(params.slug);
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
 
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, rootPageSlug);
@@ -156,9 +158,13 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
     const authorAvatarUrl = (authorAvatarFormats?.small?.url) ? getFileURL(authorAvatarFormats.small.url) : null;
     const authorSocials = authorData?.socialNetworks as unknown as AuthorSocialEntry[];
     
+    // Validate the `sort` param and pass it to the collection's get request.
+    const validatedSort = validateSortParam(validatedSearchParams?.sort, ['title', 'publishedAt']);
+
     // Get all articles that belong to the current author, and split it into pages.
     const articlesResponse = (await getArticlesCollection({
-      populate: '*', filters: { author: { slug: { $eq: slug } } },
+      populate: '*', sort: validatedSort || 'id:desc',
+      filters: { author: { slug: { $eq: slug } } },
       pagination: { page: pageNumber || 1, pageSize: 24 },
     }));
     const articlesData = articlesResponse?.data as AuthorArticles;
@@ -249,6 +255,10 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   
           </Box>
     
+          <Suspense fallback={<SortFallback />}>
+            <SortBar totalItems={articlesPagination.total} collectionType='articles' />
+          </Suspense>
+          
           <section className={pageStyles.grid}>
             {articlesData?.map((article) => {
               return <ArticleCard key={article.id} data={article.attributes} />
@@ -267,9 +277,14 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
   // Authors Page
   // ---------------------------------------------------------------------------
 
-  // If there's no slug, we're on the root Authors page. 
+  // If there's no slug, we're on the root Authors page.
+
+  // Validate the `sort` param and pass it to the collection's get request.
+  const validatedSort = validateSortParam(validatedSearchParams?.sort, ['fullName', 'publishedAt']);
+
+  // Get all the authors and split them into pages.
   const authorsCollection = await getAuthorsCollection({
-    populate: '*', sort: 'id:desc',
+    populate: '*', sort: validatedSort || 'id:desc',
     pagination: { page: pageNumber || 1, pageSize: 12 },
   });
   const authorPageSettings = await getSinglePageSettings('authors');
@@ -286,6 +301,10 @@ export default async function AuthorsPage({params}: AuthorPageProps) {
         <Title className={pageStyles.pageTitle}>
           {capitalize(authorPageSettings?.title.trim() || 'Authors')}
         </Title>
+
+        <Suspense fallback={<SortFallback />}>
+          <SortBar totalItems={authorPagination.total} collectionType='authors' />
+        </Suspense>
 
         <section className={pageStyles.grid}>
           {authorsCollection.data.map((author) => {

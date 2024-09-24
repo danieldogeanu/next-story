@@ -220,6 +220,7 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
   // Validate the `sort` param and pass it to the collection's get request.
   const validatedSort = validateSortParam(validatedSearchParams?.sort, ['name', 'publishedAt']);
 
+  // Get all the categories and split them into pages.
   const categoriesCollection = await getCategoriesCollection({
     populate: '*', sort: validatedSort || 'id:desc',
     pagination: { page: pageNumber || 1, pageSize: 12 },

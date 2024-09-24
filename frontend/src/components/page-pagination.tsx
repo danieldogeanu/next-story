@@ -11,6 +11,8 @@ export interface PagePaginationProps extends React.HTMLAttributes<HTMLElement> {
   data: APIResponseCollectionMetadata['pagination'];
 }
 
+// TODO: Pass the query params to the next page, so that we don't break the sorting.
+
 export default function PagePagination({data: {page, pageCount}, className, ...other}: PagePaginationProps) {
   const router = useRouter();
   const pathname = usePathname();

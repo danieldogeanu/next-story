@@ -194,13 +194,17 @@ export default async function Page({params}: PageProps) {
   return (
     <main className={styles.main}>
 
-      <section className={styles.grid}>
-        {articlesCollection.data.map((article) => {
-          return (<ArticleCard key={article.id} data={article.attributes} />);
-        })}
-      </section>
+      <section className={styles.container}>
 
-      <PagePagination data={articlesPagination} />
+        <section className={styles.grid}>
+          {articlesCollection.data.map((article) => {
+            return (<ArticleCard key={article.id} data={article.attributes} />);
+          })}
+        </section>
+
+        <PagePagination data={articlesPagination} />
+
+      </section>
 
     </main>
   );

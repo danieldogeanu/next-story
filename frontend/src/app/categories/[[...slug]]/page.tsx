@@ -167,9 +167,9 @@ export default async function CategoriesPage({params}: CategoriesPageProps) {
 
     return (
       <main className={pageStyles.main}>
-  
-        <section className={classNames(pageStyles.container, categoryStyles.intro)}>
-  
+
+        <section className={pageStyles.container}>
+
           <Title className={pageStyles.pageTitle}>
             {capitalize(categoryData?.name)} Category
           </Title>
@@ -187,16 +187,16 @@ export default async function CategoriesPage({params}: CategoriesPageProps) {
               <Text>{categoryData?.description}</Text>
             </Box>
           </Box>
-  
-        </section>
-  
-        <section className={pageStyles.grid}>
-          {articlesData?.map((article) => {
-            return <ArticleCard key={article.id} data={article.attributes} />;
-          })}
-        </section>
+    
+          <section className={pageStyles.grid}>
+            {articlesData?.map((article) => {
+              return <ArticleCard key={article.id} data={article.attributes} />;
+            })}
+          </section>
 
-        <PagePagination data={articlesPagination} />
+          <PagePagination data={articlesPagination} />
+
+        </section>  
   
       </main>
     );
@@ -220,17 +220,21 @@ export default async function CategoriesPage({params}: CategoriesPageProps) {
   return (
     <main className={pageStyles.main}>
 
-      <Title className={pageStyles.pageTitle}>
-        {capitalize(categoriesPageSettings?.title.trim() || 'Categories')}
-      </Title>
+      <section className={pageStyles.container}>
 
-      <section className={pageStyles.grid}>
-        {categoriesCollection.data.map((category) => {
-          return (<CategoryCard key={category.id} data={category.attributes} />);
-        })}
+        <Title className={pageStyles.pageTitle}>
+          {capitalize(categoriesPageSettings?.title.trim() || 'Categories')}
+        </Title>
+
+        <section className={pageStyles.grid}>
+          {categoriesCollection.data.map((category) => {
+            return (<CategoryCard key={category.id} data={category.attributes} />);
+          })}
+        </section>
+
+        <PagePagination data={categoriesPagination} />
+
       </section>
-
-      <PagePagination data={categoriesPagination} />
 
     </main>
   );

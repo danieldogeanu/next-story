@@ -20,6 +20,8 @@ import defaultCover from '@/assets/imgs/default-cover.webp';
 import styles from '@/styles/page.module.scss';
 
 
+// TODO: Make sure invalid URLs that contain any of the collection slugs, returns a 404.
+
 const rootPageSlug = '/';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {

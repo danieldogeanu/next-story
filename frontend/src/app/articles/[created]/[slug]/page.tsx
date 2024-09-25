@@ -17,6 +17,7 @@ import { makeSeoDescription, makeSeoKeywords, makeSeoTags, makeSeoTitle } from '
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticleUrl, getPageUrl, getFileURL } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
+import { validateArticleParams } from '@/validation/urls';
 import ContentRenderer from '@/components/content-renderer';
 import ActionBar from '@/components/action-bar';
 import AuthorBio from '@/components/author-bio';
@@ -27,14 +28,15 @@ import pageStyles from '@/styles/page.module.scss';
 import articleStyles from '@/styles/article-page.module.scss';
 
 
-// TODO: Validate page params for Articles page. The `validateParams` function needs to be updated.
-
 export async function generateMetadata({params}: ArticleProps, parent: ResolvingMetadata): Promise<Metadata> {
+  const validatedParams = validateArticleParams(params);
+  if (!validatedParams) return {};
+
   const parentData = await parent;
   const articleData = (await getArticlesCollection({
     filters: {
-      createdAt: { $eq: convertToISODate(params.created) },
-      slug: { $eq: params.slug },
+      createdAt: { $eq: convertToISODate(validatedParams.created) },
+      slug: { $eq: validatedParams.slug },
     },
     populate: {
       author: { fields: ['slug', 'fullName'] },
@@ -87,11 +89,16 @@ export async function generateMetadata({params}: ArticleProps, parent: Resolving
 }
 
 export default async function ArticlePage({params}: ArticleProps) {
+  // Validate the article params before proceeding with rendering the page.
+  const validatedParams = validateArticleParams(params);
+
+  if (!validatedParams) return notFound();
+
   // Filters must match both createdAt and slug fields.
   const articleResponse = (await getArticlesCollection({
     filters: {
-      createdAt: { $eq: convertToISODate(params.created) },
-      slug: { $eq: params.slug },
+      createdAt: { $eq: convertToISODate(validatedParams.created) },
+      slug: { $eq: validatedParams.slug },
     },
     populate: {
       author: { populate: {

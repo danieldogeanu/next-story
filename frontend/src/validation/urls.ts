@@ -1,6 +1,6 @@
 import { z as val } from 'zod';
 import { sanitizeString, sanitizeStringArray } from '@/utils/sanitization';
-import type { PageParams, SearchParams } from '@/types/page';
+import type { ArticleParams, PageParams, SearchParams } from '@/types/page';
 
 
 /**
@@ -103,6 +103,50 @@ export function validateParams(params: any): PageParams | null {
 
   const secondPass = paramsSchema.safeParse(sanitizedParams);
   if (!secondPass.success) console.error('Invalid Params:', secondPass.error.errors);
+  return secondPass.success ? secondPass.data : null;
+}
+
+/**
+ * Validates and sanitizes the route parameters for an article.
+ *
+ * This function ensures that the provided parameters conform to the schema rules:
+ * - `created` must be a numeric string representing Unix Time.
+ * - `slug` must contain only alphanumeric characters, dashes, or underscores.
+ *
+ * The function performs a two-pass validation:
+ * - First pass: Validates the raw input.
+ * - Second pass: Sanitizes the input and validates it again.
+ *
+ * @param {any} params - The raw parameters to validate, typically received from the route.
+ * @returns {ArticleParams | null}
+ * - Returns the validated and sanitized `ArticleParams` object if valid.
+ * - Returns `null` if the validation fails.
+ */
+export function validateArticleParams(params: any): ArticleParams | null {
+  const paramsSchema = val.object({
+    created: val.string().regex(
+      /^\d+$/, 'Created must be a numeric string representing Unix Time.'
+    ),
+    slug: val.string().regex(
+      /^[a-zA-Z0-9_-]+$/, 'Slug must contain only alphanumeric characters, dashes, or underscores.'
+    ),
+  });
+
+  const firstPass = paramsSchema.safeParse(params);
+  if (!firstPass.success) {
+    console.error('Invalid Params:', firstPass.error.errors);
+    return null;
+  }
+
+  const sanitizedParams = {
+    created: sanitizeString(firstPass.data.created),
+    slug: sanitizeString(firstPass.data.slug),
+  };
+
+  const secondPass = paramsSchema.safeParse(sanitizedParams);
+  if (!secondPass.success) {
+    console.error('Invalid Params:', secondPass.error.errors);
+  }
   return secondPass.success ? secondPass.data : null;
 }
 

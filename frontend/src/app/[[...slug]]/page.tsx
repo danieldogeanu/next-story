@@ -24,8 +24,8 @@ const rootPageSlug = '/';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validateParams(params);
-  if (!isSlugArrayValid(validatedParams?.slug)) return {};
-  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
+  if (!validatedParams || !isSlugArrayValid(validatedParams?.slug)) return {};
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams.slug);
   
   const parentData = await parent;
 
@@ -37,7 +37,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
 
     // We don't have pagination on single pages, so we must return 
     // an empty metadata object if the slug array contains 'page'.
-    if (Array.isArray(params.slug) && params.slug.includes('page')) return {};
+    if (Array.isArray(validatedParams.slug) && validatedParams.slug.includes('page')) return {};
 
     // Get single page data and return empty metadata if page is not found.
     // We don't need to handle pagination here, we only need one result.
@@ -116,10 +116,10 @@ export default async function Page({params, searchParams}: PageProps) {
 
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
-  checkSlugAndRedirect(validatedParams?.slug as string[], rootPageSlug);
+  checkSlugAndRedirect(validatedParams.slug, rootPageSlug);
 
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
-  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams.slug);
 
   // Single Page
   // ---------------------------------------------------------------------------
@@ -128,7 +128,7 @@ export default async function Page({params, searchParams}: PageProps) {
   if (typeof slug === 'string') {
 
     // We don't have pagination on single pages, so we must return a 404 if the slug array contains 'page'.
-    if (Array.isArray(params.slug) && params.slug.includes('page')) return notFound();
+    if (Array.isArray(validatedParams.slug) && validatedParams.slug.includes('page')) return notFound();
 
     // Get single page data; we don't need to handle pagination here as there is none.
     const pageData = (await getPagesCollection({

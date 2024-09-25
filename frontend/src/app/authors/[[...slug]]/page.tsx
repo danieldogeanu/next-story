@@ -31,8 +31,8 @@ const rootPageSlug = '/authors';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validateParams(params);
-  if (!isSlugArrayValid(validatedParams?.slug)) return {};
-  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
+  if (!validatedParams || !isSlugArrayValid(validatedParams?.slug)) return {};
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams.slug);
   
   const parentData = await parent;
 
@@ -121,13 +121,15 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
   // Validate the page params and search params before proceeding with rendering the page.
   const validatedParams = validateParams(params);
   const validatedSearchParams = validateSearchParams(searchParams);
+
+  if (!validatedParams) return notFound();
   
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
-  checkSlugAndRedirect(validatedParams?.slug as string[], rootPageSlug);
+  checkSlugAndRedirect(validatedParams.slug, rootPageSlug);
 
   // If the slug array is valid, proceed to extract the slug and page number if they're present.
-  const {slug, pageNumber} = extractSlugAndPage(validatedParams?.slug as string[]);
+  const {slug, pageNumber} = extractSlugAndPage(validatedParams.slug);
 
   // If it's the first page, we need to redirect to avoid page duplicates.
   firstPageRedirect(slug, pageNumber, rootPageSlug);

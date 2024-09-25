@@ -10,6 +10,7 @@ import {
   ArticleMetaSocialEntry, ArticleRobots, ArticleSEO, ArticleTags, SingleArticle,
   SingleArticleData, getArticlesCollection, getNextArticle, getPreviousArticle
 } from '@/data/articles';
+import { ArticleProps } from '@/types/page';
 import { StrapiImageFormats } from '@/types/strapi';
 import { convertToISODate, convertToReadableDate } from '@/utils/date';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTags, makeSeoTitle } from '@/utils/client/seo';
@@ -25,16 +26,10 @@ import defaultCover from '@/assets/imgs/default-cover.webp';
 import pageStyles from '@/styles/page.module.scss';
 import articleStyles from '@/styles/article-page.module.scss';
 
-export interface ArticlePageProps {
-  params: {
-    created: string;
-    slug: string;
-  };
-}
 
 // TODO: Validate page params for Articles page. The `validateParams` function needs to be updated.
 
-export async function generateMetadata({params}: ArticlePageProps, parent: ResolvingMetadata): Promise<Metadata> {
+export async function generateMetadata({params}: ArticleProps, parent: ResolvingMetadata): Promise<Metadata> {
   const parentData = await parent;
   const articleData = (await getArticlesCollection({
     filters: {
@@ -91,7 +86,7 @@ export async function generateMetadata({params}: ArticlePageProps, parent: Resol
   };
 }
 
-export default async function ArticlePage({params}: ArticlePageProps) {
+export default async function ArticlePage({params}: ArticleProps) {
   // Filters must match both createdAt and slug fields.
   const articleResponse = (await getArticlesCollection({
     filters: {

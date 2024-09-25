@@ -75,16 +75,22 @@ export function isSlugArrayValid(slugArray: string[] | undefined): boolean {
 }
 
 /**
- * Validates and sanitizes route parameters based on a schema.
+ * Validates and sanitizes the route parameters for a page.
  *
- * - First, it validates the input `params` against a schema.
- * - If the validation fails, logs errors and returns `null`.
- * - If validation succeeds, it sanitizes the `slug` array and validates again.
+ * This function ensures that the provided parameters conform to the schema rules:
+ * - `slug` must be an array of strings containing only alphanumeric characters, dashes, or underscores.
+ * - The `slug` array is optional and defaults to an empty array if not provided.
  *
- * @param {any} params - The route parameters to validate.
- * @returns {PageParams | null} The validated and sanitized parameters, or `null` if validation fails.
+ * The function performs a two-pass validation:
+ * - First pass: Validates the raw input.
+ * - Second pass: Sanitizes the `slug` array and validates it again.
+ *
+ * @param {any} params - The raw parameters to validate, typically received from the route.
+ * @returns {PageParams | null}
+ * - Returns the validated and sanitized `PageParams` object if valid.
+ * - Returns `null` if the validation fails.
  */
-export function validateParams(params: any): PageParams | null {
+export function validatePageParams(params: any): PageParams | null {
   const paramsSchema = val.object({
     slug: val.array(val.string().regex(
       /^[a-zA-Z0-9_-]+$/, 'Slug must contain only alphanumeric characters, dashes, or underscores.'

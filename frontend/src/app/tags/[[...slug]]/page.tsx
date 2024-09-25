@@ -6,7 +6,7 @@ import { getTagsCollection, SingleTag, TagArticles } from '@/data/tags';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { isSlugArrayValid, validateParams, validateSearchParams, validateSortParam } from '@/validation/urls';
+import { isSlugArrayValid, validatePageParams, validateSearchParams, validateSortParam } from '@/validation/urls';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
 import { capitalize } from '@/utils/strings';
@@ -21,7 +21,7 @@ import styles from '@/styles/page.module.scss';
 const rootPageSlug = '/tags';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  const validatedParams = validateParams(params);
+  const validatedParams = validatePageParams(params);
   if (!validatedParams || !isSlugArrayValid(validatedParams?.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(validatedParams.slug);
 
@@ -95,7 +95,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
 
 export default async function TagsPage({params, searchParams}: PageProps) {
   // Validate the page params and search params before proceeding with rendering the page.
-  const validatedParams = validateParams(params);
+  const validatedParams = validatePageParams(params);
   const validatedSearchParams = validateSearchParams(searchParams);
 
   if (!validatedParams) return notFound();

@@ -7,7 +7,7 @@ import { getArticlesCollection } from '@/data/articles';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getPagesCollection, PageContent, PageCover, PageMetaSocialEntry, PageMetaSocial, PageRobots, PageSEO, SinglePage } from '@/data/pages';
 import { getPageUrl, getFileURL, checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, outOfBoundsRedirect } from '@/utils/urls';
-import { isSlugArrayValid, validateParams, validateSearchParams, validateSortParam } from '@/validation/urls';
+import { isSlugArrayValid, validatePageParams, validateSearchParams, validateSortParam } from '@/validation/urls';
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { PageProps } from '@/types/page';
@@ -23,7 +23,7 @@ import styles from '@/styles/page.module.scss';
 const rootPageSlug = '/';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  const validatedParams = validateParams(params);
+  const validatedParams = validatePageParams(params);
   if (!validatedParams || !isSlugArrayValid(validatedParams?.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(validatedParams.slug);
   
@@ -109,7 +109,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
 
 export default async function Page({params, searchParams}: PageProps) {
   // Validate the page params and search params before proceeding with rendering the page.
-  const validatedParams = validateParams(params);
+  const validatedParams = validatePageParams(params);
   const validatedSearchParams = validateSearchParams(searchParams);
 
   if (!validatedParams) return notFound();

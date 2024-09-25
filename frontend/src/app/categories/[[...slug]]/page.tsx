@@ -9,7 +9,7 @@ import {
 } from '@/data/categories';
 import { getSinglePageSettings, PageCover, PageMetaSocial, PageMetaSocialEntry, PageRobots } from '@/data/settings';
 import { checkSlugAndRedirect, extractSlugAndPage, firstPageRedirect, getFileURL, getPageUrl, outOfBoundsRedirect } from '@/utils/urls';
-import { isSlugArrayValid, validateParams, validateSearchParams, validateSortParam } from '@/validation/urls';
+import { isSlugArrayValid, validatePageParams, validateSearchParams, validateSortParam } from '@/validation/urls';
 import { addPageNumber, makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { getArticlesCollection } from '@/data/articles';
@@ -28,7 +28,7 @@ import categoryStyles from '@/styles/category-page.module.scss';
 const rootPageSlug = '/categories';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
-  const validatedParams = validateParams(params);
+  const validatedParams = validatePageParams(params);
   if (!validatedParams || !isSlugArrayValid(validatedParams?.slug)) return {};
   const {slug, pageNumber} = extractSlugAndPage(validatedParams.slug);
   
@@ -117,7 +117,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
 
 export default async function CategoriesPage({params, searchParams}: PageProps) {
   // Validate the page params and search params before proceeding with rendering the page.
-  const validatedParams = validateParams(params);
+  const validatedParams = validatePageParams(params);
   const validatedSearchParams = validateSearchParams(searchParams);
 
   if (!validatedParams) return notFound();

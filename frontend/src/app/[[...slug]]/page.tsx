@@ -20,8 +20,6 @@ import defaultCover from '@/assets/imgs/default-cover.webp';
 import styles from '@/styles/page.module.scss';
 
 
-// TODO: Make sure invalid URLs that contain any of the collection slugs, returns a 404.
-
 const rootPageSlug = '/';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
@@ -113,7 +111,9 @@ export default async function Page({params, searchParams}: PageProps) {
   // Validate the page params and search params before proceeding with rendering the page.
   const validatedParams = validateParams(params);
   const validatedSearchParams = validateSearchParams(searchParams);
-  
+
+  if (!validatedParams) return notFound();
+
   // Check if the slug array is a valid path and if not, return a 404.
   // If the slug array contains a `page` keyword, but no page number, redirect to the slug, or root page.
   checkSlugAndRedirect(validatedParams?.slug as string[], rootPageSlug);

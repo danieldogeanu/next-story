@@ -254,6 +254,8 @@ export function checkSlugAndRedirect(slugArray: string[], rootPage: string, test
 /**
  * Redirects to the first page of a paginated resource if the provided page number is 1, in order to avoid page duplicates for SEO purposes.
  *
+ * // TODO: Pass query params to the redirect, so that we can maintain sort params.
+ *
  * - If `pageNumber` equals 1, the function redirects to the root page or a specific slug.
  * - This redirection is important for SEO optimization, preventing duplicate content issues caused by URLs like `/page/1`.
  * - If a `slug` is provided, the redirection path will include the slug.

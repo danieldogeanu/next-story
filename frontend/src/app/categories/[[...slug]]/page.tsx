@@ -130,7 +130,12 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
   const {slug, pageNumber} = extractSlugAndPage(validatedParams.slug);
 
   // If it's the first page, we need to redirect to avoid page duplicates.
-  firstPageRedirect(slug, pageNumber, rootPageSlug);
+  firstPageRedirect({
+    slug: slug,
+    pageNumber: pageNumber,
+    rootPage: rootPageSlug,
+    searchParams: validatedSearchParams,
+  });
 
   // Single Category Page
   // ---------------------------------------------------------------------------

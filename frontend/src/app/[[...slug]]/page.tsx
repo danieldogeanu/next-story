@@ -185,7 +185,12 @@ export default async function Page({params, searchParams}: PageProps) {
   // If there's no slug, we're on the Homepage.
 
   // If it's the first page, we need to redirect to avoid page duplicates.
-  firstPageRedirect(slug, pageNumber, rootPageSlug);
+  firstPageRedirect({
+    slug: slug,
+    pageNumber: pageNumber,
+    rootPage: rootPageSlug,
+    searchParams: validatedSearchParams,
+  });
 
   // Validate the `sort` param and pass it to the collection's get request.
   const validatedSort = validateSortParam(validatedSearchParams?.sort, ['title', 'publishedAt']);

@@ -47,11 +47,12 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
   const actionButtonSize = isMobile ? 'lg' : 'md';
   const actionIconSize = isMobile ? 36 : 24;
   const sortSelectSize = isMobile ? 'md' : 'sm';
+  const defaultSortParam = 'createdAt:desc';
   const searchParams = useSearchParams();
   const router = useRouter();
 
   // Get the sort param from the URL, or set the default one.
-  const sortParam = searchParams.get('sort') ?? 'createdAt:desc';
+  const sortParam = searchParams.get('sort') ?? defaultSortParam;
 
   // Get the allowed sort props for the current collection type.
   const allowedSortProps = Array.from(SortPropsMapping[collectionType]);
@@ -64,7 +65,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
   if (Array.isArray(validatedSortParam)) {
     validatedSortParam = validatedSortParam[0];
   } else if (!validatedSortParam || typeof validatedSortParam !== 'string') {
-    validatedSortParam = 'createdAt:desc';
+    validatedSortParam = defaultSortParam;
   }
 
   // Split the validated sort param into sortProp and sortOrder.

@@ -2,7 +2,7 @@
 
 import classNames from 'classnames';
 import { useMediaQuery } from '@mantine/hooks';
-import { ActionIcon, Box, Group, Select, Skeleton, Text } from '@mantine/core';
+import { ActionIcon, Box, BoxProps, Group, Select, Skeleton, Text } from '@mantine/core';
 import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { validateSortParam } from '@/validation/urls';
@@ -37,12 +37,12 @@ export type SortProps = typeof SortPropsMapping[keyof typeof SortPropsMapping][n
 export type SortCombined = `${SortProps}:${SortOrder}`;
 export type SortCollection = keyof typeof SortPropsMapping;
 
-export interface SortBarProps {
+export interface SortBarProps extends BoxProps {
   totalItems: number;
   collectionType: SortCollection;
 }
 
-export default function SortBar({ totalItems, collectionType }: SortBarProps) {
+export default function SortBar({ totalItems, collectionType, className, ...other }: SortBarProps) {
   const isMobile = useMediaQuery(`(max-width: 480px)`, false);
   const actionButtonSize = isMobile ? 'lg' : 'md';
   const actionIconSize = isMobile ? 36 : 24;
@@ -102,7 +102,7 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
   };
 
   return (
-    <Box className={styles.container}>
+    <Box className={classNames(styles.container, className)} {...other}>
       <Text className={styles.total}>
         {totalItems} {capitalize(collectionType)}
       </Text>

@@ -310,7 +310,7 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
         </Title>
 
         <Suspense fallback={<SortFallback />}>
-          <SortBar totalItems={authorPagination.total} collectionType='authors' />
+          <SortBar className={authorStyles.sortBar} totalItems={authorPagination.total} collectionType='authors' />
         </Suspense>
 
         <section className={pageStyles.grid}>

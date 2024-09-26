@@ -197,7 +197,7 @@ export default async function Page({params, searchParams}: PageProps) {
   
   // Get all the articles and split them into pages.
   const articlesCollection = await getArticlesCollection({
-    populate: '*', sort: validatedSort || 'id:desc',
+    populate: '*', sort: validatedSort || 'createdAt:desc',
     pagination: { page: pageNumber || 1, pageSize: 24 },
   });
   const articlesPagination = articlesCollection?.meta?.pagination;

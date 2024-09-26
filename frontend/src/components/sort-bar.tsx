@@ -51,7 +51,7 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
   const router = useRouter();
 
   // Get the sort param from the URL, or set the default one.
-  const sortParam = searchParams.get('sort') ?? 'id:desc';
+  const sortParam = searchParams.get('sort') ?? 'createdAt:desc';
 
   // Get the allowed sort props for the current collection type.
   const allowedSortProps = Array.from(SortPropsMapping[collectionType]);
@@ -64,7 +64,7 @@ export default function SortBar({ totalItems, collectionType }: SortBarProps) {
   if (Array.isArray(validatedSortParam)) {
     validatedSortParam = validatedSortParam[0];
   } else if (!validatedSortParam || typeof validatedSortParam !== 'string') {
-    validatedSortParam = 'id:desc';
+    validatedSortParam = 'createdAt:desc';
   }
 
   // Split the validated sort param into sortProp and sortOrder.

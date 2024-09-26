@@ -167,7 +167,7 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
     
     // Get all articles that belong to the current category, and split it into pages.
     const articlesResponse = (await getArticlesCollection({
-      populate: '*', sort: validatedSort || 'id:desc',
+      populate: '*', sort: validatedSort || 'createdAt:desc',
       filters: { category: { slug: { $eq: slug } } },
       pagination: { page: pageNumber || 1, pageSize: 24 },
     }));
@@ -229,7 +229,7 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
 
   // Get all the categories and split them into pages.
   const categoriesCollection = await getCategoriesCollection({
-    populate: '*', sort: validatedSort || 'id:desc',
+    populate: '*', sort: validatedSort || 'createdAt:desc',
     pagination: { page: pageNumber || 1, pageSize: 12 },
   });
   const categoriesPageSettings = await getSinglePageSettings('categories');

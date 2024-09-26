@@ -135,7 +135,7 @@ export default async function TagsPage({params, searchParams}: PageProps) {
 
     // Get all articles that belong to the current tag, and split it into pages.
     const articlesResponse = (await getArticlesCollection({
-      populate: '*', sort: validatedSort || 'id:desc',
+      populate: '*', sort: validatedSort || 'createdAt:desc',
       filters: { tags: { slug: { $eq: slug } } },
       pagination: { page: pageNumber || 1, pageSize: 24 },
     }));
@@ -183,7 +183,7 @@ export default async function TagsPage({params, searchParams}: PageProps) {
 
   // Get all the tags and split them into pages.
   const tagsCollection = await getTagsCollection({
-    populate: '*', sort: validatedSort || 'id:desc',
+    populate: '*', sort: validatedSort || 'createdAt:desc',
     pagination: { page: pageNumber || 1, pageSize: 24 },
   });
   const tagsPageSettings = await getSinglePageSettings('tags');

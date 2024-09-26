@@ -170,7 +170,7 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
 
     // Get all articles that belong to the current author, and split it into pages.
     const articlesResponse = (await getArticlesCollection({
-      populate: '*', sort: validatedSort || 'id:desc',
+      populate: '*', sort: validatedSort || 'createdAt:desc',
       filters: { author: { slug: { $eq: slug } } },
       pagination: { page: pageNumber || 1, pageSize: 24 },
     }));
@@ -291,7 +291,7 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
 
   // Get all the authors and split them into pages.
   const authorsCollection = await getAuthorsCollection({
-    populate: '*', sort: validatedSort || 'id:desc',
+    populate: '*', sort: validatedSort || 'createdAt:desc',
     pagination: { page: pageNumber || 1, pageSize: 12 },
   });
   const authorPageSettings = await getSinglePageSettings('authors');

@@ -51,7 +51,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
   const searchParams = useSearchParams();
   const router = useRouter();
 
-  // Get the sort param from the URL, or set the default one.
+  // Get the current sort param from the URL, or use the default one.
   const sortParam = searchParams.get('sort') ?? defaultSortParam;
 
   // Get the allowed sort props for the current collection type.
@@ -61,7 +61,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
   let validatedSortParam = validateSortParam(sortParam, allowedSortProps);
 
   // Handle the validated sort param based on its type.
-  // If it's an array, use the first value, if it's not valid, set a default value.
+  // If it's an array, use the first value, if it's not valid, use the default value.
   if (Array.isArray(validatedSortParam)) {
     validatedSortParam = validatedSortParam[0];
   } else if (!validatedSortParam || typeof validatedSortParam !== 'string') {
@@ -71,7 +71,8 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
   // Split the validated sort param into sortProp and sortOrder.
   let [sortProp, sortOrder] = validatedSortParam.split(':') as [string, SortOrder | undefined];
 
-  // The default sort order for Strapi is `asc`, so we should set our `sortOrder` to that if it's undefined.
+  // We should set a default sort order in case we don't receive one through the URL.
+  // The default sort order for Strapi is `asc`, we should use that.
   if (!sortOrder) sortOrder = 'asc';
 
   // Filter the `sortSelectData` to only include allowed sort props for the collection.
@@ -79,9 +80,18 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
     return (allowedSortProps as readonly string[]).includes(option.value as string);
   });
 
-  // We need a handler that can set the sort order independently for each button (asc/desc).
-  const setSortOrder = (newOrder: SortOrder) => {
+  // Update the sort order in the URL independently for each button (asc/desc).
+  const handleSortOrderChange = (newOrder: SortOrder) => {
     const newSortParam = `${sortProp}:${newOrder}`;
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set('sort', newSortParam);
+    router.push(`?${newSearchParams.toString()}`);
+  };
+
+  // Update the sort prop in the URL, for the (Sort by) select dropdown.
+  const handleSortPropChange = (value: string | null) => {
+    if (value === null) return;
+    const newSortParam = `${value}:${sortOrder}`;
     const newSearchParams = new URLSearchParams(searchParams.toString());
     newSearchParams.set('sort', newSortParam);
     router.push(`?${newSearchParams.toString()}`);
@@ -96,9 +106,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
 
   // Set correct label for the select dropdown, including the current sort prop label.
   const setSelectTitle = () => {
-    const selectedPropLabel = filteredSortSelectData.filter(
-      (item) => (item.value === sortProp)
-    ).pop()?.label;
+    const selectedPropLabel = filteredSortSelectData.find(item => item.value === sortProp)?.label;
     return `Sort by: ${selectedPropLabel}`;
   };
 
@@ -111,7 +119,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
       <Group className={styles.order} justify='flex-end' gap={0}>
         <ActionIcon
           className={classNames(styles.chevron, styles.up)}
-          onClick={() => setSortOrder('asc')}
+          onClick={() => handleSortOrderChange('asc')}
           disabled={sortOrder === 'asc'}
           size={actionButtonSize}
           title={setButtonTitle('asc')}
@@ -121,7 +129,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
         </ActionIcon>
         <ActionIcon
           className={classNames(styles.chevron, styles.down)}
-          onClick={() => setSortOrder('desc')}
+          onClick={() => handleSortOrderChange('desc')}
           disabled={sortOrder === 'desc'}
           size={actionButtonSize}
           title={setButtonTitle('desc')}
@@ -136,16 +144,11 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
         classNames={{dropdown: styles.sortDropdown}}
         data={filteredSortSelectData}
         size={sortSelectSize}
-        defaultValue={sortProp}
+        value={sortProp}
         withCheckIcon={false}
         aria-label={setSelectTitle()}
         title={setSelectTitle()}
-        onChange={(value) => {
-          const newSortParam = `${value}:${sortOrder || 'desc'}`;
-          const newSearchParams = new URLSearchParams(searchParams.toString());
-          newSearchParams.set('sort', newSortParam);
-          router.push(`?${newSearchParams.toString()}`);
-        }}
+        onChange={handleSortPropChange}
       />
     </Box>
   );

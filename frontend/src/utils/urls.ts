@@ -1,3 +1,4 @@
+import qs from 'qs';
 import mime from 'mime';
 import path from 'path';
 import { z as val } from 'zod';
@@ -5,6 +6,7 @@ import { notFound, permanentRedirect, redirect, RedirectType } from 'next/naviga
 import { getBackEndURL, getFrontEndURL, getHostname } from '@/utils/client/env';
 import { isSlugArrayValid } from '@/validation/urls';
 import { convertToUnixTime } from '@/utils/date';
+import { SearchParams } from '@/types/page';
 
 
 /**
@@ -252,44 +254,58 @@ export function checkSlugAndRedirect(slugArray: string[], rootPage: string, test
 }
 
 /**
- * Redirects to the first page of a paginated resource if the provided page number is 1, in order to avoid page duplicates for SEO purposes.
+ * Redirects to the first page of a paginated resource if the provided page number is 1, to avoid page duplicates for SEO purposes.
  *
- * // TODO: Pass query params to the redirect, so that we can maintain sort params.
- *
- * - If `pageNumber` equals 1, the function redirects to the root page or a specific slug.
- * - This redirection is important for SEO optimization, preventing duplicate content issues caused by URLs like `/page/1`.
+ * - If `pageNumber` equals 1, the function redirects to the root page or a specific slug, including optional search parameters.
+ * - This redirection is crucial for SEO, preventing duplicate content issues caused by URLs like `/page/1`.
  * - If a `slug` is provided, the redirection path will include the slug.
- * - The function supports a test mode where the redirection is simulated instead of performing a permanent redirect.
+ * - Supports passing additional query parameters via `searchParams`.
+ * - The function includes a test mode where redirection is simulated instead of a permanent redirect.
  *
- * @param {string | null | undefined} slug - The slug for the resource. If not provided, the redirection will be to the root page.
- * @param {string | number | null | undefined} pageNumber - The page number to check. If it equals 1, a redirect will occur.
- * @param {string | null | undefined} rootPage - The root page URL for the redirection. If not provided, defaults to '/'.
- * @param {boolean} [test=false] - A flag to simulate redirection instead of performing a permanent redirect. Defaults to `false`.
+ * @param {Object} redirectObject - An object containing various parameters for the redirection.
+ * @param {string | null} [redirectObject.slug] - The slug for the resource. If not provided, redirection will be to the root page.
+ * @param {string | number | null} [redirectObject.pageNumber] - The page number to check. If it equals 1, a redirect occurs.
+ * @param {string | null} [redirectObject.rootPage] - The root page URL for the redirection. Defaults to `'/'` if not provided.
+ * @param {SearchParams | null} [redirectObject.searchParams] - Additional query parameters to append to the redirection URL.
+ * @param {boolean} [redirectObject.test=false] - A flag to simulate redirection instead of performing a permanent redirect. Defaults to `false`.
  *
  * @returns {void} Redirects to the appropriate URL if the page number is 1.
  *
  * @example
  * // Example 1: Redirect to the slug path for the first page (SEO optimization).
- * firstPageRedirect('example-slug', 1, '/authors');
+ * firstPageRedirect({ slug: 'example-slug', pageNumber: 1, rootPage: '/authors' });
  * // Redirects to /authors/example-slug.
  *
  * // Example 2: Redirect to the root page for the first page.
- * firstPageRedirect(null, 1, '/authors');
+ * firstPageRedirect({ slug: null, pageNumber: 1, rootPage: '/authors' });
  * // Redirects to /authors.
  *
- * // Example 3: Test mode enabled.
- * firstPageRedirect('example-slug', 1, '/authors', true);
+ * // Example 3: Redirect with search parameters.
+ * firstPageRedirect({
+ *   slug: 'example-slug', pageNumber: 1, rootPage: '/authors',
+ *   searchParams: { sort: 'title:asc' }
+ * });
+ * // Redirects to /authors/example-slug?sort=title%3Aasc.
+ *
+ * // Example 4: Test mode enabled (does a temporary redirect).
+ * firstPageRedirect({ slug: 'example-slug', pageNumber: 1, rootPage: '/authors', test: true });
  * // Simulates redirection without performing a permanent redirect.
  */
-export function firstPageRedirect(
-  slug: string | null | undefined,
-  pageNumber: string | number | null | undefined,
-  rootPage: string | null | undefined,
-  test: boolean = false
-): void {
+export function firstPageRedirect({
+  slug, pageNumber, rootPage, searchParams, test = false
+}: Partial<{
+  slug: string | null;
+  pageNumber: string | number | null;
+  rootPage: string | null;
+  searchParams: SearchParams | null;
+  test?: boolean;
+}>): void {
   if (Number(pageNumber) === 1) {
     const rootPath = (typeof rootPage === 'string') ? rootPage : '/';
-    const redirectPath = (typeof slug === 'string') ? path.join(rootPath, slug) : path.join(rootPath);
+    const searchParamsString = (searchParams)
+      ? '?' + qs.stringify(searchParams, {arrayFormat: 'repeat'}) : '';
+    const redirectPath = (typeof slug === 'string')
+      ? path.join(rootPath, slug, searchParamsString) : path.join(rootPath, searchParamsString);
     if (test) redirect(redirectPath, RedirectType.replace);
     else permanentRedirect(redirectPath, RedirectType.replace);
   }

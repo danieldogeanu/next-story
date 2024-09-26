@@ -80,21 +80,24 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
     return (allowedSortProps as readonly string[]).includes(option.value as string);
   });
 
+  // Helper function to update the search params in the URL.
+  const updateSearchParams = (key: string, value: string) => {
+    const newSearchParams = new URLSearchParams(searchParams.toString());
+    newSearchParams.set(key, value);
+    router.push(`?${newSearchParams.toString()}`);
+  };
+
   // Update the sort order in the URL independently for each button (asc/desc).
   const handleSortOrderChange = (newOrder: SortOrder) => {
     const newSortParam = `${sortProp}:${newOrder}`;
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    newSearchParams.set('sort', newSortParam);
-    router.push(`?${newSearchParams.toString()}`);
+    updateSearchParams('sort', newSortParam);
   };
 
   // Update the sort prop in the URL, for the (Sort by) select dropdown.
   const handleSortPropChange = (value: string | null) => {
     if (value === null) return;
     const newSortParam = `${value}:${sortOrder}`;
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    newSearchParams.set('sort', newSortParam);
-    router.push(`?${newSearchParams.toString()}`);
+    updateSearchParams('sort', newSortParam);
   };
 
   // Set correct labels to the buttons, including the selected sort order.

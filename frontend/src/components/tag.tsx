@@ -19,7 +19,7 @@ export default function Tag({data, ...props}: TagProps) {
       component={NextLink}
       href={tagUrl as string}
       title={`See all articles tagged ${tagName}.`}
-      variant='light' color='dark' size='xl' target='_blank'
+      variant='light' color='dark' size='xl'
       {...props}>{tagName}</Badge>
   );
 }

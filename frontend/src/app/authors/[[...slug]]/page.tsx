@@ -3,7 +3,7 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import { IconCoin, IconMailPlus, IconUser } from '@tabler/icons-react';
-import { Box, Button, Group, Image, Text, Title } from '@mantine/core';
+import { Box, Button, Group, Image, Stack, Text, Title } from '@mantine/core';
 import {
   AuthorArticles, AuthorAvatar, AuthorMetaSocial, AuthorMetaSocialEntry, AuthorRobots,
   AuthorSEO, AuthorSocialEntry, getAuthorsCollection, SingleAuthor
@@ -233,16 +233,20 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
             </Box>
   
             <Box className={authorStyles.right}>
-  
-              <Title className={authorStyles.name} order={2}>
-                {capitalize(authorData?.fullName)}
-              </Title>
-  
-              <Box className={authorStyles.biography}>
-                {authorData?.biography.split('\n\n').map((paragraph, index) => {
-                  return <Text key={index}>{paragraph.trim()}</Text>;
-                })}
-              </Box>
+
+              <Stack className={authorStyles.details}>
+
+                <Title className={authorStyles.name} order={2}>
+                  {capitalize(authorData?.fullName)}
+                </Title>
+    
+                <Box className={authorStyles.biography}>
+                  {authorData?.biography.split('\n\n').map((paragraph, index) => {
+                    return <Text key={index}>{paragraph.trim()}</Text>;
+                  })}
+                </Box>
+
+              </Stack>  
   
               <Group className={authorStyles.actions}>
   

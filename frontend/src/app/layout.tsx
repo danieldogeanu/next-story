@@ -2,10 +2,11 @@ import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineColorScheme, MantineProvider } from '@mantine/core';
-import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { getFrontEndURL, getHostname, getLocalEnv, getSiteLang } from '@/utils/client/env';
+import { getSiteSettings, SiteSettings } from '@/data/settings';
+import { CurrentURL } from '@/data/current-url';
 import { HostnameProvider } from '@/providers/hostname';
 import { combineProviders } from '@/providers';
 import { getMimeTypeFromUrl } from '@/utils/urls';
@@ -115,10 +116,10 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
     hostname = fullUrl.hostname;
     href = fullUrl.href;
 
-    // Pass variables to the environment so that we can use them in utils functions.
-    // We can't use any other method to do this, because of the RSC architecture.
-    process.env.CURRENT_HOSTNAME = fullUrl.hostname;
-    process.env.CURRENT_HREF = fullUrl.href;
+    // Instantiate the CurrentURL singleton class and set the current URL.
+    // We do this so that we can access the current URL everywhere in our app.
+    if (!global.currentURL) global.currentURL = CurrentURL;
+    global.currentURL?.setURL(fullUrl);
   } else {
     // If we're on production, we pass the domain name from the environment variables.
     hostname = getHostname();

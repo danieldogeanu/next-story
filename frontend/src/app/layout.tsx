@@ -4,10 +4,9 @@ import { ErrorBoundary } from 'react-error-boundary';
 import { ColorSchemeScript, MantineColorScheme, MantineProvider } from '@mantine/core';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { getFrontEndURL, getHostname, getLocalEnv, getSiteLang } from '@/utils/client/env';
+import { getFrontEndURL, getLocalEnv, getSiteLang } from '@/utils/client/env';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { CurrentURL } from '@/data/current-url';
-import { HostnameProvider } from '@/providers/hostname';
 import { combineProviders } from '@/providers';
 import { getMimeTypeFromUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
@@ -100,10 +99,6 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   const colorScheme: MantineColorScheme = 'auto';
 
-  // Load hostname and href, so that we can build the frontend URLs.
-  let hostname = null;
-  let href = null;
-
   // If we're running in a local environment, we need to get the hostname dynamically.
   // We do this so we can access the website on mobile devices for testing.
   if (getLocalEnv()) {
@@ -112,18 +107,10 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
     const protocol = headersList.get('x-forwarded-proto');
     const fullUrl = new URL(`${protocol}://${host}`);
 
-    // Set variables so that we can pass them to the HostnameProvider.
-    hostname = fullUrl.hostname;
-    href = fullUrl.href;
-
     // Instantiate the CurrentURL singleton class and set the current URL.
     // We do this so that we can access the current URL everywhere in our app.
     if (!global.currentURL) global.currentURL = CurrentURL;
     global.currentURL?.setURL(fullUrl);
-  } else {
-    // If we're on production, we pass the domain name from the environment variables.
-    hostname = getHostname();
-    href = getFrontEndURL();
   }
 
 
@@ -137,7 +124,6 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
    * The order of providers in the array is important as it determines the nesting and context accessibility.
    */
   const Providers = combineProviders([
-    [HostnameProvider, {hostname: hostname, href: href}],
     [MantineProvider, {defaultColorScheme: colorScheme, theme: mantineTheme}],
   ]);
 

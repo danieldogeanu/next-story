@@ -50,7 +50,7 @@ export function getBackEndURL() {
  * Retrieves the front-end URL based on the environment.
  *
  * This function checks if the application is running in a local environment by using `getLocalEnv()`.
- * If running locally, it retrieves the current front-end URL dynamically from `global.currentURL`.
+ * If running locally, it retrieves the current front-end URL dynamically via `getCurrentUrl()` function.
  * Otherwise, it returns `NEXT_PUBLIC_FRONTEND_URL`. If neither is set, it defaults to 'http://localhost:3000'.
  *
  * @returns The current front-end URL or 'http://localhost:3000' if not set.
@@ -64,7 +64,7 @@ export function getFrontEndURL() {
  * Retrieves the hostname based on the environment.
  *
  * This function checks if the application is running in a local environment by using `getLocalEnv()`.
- * If running locally, it retrieves the current hostname dynamically from `global.currentURL`.
+ * If running locally, it retrieves the current hostname dynamically via `getCurrentUrl()` function.
  * Otherwise, it returns `NEXT_PUBLIC_HOSTNAME`. If neither is set, it defaults to 'localhost'.
  *
  * @returns The current hostname or 'localhost' if not set.

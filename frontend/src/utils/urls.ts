@@ -116,21 +116,33 @@ export function getExtensionFromUrl(url: string | undefined): string | undefined
  *
  * @returns {URL} The current URL in local development environments, or `http://localhost:3000` if the URL cannot be dynamically retrieved.
  */
-export function getCurrentUrl(): URL {
+
+/**
+ * Retrieves the current URL in local development environments.
+ *
+ * @warning This function can only be used when the application is running in a local development environment.
+ *
+ * It attempts to retrieve the current URL from the browser's `window` object, if available, or from the global `currentURL` in a non-browser context.
+ * If neither is available, the function returns `null`.
+ *
+ * @throws {Error} Throws an error if the function is used in a non-local development environment.
+ *
+ * @returns {URL | null} The current URL in local development environments, or `null` if the URL cannot be dynamically retrieved.
+ */
+export function getCurrentUrl(): URL | null {
   if (!getLocalEnv()) {
     throw new Error(`This function can only be used in local development environments!`);
   }
-
 
   if (typeof window !== 'undefined') {
     return new URL(window.location.origin);
   }
 
-  if (typeof global !== 'undefined') {
-    return global.currentURL?.getURL();
+  if (typeof global !== 'undefined' && typeof global.currentURL !== 'undefined') {
+    return global.currentURL.getURL();
   }
 
-  return new URL('http://localhost:3000');
+  return null;
 }
 
 /**

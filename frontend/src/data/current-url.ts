@@ -52,5 +52,7 @@ class CurrentURLSingleton {
 
 /**
  * The singleton instance of CurrentURLSingleton for external usage.
+ *
+ * @warning This class is only for local development environment, it's not meant to be used in production!
  */
 export const CurrentURL = CurrentURLSingleton.getInstance();

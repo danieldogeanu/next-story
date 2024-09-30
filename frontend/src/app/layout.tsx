@@ -101,6 +101,7 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
 
   // If we're running in a local environment, we need to get the hostname dynamically.
   // We do this so we can access the website on mobile devices for testing.
+  // WARNING: This is only for the local development environment only!
   if (getLocalEnv()) {
     const headersList = headers();
     const host = headersList.get('host');

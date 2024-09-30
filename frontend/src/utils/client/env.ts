@@ -1,4 +1,5 @@
-// Client side utility functions for environment variables.
+import { getCurrentUrl } from '@/utils/urls';
+
 
 /**
  * Retrieves the current Node environment.
@@ -55,7 +56,7 @@ export function getBackEndURL() {
  * @returns The current front-end URL or 'http://localhost:3000' if not set.
  */
 export function getFrontEndURL() {
-  const currentFrontendUrl = getLocalEnv() ? global.currentURL?.getURL()?.href : process.env.NEXT_PUBLIC_FRONTEND_URL;
+  const currentFrontendUrl = getLocalEnv() ? getCurrentUrl().href : process.env.NEXT_PUBLIC_FRONTEND_URL;
   return (currentFrontendUrl || 'http://localhost:3000');
 }
 
@@ -69,7 +70,7 @@ export function getFrontEndURL() {
  * @returns The current hostname or 'localhost' if not set.
  */
 export function getHostname() {
-  const currentHostname = getLocalEnv() ? global.currentURL?.getURL()?.hostname : process.env.NEXT_PUBLIC_HOSTNAME;
+  const currentHostname = getLocalEnv() ? getCurrentUrl().hostname : process.env.NEXT_PUBLIC_HOSTNAME;
   return (currentHostname || 'localhost');
 }
 

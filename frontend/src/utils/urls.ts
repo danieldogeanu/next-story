@@ -3,7 +3,7 @@ import mime from 'mime';
 import path from 'path';
 import { z as val } from 'zod';
 import { notFound, permanentRedirect, redirect, RedirectType } from 'next/navigation';
-import { getBackEndURL, getFrontEndURL, getHostname } from '@/utils/client/env';
+import { getBackEndURL, getFrontEndURL, getHostname, getLocalEnv } from '@/utils/client/env';
 import { isSlugArrayValid } from '@/validation/urls';
 import { convertToUnixTime } from '@/utils/date';
 import { SearchParams } from '@/types/page';
@@ -102,6 +102,35 @@ export function getMimeTypeFromUrl(url: string | undefined): string | undefined 
  */
 export function getExtensionFromUrl(url: string | undefined): string | undefined {
   if (typeof url === 'string') return mime.getExtension(url) ?? undefined;
+}
+
+/**
+ * Retrieves the current URL in local development environments.
+ *
+ * @warning This function can only be used when the application is running in a local development environment.
+ *
+ * It attempts to retrieve the current URL from the browser's `window` object, if available, or from the global `currentURL` in a Node context.
+ * If neither is available, it defaults to `http://localhost:3000`.
+ *
+ * @throws {Error} Throws an error if the function is used in a non-local development environment.
+ *
+ * @returns {URL} The current URL in local development environments, or `http://localhost:3000` if the URL cannot be dynamically retrieved.
+ */
+export function getCurrentUrl(): URL {
+  if (!getLocalEnv()) {
+    throw new Error(`This function can only be used in local development environments!`);
+  }
+
+
+  if (typeof window !== 'undefined') {
+    return new URL(window.location.origin);
+  }
+
+  if (typeof global !== 'undefined') {
+    return global.currentURL?.getURL();
+  }
+
+  return new URL('http://localhost:3000');
 }
 
 /**

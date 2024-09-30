@@ -2,6 +2,8 @@
 
 /**
  * Singleton class to manage the current URL for the application dynamically.
+ *
+ * @warning This class is only for local development environment, it's not meant to be used in production!
  */
 class CurrentURLSingleton {
   private static instance: CurrentURLSingleton;

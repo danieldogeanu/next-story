@@ -1,4 +1,7 @@
 import { isValidElement, ReactElement, ReactNode } from 'react';
+import { showNotification } from '@mantine/notifications';
+import { IconBarrierBlock } from '@tabler/icons-react';
+
 
 interface TextProps {
   text?: string;
@@ -40,3 +43,17 @@ export function extractTextFromNode(node: ReactNode): string {
 
   return '';
 };
+
+/**
+ * Displays a notification indicating that a feature is not yet implemented.
+ *
+ * Shows a temporary notification with a title, message, and icon, which automatically closes after 5 seconds.
+ */
+export function showNotImplemented() {
+  showNotification({
+    title: 'Under Construction',
+    message: 'The feature is not implemented yet.',
+    autoClose: 5000,
+    icon: <IconBarrierBlock />,
+  });
+}

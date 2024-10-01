@@ -143,7 +143,9 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
               {children}
             </ErrorBoundary>
             <SiteFooter />
-            <Notifications position='bottom-right' limit={5} />
+            <Notifications
+              className='notification-system'
+              position='bottom-right' limit={5} />
           </ErrorBoundary>
         </Providers>
       </body>

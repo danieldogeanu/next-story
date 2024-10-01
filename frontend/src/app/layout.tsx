@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { headers } from 'next/headers';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Notifications } from '@mantine/notifications';
 import { ColorSchemeScript, MantineColorScheme, MantineProvider } from '@mantine/core';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
@@ -16,6 +17,7 @@ import SiteFooter from '@/layout/footer';
 import mantineTheme from '@/theme';
 import defaultCover from '@/assets/imgs/default-cover.jpg';
 import '@mantine/core/styles.css';
+import '@mantine/notifications/styles.css';
 import '@/styles/global.scss';
 
 // Types
@@ -141,6 +143,7 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
               {children}
             </ErrorBoundary>
             <SiteFooter />
+            <Notifications position='bottom-right' limit={5} />
           </ErrorBoundary>
         </Providers>
       </body>

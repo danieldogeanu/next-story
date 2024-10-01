@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { ActionIcon, Box, BoxProps, Text } from '@mantine/core';
 import { TablerIconsProps } from '@tabler/icons-react';
 import { useId, useViewportSize } from '@mantine/hooks';
+import { showNotImplemented } from '@/utils/react';
 import styles from '@/styles/social-button.module.scss';
 
 export interface SocialButtonProps extends BoxProps {
@@ -14,6 +15,8 @@ export interface SocialButtonProps extends BoxProps {
     hover: string;
   };
 }
+
+// TODO: Pass onClick and other event handlers to this component.
 
 export default function SocialButton({icon, iconProps, labels, className, ...other}: SocialButtonProps) {
   const {width} = useViewportSize();
@@ -30,6 +33,7 @@ export default function SocialButton({icon, iconProps, labels, className, ...oth
         className={styles.button} id={uuid}
         size={(width > 360) ? 'xl' : 'lg'}
         variant='subtle' color='dark' radius='xl'
+        onClick={showNotImplemented}
         aria-label={labels.hover} title={labels.hover}>
         <TablerIcon size={(width > 360) ? 24 : 20} stroke={1.5} {...iconProps} />
       </ActionIcon>

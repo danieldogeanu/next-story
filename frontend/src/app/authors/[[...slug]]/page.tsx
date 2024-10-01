@@ -27,6 +27,8 @@ import pageStyles from '@/styles/page.module.scss';
 import authorStyles from '@/styles/author-page.module.scss';
 
 
+// TODO: Move Subscribe and Sponsor buttons to their own separate client components.
+
 const rootPageSlug = '/authors';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {

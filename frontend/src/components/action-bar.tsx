@@ -3,6 +3,7 @@
 import classNames from 'classnames';
 import { Box, BoxProps, Button } from '@mantine/core';
 import { IconCoin, IconHeart, IconMailPlus, IconMessageCircle, IconShare } from '@tabler/icons-react';
+import { showNotImplemented } from '@/utils/react';
 import SocialButton from '@/components/social-button';
 import styles from '@/styles/action-bar.module.scss';
 
@@ -50,11 +51,13 @@ export default function ActionBar({className, ...other}: ActionBarProps) {
         <Button
           className={styles.subscribeButton}
           leftSection={<IconMailPlus size={24} stroke={1.5} />}
+          onClick={showNotImplemented}
           color='blue' variant='filled' size='md'>Subscribe</Button>
 
         <Button
           className={styles.sponsorButton}
           leftSection={<IconCoin size={24} stroke={1.5} />}
+          onClick={showNotImplemented}
           variant='filled' size='md'>Sponsor</Button>
 
       </div>

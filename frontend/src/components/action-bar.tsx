@@ -3,6 +3,7 @@
 import classNames from 'classnames';
 import { Box, BoxProps } from '@mantine/core';
 import { IconHeart, IconMessageCircle, IconShare } from '@tabler/icons-react';
+import { showNotImplemented } from '@/utils/react';
 import SupportButtons from '@/components/support-buttons';
 import SocialButton from '@/components/social-button';
 import styles from '@/styles/action-bar.module.scss';
@@ -22,6 +23,7 @@ export default function ActionBar({className, ...other}: ActionBarProps) {
         <SocialButton
           className={styles.likeButton}
           icon={IconHeart}
+          onClick={showNotImplemented}
           labels={{
             default: '46 Likes',
             hover: 'Like Article',
@@ -30,6 +32,7 @@ export default function ActionBar({className, ...other}: ActionBarProps) {
         <SocialButton
           className={styles.shareButton}
           icon={IconShare}
+          onClick={showNotImplemented}
           labels={{
             default: '23 Shares',
             hover: 'Share Article',
@@ -38,6 +41,7 @@ export default function ActionBar({className, ...other}: ActionBarProps) {
         <SocialButton
           className={styles.commentButton}
           icon={IconMessageCircle}
+          onClick={showNotImplemented}
           labels={{
             default: '6 Comments',
             hover: 'Leave a Comment',

@@ -15,6 +15,9 @@ export interface SupportButtonsProps extends GroupProps {
 export default function SupportButtons({subscribeProps, sponsorProps, className, ...otherProps}: SupportButtonsProps) {
   const {className: subscribeClassName, ...otherSubscribeProps} = subscribeProps ?? {} as ButtonProps;
   const {className: sponsorClassName, ...otherSponsorProps} = sponsorProps ?? {} as ButtonProps;
+
+  // TODO: Add modal and subscription form for the Subscribe button.
+  // TODO: Add modal with options for the Sponsor button.
   
   return (
     <Group className={classNames(styles.container, className)} {...otherProps}>

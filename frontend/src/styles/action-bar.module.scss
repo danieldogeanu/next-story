@@ -41,21 +41,20 @@
   }
 }
 
-.actions {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: rem(16);
-  @media (min-width: rem(360)) {
-    flex-direction: row;
-  }
-  @media (min-width: rem(900)) {
-    justify-content: end;
+.supportActions {
+  &:global(.mantine-Group-root) {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    @media (min-width: rem(360)) {
+      flex-direction: row;
+    }
+    @media (min-width: rem(900)) {
+      justify-content: end;
+    }
   }
 
-  button {
-    font-weight: 400;
+  :global(.mantine-Button-root) {
     width: 100%;
     @media (min-width: rem(360)) {
       width: auto;

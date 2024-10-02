@@ -1,0 +1,9 @@
+@import 'mantine';
+
+
+.container {
+  :global(.mantine-Button-root) {
+    font-weight: 400;
+    transition: background-color var(--next-story-transition-timing) var(--next-story-transition-easing);
+  }
+}

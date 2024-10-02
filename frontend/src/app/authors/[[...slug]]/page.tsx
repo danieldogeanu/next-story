@@ -2,8 +2,8 @@ import NextImage from 'next/image';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
-import { IconCoin, IconMailPlus, IconUser } from '@tabler/icons-react';
-import { Box, Button, Group, Image, Stack, Text, Title } from '@mantine/core';
+import { IconUser } from '@tabler/icons-react';
+import { Box, Group, Image, Stack, Text, Title } from '@mantine/core';
 import {
   AuthorArticles, AuthorAvatar, AuthorMetaSocial, AuthorMetaSocialEntry, AuthorRobots,
   AuthorSEO, AuthorSocialEntry, getAuthorsCollection, SingleAuthor
@@ -19,6 +19,7 @@ import { PageProps } from '@/types/page';
 import { capitalize } from '@/utils/strings';
 import { convertToRelativeDate } from '@/utils/date';
 import SortBar, { SortFallback } from '@/components/sort-bar';
+import SupportButtons from '@/components/support-buttons';
 import PagePagination from '@/components/page-pagination';
 import ArticleCard from '@/components/article-card';
 import AuthorCard from '@/components/author-card';
@@ -26,8 +27,6 @@ import SocialIcon from '@/components/social-icon';
 import pageStyles from '@/styles/page.module.scss';
 import authorStyles from '@/styles/author-page.module.scss';
 
-
-// TODO: Move Subscribe and Sponsor buttons to their own separate client components.
 
 const rootPageSlug = '/authors';
 
@@ -248,21 +247,9 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
                   })}
                 </Box>
 
-              </Stack>  
-  
-              <Group className={authorStyles.actions}>
-  
-                <Button
-                  className={authorStyles.subscribeButton}
-                  leftSection={<IconMailPlus size={24} stroke={1.5} />}
-                  color='blue' variant='filled' size='md'>Subscribe</Button>
-  
-                <Button
-                  className={authorStyles.sponsorButton}
-                  leftSection={<IconCoin size={24} stroke={1.5} />}
-                  variant='filled' size='md'>Sponsor</Button>
-  
-              </Group>
+              </Stack>
+
+              <SupportButtons className={authorStyles.supportActions} />
   
             </Box>
   

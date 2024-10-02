@@ -14,7 +14,7 @@ export interface ArticleNavProps extends React.HTMLAttributes<HTMLElement> {
   next: SingleArticleData | undefined;
 }
 
-export default function ArticleNav({prev, next, className, ...other}: ArticleNavProps) {
+export default function ArticleNav({prev, next, className, ...otherProps}: ArticleNavProps) {
   // Process previous article data.
   const prevArticleData = prev?.attributes as SingleArticle;
   const prevArticleTitle = makeSeoTitle(prevArticleData?.title);
@@ -28,7 +28,7 @@ export default function ArticleNav({prev, next, className, ...other}: ArticleNav
   const nextArticleUrl = getArticleUrl(nextArticleData?.createdAt, nextArticleData?.slug);
   
   return (
-    <nav className={classNames(styles.container, className)} {...other}>
+    <nav className={classNames(styles.container, className)} {...otherProps}>
 
       <Group 
         title={prevArticleLabel}

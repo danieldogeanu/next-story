@@ -17,7 +17,7 @@ export interface AuthorBioProps extends BoxProps {
   data: ArticleAuthor;
 }
 
-export default function AuthorBio({data, className, ...other}: AuthorBioProps) {
+export default function AuthorBio({data, className, ...otherProps}: AuthorBioProps) {
   const authorUrl = getPageUrl(data.slug, '/authors');
   const authorAvatar = data?.avatar?.data?.attributes as AuthorAvatar;
   const authorAvatarFormats = authorAvatar?.formats as unknown as StrapiImageFormats;
@@ -26,7 +26,7 @@ export default function AuthorBio({data, className, ...other}: AuthorBioProps) {
   const authorLabel = `See ${capitalize(data.fullName)}'s Articles`;
   
   return (
-    <Box component='section' className={classNames(styles.container, className)} {...other}>
+    <Box component='section' className={classNames(styles.container, className)} {...otherProps}>
 
       <Box className={styles.left}>
 

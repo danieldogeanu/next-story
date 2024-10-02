@@ -12,7 +12,7 @@ import styles from '@/styles/action-user-account.module.scss';
 // TODO: Handle authentication and replace login/register forms with submenu if authenticated.
 // TODO: Replace user account icon with profile avatar when authenticated.
 
-export default function ActionUserAccount({...props}) {
+export default function ActionUserAccount({...otherProps}) {
   const [opened, {open, close}] = useDisclosure(false);
 
   return (
@@ -22,7 +22,7 @@ export default function ActionUserAccount({...props}) {
         icon={IconUser}
         variant={opened ? 'light' : 'subtle'}
         onClick={open}
-        {...props}
+        {...otherProps}
       />
 
       <SiteDrawer

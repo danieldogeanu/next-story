@@ -9,7 +9,7 @@ export interface TagProps {
   data: SingleTag;
 }
 
-export default function Tag({data, ...props}: TagProps) {
+export default function Tag({data, ...otherProps}: TagProps) {
   const tagName = capitalize(data?.name);
   const tagUrl = getPageUrl(data?.slug, '/tags');
 
@@ -20,6 +20,6 @@ export default function Tag({data, ...props}: TagProps) {
       href={tagUrl as string}
       title={`See all articles tagged ${tagName}.`}
       variant='light' color='dark' size='xl'
-      {...props}>{tagName}</Badge>
+      {...otherProps}>{tagName}</Badge>
   );
 }

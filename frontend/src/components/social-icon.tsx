@@ -11,7 +11,7 @@ export interface SocialIconProps extends ActionIconProps,
   icon: IconKeys;
 }
 
-export default function SocialIcon({icon, label, href, ...other}: SocialIconProps) {
+export default function SocialIcon({icon, label, href, ...otherProps}: SocialIconProps) {
   const {width} = useViewportSize();
 
   return (
@@ -24,7 +24,7 @@ export default function SocialIcon({icon, label, href, ...other}: SocialIconProp
       href={href}
       target='_blank'
       referrerPolicy='no-referrer'
-      {...other}>
+      {...otherProps}>
       <DynamicIcon icon={icon} stroke={2} size={24} />
     </ActionIcon>
   );

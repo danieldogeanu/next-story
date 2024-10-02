@@ -5,7 +5,7 @@ export interface SiteDrawerProps extends DrawerProps {
   hasMenu?: boolean;
 }
 
-export default function SiteDrawer({children, hasMenu = false, ...props}: SiteDrawerProps) {
+export default function SiteDrawer({children, hasMenu = false, ...otherProps}: SiteDrawerProps) {
   return (
     <Drawer
       position='right'
@@ -17,7 +17,7 @@ export default function SiteDrawer({children, hasMenu = false, ...props}: SiteDr
         transition: 'slide-left',
         timingFunction: 'ease',
         duration: 150,
-      }} {...props}>
+      }} {...otherProps}>
 
       <Box className={styles.drawerContent}>
         {children}

@@ -11,7 +11,7 @@ export interface PagePaginationProps extends React.HTMLAttributes<HTMLElement> {
   data: APIResponseCollectionMetadata['pagination'];
 }
 
-export default function PagePagination({data: {page, pageCount}, className, ...other}: PagePaginationProps) {
+export default function PagePagination({data: {page, pageCount}, className, ...otherProps}: PagePaginationProps) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -28,7 +28,7 @@ export default function PagePagination({data: {page, pageCount}, className, ...o
   if (pageCount <= 1) return null;
   
   return (
-    <nav className={classNames(styles.container, className)} {...other}>
+    <nav className={classNames(styles.container, className)} {...otherProps}>
       <Pagination total={pageCount} defaultValue={page} onChange={handlePageChange} size='lg' />
     </nav>
   );

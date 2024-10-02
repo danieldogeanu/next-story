@@ -14,13 +14,13 @@ export interface SideNavEntryProps extends
   submenu?: SideNavEntryProps[];
 }
 
-export default function SideNavEntry({href, label, icon, submenu, ...props}: SideNavEntryProps) {
+export default function SideNavEntry({href, label, icon, submenu, ...otherProps}: SideNavEntryProps) {
   const pathname = usePathname();
   const isActive = (href: string) => (pathname === href);
   const hasSubmenu = () => (submenu !== undefined && submenu.length > 0);
   const propsWithIcon: Partial<SideNavEntryProps> = icon ? {
-    ...props, leftSection: <DynamicIcon icon={icon} />
-  } : props;
+    ...otherProps, leftSection: <DynamicIcon icon={icon} />
+  } : otherProps;
 
   return hasSubmenu() ? (
     <NavLink

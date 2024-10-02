@@ -42,7 +42,7 @@ export interface SortBarProps extends BoxProps {
   collectionType: SortCollection;
 }
 
-export default function SortBar({ totalItems, collectionType, className, ...other }: SortBarProps) {
+export default function SortBar({ totalItems, collectionType, className, ...otherProps }: SortBarProps) {
   const isMobile = useMediaQuery(`(max-width: 480px)`, false);
   const actionButtonSize = isMobile ? 'lg' : 'md';
   const actionIconSize = isMobile ? 36 : 24;
@@ -114,7 +114,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
   };
 
   return (
-    <Box className={classNames(styles.container, className)} {...other}>
+    <Box className={classNames(styles.container, className)} {...otherProps}>
       <Text className={styles.total}>
         {totalItems} {capitalize(collectionType)}
       </Text>

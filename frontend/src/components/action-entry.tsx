@@ -12,7 +12,7 @@ export interface ActionEntryProps extends
 }
 
 const ActionEntry = forwardRef(function ActionEntry(
-  {icon, label, ...other}: ActionEntryProps,
+  {icon, label, ...otherProps}: ActionEntryProps,
   ref: ForwardedRef<HTMLButtonElement>
 ) {
   const {width} = useViewportSize();
@@ -23,7 +23,7 @@ const ActionEntry = forwardRef(function ActionEntry(
       variant='subtle' color='dark' 
       size={(width > 360) ? 'xl' : 'lg'}
       aria-label={label} title={label}
-      {...other} ref={ref}>
+      {...otherProps} ref={ref}>
       <TablerIcon stroke={2} size={24} />
     </ActionIcon>
   );

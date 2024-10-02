@@ -410,7 +410,7 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     allowComments: Attribute.Boolean & Attribute.DefaultTo<true>;
     comments: Attribute.JSON &
       Attribute.CustomField<'plugin::comments.comments'>;
-    allowIndexing: Attribute.Boolean & Attribute.DefaultTo<true>;
+    robots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -466,8 +466,8 @@ export interface ApiAuthorAuthor extends Schema.CollectionType {
       'oneToMany',
       'api::article.article'
     >;
-    allowIndexing: Attribute.Boolean & Attribute.DefaultTo<true>;
     seo: Attribute.Component<'shared.seo'>;
+    robots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -551,6 +551,7 @@ export interface ApiCategoryCategory extends Schema.CollectionType {
       'oneToMany',
       'api::article.article'
     >;
+    robots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -636,13 +637,45 @@ export interface ApiPagePage extends Schema.CollectionType {
       'api::page.page'
     >;
     seo: Attribute.Component<'shared.seo'>;
-    allowIndexing: Attribute.Boolean & Attribute.DefaultTo<true>;
+    robots: Attribute.Component<'shared.robots'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
       Attribute.Private;
     updatedBy: Attribute.Relation<'api::page.page', 'oneToOne', 'admin::user'> &
+      Attribute.Private;
+    sitemap_exclude: Attribute.Boolean &
+      Attribute.Private &
+      Attribute.DefaultTo<false>;
+  };
+}
+
+export interface ApiPageSettingPageSetting extends Schema.SingleType {
+  collectionName: 'page_settings';
+  info: {
+    singularName: 'page-setting';
+    pluralName: 'page-settings';
+    displayName: 'Page Settings';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    pageSettings: Attribute.Component<'pages.settings-entry', true>;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::page-setting.page-setting',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::page-setting.page-setting',
+      'oneToOne',
+      'admin::user'
+    > &
       Attribute.Private;
     sitemap_exclude: Attribute.Boolean &
       Attribute.Private &
@@ -685,15 +718,21 @@ export interface ApiSiteSettingSiteSetting extends Schema.SingleType {
     commentsAllowed: Attribute.Boolean &
       Attribute.Required &
       Attribute.DefaultTo<true>;
-    indexAllowed: Attribute.Boolean &
-      Attribute.Required &
-      Attribute.DefaultTo<false>;
     socialNetworks: Attribute.Component<'shared.social-link', true>;
     showComments: Attribute.Boolean &
       Attribute.Required &
       Attribute.DefaultTo<true>;
     siteLogoLight: Attribute.Media;
     siteLogoDark: Attribute.Media;
+    siteDescription: Attribute.Text &
+      Attribute.SetMinMaxLength<{
+        maxLength: 160;
+      }>;
+    siteRobots: Attribute.Component<'shared.robots'>;
+    siteKeywords: Attribute.String &
+      Attribute.SetMinMaxLength<{
+        maxLength: 160;
+      }>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<
@@ -1646,6 +1685,7 @@ declare module '@strapi/types' {
       'api::category.category': ApiCategoryCategory;
       'api::frontend-secret.frontend-secret': ApiFrontendSecretFrontendSecret;
       'api::page.page': ApiPagePage;
+      'api::page-setting.page-setting': ApiPageSettingPageSetting;
       'api::site-setting.site-setting': ApiSiteSettingSiteSetting;
       'api::tag.tag': ApiTagTag;
       'plugin::upload.file': PluginUploadFile;

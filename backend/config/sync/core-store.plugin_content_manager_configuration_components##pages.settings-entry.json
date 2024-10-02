@@ -1,0 +1,235 @@
+{
+  "key": "plugin_content_manager_configuration_components::pages.settings-entry",
+  "value": {
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "page",
+      "defaultSortBy": "id",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "page": {
+        "edit": {
+          "label": "Page",
+          "description": "Page (collection) to add settings for.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "page",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "title": {
+        "edit": {
+          "label": "Title",
+          "description": "The meta title that will also be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "title",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "description": {
+        "edit": {
+          "label": "Description",
+          "description": "The page meta description that will be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "description",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "cover": {
+        "edit": {
+          "label": "Cover",
+          "description": "The cover image for pages will only appear on social media.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "cover",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "metaSocial": {
+        "edit": {
+          "label": "Meta Social",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "metaSocial",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "keywords": {
+        "edit": {
+          "label": "Keywords",
+          "description": "The comma separated meta keywords that will be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "keywords",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "robots": {
+        "edit": {
+          "label": "Robots",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "robots",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "structuredData": {
+        "edit": {
+          "label": "Structured Data",
+          "description": "Structured data for the current page, that will be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "structuredData",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "viewport": {
+        "edit": {
+          "label": "Viewport",
+          "description": "Custom meta viewport settings to override the default one (optional).",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "viewport",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "canonicalURL": {
+        "edit": {
+          "label": "Canonical URL",
+          "description": "The cannonical URL for this page (including https://).",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "canonicalURL",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "page",
+        "cover",
+        "robots"
+      ],
+      "edit": [
+        [
+          {
+            "name": "page",
+            "size": 6
+          },
+          {
+            "name": "title",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "description",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "cover",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "robots",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "metaSocial",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "keywords",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "canonicalURL",
+            "size": 6
+          },
+          {
+            "name": "viewport",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "structuredData",
+            "size": 12
+          }
+        ]
+      ]
+    },
+    "uid": "pages.settings-entry",
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

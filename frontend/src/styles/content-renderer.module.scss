@@ -1,0 +1,178 @@
+@import 'mantine';
+
+.typography {
+  &:global(.mantine-TypographyStylesProvider-root) > *:not(
+    figure, img, ul, ol, blockquote, pre, :global(.code-block)
+  ) {
+    padding: 0 rem(8);
+    @media (min-width: rem(480)) {
+      padding: 0 rem(16);
+    }
+  }
+
+  p {
+    max-width: rem(864);
+    margin-left: auto;
+    margin-right: auto;
+    text-wrap: pretty;
+    font-size: rem(18);
+    color: var(--mantine-color-dark-7);
+    @include dark {
+      color: var(--mantine-color-dark-1);
+    }
+
+    :where(code) {
+      font-size: rem(16);
+      padding: rem(2) rem(8);
+      @include light {
+        background-color: var(--mantine-color-gray-1);
+        color: var(--mantine-color-dark-8);
+      }
+      @include dark {
+        background-color: var(--mantine-color-gray-8);
+        color: var(--mantine-color-dark-0);
+      }
+    }
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    max-width: rem(864);
+    margin-left: auto;
+    margin-right: auto;
+    text-wrap: pretty;
+    color: var(--mantine-color-dark-9);
+    @include dark {
+      color: var(--mantine-color-dark-0);
+    }
+  }
+
+  ul, ol {
+    max-width: rem(864);
+    margin-left: auto;
+    margin-right: auto;
+
+    li {
+      text-wrap: pretty;
+      font-size: rem(18);
+      color: var(--mantine-color-dark-7);
+      @include dark {
+        color: var(--mantine-color-dark-1);
+      }
+    }
+  }
+
+  figure, img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  figure {
+    max-width: rem(1088);
+    margin-top: var(--mantine-spacing-xl);
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-xl));
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  figcaption {
+    font-size: rem(15);
+    text-align: center;
+    color: var(--mantine-color-gray-6);
+    margin-top: var(--mantine-spacing-md);
+  }
+
+  blockquote:global(.mantine-Blockquote-root) {
+    width: 100%;
+    max-width: rem(1088);
+    margin-top: var(--mantine-spacing-xl);
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-xl));
+    margin-left: auto;
+    margin-right: auto;
+    padding: rem(32);
+    border-top-right-radius: var(--mantine-radius-lg);
+    border-bottom-right-radius: var(--mantine-radius-lg);
+    border-bottom-left-radius: var(--mantine-radius-lg);
+    color: var(--mantine-color-dark-7);
+    @include dark {
+      background-color: var(--mantine-color-gray-8);
+      color: var(--mantine-color-dark-1);
+      :global(.mantine-Blockquote-icon) {
+        background-color: var(--mantine-color-gray-9);
+      }
+    }
+
+    cite:global(.mantine-Blockquote-cite) {
+      font-size: 90%;
+    }
+  }
+
+  :global(.code-block) {
+    display: grid;
+    width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+    max-width: rem(1088);
+    margin-top: var(--mantine-spacing-xl);
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-xl));
+    margin-left: auto;
+    margin-right: auto;
+
+    pre {
+      display: block;
+      width: 100%;
+      padding: rem(32);
+      border-radius: var(--mantine-radius-lg);
+      background-color: var(--mantine-color-gray-1);
+      @include light {
+        background-color: var(--mantine-color-gray-1);
+      }
+      @include dark {
+        background-color: var(--mantine-color-gray-8);
+      }
+
+      :where(code) {
+        display: block;
+        font-size: rem(16);
+        background-color: transparent;
+        color: var(--mantine-color-dark-8);
+        @include light {
+          background-color: transparent;
+          color: var(--mantine-color-dark-8);
+        }
+        @include dark {
+          background-color: transparent;
+          color: var(--mantine-color-dark-0);
+        }
+      }
+    }
+  }
+
+  // Change spacing between elements.
+  :where(p) {
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-lg));
+  }
+
+  :where(ul, ol):not([data-type='taskList']) {
+    padding-inline-start: calc(rem(36) * var(--mantine-scale));
+    padding-inline-end: rem(8);
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-lg));
+    @media (min-width: rem(480)) {
+      padding-inline-start: calc(rem(56) * var(--mantine-scale));
+      padding-inline-end: rem(16);
+    }
+  }
+
+  :where(p:has(+ ul), p:has(+ ol)):not([data-type='taskList']) {
+    margin-bottom: var(--mantine-spacing-md);
+  }
+
+  :where(h1, h2, h3, h4, h5, h6) {
+    margin-top: calc(rem(20) + var(--mantine-spacing-xl));
+    margin-bottom: calc(rem(4) + var(--mantine-spacing-lg));
+
+    &:has(+ ul), &:has(+ ol) {
+      margin-bottom: var(--mantine-spacing-md);
+    }
+  }
+}

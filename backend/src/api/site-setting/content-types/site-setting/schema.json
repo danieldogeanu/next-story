@@ -51,11 +51,6 @@
       "default": true,
       "required": true
     },
-    "indexAllowed": {
-      "type": "boolean",
-      "default": false,
-      "required": true
-    },
     "socialNetworks": {
       "type": "component",
       "repeatable": true,
@@ -67,18 +62,34 @@
       "required": true
     },
     "siteLogoLight": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "siteLogoDark": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
+    },
+    "siteDescription": {
+      "type": "text",
+      "maxLength": 160
+    },
+    "siteRobots": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.robots"
+    },
+    "siteKeywords": {
+      "type": "string",
+      "regex": "[^,]+",
+      "maxLength": 160
     }
   }
 }

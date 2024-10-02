@@ -1,0 +1,155 @@
+@import 'mantine';
+
+.card {
+  --trans-timing: var(--next-story-transition-timing);
+  --trans-easing: var(--next-story-transition-easing);
+
+  background-color: transparent;
+  container: author_card / inline-size;
+  overflow: visible;
+
+  // Author Card hover effects.
+  &:hover {
+    .avatar {
+      box-shadow: var(--mantine-shadow-md);
+
+      .preview {
+        opacity: 0.5;
+      }
+
+      :global(.mantine-Image-root) {
+        filter: brightness(75%) contrast(150%);
+        transform: scale(102%);
+        @include dark {
+          filter: brightness(120%) contrast(120%);
+        }
+      }
+    }
+
+    .button:global(.mantine-Button-root) {
+      :global(.mantine-Button-section[data-position='right']) {
+        transform: translateX(0);
+      }
+    }
+  }
+}
+
+.cover {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: rem(20);
+}
+
+.avatar {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: rem(140);
+  max-height: rem(140);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 50%;
+  transition: box-shadow var(--trans-timing) var(--trans-easing);
+
+  .preview {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    z-index: 2;
+    opacity: 0;
+    transition: opacity calc(var(--trans-timing) * 1.2) var(--trans-easing);
+    color: var(--mantine-color-white);
+    @include dark {
+      color: var(--mantine-color-black);
+    }
+  }
+
+  .image {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+
+    &:global(.mantine-Image-root) {
+      transition: all var(--trans-timing) var(--trans-easing);
+    }
+  }
+
+  .default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--mantine-color-gray-0);
+    border: rem(4) solid var(--mantine-color-gray-4);
+    @include dark {
+      background-color: var(--mantine-color-gray-8);
+      border: rem(4) solid var(--mantine-color-gray-7);
+    }
+
+    svg {
+      color: var(--mantine-color-gray-5);
+      @include dark {
+        color: var(--mantine-color-gray-6);
+      }
+    }
+  }
+}
+
+.name {
+  text-align: center;
+  font-size: rem(18);
+  margin-bottom: rem(4);
+}
+
+.joined {
+  text-align: center;
+  font-size: rem(14);
+  color: var(--mantine-color-dark-3);
+  @include dark {
+    color: var(--mantine-color-gray-6);
+  }
+  @media (min-width: rem(480)) {
+    font-size: rem(15);
+  }
+}
+
+.socials {
+  padding: rem(8) 0;
+}
+
+.articles {
+  .button:global(.mantine-Button-root) {
+    font-weight: 400;
+    color: var(--mantine-color-dark-3);
+    @include dark {
+      color: var(--mantine-color-gray-6);
+    }
+
+    &:hover {
+      color: var(--mantine-color-dark-5);
+      @include dark {
+        color: var(--mantine-color-gray-3);
+      }
+
+      :global(.mantine-Button-section[data-position='right']) {
+        transform: translateX(0);
+      }
+    }
+  }
+
+  :global(.mantine-Button-section[data-position='right']) {
+    transition: transform 80ms var(--trans-easing);
+    color: var(--mantine-color-strawberry-pink-4);
+    transform: translateX(rem(-4));
+  }
+}
+

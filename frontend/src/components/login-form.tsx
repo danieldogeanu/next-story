@@ -1,6 +1,7 @@
 'use client';
 
 import { Anchor, Stack, Checkbox, Group, PasswordInput, TextInput, Button, Divider } from '@mantine/core';
+import { showNotImplemented } from '@/utils/react';
 import { IconLogin2 } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { GoogleLogo } from './svgs';
@@ -58,6 +59,10 @@ export default function LoginForm() {
         <Button
           size='md' type='submit' id='submit-login'
           rightSection={<IconLogin2 size={20} stroke={2} />}
+          onClick={() => {
+            showNotImplemented();
+            form.reset();
+          }}
         >Login</Button>
 
       </form>
@@ -69,6 +74,7 @@ export default function LoginForm() {
         className={styles.loginWith}
         size='md' variant='light' color='dark'
         leftSection={<GoogleLogo />}
+        onClick={showNotImplemented}
       >Login with Google</Button>
 
     </Stack>

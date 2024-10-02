@@ -1,27 +1,27 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { IconKeys } from '@/components/dynamic-icon';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { strapiSDK } from '@/data/strapi';
 import { GetValues } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/env';
 import buildTimeNavData from '@build-data/navigation.json';
 import buildTimeMainNavData from '@build-data/main-navigation.json';
 import buildTimeLegalNavData from '@build-data/legal-navigation.json';
 import path from 'node:path';
 
-export type NavDataResponse = GetValues<'plugin::navigation.navigation'>;
-
-export type SingleNavSlug = 'main-navigation' | 'legal-navigation';
-
+// Rename and extend Strapi types to make it more clear what we're working with.
+export interface NavDataResponse extends GetValues<'plugin::navigation.navigation'> {}
+export interface SingleNavResponse extends GetValues<'plugin::navigation.navigation-item'> {
+  items: SingleNavResponse[];
+  icon?: IconKeys | '';
+}
 export interface SingleNavRequestParams extends StrapiRequestParams {
   type?: 'FLAT' | 'TREE' | 'RFR';
   orderBy?: string;
   orderDirection?: string;
 }
 
-export type SingleNavResponse = GetValues<'plugin::navigation.navigation-item'> & {
-  items: SingleNavResponse[];
-  icon?: IconKeys | '';
-};
+// Navigation specific types.
+export type SingleNavSlug = 'main-navigation' | 'legal-navigation';
 
 /**
  * Fetches navigation data from the Strapi backend.
@@ -39,7 +39,7 @@ export async function getNavData(): Promise<NavDataResponse[]> {
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeNavData as unknown as NavDataResponse[];
+  if (await isBuildTime()) return buildTimeNavData as unknown as NavDataResponse[];
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
@@ -65,8 +65,8 @@ export async function getSingleNavData(nav: SingleNavSlug, params?: SingleNavReq
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime() && nav === 'main-navigation') return buildTimeMainNavData as unknown as SingleNavResponse[];
-  if (isBuildTime() && nav === 'legal-navigation') return buildTimeLegalNavData as unknown as SingleNavResponse[];
+  if (await isBuildTime() && nav === 'main-navigation') return buildTimeMainNavData as unknown as SingleNavResponse[];
+  if (await isBuildTime() && nav === 'legal-navigation') return buildTimeLegalNavData as unknown as SingleNavResponse[];
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

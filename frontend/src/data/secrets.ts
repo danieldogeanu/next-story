@@ -1,8 +1,15 @@
-import { StrapiRequestParams } from "strapi-sdk-js";
-import { APIResponse } from "@/types/strapi";
-import { strapiSDK } from "@/data/strapi";
-import { getAPIKey, isBuildTime } from "@/utils/env";
+import { StrapiRequestParams } from 'strapi-sdk-js';
+import { APIResponse, APIResponseData } from '@/types/strapi';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
+import { strapiSDK } from '@/data/strapi';
 
+// Rename Strapi types to make it more clear what we're working with.
+export interface FrontendSecretsData extends APIResponseData<'api::frontend-secret.frontend-secret'> {}
+export interface BackendSecretsData extends APIResponseData<'api::backend-secret.backend-secret'> {}
+export interface FrontendSecretsResponse extends APIResponse<'api::frontend-secret.frontend-secret'> {}
+export interface BackendSecretsResponse extends APIResponse<'api::backend-secret.backend-secret'> {}
+
+// Secrets specific types.
 export type SiteSecretsType = 'frontend' | 'backend';
 
 export interface SecretEntry {
@@ -10,10 +17,6 @@ export interface SecretEntry {
   name: string;
   value: string;
 }
-
-export interface FrontendSecretsResponse extends APIResponse<'api::frontend-secret.frontend-secret'> {}
-
-export interface BackendSecretsResponse extends APIResponse<'api::backend-secret.backend-secret'> {}
 
 /**
  * Fetches site secrets from the Strapi backend based on the type of secrets chosen.
@@ -35,7 +38,7 @@ export async function getSiteSecrets(
 
   // At build time we return null, because we don't want to expose
   // our secrets to static and unsecure JSON files.
-  if (isBuildTime()) return null;
+  if (await isBuildTime()) return null;
 
   if (secretsType === 'frontend') {
     return await strapiInstance.find('frontend-secret', strapiRequestParams) as FrontendSecretsResponse;

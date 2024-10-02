@@ -1,0 +1,24 @@
+@import 'mantine';
+
+.badge {
+  margin: rem(8);
+  transition: background-color var(--next-story-transition-timing) var(--next-story-transition-easing);
+
+  &:hover {
+    cursor: pointer;
+    background-color: rgba(66, 66, 66, 0.24);
+    @include dark {
+      background-color: rgba(105, 105, 105, 0.4);
+    }
+  }
+
+  &:global(.mantine-Badge-root) {
+    padding: rem(16) rem(20);
+  }
+
+  :global(.mantine-Badge-label) {
+    text-transform: capitalize;
+    font-size: rem(16);
+    font-weight: 400;
+  }
+}

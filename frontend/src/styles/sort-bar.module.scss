@@ -1,34 +1,101 @@
 @import 'mantine';
 
+// We set the color this way, because we can't process CSS variables.
+// The unprocessed background color is equivalent to: `--mantine-color-gray-8`.
+$sort-select-bg: darken(#343a40, 5%);
+
 .container {
   display: grid;
-  grid-template-columns: 1fr auto auto;
-  grid-template-rows: auto;
+  grid-template-areas: 'total total' 'order sort';
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
   align-items: center;
   margin-bottom: rem(16);
   padding: 0 rem(4);
-  gap: rem(24);
+  gap: rem(16);
+  @media (min-width: rem(400)) {
+    grid-template-areas: 'total order sort';
+    grid-template-columns: auto auto 1fr;
+    grid-template-rows: auto;
+  }
+  @media (min-width: rem(540)) {
+    grid-template-columns: 1fr auto auto;
+    gap: rem(24);
+  }
+
+  &.fallback {
+    grid-template-areas: 'fallback';
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+
+    :global(.mantine-Skeleton-root) {
+      grid-area: fallback;
+    }
+  }
 }
 
 .total {
+  grid-area: total;
   align-self: end;
+  justify-self: end;
   line-height: 1;
-  font-size: rem(14);
+  font-size: rem(15);
   color: var(--mantine-color-gray-6);
+  @media (min-width: rem(400)) {
+    align-self: center;
+  }
+  @media (min-width: rem(480)) {
+    font-size: rem(14);
+  }
+  @media (min-width: rem(540)) {
+    justify-self: start;
+  }
+  @media (min-width: rem(780)) {
+    align-self: end;
+  }
 }
 
 .order {
+  grid-area: order;
+
   .chevron {
-    color: var(--mantine-color-gray-6);
     transition: color var(--next-story-transition-timing) var(--next-story-transition-easing);
-    &:hover, &.active {
+    color: var(--mantine-color-gray-5);
+    @include dark {
+      color: var(--mantine-color-gray-6);
+    }
+    &:hover {
       color: var(--mantine-color-gray-8);
+      @include dark {
+        color: var(--mantine-color-gray-2);
+      }
+    }
+    &:disabled {
+      background-color: transparent;
+      color: var(--mantine-color-gray-8);
+      @include dark {
+        color: var(--mantine-color-gray-2);
+      }
     }
   }
 }
 
 .sort {
+  grid-area: sort;
+
   :global(.mantine-Select-input) {
     color: var(--mantine-color-gray-7);
+    @include dark {
+      color: var(--mantine-color-gray-5);
+      background-color: $sort-select-bg;
+    }
+  }
+
+}
+
+// This should not be nested, because the dropdown is rendered in a portal.
+.sortDropdown {
+  @include dark {
+    background-color: $sort-select-bg;
   }
 }

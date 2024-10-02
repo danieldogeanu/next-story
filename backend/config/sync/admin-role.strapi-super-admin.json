@@ -34,7 +34,9 @@
           "showComments",
           "allowComments",
           "comments",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -84,7 +86,9 @@
           "showComments",
           "allowComments",
           "comments",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -120,7 +124,9 @@
           "showComments",
           "allowComments",
           "comments",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -139,7 +145,6 @@
           "socialNetworks.link",
           "socialNetworks.icon",
           "articles",
-          "allowIndexing",
           "seo.metaTitle",
           "seo.metaDescription",
           "seo.metaImage",
@@ -151,7 +156,10 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -184,7 +192,6 @@
           "socialNetworks.link",
           "socialNetworks.icon",
           "articles",
-          "allowIndexing",
           "seo.metaTitle",
           "seo.metaDescription",
           "seo.metaImage",
@@ -196,7 +203,10 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -215,7 +225,6 @@
           "socialNetworks.link",
           "socialNetworks.icon",
           "articles",
-          "allowIndexing",
           "seo.metaTitle",
           "seo.metaDescription",
           "seo.metaImage",
@@ -227,7 +236,10 @@
           "seo.metaRobots",
           "seo.structuredData",
           "seo.metaViewport",
-          "seo.canonicalURL"
+          "seo.canonicalURL",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -297,7 +309,10 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "articles"
+          "articles",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -338,7 +353,10 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "articles"
+          "articles",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -365,7 +383,10 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "articles"
+          "articles",
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -416,6 +437,88 @@
     {
       "action": "plugin::content-manager.explorer.create",
       "actionParameters": {},
+      "subject": "api::page-setting.page-setting",
+      "properties": {
+        "fields": [
+          "pageSettings.page",
+          "pageSettings.title",
+          "pageSettings.description",
+          "pageSettings.cover",
+          "pageSettings.metaSocial.socialNetwork",
+          "pageSettings.metaSocial.title",
+          "pageSettings.metaSocial.description",
+          "pageSettings.metaSocial.image",
+          "pageSettings.keywords",
+          "pageSettings.robots.indexAllowed",
+          "pageSettings.robots.followAllowed",
+          "pageSettings.robots.cacheAllowed",
+          "pageSettings.structuredData",
+          "pageSettings.viewport",
+          "pageSettings.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.delete",
+      "actionParameters": {},
+      "subject": "api::page-setting.page-setting",
+      "properties": {},
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.read",
+      "actionParameters": {},
+      "subject": "api::page-setting.page-setting",
+      "properties": {
+        "fields": [
+          "pageSettings.page",
+          "pageSettings.title",
+          "pageSettings.description",
+          "pageSettings.cover",
+          "pageSettings.metaSocial.socialNetwork",
+          "pageSettings.metaSocial.title",
+          "pageSettings.metaSocial.description",
+          "pageSettings.metaSocial.image",
+          "pageSettings.keywords",
+          "pageSettings.robots.indexAllowed",
+          "pageSettings.robots.followAllowed",
+          "pageSettings.robots.cacheAllowed",
+          "pageSettings.structuredData",
+          "pageSettings.viewport",
+          "pageSettings.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.update",
+      "actionParameters": {},
+      "subject": "api::page-setting.page-setting",
+      "properties": {
+        "fields": [
+          "pageSettings.page",
+          "pageSettings.title",
+          "pageSettings.description",
+          "pageSettings.cover",
+          "pageSettings.metaSocial.socialNetwork",
+          "pageSettings.metaSocial.title",
+          "pageSettings.metaSocial.description",
+          "pageSettings.metaSocial.image",
+          "pageSettings.keywords",
+          "pageSettings.robots.indexAllowed",
+          "pageSettings.robots.followAllowed",
+          "pageSettings.robots.cacheAllowed",
+          "pageSettings.structuredData",
+          "pageSettings.viewport",
+          "pageSettings.canonicalURL"
+        ]
+      },
+      "conditions": []
+    },
+    {
+      "action": "plugin::content-manager.explorer.create",
+      "actionParameters": {},
       "subject": "api::page.page",
       "properties": {
         "fields": [
@@ -438,7 +541,9 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -482,7 +587,9 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -512,7 +619,9 @@
           "seo.structuredData",
           "seo.metaViewport",
           "seo.canonicalURL",
-          "allowIndexing"
+          "robots.indexAllowed",
+          "robots.followAllowed",
+          "robots.cacheAllowed"
         ]
       },
       "conditions": []
@@ -530,13 +639,17 @@
           "siteCover",
           "siteLogo",
           "commentsAllowed",
-          "indexAllowed",
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
           "showComments",
           "siteLogoLight",
-          "siteLogoDark"
+          "siteLogoDark",
+          "siteDescription",
+          "siteRobots.indexAllowed",
+          "siteRobots.followAllowed",
+          "siteRobots.cacheAllowed",
+          "siteKeywords"
         ]
       },
       "conditions": []
@@ -561,13 +674,17 @@
           "siteCover",
           "siteLogo",
           "commentsAllowed",
-          "indexAllowed",
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
           "showComments",
           "siteLogoLight",
-          "siteLogoDark"
+          "siteLogoDark",
+          "siteDescription",
+          "siteRobots.indexAllowed",
+          "siteRobots.followAllowed",
+          "siteRobots.cacheAllowed",
+          "siteKeywords"
         ]
       },
       "conditions": []
@@ -585,13 +702,17 @@
           "siteCover",
           "siteLogo",
           "commentsAllowed",
-          "indexAllowed",
           "socialNetworks.label",
           "socialNetworks.link",
           "socialNetworks.icon",
           "showComments",
           "siteLogoLight",
-          "siteLogoDark"
+          "siteLogoDark",
+          "siteDescription",
+          "siteRobots.indexAllowed",
+          "siteRobots.followAllowed",
+          "siteRobots.cacheAllowed",
+          "siteKeywords"
         ]
       },
       "conditions": []

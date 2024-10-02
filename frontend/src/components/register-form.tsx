@@ -1,6 +1,7 @@
 'use client';
 
 import { Anchor, Stack, Checkbox, PasswordInput, TextInput, Button, Divider, Text } from '@mantine/core';
+import { showNotImplemented } from '@/utils/react';
 import { IconKey } from '@tabler/icons-react';
 import { useForm } from '@mantine/form';
 import { GoogleLogo } from './svgs';
@@ -66,6 +67,10 @@ export default function RegisterForm() {
         <Button
           size='md' type='submit' id='submit-register'
           rightSection={<IconKey size={20} stroke={2} />}
+          onClick={() => {
+            showNotImplemented();
+            form.reset();
+          }}
         >Register</Button>
 
       </form>
@@ -77,6 +82,7 @@ export default function RegisterForm() {
         className={styles.registerWith}
         size='md' variant='light' color='dark'
         leftSection={<GoogleLogo />}
+        onClick={showNotImplemented}
       >Register with Google</Button>
 
     </Stack>

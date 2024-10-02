@@ -1,0 +1,95 @@
+{
+  "key": "plugin_content_manager_configuration_components::shared.robots",
+  "value": {
+    "settings": {
+      "bulkable": true,
+      "filterable": true,
+      "searchable": true,
+      "pageSize": 10,
+      "mainField": "id",
+      "defaultSortBy": "id",
+      "defaultSortOrder": "ASC"
+    },
+    "metadatas": {
+      "id": {
+        "edit": {},
+        "list": {
+          "label": "id",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "indexAllowed": {
+        "edit": {
+          "label": "Index Allowed",
+          "description": "Allow search engines to index this page?",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "indexAllowed",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "followAllowed": {
+        "edit": {
+          "label": "Follow Allowed",
+          "description": "Allow search engines to follow links on this page?",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "followAllowed",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "cacheAllowed": {
+        "edit": {
+          "label": "Cache Allowed",
+          "description": "Allow search engines to cache this page?",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "cacheAllowed",
+          "searchable": true,
+          "sortable": true
+        }
+      }
+    },
+    "layouts": {
+      "list": [
+        "id",
+        "indexAllowed",
+        "followAllowed",
+        "cacheAllowed"
+      ],
+      "edit": [
+        [
+          {
+            "name": "indexAllowed",
+            "size": 4
+          },
+          {
+            "name": "followAllowed",
+            "size": 4
+          },
+          {
+            "name": "cacheAllowed",
+            "size": 4
+          }
+        ]
+      ]
+    },
+    "uid": "shared.robots",
+    "isComponent": true
+  },
+  "type": "object",
+  "environment": null,
+  "tag": null
+}

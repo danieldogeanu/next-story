@@ -1,5 +1,36 @@
 import type { Schema, Attribute } from '@strapi/strapi';
 
+export interface PagesSettingsEntry extends Schema.Component {
+  collectionName: 'components_pages_settings_entries';
+  info: {
+    displayName: 'Settings Entry';
+    icon: 'cog';
+    description: '';
+  };
+  attributes: {
+    page: Attribute.Enumeration<['authors', 'categories', 'tags']> &
+      Attribute.Required;
+    title: Attribute.String &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        maxLength: 60;
+      }>;
+    description: Attribute.Text &
+      Attribute.Required &
+      Attribute.SetMinMaxLength<{
+        minLength: 50;
+        maxLength: 160;
+      }>;
+    cover: Attribute.Media;
+    metaSocial: Attribute.Component<'shared.meta-social', true>;
+    keywords: Attribute.String;
+    robots: Attribute.Component<'shared.robots'>;
+    structuredData: Attribute.JSON;
+    viewport: Attribute.String;
+    canonicalURL: Attribute.String;
+  };
+}
+
 export interface SharedMetaSocial extends Schema.Component {
   collectionName: 'components_shared_meta_socials';
   info: {
@@ -20,6 +51,25 @@ export interface SharedMetaSocial extends Schema.Component {
         maxLength: 65;
       }>;
     image: Attribute.Media;
+  };
+}
+
+export interface SharedRobots extends Schema.Component {
+  collectionName: 'components_shared_robots';
+  info: {
+    displayName: 'Robots';
+    icon: 'search';
+  };
+  attributes: {
+    indexAllowed: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    followAllowed: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
+    cacheAllowed: Attribute.Boolean &
+      Attribute.Required &
+      Attribute.DefaultTo<false>;
   };
 }
 
@@ -143,7 +193,9 @@ export interface UserSubscriptions extends Schema.Component {
 declare module '@strapi/types' {
   export module Shared {
     export interface Components {
+      'pages.settings-entry': PagesSettingsEntry;
       'shared.meta-social': SharedMetaSocial;
+      'shared.robots': SharedRobots;
       'shared.seo': SharedSeo;
       'shared.social-link': SharedSocialLink;
       'site.secret-entry': SiteSecretEntry;

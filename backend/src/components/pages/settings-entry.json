@@ -1,0 +1,63 @@
+{
+  "collectionName": "components_pages_settings_entries",
+  "info": {
+    "displayName": "Settings Entry",
+    "icon": "cog",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "page": {
+      "type": "enumeration",
+      "enum": [
+        "authors",
+        "categories",
+        "tags"
+      ],
+      "required": true
+    },
+    "title": {
+      "type": "string",
+      "required": true,
+      "unique": false,
+      "maxLength": 60
+    },
+    "description": {
+      "type": "text",
+      "required": true,
+      "maxLength": 160,
+      "minLength": 50
+    },
+    "cover": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    },
+    "metaSocial": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.meta-social"
+    },
+    "keywords": {
+      "type": "string",
+      "regex": "[^,]+"
+    },
+    "robots": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.robots"
+    },
+    "structuredData": {
+      "type": "json"
+    },
+    "viewport": {
+      "type": "string"
+    },
+    "canonicalURL": {
+      "type": "string"
+    }
+  }
+}

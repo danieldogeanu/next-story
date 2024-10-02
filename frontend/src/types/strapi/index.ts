@@ -1,4 +1,5 @@
 import type { Attribute, Common, Utils } from '@strapi/strapi';
+export type * from '@/types/strapi/static';
 
 /**
  * These types were added here from this Strapi tutorial:
@@ -8,7 +9,7 @@ import type { Attribute, Common, Utils } from '@strapi/strapi';
  * https://gist.github.com/Convly/6cf1e6d143bb0a90c8de2242fdedda8e
  */
 
-type IDProperty = { id: number };
+export type IDProperty = { id: number };
 
 type InvalidKeys<TSchemaUID extends Common.UID.Schema> = Utils.Object.KeysBy<
   Attribute.GetAll<TSchemaUID>,
@@ -110,7 +111,7 @@ export type GetValue<TAttribute extends Attribute.Attribute> = Utils.Expression.
   unknown
 >;
 
-interface APIResponseData<TContentTypeUID extends Common.UID.ContentType> extends IDProperty {
+export interface APIResponseData<TContentTypeUID extends Common.UID.ContentType> extends IDProperty {
   attributes: GetValues<TContentTypeUID>;
 }
 

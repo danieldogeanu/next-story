@@ -8,7 +8,7 @@
       "pageSize": 50,
       "mainField": "fullName",
       "defaultSortBy": "id",
-      "defaultSortOrder": "ASC"
+      "defaultSortOrder": "DESC"
     },
     "metadatas": {
       "id": {
@@ -104,20 +104,6 @@
           "sortable": false
         }
       },
-      "allowIndexing": {
-        "edit": {
-          "label": "Allow Indexing",
-          "description": "Show this page in search engines.",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "Allow Indexing",
-          "searchable": true,
-          "sortable": true
-        }
-      },
       "seo": {
         "edit": {
           "label": "SEO",
@@ -128,6 +114,20 @@
         },
         "list": {
           "label": "seo",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "robots": {
+        "edit": {
+          "label": "Robots",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "robots",
           "searchable": false,
           "sortable": false
         }
@@ -197,10 +197,6 @@
           {
             "name": "avatar",
             "size": 6
-          },
-          {
-            "name": "allowIndexing",
-            "size": 6
           }
         ],
         [
@@ -227,6 +223,12 @@
         ],
         [
           {
+            "name": "robots",
+            "size": 12
+          }
+        ],
+        [
+          {
             "name": "seo",
             "size": 12
           }
@@ -243,7 +245,6 @@
         "avatar",
         "slug",
         "fullName",
-        "allowIndexing",
         "articles"
       ]
     },

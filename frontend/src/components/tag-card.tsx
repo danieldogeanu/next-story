@@ -1,7 +1,7 @@
 import Link from 'next/link';
-import path from 'node:path';
 import { Card, Title } from '@mantine/core';
 import { SingleTag } from '@/data/tags';
+import { getPageUrl } from '@/utils/urls';
 import { capitalize } from '@/utils/strings';
 import styles from '@/styles/tag-card.module.scss';
 
@@ -10,13 +10,13 @@ export interface TagCardProps {
 }
 
 export default function TagCard({data}: TagCardProps) {
-  const tagHref = path.join('/tags', data.slug);
+  const tagUrl = getPageUrl(data.slug, '/tags');
   
   return (
     <Card
       className={styles.card}
       component={Link}
-      href={tagHref}
+      href={tagUrl || ''}
       title={`See Articles for ${capitalize(data.name)} Tag`}
       padding='xs'
       radius='md'>

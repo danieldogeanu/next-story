@@ -20,7 +20,7 @@ export interface DynamicIconProps extends TablerIconsProps {
  * @param props The React props for the dynamically loaded icon.
  * @returns Returns a promise of the JSX.Element that can be used as SVG Icon in any React component.
  */
-export default function DynamicIcon({icon, ...props}: DynamicIconProps) {
+export default function DynamicIcon({icon, ...otherProps}: DynamicIconProps) {
   const [isPending, startTransition] = useTransition();
   const [SelectedIcon, selectIcon] = useState<React.FC<TablerIconsProps> | null>(null);
 
@@ -31,5 +31,5 @@ export default function DynamicIcon({icon, ...props}: DynamicIconProps) {
     });
   }, [icon]);
 
-  return SelectedIcon ? <SelectedIcon {...props} /> : null;
+  return SelectedIcon ? <SelectedIcon {...otherProps} /> : null;
 };

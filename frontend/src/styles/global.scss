@@ -47,3 +47,29 @@ a {
     color-scheme: dark;
   }
 }
+
+.notification-system {
+  right: rem(32);
+
+  .mantine-Notification-root {
+    border-radius: rem(8);
+    padding: rem(16);
+  }
+
+  .mantine-Notification-icon {
+    width: rem(40);
+    height: rem(40);
+
+    svg {
+      width: rem(28);
+      height: rem(28);
+      stroke-width: 1.25;
+    }
+  }
+
+  .mantine-Notification-closeButton {
+    align-self: flex-start;
+    margin-top: rem(-8);
+    margin-right: rem(-8);
+  }
+}

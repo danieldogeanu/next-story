@@ -1,14 +1,22 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/env';
 import buildTimeCategories from '@build-data/categories.json';
 
+// Rename Strapi types to make it more clear what we're working with.
 export interface SingleCategory extends GetValues<'api::category.category'> {}
-
+export interface SingleCategoryData extends APIResponseData<'api::category.category'> {}
 export interface SingleCategoryResponse extends APIResponse<'api::category.category'> {}
-
 export interface CategoriesCollectionResponse extends APIResponseCollection<'api::category.category'> {}
+
+// Extract smaller subtypes that can be used to further work with data.
+export type CategoryCover = NonNullable<SingleCategory['cover']>['data']['attributes'];
+export type CategoryArticles = NonNullable<SingleCategory['articles']>['data'];
+export type CategoryRobots = NonNullable<SingleCategory['robots']>;
+export type CategorySEO = NonNullable<SingleCategory['seo']>;
+export type CategoryMetaSocial = NonNullable<CategorySEO['metaSocial']>;
+export type CategoryMetaSocialEntry = CategoryMetaSocial[number] & IDProperty;
 
 /**
  * Fetches a single category from the Strapi backend by their ID.
@@ -32,7 +40,7 @@ export async function getSingleCategory(id: string | number, params?: StrapiRequ
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeCategories.data.filter(
+  if (await isBuildTime()) return buildTimeCategories.data.filter(
     (category) => (category.id === Number(id))
   ).pop() as unknown as SingleCategoryResponse;
 
@@ -63,7 +71,7 @@ export async function getCategoriesCollection(params?: StrapiRequestParams): Pro
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeCategories as unknown as CategoriesCollectionResponse;
+  if (await isBuildTime()) return buildTimeCategories as unknown as CategoriesCollectionResponse;
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

@@ -117,20 +117,6 @@
           "sortable": true
         }
       },
-      "indexAllowed": {
-        "edit": {
-          "label": "Index Allowed",
-          "description": "Allow search engines to index this site?",
-          "placeholder": "",
-          "visible": true,
-          "editable": true
-        },
-        "list": {
-          "label": "indexAllowed",
-          "searchable": true,
-          "sortable": true
-        }
-      },
       "socialNetworks": {
         "edit": {
           "label": "Social Networks",
@@ -185,6 +171,48 @@
           "label": "siteLogoDark",
           "searchable": false,
           "sortable": false
+        }
+      },
+      "siteDescription": {
+        "edit": {
+          "label": "Site Description",
+          "description": "The default meta description that will be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteDescription",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "siteRobots": {
+        "edit": {
+          "label": "Site Robots",
+          "description": "",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteRobots",
+          "searchable": false,
+          "sortable": false
+        }
+      },
+      "siteKeywords": {
+        "edit": {
+          "label": "Site Keywords",
+          "description": "The default, comma separated, meta keywords that will be used for SEO.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true
+        },
+        "list": {
+          "label": "siteKeywords",
+          "searchable": true,
+          "sortable": true
         }
       },
       "createdAt": {
@@ -270,6 +298,18 @@
         ],
         [
           {
+            "name": "siteDescription",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "siteKeywords",
+            "size": 12
+          }
+        ],
+        [
+          {
             "name": "siteLogo",
             "size": 4
           },
@@ -296,10 +336,12 @@
           {
             "name": "showComments",
             "size": 4
-          },
+          }
+        ],
+        [
           {
-            "name": "indexAllowed",
-            "size": 4
+            "name": "siteRobots",
+            "size": 12
           }
         ],
         [

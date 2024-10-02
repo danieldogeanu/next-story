@@ -47,14 +47,15 @@
       "target": "api::article.article",
       "mappedBy": "author"
     },
-    "allowIndexing": {
-      "type": "boolean",
-      "default": true
-    },
     "seo": {
       "type": "component",
       "repeatable": false,
       "component": "shared.seo"
+    },
+    "robots": {
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.robots"
     }
   }
 }

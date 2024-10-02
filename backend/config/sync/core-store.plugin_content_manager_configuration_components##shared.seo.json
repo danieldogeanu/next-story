@@ -92,10 +92,10 @@
       "metaRobots": {
         "edit": {
           "label": "Meta Robots",
-          "description": "",
+          "description": "Use Robots controls instead!",
           "placeholder": "",
           "visible": true,
-          "editable": true
+          "editable": false
         },
         "list": {
           "label": "metaRobots",

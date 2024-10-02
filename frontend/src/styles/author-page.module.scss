@@ -1,0 +1,212 @@
+@import 'mantine';
+
+.author {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto;
+  gap: 0;
+  width: 100%;
+  margin-bottom: rem(40);
+  border-radius: var(--mantine-radius-lg);
+  background-color: var(--mantine-color-gray-1);
+  @include dark {
+    background-color: var(--mantine-color-gray-8);
+  }
+
+  @media (min-width: rem(580)) {
+    margin-bottom: rem(60);
+  }
+
+  @media (min-width: rem(720)) {
+    grid-template-columns: auto 1fr;
+  }
+
+  @media (min-width: rem(820)) {
+    gap: rem(32);
+    background-color: transparent;
+    @include dark {
+      background-color: transparent;
+    }
+  }
+
+  @media (min-width: rem(1024)) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: rem(1392)) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: rem(8);
+    padding: rem(24) rem(24) rem(16) rem(24);
+    border-radius: var(--mantine-radius-lg);
+    background-color: var(--mantine-color-gray-1);
+    @include dark {
+      background-color: var(--mantine-color-gray-8);
+    }
+
+    @media (min-width: rem(480)) {
+      padding: rem(32) rem(40) rem(16) rem(40);
+    }
+
+    @media (min-width: rem(720)) {
+      padding: rem(32) rem(20) rem(32) rem(40);
+    }
+
+    @media (min-width: rem(820)) {
+      padding: rem(32) rem(40);
+    }
+  }
+
+  .right {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: space-between;
+    gap: rem(16);
+    padding: rem(16) rem(24) rem(24) rem(24);
+    border-radius: var(--mantine-radius-lg);
+    background-color: var(--mantine-color-gray-1);
+    @include dark {
+      background-color: var(--mantine-color-gray-8);
+    }
+
+    @media (min-width: rem(480)) {
+      padding: rem(16) rem(40) rem(32) rem(40);
+    }
+
+    @media (min-width: rem(720)) {
+      padding: rem(32) rem(40) rem(32) rem(20);
+    }
+
+    @media (min-width: rem(820)) {
+      padding: rem(32) rem(40);
+    }
+
+    @media (min-width: rem(1024)) {
+      grid-column: 2 / span 2;
+    }
+
+    @media (min-width: rem(1392)) {
+      grid-column: 2 / span 3;
+    }
+  }
+}
+
+.avatar {
+  display: block;
+  width: 100%;
+  height: 100%;
+  max-width: rem(160);
+  max-height: rem(160);
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 50%;
+  margin-top: rem(12);
+  margin-bottom: rem(32);
+  transition: outline var(--next-story-transition-timing) var(--next-story-transition-easing);
+  outline: rem(12) solid var(--mantine-color-dark-light);
+  &:hover {
+    outline: rem(16) solid var(--mantine-color-dark-light);
+  }
+
+  .image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--mantine-color-gray-0);
+    border: rem(4) solid var(--mantine-color-gray-4);
+    @include dark {
+      background-color: var(--mantine-color-gray-9);
+      border: rem(4) solid var(--mantine-color-gray-7);
+    }
+
+    svg {
+      color: var(--mantine-color-gray-5);
+      @include dark {
+        color: var(--mantine-color-gray-6);
+      }
+    }
+  }
+}
+
+.joined,
+.total {
+  text-align: center;
+  font-size: rem(14);
+  color: var(--mantine-color-dark-3);
+  @include dark {
+    color: var(--mantine-color-gray-6);
+  }
+  @media (min-width: rem(480)) {
+    font-size: rem(15);
+  }
+}
+
+.socials {
+  max-width: rem(260);
+
+  &:global(.mantine-Group-root) {
+    --group-gap: var(--mantine-spacing-xs) !important;
+    @media (min-width: rem(1070)) {
+      --group-gap: var(--mantine-spacing-md) !important;
+    }
+  }
+}
+
+.name {
+  display: block;
+  text-align: center;
+  width: 100%;
+  @media (min-width: rem(720)) {
+    text-align: left;
+  }
+}
+
+.biography {
+  color: var(--mantine-color-dark-5);
+  @include dark {
+    color: var(--mantine-color-dark-1);
+  }
+
+  p {
+    margin-bottom: rem(12);
+  }
+}
+
+.supportActions {
+  &:global(.mantine-Group-root) {
+    width: 100%;
+    --group-justify: center !important;
+    @media (min-width: rem(720)) {
+      --group-justify: flex-start !important;
+    }
+  }
+
+  :global(.mantine-Button-root) {
+    display: block;
+    width: 100%;
+    @media (min-width: rem(392)) {
+      display: inline-block;
+      width: auto;
+    }
+  }
+}
+
+.sortBar {
+  padding: 0 rem(48);
+  margin-bottom: rem(24);
+}

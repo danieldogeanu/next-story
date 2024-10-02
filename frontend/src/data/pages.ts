@@ -1,14 +1,24 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/env';
 import buildTimePages from '@build-data/pages.json';
 
+// Rename Strapi types to make it more clear what we're working with.
 export interface SinglePage extends GetValues<'api::page.page'> {}
-
+export interface SinglePageData extends APIResponseData<'api::page.page'> {}
 export interface SinglePageResponse extends APIResponse<'api::page.page'> {}
-
 export interface PagesCollectionResponse extends APIResponseCollection<'api::page.page'> {}
+
+// Extract smaller subtypes that can be used to further work with data.
+export type PageContent = NonNullable<SinglePage['content']>;
+export type PageCover = NonNullable<SinglePage['cover']>['data']['attributes'];
+export type PageParent = NonNullable<SinglePage['parent']>['data']['attributes'];
+export type PageChildren = NonNullable<SinglePage['children']>['data'];
+export type PageRobots = NonNullable<SinglePage['robots']>;
+export type PageSEO = NonNullable<SinglePage['seo']>;
+export type PageMetaSocial = NonNullable<PageSEO['metaSocial']>;
+export type PageMetaSocialEntry = PageMetaSocial[number] & IDProperty;
 
 /**
  * Fetches a single page from the Strapi backend by their ID.
@@ -32,7 +42,7 @@ export async function getSinglePage(id: string | number, params?: StrapiRequestP
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimePages.data.filter(
+  if (await isBuildTime()) return buildTimePages.data.filter(
     (page) => (page.id === Number(id))
   ).pop() as unknown as SinglePageResponse;
 
@@ -63,7 +73,7 @@ export async function getPagesCollection(params?: StrapiRequestParams): Promise<
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimePages as unknown as PagesCollectionResponse;
+  if (await isBuildTime()) return buildTimePages as unknown as PagesCollectionResponse;
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

@@ -1,15 +1,12 @@
 @import 'mantine';
 
-section.intro {
+.hero {
+  display: block;
+  width: 100%;
   margin-bottom: rem(40);
   @media (min-width: rem(580)) {
     margin-bottom: rem(60);
   }
-}
-
-.hero {
-  display: block;
-  width: 100%;
 }
 
 .description {

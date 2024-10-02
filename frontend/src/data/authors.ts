@@ -1,14 +1,24 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseCollection, GetValues } from '@/types/strapi';
+import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
+import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { strapiSDK } from '@/data/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/env';
 import buildTimeAuthors from '@build-data/authors.json';
 
+// Rename Strapi types to make it more clear what we're working with.
 export interface SingleAuthor extends GetValues<'api::author.author'> {}
-
+export interface SingleAuthorData extends APIResponseData<'api::author.author'> {}
 export interface SingleAuthorResponse extends APIResponse<'api::author.author'> {}
-
 export interface AuthorsCollectionResponse extends APIResponseCollection<'api::author.author'> {}
+
+// Extract smaller subtypes that can be used to further work with data.
+export type AuthorAvatar = NonNullable<SingleAuthor['avatar']>['data']['attributes'];
+export type AuthorSocials = NonNullable<SingleAuthor['socialNetworks']>;
+export type AuthorSocialEntry = AuthorSocials[number] & IDProperty;
+export type AuthorArticles = NonNullable<SingleAuthor['articles']>['data'];
+export type AuthorRobots = NonNullable<SingleAuthor['robots']>;
+export type AuthorSEO = NonNullable<SingleAuthor['seo']>;
+export type AuthorMetaSocial = NonNullable<AuthorSEO['metaSocial']>;
+export type AuthorMetaSocialEntry = AuthorMetaSocial[number] & IDProperty;
 
 /**
  * Fetches a single author from the Strapi backend by their ID.
@@ -32,7 +42,7 @@ export async function getSingleAuthor(id: string | number, params?: StrapiReques
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeAuthors.data.filter(
+  if (await isBuildTime()) return buildTimeAuthors.data.filter(
     (author) => (author.id === Number(id))
   ).pop() as unknown as SingleAuthorResponse;
 
@@ -63,7 +73,7 @@ export async function getAuthorsCollection(params?: StrapiRequestParams): Promis
   // At build time we load a static JSON file generated from fetcher container,
   // because we don't have networking available to make requests directly to Strapi backend.
   // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (isBuildTime()) return buildTimeAuthors as unknown as AuthorsCollectionResponse;
+  if (await isBuildTime()) return buildTimeAuthors as unknown as AuthorsCollectionResponse;
 
   // Otherwise we just make the requests to the live Strapi backend.
   const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

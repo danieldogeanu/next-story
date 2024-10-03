@@ -89,20 +89,6 @@
           "sortable": false
         }
       },
-      "likes": {
-        "edit": {
-          "label": "Likes",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": false
-        },
-        "list": {
-          "label": "likes",
-          "searchable": true,
-          "sortable": true
-        }
-      },
       "shares": {
         "edit": {
           "label": "Shares",
@@ -232,6 +218,21 @@
           "sortable": false
         }
       },
+      "userLikes": {
+        "edit": {
+          "label": "User Likes",
+          "description": "The users that liked this article through the UI.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "username"
+        },
+        "list": {
+          "label": "userLikes",
+          "searchable": false,
+          "sortable": false
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -327,19 +328,11 @@
           {
             "name": "author",
             "size": 6
-          },
-          {
-            "name": "likes",
-            "size": 6
           }
         ],
         [
           {
             "name": "category",
-            "size": 6
-          },
-          {
-            "name": "shares",
             "size": 6
           }
         ],
@@ -375,6 +368,16 @@
           {
             "name": "comments",
             "size": 12
+          }
+        ],
+        [
+          {
+            "name": "userLikes",
+            "size": 8
+          },
+          {
+            "name": "shares",
+            "size": 4
           }
         ]
       ],

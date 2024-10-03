@@ -100,6 +100,9 @@
       "action": "plugin::users-permissions.auth.changePassword"
     },
     {
+      "action": "plugin::users-permissions.user.find"
+    },
+    {
       "action": "plugin::users-permissions.user.me"
     }
   ]

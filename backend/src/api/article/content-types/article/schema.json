@@ -39,10 +39,6 @@
     "content": {
       "type": "blocks"
     },
-    "likes": {
-      "type": "integer",
-      "default": 0
-    },
     "shares": {
       "type": "integer",
       "default": 0
@@ -87,6 +83,12 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.robots"
+    },
+    "userLikes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "likedArticles"
     }
   }
 }

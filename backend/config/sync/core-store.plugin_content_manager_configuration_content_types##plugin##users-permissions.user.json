@@ -216,6 +216,21 @@
           "sortable": false
         }
       },
+      "likedArticles": {
+        "edit": {
+          "label": "Liked Articles",
+          "description": "The articles that the user liked from the UI.",
+          "placeholder": "",
+          "visible": true,
+          "editable": true,
+          "mainField": "title"
+        },
+        "list": {
+          "label": "likedArticles",
+          "searchable": false,
+          "sortable": false
+        }
+      },
       "createdAt": {
         "edit": {
           "label": "createdAt",
@@ -332,6 +347,12 @@
         [
           {
             "name": "socialNetworks",
+            "size": 12
+          }
+        ],
+        [
+          {
+            "name": "likedArticles",
             "size": 12
           }
         ]

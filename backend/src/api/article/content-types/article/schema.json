@@ -39,10 +39,6 @@
     "content": {
       "type": "blocks"
     },
-    "shares": {
-      "type": "integer",
-      "default": 0
-    },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
@@ -89,6 +85,11 @@
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "likedArticles"
+    },
+    "userShares": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
     }
   }
 }

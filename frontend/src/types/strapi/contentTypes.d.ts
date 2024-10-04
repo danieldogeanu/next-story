@@ -1274,7 +1274,6 @@ export interface ApiArticleArticle extends Schema.CollectionType {
         maxLength: 500;
       }>;
     content: Attribute.Blocks;
-    shares: Attribute.Integer & Attribute.DefaultTo<0>;
     category: Attribute.Relation<
       'api::article.article',
       'manyToOne',
@@ -1301,6 +1300,14 @@ export interface ApiArticleArticle extends Schema.CollectionType {
       'manyToMany',
       'plugin::users-permissions.user'
     >;
+    userShares: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

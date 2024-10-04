@@ -226,7 +226,7 @@
           "mainField": "title"
         },
         "list": {
-          "label": "likedArticles",
+          "label": "Liked Articles",
           "searchable": false,
           "sortable": false
         }

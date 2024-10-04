@@ -70,7 +70,7 @@
           "editable": true
         },
         "list": {
-          "label": "excerpt",
+          "label": "Excerpt",
           "searchable": true,
           "sortable": true
         }
@@ -87,20 +87,6 @@
           "label": "content",
           "searchable": false,
           "sortable": false
-        }
-      },
-      "shares": {
-        "edit": {
-          "label": "Shares",
-          "description": "",
-          "placeholder": "",
-          "visible": true,
-          "editable": false
-        },
-        "list": {
-          "label": "shares",
-          "searchable": true,
-          "sortable": true
         }
       },
       "category": {
@@ -128,7 +114,7 @@
           "mainField": "name"
         },
         "list": {
-          "label": "tags",
+          "label": "Tags",
           "searchable": false,
           "sortable": false
         }
@@ -157,7 +143,7 @@
           "editable": true
         },
         "list": {
-          "label": "seo",
+          "label": "SEO",
           "searchable": false,
           "sortable": false
         }
@@ -213,7 +199,7 @@
           "editable": true
         },
         "list": {
-          "label": "robots",
+          "label": "Robots",
           "searchable": false,
           "sortable": false
         }
@@ -228,9 +214,23 @@
           "mainField": "username"
         },
         "list": {
-          "label": "userLikes",
+          "label": "User Likes",
           "searchable": false,
           "sortable": false
+        }
+      },
+      "userShares": {
+        "edit": {
+          "label": "User Shares",
+          "description": "The number of times users shared the article from the UI.",
+          "placeholder": "",
+          "visible": true,
+          "editable": false
+        },
+        "list": {
+          "label": "User Shares",
+          "searchable": true,
+          "sortable": true
         }
       },
       "createdAt": {
@@ -242,7 +242,7 @@
           "editable": true
         },
         "list": {
-          "label": "createdAt",
+          "label": "Created At",
           "searchable": true,
           "sortable": true
         }
@@ -256,7 +256,7 @@
           "editable": true
         },
         "list": {
-          "label": "updatedAt",
+          "label": "Updated At",
           "searchable": true,
           "sortable": true
         }
@@ -271,7 +271,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "createdBy",
+          "label": "Created By",
           "searchable": true,
           "sortable": true
         }
@@ -286,7 +286,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "updatedBy",
+          "label": "Updated By",
           "searchable": true,
           "sortable": true
         }
@@ -328,17 +328,15 @@
           {
             "name": "author",
             "size": 6
-          }
-        ],
-        [
+          },
           {
-            "name": "category",
+            "name": "tags",
             "size": 6
           }
         ],
         [
           {
-            "name": "tags",
+            "name": "category",
             "size": 6
           }
         ],
@@ -376,7 +374,7 @@
             "size": 8
           },
           {
-            "name": "shares",
+            "name": "userShares",
             "size": 4
           }
         ]

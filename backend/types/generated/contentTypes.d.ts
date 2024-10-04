@@ -786,6 +786,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
         maxLength: 100;
       }>;
     lastName: Attribute.String &
+      Attribute.Required &
       Attribute.SetMinMaxLength<{
         minLength: 1;
         maxLength: 100;

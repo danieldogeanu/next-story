@@ -56,7 +56,7 @@
           "editable": true
         },
         "list": {
-          "label": "provider",
+          "label": "Provider",
           "searchable": true,
           "sortable": true
         }
@@ -84,7 +84,7 @@
           "editable": true
         },
         "list": {
-          "label": "resetPasswordToken",
+          "label": "Reset Password Token",
           "searchable": true,
           "sortable": true
         }
@@ -98,7 +98,7 @@
           "editable": true
         },
         "list": {
-          "label": "confirmationToken",
+          "label": "Confirmation Token",
           "searchable": true,
           "sortable": true
         }
@@ -141,7 +141,7 @@
           "mainField": "name"
         },
         "list": {
-          "label": "role",
+          "label": "Role",
           "searchable": true,
           "sortable": true
         }
@@ -155,7 +155,7 @@
           "editable": true
         },
         "list": {
-          "label": "firstName",
+          "label": "First Name",
           "searchable": true,
           "sortable": true
         }
@@ -169,7 +169,7 @@
           "editable": true
         },
         "list": {
-          "label": "lastName",
+          "label": "Last Name",
           "searchable": true,
           "sortable": true
         }
@@ -197,7 +197,7 @@
           "editable": true
         },
         "list": {
-          "label": "subscriptions",
+          "label": "Subscriptions",
           "searchable": false,
           "sortable": false
         }
@@ -211,7 +211,7 @@
           "editable": true
         },
         "list": {
-          "label": "socialNetworks",
+          "label": "Social Networks",
           "searchable": false,
           "sortable": false
         }
@@ -240,7 +240,7 @@
           "editable": true
         },
         "list": {
-          "label": "createdAt",
+          "label": "Created At",
           "searchable": true,
           "sortable": true
         }
@@ -254,7 +254,7 @@
           "editable": true
         },
         "list": {
-          "label": "updatedAt",
+          "label": "Updated At",
           "searchable": true,
           "sortable": true
         }
@@ -269,7 +269,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "createdBy",
+          "label": "Created By",
           "searchable": true,
           "sortable": true
         }
@@ -284,7 +284,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "updatedBy",
+          "label": "Updated By",
           "searchable": true,
           "sortable": true
         }

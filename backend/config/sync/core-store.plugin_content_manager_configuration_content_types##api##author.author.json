@@ -56,7 +56,7 @@
           "editable": true
         },
         "list": {
-          "label": "biography",
+          "label": "Biography",
           "searchable": true,
           "sortable": true
         }
@@ -84,7 +84,7 @@
           "editable": true
         },
         "list": {
-          "label": "socialNetworks",
+          "label": "Social Networks",
           "searchable": false,
           "sortable": false
         }
@@ -113,7 +113,7 @@
           "editable": true
         },
         "list": {
-          "label": "seo",
+          "label": "SEO",
           "searchable": false,
           "sortable": false
         }
@@ -127,7 +127,7 @@
           "editable": true
         },
         "list": {
-          "label": "robots",
+          "label": "Robots",
           "searchable": false,
           "sortable": false
         }
@@ -141,7 +141,7 @@
           "editable": true
         },
         "list": {
-          "label": "createdAt",
+          "label": "Created At",
           "searchable": true,
           "sortable": true
         }
@@ -155,7 +155,7 @@
           "editable": true
         },
         "list": {
-          "label": "updatedAt",
+          "label": "Updated At",
           "searchable": true,
           "sortable": true
         }
@@ -170,7 +170,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "createdBy",
+          "label": "Created By",
           "searchable": true,
           "sortable": true
         }
@@ -185,7 +185,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "updatedBy",
+          "label": "Updated By",
           "searchable": true,
           "sortable": true
         }

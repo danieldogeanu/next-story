@@ -11,9 +11,9 @@ import styles from '@/styles/action-bar.module.scss';
 export interface ActionBarProps extends BoxProps {}
 
 export default function ActionBar({className, ...otherProps}: ActionBarProps) {
-  // TODO: Replace likes and shares props from Article schema with relationships.
-  // TODO: Get the number of comments for the comments button and link to the comment section.
+  // TODO: Add logic to get likes and shares from the Article schema.
   // TODO: Add modal or dropdown for the Share button with social networks options.
+  // TODO: Get the number of comments for the comments button and link to the comment section.
   
   return (
     <Box className={classNames(styles.container, className)} {...otherProps}>

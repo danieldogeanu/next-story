@@ -222,7 +222,7 @@
           "description": "The articles that the user liked from the UI.",
           "placeholder": "",
           "visible": true,
-          "editable": true,
+          "editable": false,
           "mainField": "title"
         },
         "list": {

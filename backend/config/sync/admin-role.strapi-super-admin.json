@@ -36,7 +36,8 @@
           "robots.followAllowed",
           "robots.cacheAllowed",
           "userLikes",
-          "userShares"
+          "likes",
+          "shares"
         ]
       },
       "conditions": []
@@ -88,7 +89,8 @@
           "robots.followAllowed",
           "robots.cacheAllowed",
           "userLikes",
-          "userShares"
+          "likes",
+          "shares"
         ]
       },
       "conditions": []
@@ -126,7 +128,8 @@
           "robots.followAllowed",
           "robots.cacheAllowed",
           "userLikes",
-          "userShares"
+          "likes",
+          "shares"
         ]
       },
       "conditions": []

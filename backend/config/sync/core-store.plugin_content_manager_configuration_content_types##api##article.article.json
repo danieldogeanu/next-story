@@ -210,7 +210,7 @@
           "description": "The users that liked this article through the UI.",
           "placeholder": "",
           "visible": true,
-          "editable": true,
+          "editable": false,
           "mainField": "username"
         },
         "list": {
@@ -219,16 +219,30 @@
           "sortable": false
         }
       },
-      "userShares": {
+      "likes": {
         "edit": {
-          "label": "User Shares",
-          "description": "The number of times users shared the article from the UI.",
+          "label": "Likes",
+          "description": "The number of users that liked this article. This is computed automatically.",
           "placeholder": "",
           "visible": true,
           "editable": false
         },
         "list": {
-          "label": "User Shares",
+          "label": "Likes",
+          "searchable": true,
+          "sortable": true
+        }
+      },
+      "shares": {
+        "edit": {
+          "label": "Shares",
+          "description": "The number of times users shared the article from the UI. This is only updated from the UI.",
+          "placeholder": "",
+          "visible": true,
+          "editable": false
+        },
+        "list": {
+          "label": "Shares",
           "searchable": true,
           "sortable": true
         }
@@ -308,8 +322,22 @@
         ],
         [
           {
+            "name": "author",
+            "size": 6
+          },
+          {
+            "name": "category",
+            "size": 6
+          }
+        ],
+        [
+          {
             "name": "cover",
-            "size": 12
+            "size": 6
+          },
+          {
+            "name": "tags",
+            "size": 6
           }
         ],
         [
@@ -322,22 +350,6 @@
           {
             "name": "content",
             "size": 12
-          }
-        ],
-        [
-          {
-            "name": "author",
-            "size": 6
-          },
-          {
-            "name": "tags",
-            "size": 6
-          }
-        ],
-        [
-          {
-            "name": "category",
-            "size": 6
           }
         ],
         [
@@ -370,12 +382,18 @@
         ],
         [
           {
-            "name": "userLikes",
-            "size": 8
+            "name": "likes",
+            "size": 6
           },
           {
-            "name": "userShares",
-            "size": 4
+            "name": "shares",
+            "size": 6
+          }
+        ],
+        [
+          {
+            "name": "userLikes",
+            "size": 12
           }
         ]
       ],

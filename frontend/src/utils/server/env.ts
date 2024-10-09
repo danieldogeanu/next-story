@@ -23,6 +23,8 @@ export async function isBuildTime() {
  * @warning API keys should not be exposed to the client (browser)!  \
  * Because of this we made this function a server function. API keys can only be retrieved on the server.
  *
+ * // TODO: Move API keys to a separate secrets manager app for proper security.
+ *
  * @param keyFor - Specifies whether the API key is for the frontend or backend.
  * @returns A promise that resolves to the API key. Returns an empty string if the key is not found.
  */

@@ -5,6 +5,8 @@ import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
 import { GetValues } from '@/types/strapi';
 
+// TODO: Refactor and rename Navigation types and functions.
+
 // Rename and extend Strapi types to make it more clear what we're working with.
 export interface NavDataResponse extends GetValues<'plugin::navigation.navigation'> {}
 export interface SingleNavResponse extends GetValues<'plugin::navigation.navigation-item'> {

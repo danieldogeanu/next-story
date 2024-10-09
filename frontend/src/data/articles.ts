@@ -2,7 +2,6 @@ import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
-import buildTimeArticles from '@build-data/articles.json';
 
 // Rename Strapi types to make it more clear what we're working with.
 export interface SingleArticle extends GetValues<'api::article.article'> {}
@@ -75,7 +74,7 @@ export async function getArticlesCollection(params?: StrapiRequestParams): Promi
   try {
     // At build time we return an empty response, because we don't have
     // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return buildTimeArticles as unknown as ArticlesCollectionResponse;
+    if (await isBuildTime()) return emptyStrapiResponse.api.collection as unknown as ArticlesCollectionResponse;
 
     // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));

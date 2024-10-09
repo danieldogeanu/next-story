@@ -1,8 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
 import { getAPIKey, isBuildTime } from '@/utils/server/env';
-import { strapiSDK } from '@/data/strapi';
-import buildTimeAuthors from '@build-data/authors.json';
+import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
 
 // Rename Strapi types to make it more clear what we're working with.
 export interface SingleAuthor extends GetValues<'api::author.author'> {}
@@ -23,12 +22,11 @@ export type AuthorMetaSocialEntry = AuthorMetaSocial[number] & IDProperty;
 /**
  * Fetches a single author from the Strapi backend by their ID.
  *
- * At build time, it will return a single author from a static JSON file.
+ * At build time, it will return an empty response.
  *
  * @param {string | number} id - The ID of the author to fetch.
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to the author data.
- * @throws {Error} Throws an error if the fetch request fails.
  *
  * @example
  * // Fetch a single author by ID.
@@ -39,27 +37,28 @@ export type AuthorMetaSocialEntry = AuthorMetaSocial[number] & IDProperty;
  * await getSingleAuthor(1, {fields: ['slug', 'biography', 'fullName']});
  */
 export async function getSingleAuthor(id: string | number, params?: StrapiRequestParams): Promise<SingleAuthorResponse> {
-  // At build time we load a static JSON file generated from fetcher container,
-  // because we don't have networking available to make requests directly to Strapi backend.
-  // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (await isBuildTime()) return buildTimeAuthors.data.filter(
-    (author) => (author.id === Number(id))
-  ).pop() as unknown as SingleAuthorResponse;
+  try {
+    // At build time we return an empty response, because we don't have
+    // networking available to make requests directly to Strapi backend.
+    if (await isBuildTime()) return emptyStrapiResponse.api.single as unknown as SingleAuthorResponse;
 
-  // Otherwise we just make the requests to the live Strapi backend.
-  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
-  const strapiResponse = await strapiInstance.findOne('authors', id, params) as SingleAuthorResponse;
-  return strapiResponse;
+    // Otherwise we just make the requests to the live Strapi backend.
+    const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
+    const strapiResponse = await strapiInstance.findOne('authors', id, params) as SingleAuthorResponse;
+    return strapiResponse;
+  } catch (e) {
+    console.error('Error:', (e instanceof Error) ? e.message : e);
+    return emptyStrapiResponse.api.single as unknown as SingleAuthorResponse;
+  }
 }
 
 /**
  * Fetches a collection of authors from the Strapi backend.
  *
- * At build time, it will return a collection of authors from a static JSON file.
+ * At build time, it will return an empty response.
  *
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to a collection of authors.
- * @throws {Error} Throws an error if the fetch request fails.
  *
  * @example
  * // Fetch a collection of authors.
@@ -70,13 +69,17 @@ export async function getSingleAuthor(id: string | number, params?: StrapiReques
  * await getAuthorsCollection({pagination: {page: 1, pageSize: 2}});
  */
 export async function getAuthorsCollection(params?: StrapiRequestParams): Promise<AuthorsCollectionResponse> {
-  // At build time we load a static JSON file generated from fetcher container,
-  // because we don't have networking available to make requests directly to Strapi backend.
-  // We ignore all optional parameters for this one, as we already populated all the fields.
-  if (await isBuildTime()) return buildTimeAuthors as unknown as AuthorsCollectionResponse;
+  try {
+    // At build time we return an empty response, because we don't have
+    // networking available to make requests directly to Strapi backend.
+    if (await isBuildTime()) return emptyStrapiResponse.api.collection as unknown as AuthorsCollectionResponse;
 
-  // Otherwise we just make the requests to the live Strapi backend.
-  const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
-  const strapiResponse = await strapiInstance.find('authors', params) as unknown as AuthorsCollectionResponse;
-  return strapiResponse;
+    // Otherwise we just make the requests to the live Strapi backend.
+    const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
+    const strapiResponse = await strapiInstance.find('authors', params) as unknown as AuthorsCollectionResponse;
+    return strapiResponse;
+  } catch (e) {
+    console.error('Error:', (e instanceof Error) ? e.message : e);
+    return emptyStrapiResponse.api.collection as unknown as AuthorsCollectionResponse;
+  }
 }

@@ -2,7 +2,6 @@ import StrapiSDK, { StrapiOptions } from 'strapi-sdk-js';
 import { validateApiKey } from '@/validation/api';
 import { getBackEndURL } from '@/utils/client/env';
 
-// TODO: Refactor all Strapi data functions to use try/catch blocks and return empty responses.
 // TODO: Remove fetcher container and fetcher data during build time and use empty responses instead.
 
 /**
@@ -47,4 +46,33 @@ export const strapiSDK = async (apiKey?: string): Promise<StrapiSDK> => {
   }
 
   return new StrapiSDK(strapiOptions);
+};
+
+/**
+ * Empty default responses to return at build time, or in case of errors.
+ *
+ * The `api.single` object can be returned for both Single types and Collection types single item.
+ * The `plugin` can be returned for `files`, `navigation` or other plugins data.
+ */
+export const emptyStrapiResponse = {
+  api: {
+    single: {
+      data: null,
+    },
+    collection: {
+      data: [],
+      meta: {
+        pagination: {
+          page: 1,
+          pageSize: 24,
+          pageCount: 0,
+          total: 0,
+        },
+      },
+    },
+  },
+  plugin: {
+    single: {},
+    collection: [],
+  },
 };

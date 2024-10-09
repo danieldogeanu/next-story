@@ -85,7 +85,7 @@
           "editable": true
         },
         "list": {
-          "label": "updatedAt",
+          "label": "Updated At",
           "searchable": true,
           "sortable": true
         }
@@ -100,7 +100,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "createdBy",
+          "label": "Created By",
           "searchable": true,
           "sortable": true
         }
@@ -115,7 +115,7 @@
           "mainField": "firstname"
         },
         "list": {
-          "label": "updatedBy",
+          "label": "Updated By",
           "searchable": true,
           "sortable": true
         }
@@ -144,7 +144,6 @@
         "id",
         "name",
         "slug",
-        "createdAt",
         "articles"
       ]
     },

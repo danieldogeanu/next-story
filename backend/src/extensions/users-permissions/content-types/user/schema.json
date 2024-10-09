@@ -73,7 +73,7 @@
     },
     "lastName": {
       "type": "string",
-      "required": false,
+      "required": true,
       "maxLength": 100,
       "minLength": 1
     },
@@ -96,6 +96,12 @@
       "type": "component",
       "repeatable": true,
       "component": "shared.social-link"
+    },
+    "likedArticles": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::article.article",
+      "mappedBy": "userLikes"
     }
   }
 }

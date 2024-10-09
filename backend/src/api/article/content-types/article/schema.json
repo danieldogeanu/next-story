@@ -39,14 +39,6 @@
     "content": {
       "type": "blocks"
     },
-    "likes": {
-      "type": "integer",
-      "default": 0
-    },
-    "shares": {
-      "type": "integer",
-      "default": 0
-    },
     "category": {
       "type": "relation",
       "relation": "manyToOne",
@@ -87,6 +79,24 @@
       "type": "component",
       "repeatable": false,
       "component": "shared.robots"
+    },
+    "userLikes": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "private": true,
+      "inversedBy": "likedArticles"
+    },
+    "likes": {
+      "type": "integer",
+      "default": 0,
+      "min": 0
+    },
+    "shares": {
+      "type": "integer",
+      "default": 0,
+      "unique": false,
+      "min": 0
     }
   }
 }

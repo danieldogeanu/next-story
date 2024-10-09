@@ -14,8 +14,6 @@
           "cover",
           "excerpt",
           "content",
-          "likes",
-          "shares",
           "category",
           "tags",
           "author",
@@ -36,7 +34,10 @@
           "comments",
           "robots.indexAllowed",
           "robots.followAllowed",
-          "robots.cacheAllowed"
+          "robots.cacheAllowed",
+          "userLikes",
+          "likes",
+          "shares"
         ]
       },
       "conditions": []
@@ -66,8 +67,6 @@
           "cover",
           "excerpt",
           "content",
-          "likes",
-          "shares",
           "category",
           "tags",
           "author",
@@ -88,7 +87,10 @@
           "comments",
           "robots.indexAllowed",
           "robots.followAllowed",
-          "robots.cacheAllowed"
+          "robots.cacheAllowed",
+          "userLikes",
+          "likes",
+          "shares"
         ]
       },
       "conditions": []
@@ -104,8 +106,6 @@
           "cover",
           "excerpt",
           "content",
-          "likes",
-          "shares",
           "category",
           "tags",
           "author",
@@ -126,7 +126,10 @@
           "comments",
           "robots.indexAllowed",
           "robots.followAllowed",
-          "robots.cacheAllowed"
+          "robots.cacheAllowed",
+          "userLikes",
+          "likes",
+          "shares"
         ]
       },
       "conditions": []
@@ -1089,7 +1092,8 @@
           "subscriptions.promotions",
           "socialNetworks.label",
           "socialNetworks.link",
-          "socialNetworks.icon"
+          "socialNetworks.icon",
+          "likedArticles"
         ]
       },
       "conditions": []
@@ -1125,7 +1129,8 @@
           "subscriptions.promotions",
           "socialNetworks.label",
           "socialNetworks.link",
-          "socialNetworks.icon"
+          "socialNetworks.icon",
+          "likedArticles"
         ]
       },
       "conditions": []
@@ -1154,7 +1159,8 @@
           "subscriptions.promotions",
           "socialNetworks.label",
           "socialNetworks.link",
-          "socialNetworks.icon"
+          "socialNetworks.icon",
+          "likedArticles"
         ]
       },
       "conditions": []

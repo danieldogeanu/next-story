@@ -388,8 +388,6 @@ export interface ApiArticleArticle extends Schema.CollectionType {
         maxLength: 500;
       }>;
     content: Attribute.Blocks;
-    likes: Attribute.Integer & Attribute.DefaultTo<0>;
-    shares: Attribute.Integer & Attribute.DefaultTo<0>;
     category: Attribute.Relation<
       'api::article.article',
       'manyToOne',
@@ -411,6 +409,28 @@ export interface ApiArticleArticle extends Schema.CollectionType {
     comments: Attribute.JSON &
       Attribute.CustomField<'plugin::comments.comments'>;
     robots: Attribute.Component<'shared.robots'>;
+    userLikes: Attribute.Relation<
+      'api::article.article',
+      'manyToMany',
+      'plugin::users-permissions.user'
+    > &
+      Attribute.Private;
+    likes: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
+    shares: Attribute.Integer &
+      Attribute.SetMinMax<
+        {
+          min: 0;
+        },
+        number
+      > &
+      Attribute.DefaultTo<0>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1212,6 +1232,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
         maxLength: 100;
       }>;
     lastName: Attribute.String &
+      Attribute.Required &
       Attribute.SetMinMaxLength<{
         minLength: 1;
         maxLength: 100;
@@ -1220,6 +1241,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     subscriptions: Attribute.Component<'user.subscriptions'> &
       Attribute.Required;
     socialNetworks: Attribute.Component<'shared.social-link', true>;
+    likedArticles: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'manyToMany',
+      'api::article.article'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

@@ -15,7 +15,6 @@
   "homepage": "https://github.com/danieldogeanu/next-story",
   "scripts": {
     "fetcher": "cd fetcher && npm start",
-    "copy-data": "node scripts/copy-fetcher-data.js",
     "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js",
 
     "compose-dev": "docker compose --profile development --env-file .env --env-file dev.env up",

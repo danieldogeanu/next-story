@@ -5,10 +5,8 @@ import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
 import { GetValues } from '@/types/strapi';
 
-// TODO: Refactor and rename Navigation types and functions.
-
 // Rename and extend Strapi types to make it more clear what we're working with.
-export interface NavDataResponse extends GetValues<'plugin::navigation.navigation'> {}
+export interface NavCollectionResponse extends GetValues<'plugin::navigation.navigation'> {}
 export interface SingleNavResponse extends GetValues<'plugin::navigation.navigation-item'> {
   items: SingleNavResponse[];
   icon?: IconKeys | '';
@@ -33,9 +31,9 @@ export type SingleNavSlug = 'main-navigation' | 'legal-navigation';
  *
  * @example
  * // Fetch the data for the Main Navigation.
- * await getSingleNavData('main-navigation', { populate: '*', type: 'TREE' });
+ * await getSingleNav('main-navigation', { populate: '*', type: 'TREE' });
  */
-export async function getSingleNavData(nav: SingleNavSlug, params?: SingleNavRequestParams): Promise<SingleNavResponse[]> {
+export async function getSingleNav(nav: SingleNavSlug, params?: SingleNavRequestParams): Promise<SingleNavResponse[]> {
   try {
     // At build time we return an empty response, because we don't have
     // networking available to make requests directly to Strapi backend.
@@ -63,20 +61,20 @@ export async function getSingleNavData(nav: SingleNavSlug, params?: SingleNavReq
  *
  * @example
  * // Fetch the navigation data.
- * await getNavData();
+ * await getNavCollection();
  */
-export async function getNavData(): Promise<NavDataResponse[]> {
+export async function getNavCollection(): Promise<NavCollectionResponse[]> {
   try {
     // At build time we return an empty response, because we don't have
     // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.plugin.collection as unknown as NavDataResponse[];
+    if (await isBuildTime()) return emptyStrapiResponse.plugin.collection as unknown as NavCollectionResponse[];
 
     // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
-    const strapiResponse = await strapiInstance.find('navigation') as unknown as NavDataResponse[];
+    const strapiResponse = await strapiInstance.find('navigation') as unknown as NavCollectionResponse[];
     return strapiResponse;
   } catch (e) {
     console.error('Error:', (e instanceof Error) ? e.message : e);
-    return emptyStrapiResponse.api.collection as unknown as NavDataResponse[];
+    return emptyStrapiResponse.api.collection as unknown as NavCollectionResponse[];
   }
 }

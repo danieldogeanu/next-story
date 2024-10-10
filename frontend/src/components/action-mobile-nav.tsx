@@ -2,7 +2,7 @@
 
 import { IconMenuDeep } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
-import { SideNavEntryProps } from './sidenav-entry';
+import { SideNavEntryProps } from '@/components/sidenav-entry';
 import { SingleNavResponse } from '@/data/navigation';
 import ActionEntry from '@/components/action-entry';
 import SiteDrawer from '@/components/site-drawer';

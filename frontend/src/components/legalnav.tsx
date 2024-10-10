@@ -1,10 +1,10 @@
 import LegalLink, { LegalLinkProps } from '@/components/legal-link';
-import { getSingleNavData, SingleNavResponse } from '@/data/navigation';
+import { getSingleNav } from '@/data/navigation';
 import styles from '@/styles/legalnav.module.scss';
 
 export default async function LegalNav() {
   // Make request to server to get legal navigation.
-  const navData = await getSingleNavData('legal-navigation') as SingleNavResponse[];
+  const navData = await getSingleNav('legal-navigation');
 
   // Map the Strapi response to match the SingleNavResponse props shape.
   const legalNavEntries = navData.map((item) => ({

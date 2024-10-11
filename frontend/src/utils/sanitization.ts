@@ -32,9 +32,9 @@ export function sanitizeString(dirty: string | undefined): string | undefined {
  */
 export function sanitizeStringArray(dirty: string[] | undefined): string[] | undefined {
   if (Array.isArray(dirty) && dirty.length !== 0) {
-    return dirty.map(sanitizeString).filter((item) => {
-      return (typeof item !== 'undefined' || (typeof item === 'string' && item !== ''));
-    });
+    return dirty.map(sanitizeString).filter(
+      (item): item is string => (typeof item === 'string' && item !== '')
+    );
   }
 }
 
@@ -58,7 +58,7 @@ export function sanitizeNode(dirty: Node | undefined): Node | undefined {
  */
 export function sanitizeNodeArray(dirty: Node[] | undefined): Node[] | undefined {
   if (Array.isArray(dirty) && dirty.length !== 0) {
-    return dirty.map(sanitizeNode).filter((item) => (typeof item !== 'undefined'));
+    return dirty.map(sanitizeNode).filter((item): item is Node => (typeof item !== 'undefined'));
   }
 }
 

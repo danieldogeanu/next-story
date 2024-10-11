@@ -14,7 +14,6 @@
   },
   "homepage": "https://github.com/danieldogeanu/next-story",
   "scripts": {
-    "fetcher": "cd fetcher && npm start",
     "copy-types": "cd backend && npm run types && cd .. && node scripts/copy-strapi-types.js",
 
     "compose-dev": "docker compose --profile development --env-file .env --env-file dev.env up",
@@ -26,15 +25,12 @@
 
     "compose-prod": "docker compose -f compose.prod.yml --profile all --env-file .env --env-file prod.env up",
     "compose-prod:backend": "docker compose -f compose.prod.yml --profile backend --env-file .env --env-file prod.env up",
-    "compose-prod:fetcher": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_fetcher_prod",
     "compose-prod:frontend": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_nextjs_prod",
     "compose-prod:build": "docker compose -f compose.prod.yml --profile all --env-file .env --env-file prod.env build --no-cache",
     "compose-prod:build:backend": "docker compose -f compose.prod.yml --profile backend --env-file .env --env-file prod.env build --no-cache",
-    "compose-prod:build:fetcher": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env build ns_fetcher_prod --no-cache",
     "compose-prod:build:frontend": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env build ns_nextjs_prod --no-cache",
     "compose-prod:recreate": "docker compose -f compose.prod.yml --profile all --env-file .env --env-file prod.env up --force-recreate --renew-anon-volumes",
     "compose-prod:recreate:backend": "docker compose -f compose.prod.yml --profile backend --env-file .env --env-file prod.env up --force-recreate --renew-anon-volumes",
-    "compose-prod:recreate:fetcher": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_fetcher_prod --force-recreate --renew-anon-volumes",
     "compose-prod:recreate:frontend": "docker compose -f compose.prod.yml --env-file .env --env-file prod.env up ns_nextjs_prod --force-recreate --renew-anon-volumes"
   }
 }

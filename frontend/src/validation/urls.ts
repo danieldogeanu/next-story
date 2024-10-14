@@ -183,6 +183,7 @@ export function validateArticleParams(params: any): ArticleParams | null {
  * - If valid after sanitization, the function returns the sanitized search parameters.
  */
 export function validateSearchParams(searchParams: any): SearchParams | null {
+  type SearchParamsTuple = [string, string | string[] | undefined];
   const searchParamsSchema = val.record(val.union([val.string(), val.array(val.string()), val.undefined()]));
 
   const firstPass = searchParamsSchema.safeParse(searchParams);
@@ -191,27 +192,47 @@ export function validateSearchParams(searchParams: any): SearchParams | null {
     return null;
   }
 
-  const sanitizedEntries = Array.from(Object.entries(searchParams)).map(([key, value]) => {
+  const sanitizedEntries = Object.entries(searchParams).map(([key, value]): SearchParamsTuple | undefined => {
     const sanitizedKey = sanitizeString(key);
 
-    if (typeof sanitizedKey === 'string') {
-      if (Array.isArray(value)) {
-        // Sanitize each item in the array, and allow empty strings.
-        return [sanitizedKey, sanitizeStringArray(value)];
-      } else if (typeof value === 'string') {
-        // Allow empty strings to pass through.
-        return [sanitizedKey, sanitizeString(value)];
-      } else if (typeof value === 'undefined') {
-        // Allow undefined values to pass through.
-        return [sanitizedKey, undefined];
+    // If the key couldn't be sanitized, skip this entry.
+    if (typeof sanitizedKey === 'undefined') return undefined;
+
+    // Sanitize each item in the array, and return
+    // undefined if the entire array sanitization fails.
+    if (Array.isArray(value)) {
+      const sanitizedValue = sanitizeStringArray(value);
+      if (typeof sanitizedValue !== 'undefined') {
+        return [sanitizedKey, sanitizedValue];
       }
     }
-  }).filter(item => typeof item !== 'undefined');
+
+    // Sanitize the value, and return undefined if
+    // the sanitization fails. Empty values are allowed.
+    if (typeof value === 'string') {
+      const sanitizedValue = sanitizeString(value);
+      if (typeof sanitizedValue !== 'undefined') {
+        return [sanitizedKey, sanitizedValue];
+      }
+    }
+
+    // If the value is undefined, allow it to pass through.
+    if (typeof value === 'undefined') {
+      return [sanitizedKey, undefined];
+    }
+
+    return undefined; // If none of the above cases worked, skip this entry.
+  }).filter((item): item is SearchParamsTuple => (typeof item !== 'undefined')); // Filter out any undefined entries.
+
   const sanitizedSearchParams = Object.fromEntries(sanitizedEntries) as SearchParams;
 
   const secondPass = searchParamsSchema.safeParse(sanitizedSearchParams);
-  if (!secondPass.success) console.error('Invalid Search Params:', secondPass.error.errors);
-  return secondPass.success ? secondPass.data : null;
+  if (!secondPass.success) {
+    console.error('Invalid Search Params:', secondPass.error.errors);
+    return null;
+  }
+
+  return secondPass.data;
 }
 
 /**

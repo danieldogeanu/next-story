@@ -295,7 +295,7 @@ export function validateSortParam(param: string | string[] | undefined, allowed:
   };
 
   if (Array.isArray(param) && param.length !== 0) {
-    const validatedArray = param.map(validateSingleSort).filter((item) => (typeof item === 'string'));
+    const validatedArray = param.map(validateSingleSort).filter((item): item is string => (typeof item === 'string'));
     return (validatedArray.length > 0) ? validatedArray : null;
   }
 

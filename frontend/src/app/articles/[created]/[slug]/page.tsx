@@ -49,7 +49,7 @@ export async function generateMetadata({params}: ArticleProps, parent: Resolving
       robots: { populate: '*' },
     },
     pagination: { start: 0, limit: 1 },
-  })).data.pop()?.attributes as SingleArticle;
+  })).data?.pop()?.attributes as SingleArticle;
 
   if (typeof articleData === 'undefined') return {};
 
@@ -60,7 +60,7 @@ export async function generateMetadata({params}: ArticleProps, parent: Resolving
   const articleSEO = articleData?.seo as ArticleSEO;
   const articleMetaImage = articleSEO?.metaImage?.data?.attributes as ArticleCover;
   const articleMetaSocials = articleSEO?.metaSocial as ArticleMetaSocial;
-  const articleMetaFacebook = articleMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as ArticleMetaSocialEntry;
+  const articleMetaFacebook = articleMetaSocials?.filter((social) => (social?.socialNetwork === 'Facebook')).pop() as ArticleMetaSocialEntry;
   const articleMetaFacebookImage = articleMetaFacebook?.image?.data?.attributes as ArticleCover;
 
   return {
@@ -110,7 +110,7 @@ export default async function ArticlePage({params}: ArticleProps) {
       tags: true,
     },
     pagination: { start: 0, limit: 1 },
-  })).data.pop() as SingleArticleData;
+  })).data?.pop() as SingleArticleData;
 
   if (typeof articleResponse === 'undefined') return notFound();
 
@@ -155,7 +155,7 @@ export default async function ArticlePage({params}: ArticleProps) {
               className={classNames(articleStyles.entry, articleStyles.date)}
               component='div' title='Publication Date' underline='never'>
               <IconCalendar size={24} stroke={1.5} />
-              {convertToReadableDate(articleData.publishedAt, 'long')}
+              {convertToReadableDate(articleData?.publishedAt, 'long')}
             </Anchor>
 
             <Anchor

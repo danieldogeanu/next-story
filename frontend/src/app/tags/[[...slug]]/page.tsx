@@ -37,7 +37,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
     const tagData = (await getTagsCollection({
       filters: { slug: { $eq: slug } },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SingleTag;
+    })).data?.pop()?.attributes as SingleTag;
     if (typeof tagData === 'undefined') return {};
   
     const makeTagTitle = (title: string) => (`${addPageNumber(title, pageNumber, 'title')} Tag`);
@@ -72,7 +72,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   const tagsPageRobots = tagsPageSettings?.robots as PageRobots;
   const tagsCover = tagsPageSettings?.cover?.data?.attributes as PageCover;
   const tagsMetaSocials = tagsPageSettings?.metaSocial as PageMetaSocial;
-  const tagsMetaFacebook = tagsMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const tagsMetaFacebook = tagsMetaSocials?.filter((social) => (social?.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
   const tagsMetaFacebookImage = tagsMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
@@ -125,7 +125,7 @@ export default async function TagsPage({params, searchParams}: PageProps) {
     const tagData = (await getTagsCollection({
       filters: { slug: { $eq: slug } },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SingleTag;
+    })).data?.pop()?.attributes as SingleTag;
   
     // If the tagData array is empty or undefined, it means no tag was found.
     if (typeof tagData === 'undefined') return notFound();

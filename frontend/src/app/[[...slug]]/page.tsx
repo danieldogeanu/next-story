@@ -52,7 +52,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
         robots: { populate: '*' },
       },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SinglePage;
+    })).data?.pop()?.attributes as SinglePage;
     if (typeof pageData === 'undefined') return {};
   
     const pageCover = pageData?.cover?.data?.attributes as PageCover;
@@ -60,7 +60,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
     const pageSEO = pageData?.seo as PageSEO;
     const pageMetaImage = pageSEO?.metaImage?.data?.attributes as PageCover;
     const pageMetaSocials = pageSEO?.metaSocial as PageMetaSocial;
-    const pageMetaFacebook = pageMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+    const pageMetaFacebook = pageMetaSocials?.filter((social) => (social?.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
     const pageMetaFacebookImage = pageMetaFacebook?.image?.data?.attributes as PageCover;
   
     return {
@@ -134,7 +134,7 @@ export default async function Page({params, searchParams}: PageProps) {
     const pageData = (await getPagesCollection({
       populate: '*', filters: { slug: { $eq: slug } },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SinglePage;
+    })).data?.pop()?.attributes as SinglePage;
   
     if (typeof pageData === 'undefined') return notFound();
   

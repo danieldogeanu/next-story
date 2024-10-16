@@ -307,7 +307,7 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
         </Suspense>
 
         <section className={pageStyles.grid}>
-          {authorsCollection.data.map((author) => {
+          {authorsCollection?.data?.map((author) => {
             return (<AuthorCard key={author.id} data={author.attributes} />);
           })}
         </section>

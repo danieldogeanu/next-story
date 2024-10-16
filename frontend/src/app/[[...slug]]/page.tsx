@@ -87,7 +87,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   // If there's no slug, we're on the homepage, so we should get the site settings.
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
-  if (typeof siteSettingsResponse === 'undefined') return {};
+  if (typeof siteSettings === 'undefined') return {};
 
   return {
     title: {
@@ -203,7 +203,7 @@ export default async function Page({params, searchParams}: PageProps) {
   const articlesPagination = articlesCollection?.meta?.pagination;
 
   // If the page number is beyond of the page count, we return a 404.
-  outOfBoundsRedirect(pageNumber, articlesPagination.pageCount, articlesCollection.data.length);
+  outOfBoundsRedirect(pageNumber, articlesPagination?.pageCount, articlesCollection?.data?.length);
 
   return (
     <main className={styles.main}>
@@ -211,11 +211,11 @@ export default async function Page({params, searchParams}: PageProps) {
       <section className={styles.container}>
 
         <Suspense fallback={<SortFallback />}>
-          <SortBar totalItems={articlesPagination.total} collectionType='articles' />
+          <SortBar totalItems={articlesPagination?.total} collectionType='articles' />
         </Suspense>
         
         <section className={styles.grid}>
-          {articlesCollection.data.map((article) => {
+          {articlesCollection?.data?.map((article) => {
             return (<ArticleCard key={article.id} data={article.attributes} />);
           })}
         </section>

@@ -201,7 +201,7 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
           </Box>
     
           <Suspense fallback={<SortFallback />}>
-            <SortBar totalItems={articlesPagination.total} collectionType='articles' />
+            <SortBar totalItems={articlesPagination?.total} collectionType='articles' />
           </Suspense>
           
           <section className={pageStyles.grid}>
@@ -248,11 +248,11 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
         </Title>
 
         <Suspense fallback={<SortFallback />}>
-          <SortBar totalItems={categoriesPagination.total} collectionType='categories' />
+          <SortBar totalItems={categoriesPagination?.total} collectionType='categories' />
         </Suspense>
 
         <section className={pageStyles.grid}>
-          {categoriesCollection.data.map((category) => {
+          {categoriesCollection?.data?.map((category) => {
             return (<CategoryCard key={category.id} data={category.attributes} />);
           })}
         </section>

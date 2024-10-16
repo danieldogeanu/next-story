@@ -20,6 +20,7 @@ import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import '@/styles/global.scss';
 
+
 // Types
 interface RootLayoutProps {
   children: React.ReactNode;

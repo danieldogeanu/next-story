@@ -29,6 +29,7 @@ import authorStyles from '@/styles/author-page.module.scss';
 
 
 const rootPageSlug = '/authors';
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validatePageParams(params);

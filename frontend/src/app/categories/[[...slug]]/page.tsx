@@ -26,6 +26,7 @@ import categoryStyles from '@/styles/category-page.module.scss';
 
 
 const rootPageSlug = '/categories';
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validatePageParams(params);

@@ -28,6 +28,8 @@ import pageStyles from '@/styles/page.module.scss';
 import articleStyles from '@/styles/article-page.module.scss';
 
 
+export const dynamic = 'force-dynamic';
+
 export async function generateMetadata({params}: ArticleProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validateArticleParams(params);
   if (!validatedParams) return {};

@@ -21,6 +21,7 @@ import styles from '@/styles/page.module.scss';
 
 
 const rootPageSlug = '/';
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validatePageParams(params);

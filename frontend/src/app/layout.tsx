@@ -25,6 +25,8 @@ interface RootLayoutProps {
   children: React.ReactNode;
 }
 
+export const dynamic = 'force-dynamic';
+
 // Default SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
@@ -69,7 +71,7 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 
-  if (typeof siteSettingsResponse === 'undefined') return defaultMetadata;
+  if (typeof siteSettings === 'undefined') return defaultMetadata;
 
   return {
     ...defaultMetadata,

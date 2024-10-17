@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, IDProperty } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/server/env';
 
 // TODO: Move Secrets to a separate secrets manager app for proper security.
 
@@ -19,8 +19,6 @@ export type SecretEntry = IDProperty & NonNullable<SecretsResponse['data']['attr
 /**
  * Fetches site secrets from the Strapi backend based on the type of secrets chosen.
  *
- * At build time, it will return an empty response.
- *
  * @param {SecretType} secretsType - The type of secrets to fetch ('frontend' or 'backend').
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to the secrets data.
@@ -34,11 +32,6 @@ export async function getSiteSecrets(
   secretsType: SecretType, params?: StrapiRequestParams
 ): Promise<SecretsResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    // Please note that we return `single` here because it's single type, not a collection.
-    if (await isBuildTime()) return emptyStrapiResponse.api.single as unknown as SecretsResponse;
-
     // Make sure the secrets type exists, otherwise throw an error.
     if (typeof secretsType !== 'string' || !['frontend', 'backend'].includes(secretsType)) {
       throw new Error('No site secrets found for the provided secrets type.');

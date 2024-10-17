@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/server/env';
 
 // Rename Strapi types to make it more clear what we're working with.
 export interface SingleArticle extends GetValues<'api::article.article'> {}
@@ -24,8 +24,6 @@ export type ArticleMetaSocialEntry = ArticleMetaSocial[number] & IDProperty;
 /**
  * Fetches a single article from the Strapi backend by its ID.
  *
- * At build time, it will return an empty response.
- *
  * @param {string | number} id - The ID of the article to fetch.
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to the article data.
@@ -40,11 +38,6 @@ export type ArticleMetaSocialEntry = ArticleMetaSocial[number] & IDProperty;
  */
 export async function getSingleArticle(id: string | number, params?: StrapiRequestParams): Promise<SingleArticleResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.api.single as unknown as SingleArticleResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.findOne('articles', id, params) as SingleArticleResponse;
     return strapiResponse;
@@ -56,8 +49,6 @@ export async function getSingleArticle(id: string | number, params?: StrapiReque
 
 /**
  * Fetches a collection of articles from the Strapi backend.
- *
- * At build time, it will return an empty response.
  *
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to a collection of articles.
@@ -72,11 +63,6 @@ export async function getSingleArticle(id: string | number, params?: StrapiReque
  */
 export async function getArticlesCollection(params?: StrapiRequestParams): Promise<ArticlesCollectionResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.api.collection as unknown as ArticlesCollectionResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.find('articles', params) as unknown as ArticlesCollectionResponse;
     return strapiResponse;
@@ -91,7 +77,8 @@ export async function getArticlesCollection(params?: StrapiRequestParams): Promi
  *
  * @param {number | undefined} currentId - The ID of the current article. If `undefined`, no previous article will be retrieved.
  * @param {StrapiRequestParams} [params] - Additional parameters for the Strapi request, such as filters, pagination, and sorting options.
- * @returns {Promise<SingleArticleData | undefined>} A promise that resolves to the data of the previous article if found, or `undefined` if no previous article exists or an error occurs.
+ * @returns {Promise<SingleArticleData | undefined>} A promise that resolves to the data of the previous article if found,
+ *   or `undefined` if no previous article exists or an error occurs.
  *
  * @example
  * // Fetch the previous article with extra params.
@@ -121,7 +108,8 @@ export async function getPreviousArticle(currentId: number | undefined, params?:
  *
  * @param {number | undefined} currentId - The ID of the current article. If `undefined`, no next article will be retrieved.
  * @param {StrapiRequestParams} [params] - Additional parameters for the Strapi request, such as filters, pagination, and sorting options.
- * @returns {Promise<SingleArticleData | undefined>} A promise that resolves to the data of the next article if found, or `undefined` if no next article exists or an error occurs.
+ * @returns {Promise<SingleArticleData | undefined>} A promise that resolves to the data of the next article if found,
+ *  or `undefined` if no next article exists or an error occurs.
  *
  * @example
  * // Fetch the next article with extra params.

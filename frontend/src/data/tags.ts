@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, APIResponseData, GetValues } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/server/env';
 
 // Rename Strapi types to make it more clear what we're working with.
 export interface SingleTag extends GetValues<'api::tag.tag'> {}
@@ -14,8 +14,6 @@ export type TagArticles = NonNullable<SingleTag['articles']>['data'];
 
 /**
  * Fetches a single tag from the Strapi backend by their ID.
- *
- * At build time, it will return an empty response.
  *
  * @param {string | number} id - The ID of the tag to fetch.
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
@@ -31,11 +29,6 @@ export type TagArticles = NonNullable<SingleTag['articles']>['data'];
  */
 export async function getSingleTag(id: string | number, params?: StrapiRequestParams): Promise<SingleTagResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.api.single as unknown as SingleTagResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.findOne('tags', id, params) as SingleTagResponse;
     return strapiResponse;
@@ -47,8 +40,6 @@ export async function getSingleTag(id: string | number, params?: StrapiRequestPa
 
 /**
  * Fetches a collection of tags from the Strapi backend.
- *
- * At build time, it will return an empty response.
  *
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to a collection of tags.
@@ -63,11 +54,6 @@ export async function getSingleTag(id: string | number, params?: StrapiRequestPa
  */
 export async function getTagsCollection(params?: StrapiRequestParams): Promise<TagsCollectionResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.api.collection as unknown as TagsCollectionResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.find('tags', params) as unknown as TagsCollectionResponse;
     return strapiResponse;

@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseData, IDProperty } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/server/env';
 
 // Rename Strapi types to make it more clear what we're working with.
 export interface SiteSettingsData extends APIResponseData<'api::site-setting.site-setting'> {}
@@ -29,8 +29,6 @@ export type PageMetaSocialEntry = PageMetaSocial[number] & IDProperty;
 /**
  * Fetches site settings from the Strapi backend.
  *
- * At build time, it will return an empty response.
- *
  * @param {StrapiRequestParams} [params] - Optional Strapi request parameters.
  * @returns A promise that resolves to the site settings data.
  *
@@ -40,12 +38,6 @@ export type PageMetaSocialEntry = PageMetaSocial[number] & IDProperty;
  */
 export async function getSiteSettings(params?: StrapiRequestParams): Promise<SiteSettingsResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    // Please note that we return `single` here because it's single type, not a collection.
-    if (await isBuildTime()) return emptyStrapiResponse.api.single as unknown as SiteSettingsResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiRequestParams: StrapiRequestParams = {populate: '*', ...params};
     const strapiResponse = await strapiInstance.find('site-setting', strapiRequestParams) as SiteSettingsResponse;
@@ -59,8 +51,6 @@ export async function getSiteSettings(params?: StrapiRequestParams): Promise<Sit
 /**
  * Fetches page settings from the Strapi backend.
  *
- * At build time, it will return an empty response.
- *
  * @param {StrapiRequestParams} [params] - Optional Strapi request parameters.
  * @returns A promise that resolves to the page settings data.
  *
@@ -70,12 +60,6 @@ export async function getSiteSettings(params?: StrapiRequestParams): Promise<Sit
  */
 export async function getPageSettings(params?: StrapiRequestParams): Promise<PageSettingsResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    // Please note that we return `single` here because it's single type, not a collection.
-    if (await isBuildTime()) return emptyStrapiResponse.api.single as unknown as PageSettingsResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiRequestParams: StrapiRequestParams = {populate: { pageSettings: { populate: '*' } }, ...params};
     const strapiResponse = await strapiInstance.find('page-setting', strapiRequestParams) as PageSettingsResponse;
@@ -88,8 +72,6 @@ export async function getPageSettings(params?: StrapiRequestParams): Promise<Pag
 
 /**
  * Fetches settings for a single page from Strapi.
- *
- * At build time, it will return an empty response.
  *
  * @note The `page` here refers to top-level pages for collections (like `categories`, for example),
  * that can't have their settings and data saved at collection level in Strapi.

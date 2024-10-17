@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponse, APIResponseCollection, APIResponseData, GetValues, IDProperty } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/server/env';
 
 // Rename Strapi types to make it more clear what we're working with.
 export interface SinglePage extends GetValues<'api::page.page'> {}
@@ -22,8 +22,6 @@ export type PageMetaSocialEntry = PageMetaSocial[number] & IDProperty;
 /**
  * Fetches a single page from the Strapi backend by their ID.
  *
- * At build time, it will return an empty response.
- *
  * @param {string | number} id - The ID of the page to fetch.
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to the page data.
@@ -38,11 +36,6 @@ export type PageMetaSocialEntry = PageMetaSocial[number] & IDProperty;
  */
 export async function getSinglePage(id: string | number, params?: StrapiRequestParams): Promise<SinglePageResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.api.single as unknown as SinglePageResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.findOne('pages', id, params) as SinglePageResponse;
     return strapiResponse;
@@ -54,8 +47,6 @@ export async function getSinglePage(id: string | number, params?: StrapiRequestP
 
 /**
  * Fetches a collection of pages from the Strapi backend.
- *
- * At build time, it will return an empty response.
  *
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to a collection of pages.
@@ -70,11 +61,6 @@ export async function getSinglePage(id: string | number, params?: StrapiRequestP
  */
 export async function getPagesCollection(params?: StrapiRequestParams): Promise<PagesCollectionResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.api.collection as unknown as PagesCollectionResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.find('pages', params) as unknown as PagesCollectionResponse;
     return strapiResponse;

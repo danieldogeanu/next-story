@@ -1,8 +1,8 @@
 import path from 'node:path';
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { IconKeys } from '@/components/dynamic-icon';
-import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/server/env';
 import { GetValues } from '@/types/strapi';
 
 // Rename and extend Strapi types to make it more clear what we're working with.
@@ -23,8 +23,6 @@ export type SingleNavSlug = 'main-navigation' | 'legal-navigation';
 /**
  * Fetches data for a specific navigation item from the Strapi backend.
  *
- * At build time, it will return an empty response.
- *
  * @param {SingleNavSlug} nav - The slug of the navigation item to fetch.
  * @param {SingleNavRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to an array of navigation item data.
@@ -35,12 +33,6 @@ export type SingleNavSlug = 'main-navigation' | 'legal-navigation';
  */
 export async function getSingleNav(nav: SingleNavSlug, params?: SingleNavRequestParams): Promise<SingleNavResponse[]> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    // Please note that we return a collection here because it's an array of menu items.
-    if (await isBuildTime()) return emptyStrapiResponse.plugin.collection as unknown as SingleNavResponse[];
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const navRequestPath = path.join('navigation', 'render', nav);
     const navRequestParams: SingleNavRequestParams = {type: 'TREE', orderBy: 'order', ...params};
@@ -55,8 +47,6 @@ export async function getSingleNav(nav: SingleNavSlug, params?: SingleNavRequest
 /**
  * Fetches navigation data from the Strapi backend.
  *
- * At build time, it will return an empty response.
- *
  * @returns A promise that resolves to an array of navigation data.
  *
  * @example
@@ -65,11 +55,6 @@ export async function getSingleNav(nav: SingleNavSlug, params?: SingleNavRequest
  */
 export async function getNavCollection(): Promise<NavCollectionResponse[]> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.plugin.collection as unknown as NavCollectionResponse[];
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.find('navigation') as unknown as NavCollectionResponse[];
     return strapiResponse;

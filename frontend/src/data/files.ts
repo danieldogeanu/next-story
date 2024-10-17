@@ -1,7 +1,7 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
 import { APIResponseArray, GetValues } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server/env';
 import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/server/env';
 
 // Rename Strapi types to make it more clear what we're working with.
 export interface FilesResponse extends APIResponseArray<'plugin::upload.file'> {}
@@ -14,8 +14,6 @@ export interface ExtendedStrapiRequestParams extends StrapiRequestParams {
 /**
  * Fetches a single file by its ID from the Strapi backend.
  *
- * At build time, it will return an empty response.
- *
  * @param {string | number} id - The ID of the file to fetch.
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to the single file data.
@@ -26,11 +24,6 @@ export interface ExtendedStrapiRequestParams extends StrapiRequestParams {
  */
 export async function getSingleFile(id: string | number, params?: StrapiRequestParams): Promise<SingleFileResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.plugin.single as unknown as SingleFileResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.findOne('upload/files', id, params) as unknown as SingleFileResponse;
     return strapiResponse;
@@ -43,8 +36,6 @@ export async function getSingleFile(id: string | number, params?: StrapiRequestP
 /**
  * Fetches a collection of files from the Strapi backend.
  *
- * At build time, it will return an empty response.
- *
  * @param {ExtendedStrapiRequestParams} [params] - Optional parameters for the request, including pagination.
  * @returns A promise that resolves to the files data.
  *
@@ -54,11 +45,6 @@ export async function getSingleFile(id: string | number, params?: StrapiRequestP
  */
 export async function getFilesCollection(params?: ExtendedStrapiRequestParams): Promise<FilesResponse> {
   try {
-    // At build time we return an empty response, because we don't have
-    // networking available to make requests directly to Strapi backend.
-    if (await isBuildTime()) return emptyStrapiResponse.plugin.collection as unknown as FilesResponse;
-
-    // Otherwise we just make the requests to the live Strapi backend.
     const strapiInstance = await strapiSDK(await getAPIKey('frontend'));
     const strapiResponse = await strapiInstance.find('upload/files', params) as unknown as FilesResponse;
     return strapiResponse;

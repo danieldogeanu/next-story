@@ -43,7 +43,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'nextstory.ddsv.eu',
-        port: '443',
+        port: '',
         pathname: '/**',
       },
       {
@@ -67,7 +67,7 @@ const nextConfig = {
       {
         protocol: 'https',
         hostname: 'strapi.nextstory.ddsv.eu',
-        port: '443',
+        port: '',
         pathname: '/uploads/**',
       },
     ],

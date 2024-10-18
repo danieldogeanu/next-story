@@ -60,33 +60,6 @@ services:
     depends_on:
       - ns_postgres_prod
 
-  ns_fetcher_prod:
-    container_name: ns-fetcher-prod
-    image: nextstory-fetcher-prod:latest
-    profiles: [backend,all]
-    restart: 'no'
-    env_file:
-      - path: ./.env
-        required: true
-      - path: ./prod.env
-        required: true
-    build:
-      context: ./fetcher
-      dockerfile: Dockerfile.prod
-    environment:
-      NEXT_PUBLIC_HOSTNAME: ${NEXT_PUBLIC_HOSTNAME}
-      NEXT_PUBLIC_BACKEND_URL: ${NEXT_PUBLIC_BACKEND_URL}
-      NEXT_PUBLIC_FRONTEND_URL: ${NEXT_PUBLIC_FRONTEND_URL}
-      NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
-      NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
-    volumes:
-      - ns_fetcher_prod:/app/data
-    networks:
-      - ns_net
-    depends_on:
-      - ns_postgres_prod
-      - ns_strapi_prod
-
   ns_nextjs_prod:
     container_name: ns-nextjs-prod
     image: nextstory-nextjs-prod:latest
@@ -121,8 +94,6 @@ services:
       NEXT_PUBLIC_LANG: ${NEXT_PUBLIC_LANG}
       NEXT_STRAPI_FE_APIKEY: ${NEXT_STRAPI_FE_APIKEY}
       NEXT_STRAPI_BE_APIKEY: ${NEXT_STRAPI_BE_APIKEY}
-    volumes:
-      - ns_fetcher_prod:/app/data
     ports:
       - "${NEXT_PORT}:${NEXT_PORT}"
     networks:
@@ -130,15 +101,12 @@ services:
     depends_on:
       - ns_postgres_prod
       - ns_strapi_prod
-      - ns_fetcher_prod
 
 volumes:
   ns_data_prod:
     name: nextstory-data-prod
   ns_uploads_prod:
     name: nextstory-uploads-prod
-  ns_fetcher_prod:
-    name: nextstory-fetcher-prod
 
 networks:
   ns_net:

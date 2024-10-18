@@ -25,18 +25,18 @@ export async function generateRobotsObject(pageRobots?: PageRobots): Promise<Rob
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
   const siteRobots = siteSettings?.siteRobots as SiteRobots;
 
-  if (pageRobots) {
+  if (typeof pageRobots !== 'undefined') {
     return {
-      index: (siteRobots.indexAllowed === false) ? false : pageRobots.indexAllowed,
-      follow: (siteRobots.followAllowed === false) ? false : pageRobots.followAllowed,
-      nocache: (siteRobots.cacheAllowed === false) ? true : !pageRobots.cacheAllowed,
+      index: (siteRobots?.indexAllowed === false) ? false : pageRobots.indexAllowed,
+      follow: (siteRobots?.followAllowed === false) ? false : pageRobots.followAllowed,
+      nocache: (siteRobots?.cacheAllowed === false) ? true : !pageRobots.cacheAllowed,
     };
   }
 
   return {
-    index: siteRobots.indexAllowed,
-    follow: siteRobots.followAllowed,
-    nocache: !siteRobots.cacheAllowed,
+    index: siteRobots?.indexAllowed,
+    follow: siteRobots?.followAllowed,
+    nocache: !siteRobots?.cacheAllowed,
   };
 }
 
@@ -65,14 +65,14 @@ export async function generateRobotsObject(pageRobots?: PageRobots): Promise<Rob
 export async function generateCoverImageObject(pageCover?: PageCover): Promise<CoverImageObject> {
   const siteSettingsResponse = await getSiteSettings({ populate: '*' });
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
-  const siteCover = siteSettings.siteCover?.data?.attributes as SiteCover;
+  const siteCover = siteSettings?.siteCover?.data?.attributes as SiteCover;
   const siteCoverFormats = siteCover?.formats as unknown as StrapiImageFormats;
-  const siteCoverURL = (siteCoverFormats?.large?.url) ? getFileURL(siteCoverFormats.large.url) : getFileURL(siteCover.url);
+  const siteCoverURL = (siteCoverFormats?.large?.url) ? getFileURL(siteCoverFormats.large.url) : getFileURL(siteCover?.url);
   const defaultCoverURL = getFileURL(defaultCover.src, 'frontend') as string;
 
-  if (pageCover) {
+  if (typeof pageCover !== 'undefined') {
     const pageCoverFormats = pageCover?.formats as unknown as StrapiImageFormats;
-    const pageCoverURL = (pageCoverFormats?.large?.url) ? getFileURL(pageCoverFormats.large.url) : getFileURL(pageCover.url);
+    const pageCoverURL = (pageCoverFormats?.large?.url) ? getFileURL(pageCoverFormats.large.url) : getFileURL(pageCover?.url);
 
     return {
       url: pageCoverURL ?? defaultCoverURL,

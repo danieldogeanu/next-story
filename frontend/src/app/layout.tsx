@@ -20,10 +20,13 @@ import '@mantine/core/styles.css';
 import '@mantine/notifications/styles.css';
 import '@/styles/global.scss';
 
+
 // Types
 interface RootLayoutProps {
   children: React.ReactNode;
 }
+
+export const dynamic = 'force-dynamic';
 
 // Default SEO Metadata
 export async function generateMetadata(): Promise<Metadata> {
@@ -69,28 +72,28 @@ export async function generateMetadata(): Promise<Metadata> {
     },
   };
 
-  if (typeof siteSettingsResponse === 'undefined') return defaultMetadata;
+  if (typeof siteSettings === 'undefined') return defaultMetadata;
 
   return {
     ...defaultMetadata,
     metadataBase: new URL(getFrontEndURL()),
     title: {
-      template: `%s > ${capitalize(siteSettings.siteName)}`,
-      default: capitalize(siteSettings.siteName),
+      template: `%s > ${capitalize(siteSettings?.siteName)}`,
+      default: capitalize(siteSettings?.siteName),
     },
-    description: makeSeoDescription(siteSettings.siteDescription),
-    keywords: makeSeoKeywords(siteSettings.siteKeywords),
-    applicationName: capitalize(siteSettings.siteName),
-    publisher: capitalize(siteSettings.siteName),
+    description: makeSeoDescription(siteSettings?.siteDescription),
+    keywords: makeSeoKeywords(siteSettings?.siteKeywords),
+    applicationName: capitalize(siteSettings?.siteName),
+    publisher: capitalize(siteSettings?.siteName),
     robots: await generateRobotsObject(),
     alternates: {
       canonical: getFrontEndURL(),
     },
     openGraph: {
       ...defaultMetadata.openGraph,
-      title: makeSeoTitle(siteSettings.siteTitle),
-      description: makeSeoDescription(siteSettings.siteDescription),
-      siteName: capitalize(siteSettings.siteName),
+      title: makeSeoTitle(siteSettings?.siteTitle),
+      description: makeSeoDescription(siteSettings?.siteDescription),
+      siteName: capitalize(siteSettings?.siteName),
       url: getFrontEndURL(),
       locale: getSiteLang('posix'),
       images: await generateCoverImageObject(),

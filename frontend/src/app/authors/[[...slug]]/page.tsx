@@ -29,6 +29,7 @@ import authorStyles from '@/styles/author-page.module.scss';
 
 
 const rootPageSlug = '/authors';
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validatePageParams(params);
@@ -55,7 +56,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
         robots: { populate: '*' },
       },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SingleAuthor;
+    })).data?.pop()?.attributes as SingleAuthor;
     if (typeof authorData === 'undefined') return {};
   
     const authorAvatar = authorData?.avatar?.data?.attributes as AuthorAvatar;
@@ -63,7 +64,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
     const authorSEO = authorData?.seo as AuthorSEO;
     const authorMetaImage = authorSEO?.metaImage?.data?.attributes as AuthorAvatar;
     const authorMetaSocials = authorSEO?.metaSocial as AuthorMetaSocial;
-    const authorMetaFacebook = authorMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
+    const authorMetaFacebook = authorMetaSocials?.filter((social) => (social?.socialNetwork === 'Facebook')).pop() as AuthorMetaSocialEntry;
     const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as AuthorAvatar;
 
     const makeAuthorTitle = (title: string) => (`${addPageNumber(title, pageNumber, 'title')}'s Articles`);
@@ -97,7 +98,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   const authorPageRobots = authorPageSettings?.robots as PageRobots;
   const authorCover = authorPageSettings?.cover?.data?.attributes as PageCover;
   const authorMetaSocials = authorPageSettings?.metaSocial as PageMetaSocial;
-  const authorMetaFacebook = authorMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const authorMetaFacebook = authorMetaSocials?.filter((social) => (social?.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
   const authorMetaFacebookImage = authorMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
@@ -155,7 +156,7 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
         seo: { populate: '*' },
       },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SingleAuthor;
+    })).data?.pop()?.attributes as SingleAuthor;
 
     // If the authorData array is empty or undefined, it means no author was found.
     if (typeof authorData === 'undefined') return notFound();
@@ -201,8 +202,8 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
                     className={authorStyles.image}
                     component={NextImage}
                     src={authorAvatarUrl}
-                    width={authorAvatarFormats.small?.width}
-                    height={authorAvatarFormats.small?.height}
+                    width={authorAvatarFormats?.small?.width}
+                    height={authorAvatarFormats?.small?.height}
                     alt={authorAvatar?.alternativeText || ''} />
                   :  
                   <Box className={authorStyles.default}>
@@ -212,11 +213,11 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
               </Box>
   
               <Text className={authorStyles.joined} title='Date Joined'>
-                Joined {capitalize(convertToRelativeDate(authorData.publishedAt))}
+                Joined {capitalize(convertToRelativeDate(authorData?.publishedAt))}
               </Text>
   
               <Group className={authorStyles.socials} justify='center'>
-                {(authorSocials && authorSocials.length > 0) && authorSocials.map((social) => (
+                {(authorSocials && authorSocials?.length > 0) && authorSocials?.map((social) => (
                   <SocialIcon
                     key={social.id}
                     href={social.link}
@@ -242,7 +243,7 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
                 </Title>
     
                 <Box className={authorStyles.biography}>
-                  {authorData?.biography.split('\n\n').map((paragraph, index) => {
+                  {authorData?.biography?.split('\n\n')?.map((paragraph, index) => {
                     return <Text key={index}>{paragraph.trim()}</Text>;
                   })}
                 </Box>
@@ -256,7 +257,7 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
           </Box>
     
           <Suspense fallback={<SortFallback />}>
-            <SortBar totalItems={articlesPagination.total} collectionType='articles' />
+            <SortBar totalItems={articlesPagination?.total} collectionType='articles' />
           </Suspense>
           
           <section className={pageStyles.grid}>
@@ -303,11 +304,11 @@ export default async function AuthorsPage({params, searchParams}: PageProps) {
         </Title>
 
         <Suspense fallback={<SortFallback />}>
-          <SortBar className={authorStyles.sortBar} totalItems={authorPagination.total} collectionType='authors' />
+          <SortBar className={authorStyles.sortBar} totalItems={authorPagination?.total} collectionType='authors' />
         </Suspense>
 
         <section className={pageStyles.grid}>
-          {authorsCollection.data.map((author) => {
+          {authorsCollection?.data?.map((author) => {
             return (<AuthorCard key={author.id} data={author.attributes} />);
           })}
         </section>

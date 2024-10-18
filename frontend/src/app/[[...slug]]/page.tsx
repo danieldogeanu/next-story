@@ -21,6 +21,7 @@ import styles from '@/styles/page.module.scss';
 
 
 const rootPageSlug = '/';
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validatePageParams(params);
@@ -52,7 +53,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
         robots: { populate: '*' },
       },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SinglePage;
+    })).data?.pop()?.attributes as SinglePage;
     if (typeof pageData === 'undefined') return {};
   
     const pageCover = pageData?.cover?.data?.attributes as PageCover;
@@ -60,7 +61,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
     const pageSEO = pageData?.seo as PageSEO;
     const pageMetaImage = pageSEO?.metaImage?.data?.attributes as PageCover;
     const pageMetaSocials = pageSEO?.metaSocial as PageMetaSocial;
-    const pageMetaFacebook = pageMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+    const pageMetaFacebook = pageMetaSocials?.filter((social) => (social?.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
     const pageMetaFacebookImage = pageMetaFacebook?.image?.data?.attributes as PageCover;
   
     return {
@@ -87,7 +88,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   // If there's no slug, we're on the homepage, so we should get the site settings.
   const siteSettingsResponse = await getSiteSettings({populate: '*'});
   const siteSettings = siteSettingsResponse?.data?.attributes as SiteSettings;
-  if (typeof siteSettingsResponse === 'undefined') return {};
+  if (typeof siteSettings === 'undefined') return {};
 
   return {
     title: {
@@ -134,7 +135,7 @@ export default async function Page({params, searchParams}: PageProps) {
     const pageData = (await getPagesCollection({
       populate: '*', filters: { slug: { $eq: slug } },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SinglePage;
+    })).data?.pop()?.attributes as SinglePage;
   
     if (typeof pageData === 'undefined') return notFound();
   
@@ -203,7 +204,7 @@ export default async function Page({params, searchParams}: PageProps) {
   const articlesPagination = articlesCollection?.meta?.pagination;
 
   // If the page number is beyond of the page count, we return a 404.
-  outOfBoundsRedirect(pageNumber, articlesPagination.pageCount, articlesCollection.data.length);
+  outOfBoundsRedirect(pageNumber, articlesPagination?.pageCount, articlesCollection?.data?.length);
 
   return (
     <main className={styles.main}>
@@ -211,11 +212,11 @@ export default async function Page({params, searchParams}: PageProps) {
       <section className={styles.container}>
 
         <Suspense fallback={<SortFallback />}>
-          <SortBar totalItems={articlesPagination.total} collectionType='articles' />
+          <SortBar totalItems={articlesPagination?.total} collectionType='articles' />
         </Suspense>
         
         <section className={styles.grid}>
-          {articlesCollection.data.map((article) => {
+          {articlesCollection?.data?.map((article) => {
             return (<ArticleCard key={article.id} data={article.attributes} />);
           })}
         </section>

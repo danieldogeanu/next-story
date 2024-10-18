@@ -26,6 +26,7 @@ import categoryStyles from '@/styles/category-page.module.scss';
 
 
 const rootPageSlug = '/categories';
+export const dynamic = 'force-dynamic';
 
 export async function generateMetadata({params}: PageProps, parent: ResolvingMetadata): Promise<Metadata> {
   const validatedParams = validatePageParams(params);
@@ -52,7 +53,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
         robots: { populate: '*' },
       },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SingleCategory;  
+    })).data?.pop()?.attributes as SingleCategory;
     if (typeof categoryData === 'undefined') return {};
   
     const categoryCover = categoryData?.cover?.data?.attributes as CategoryCover;
@@ -60,7 +61,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
     const categorySEO = categoryData?.seo as CategorySEO;
     const categoryMetaImage = categorySEO?.metaImage?.data?.attributes as CategoryCover;
     const categoryMetaSocials = categorySEO?.metaSocial as CategoryMetaSocial;
-    const categoryMetaFacebook = categoryMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as CategoryMetaSocialEntry;
+    const categoryMetaFacebook = categoryMetaSocials?.filter((social) => (social?.socialNetwork === 'Facebook')).pop() as CategoryMetaSocialEntry;
     const categoryMetaFacebookImage = categoryMetaFacebook?.image?.data?.attributes as CategoryCover;
 
     const makeCategoryTitle = (title: string) => (`${addPageNumber(title, pageNumber, 'title')} Category`);
@@ -94,7 +95,7 @@ export async function generateMetadata({params}: PageProps, parent: ResolvingMet
   const categoriesPageRobots = categoriesPageSettings?.robots as PageRobots;
   const categoriesCover = categoriesPageSettings?.cover?.data?.attributes as PageCover;
   const categoriesMetaSocials = categoriesPageSettings?.metaSocial as PageMetaSocial;
-  const categoriesMetaFacebook = categoriesMetaSocials?.filter((social) => (social.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
+  const categoriesMetaFacebook = categoriesMetaSocials?.filter((social) => (social?.socialNetwork === 'Facebook')).pop() as PageMetaSocialEntry;
   const categoriesMetaFacebookImage = categoriesMetaFacebook?.image?.data?.attributes as PageCover;
 
   return {
@@ -151,7 +152,7 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
         seo: { populate: '*' },
       },
       pagination: { start: 0, limit: 1 },
-    })).data.pop()?.attributes as SingleCategory;
+    })).data?.pop()?.attributes as SingleCategory;
   
     // If the categoryData array is empty or undefined, it means no author was found.
     if (typeof categoryData === 'undefined') return notFound();
@@ -201,7 +202,7 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
           </Box>
     
           <Suspense fallback={<SortFallback />}>
-            <SortBar totalItems={articlesPagination.total} collectionType='articles' />
+            <SortBar totalItems={articlesPagination?.total} collectionType='articles' />
           </Suspense>
           
           <section className={pageStyles.grid}>
@@ -248,11 +249,11 @@ export default async function CategoriesPage({params, searchParams}: PageProps) 
         </Title>
 
         <Suspense fallback={<SortFallback />}>
-          <SortBar totalItems={categoriesPagination.total} collectionType='categories' />
+          <SortBar totalItems={categoriesPagination?.total} collectionType='categories' />
         </Suspense>
 
         <section className={pageStyles.grid}>
-          {categoriesCollection.data.map((category) => {
+          {categoriesCollection?.data?.map((category) => {
             return (<CategoryCard key={category.id} data={category.attributes} />);
           })}
         </section>

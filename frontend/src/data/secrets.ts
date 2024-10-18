@@ -1,29 +1,27 @@
 import { StrapiRequestParams } from 'strapi-sdk-js';
-import { APIResponse, APIResponseData } from '@/types/strapi';
-import { getAPIKey, isBuildTime } from '@/utils/server/env';
-import { strapiSDK } from '@/data/strapi';
+import { APIResponse, IDProperty } from '@/types/strapi';
+import { emptyStrapiResponse, strapiSDK } from '@/data/strapi';
+import { getAPIKey } from '@/utils/server/env';
 
-// Rename Strapi types to make it more clear what we're working with.
-export interface FrontendSecretsData extends APIResponseData<'api::frontend-secret.frontend-secret'> {}
-export interface BackendSecretsData extends APIResponseData<'api::backend-secret.backend-secret'> {}
+// TODO: Move Secrets to a separate secrets manager app for proper security.
+
+// Rename Strapi interfaces to make it more clear what we're working with.
 export interface FrontendSecretsResponse extends APIResponse<'api::frontend-secret.frontend-secret'> {}
 export interface BackendSecretsResponse extends APIResponse<'api::backend-secret.backend-secret'> {}
 
-// Secrets specific types.
-export type SiteSecretsType = 'frontend' | 'backend';
+// Merge Strapi interfaces of the same type.
+export type SecretsResponse = FrontendSecretsResponse & BackendSecretsResponse;
 
-export interface SecretEntry {
-  id: number;
-  name: string;
-  value: string;
-}
+// Secrets specific types.
+export type SecretType = 'frontend' | 'backend';
+export type SecretEntry = IDProperty & NonNullable<SecretsResponse['data']['attributes']['secretEntries']>[number];
 
 /**
  * Fetches site secrets from the Strapi backend based on the type of secrets chosen.
  *
- * @param {SiteSecretsType} secretsType - The type of secrets to fetch ('frontend' or 'backend').
+ * @param {SecretType} secretsType - The type of secrets to fetch ('frontend' or 'backend').
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
- * @returns A promise that resolves to the secrets data or null.
+ * @returns A promise that resolves to the secrets data.
  * @throws {Error} Throws an error if no site secrets are found for the provided secrets type.
  *
  * @example
@@ -31,30 +29,28 @@ export interface SecretEntry {
  * await getSiteSecrets('frontend');
  */
 export async function getSiteSecrets(
-  secretsType: SiteSecretsType, params?: StrapiRequestParams
-): Promise<FrontendSecretsResponse | BackendSecretsResponse | null> {
-  const strapiInstance = await strapiSDK(await getAPIKey(secretsType));
-  const strapiRequestParams: StrapiRequestParams = {populate: '*', ...params};
+  secretsType: SecretType, params?: StrapiRequestParams
+): Promise<SecretsResponse> {
+  try {
+    // Make sure the secrets type exists, otherwise throw an error.
+    if (typeof secretsType !== 'string' || !['frontend', 'backend'].includes(secretsType)) {
+      throw new Error('No site secrets found for the provided secrets type.');
+    }
 
-  // At build time we return null, because we don't want to expose
-  // our secrets to static and unsecure JSON files.
-  if (await isBuildTime()) return null;
-
-  if (secretsType === 'frontend') {
-    return await strapiInstance.find('frontend-secret', strapiRequestParams) as FrontendSecretsResponse;
+    // Otherwise we just make the requests to the live Strapi backend.
+    const strapiInstance = await strapiSDK(await getAPIKey(secretsType));
+    const strapiRequestParams: StrapiRequestParams = {populate: '*', ...params};
+    return await strapiInstance.find(`${secretsType}-secret`, strapiRequestParams) as SecretsResponse;
+  } catch (e) {
+    console.error('Error:', (e instanceof Error) ? e.message : e);
+    return emptyStrapiResponse.api.single as unknown as SecretsResponse;
   }
-
-  if (secretsType === 'backend') {
-    return await strapiInstance.find('backend-secret', strapiRequestParams) as BackendSecretsResponse;
-  }
-
-  throw new Error('No site secrets found for the provided secrets type.');
 }
 
 /**
  * Fetches a single site secret from the Strapi API by its name.
  *
- * @param {SiteSecretsType} secretType - The type of secret ('frontend' or 'backend').
+ * @param {SecretType} secretType - The type of secret ('frontend' or 'backend').
  * @param {string} secretName - The name of the secret to fetch.
  * @param {StrapiRequestParams} [params] - Optional parameters for the request.
  * @returns A promise that resolves to the secret entry if found, otherwise undefined.
@@ -65,10 +61,10 @@ export async function getSiteSecrets(
  * await getSingleSiteSecret('backend', 'mySecretName');
  */
 export async function getSingleSiteSecret(
-  secretType: SiteSecretsType, secretName: string, params?: StrapiRequestParams
+  secretType: SecretType, secretName: string, params?: StrapiRequestParams
 ): Promise<SecretEntry | undefined> {
   const siteSecrets = await getSiteSecrets(secretType, params);
-  if (siteSecrets) return siteSecrets.data.attributes.secretEntries?.filter(
+  if (siteSecrets) return siteSecrets.data?.attributes?.secretEntries?.filter(
     (item) => (item.name === secretName)
   ).pop() as SecretEntry;
 }

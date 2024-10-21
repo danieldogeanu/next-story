@@ -31,6 +31,8 @@ body {
   display: grid;
   grid-template-columns: auto;
   grid-template-rows: min-content 1fr min-content;
+  scrollbar-gutter: stable both-edges;
+  scrollbar-width: thin;
   background-color: var(--mantine-color-white);
   @include dark {
     background-color: var(--mantine-color-gray-9);
@@ -49,8 +51,6 @@ a {
 }
 
 .notification-system {
-  right: rem(32);
-
   .mantine-Notification-root {
     border-radius: rem(8);
     padding: rem(16);

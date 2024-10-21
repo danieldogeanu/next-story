@@ -119,7 +119,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
         {totalItems} {capitalize(collectionType)}
       </Text>
 
-      <Group className={styles.order} justify='flex-end' gap={0}>
+      <Group className={styles.order} gap={0}>
         <ActionIcon
           className={classNames(styles.chevron, styles.up)}
           onClick={() => handleSortOrderChange('asc')}

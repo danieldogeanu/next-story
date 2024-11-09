@@ -7,6 +7,7 @@ import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/s
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
 import { getFrontEndURL, getLocalEnv, getSiteLang } from '@/utils/client/env';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
+import { getSingleSiteSecret } from '@/data/secrets';
 import { CurrentURL } from '@/data/current-url';
 import { combineProviders } from '@/providers';
 import { getMimeTypeFromUrl } from '@/utils/urls';
@@ -14,6 +15,7 @@ import { capitalize } from '@/utils/strings';
 import ErrorFallback from '@/app/error';
 import SiteHeader from '@/layout/header';
 import SiteFooter from '@/layout/footer';
+import Analytics from '@/components/analytics';
 import mantineTheme from '@/theme';
 import defaultCover from '@/assets/imgs/default-cover.jpg';
 import '@mantine/core/styles.css';
@@ -103,6 +105,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   const colorScheme: MantineColorScheme = 'auto';
+  const umamiWebsiteId = await getSingleSiteSecret('frontend', 'umami');
 
   // If we're running in a local environment, we need to get the hostname dynamically.
   // We do this so we can access the website on mobile devices for testing.
@@ -151,6 +154,7 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
               position='bottom-right' limit={5} />
           </ErrorBoundary>
         </Providers>
+        <Analytics id={umamiWebsiteId?.value ?? ''} />
       </body>
     </html>
   );

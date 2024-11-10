@@ -105,7 +105,8 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   const colorScheme: MantineColorScheme = 'auto';
-  const umamiWebsiteId = await getSingleSiteSecret('frontend', 'umami');
+  const umamiAnalyticsURL = await getSingleSiteSecret('frontend', 'umamiAnalyticsURL');
+  const umamiAnalyticsID = await getSingleSiteSecret('frontend', 'umamiAnalyticsID');
 
   // If we're running in a local environment, we need to get the hostname dynamically.
   // We do this so we can access the website on mobile devices for testing.
@@ -154,7 +155,9 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
               position='bottom-right' limit={5} />
           </ErrorBoundary>
         </Providers>
-        <Analytics id={umamiWebsiteId?.value ?? ''} />
+        <Analytics
+          id={umamiAnalyticsID?.value ?? ''}
+          src={umamiAnalyticsURL?.value ?? ''} />
       </body>
     </html>
   );

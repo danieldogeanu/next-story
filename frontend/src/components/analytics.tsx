@@ -4,9 +4,10 @@ import Script from 'next/script';
 
 export interface AnalyticsProps {
   id: string;
+  src: string;
 }
 
-export default function Analytics({id}: AnalyticsProps) {
+export default function Analytics({id, src}: AnalyticsProps) {
   const trackEvents = () => {
     if (typeof window !== 'undefined' && typeof window.umami === 'object') {
       const allLinks = document.querySelectorAll('a');
@@ -43,7 +44,7 @@ export default function Analytics({id}: AnalyticsProps) {
       <Script
         id='analytics'
         strategy='afterInteractive'
-        src='https://umami.ddsv.eu/script.js'
+        src={src}
         data-website-id={id}
         onReady={trackEvents}
         async

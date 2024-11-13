@@ -115,11 +115,11 @@ export default function Analytics({ id, host }: AnalyticsProps) {
     {
       selector: 'input.mantine-Select-input',
       eventType: 'click',
-      eventName: 'Select Input Click',
+      eventName: 'Select Click',
       children: {
         selector: '.mantine-Select-option',
         eventType: 'click',
-        eventName: 'Select Option Click',
+        eventName: 'Select Option', // TODO: Selected option doesn't get tracked, or is inconsistent, please fix it!
       }
     }
   ]), []);

@@ -23,6 +23,8 @@ interface ElementConfig {
   eventName: string;
   /** Optional function to extract extra data for the event. */
   extraData?: (element: HTMLElement) => ExtraData;
+  /** Optional nested configuration(s) for child elements (e.g., select options). */
+  children?: ElementConfig | ElementConfig[];
 }
 
 export default function Analytics({ id, host }: AnalyticsProps) {
@@ -46,32 +48,58 @@ export default function Analytics({ id, host }: AnalyticsProps) {
     };
   }, []);
 
-  /** Reusable function to set up listeners based on configs. */
-  const setupEventListeners = useCallback((configs: ElementConfig[]) => {
-    configs.forEach(({ selector, eventType, eventName, extraData }) => {
+  /** Recursive function to set up listeners, handling nested configs. */
+  const setupEventListeners = useCallback((configs: ElementConfig | ElementConfig[]) => {
+    const processConfig = (config: ElementConfig) => {
+      const { selector, eventType, eventName, extraData, children } = config;
       const handler = createEventHandler(eventName, extraData);
+      
       document.querySelectorAll(selector).forEach((element) => {
         element.addEventListener(eventType, handler);
+
         // Store the handler on the element for later removal.
         (element as any)._handler = handler;
+
+        // Recursively set up event listeners for any nested child configurations.
+        if (children) {
+          const childConfigs = Array.isArray(children) ? children : [children];
+          setupEventListeners(childConfigs);
+        }
       });
-    });
+    };
+
+    // Process each configuration.
+    const configArray = Array.isArray(configs) ? configs : [configs];
+    configArray.forEach(processConfig);
   }, [createEventHandler]);
 
-  /** Reusable function to remove listeners based on configs. */
-  const removeEventListeners = (configs: ElementConfig[]) => {
-    configs.forEach(({ selector, eventType }) => {
+  /** Recursive function to remove listeners, handling nested configs. */
+  const removeEventListeners = useCallback((configs: ElementConfig | ElementConfig[]) => {
+    const processConfig = (config: ElementConfig) => {
+      const { selector, eventType, children } = config;
+
       document.querySelectorAll(selector).forEach((element) => {
+        // Remove the event listner and the handler stored on the element previously.
         const handler = (element as any)._handler;
         if (handler) {
           element.removeEventListener(eventType, handler);
           delete (element as any)._handler;
         }
-      });
-    });
-  };
 
-  // Configurations for elements and their respective event types.
+        // Recursively remove event listeners for any nested child configurations.
+        if (children) {
+          const childConfigs = Array.isArray(children) ? children : [children];
+          removeEventListeners(childConfigs);
+        }
+      });
+    };
+
+    // Process each configuration.
+    const configArray = Array.isArray(configs) ? configs : [configs];
+    configArray.forEach(processConfig);
+  }, []);
+
+  // Configurations for elements and their respective event types, with nested child configs.
   const elementConfigs: ElementConfig[] = useMemo(() => ([
     {
       selector: 'a',
@@ -88,22 +116,18 @@ export default function Analytics({ id, host }: AnalyticsProps) {
       selector: 'input.mantine-Select-input',
       eventType: 'click',
       eventName: 'Select Input Click',
-      extraData: () => {
-        // Ensure select options have individual click tracking.
-        const selectOptions = document.querySelectorAll('.mantine-Select-option');
-        selectOptions.forEach((option) => {
-          option.removeEventListener('click', createEventHandler('Select Option Click'));
-          option.addEventListener('click', createEventHandler('Select Option Click'));
-        });
-        return {}; // Return empty as main element doesn't need extra data.
+      children: {
+        selector: '.mantine-Select-option',
+        eventType: 'click',
+        eventName: 'Select Option Click',
       }
     }
-  ]), [createEventHandler]);
+  ]), []);
 
   useEffect(() => {
     setupEventListeners(elementConfigs);
     return () => removeEventListeners(elementConfigs); // Clean up to prevent duplicate listeners.
-  }, [pathname, elementConfigs, setupEventListeners]);
+  }, [pathname, elementConfigs, setupEventListeners, removeEventListeners]);
 
   return (
     <>

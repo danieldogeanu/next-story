@@ -40,13 +40,20 @@ export default function Analytics({ id, host }: AnalyticsProps) {
     }
   };
 
+  const handleSelectOption = (e: Event) => {
+    const currentOption = e.currentTarget as HTMLDivElement;
+    if (typeof window.umami === 'object') {
+      umami.track(`Select Option: ${currentOption?.innerText || 'Unknown'}`);
+    }
+  };
+
   const handleSelectClick = () => {
     if (typeof window.umami === 'object') {
       const currentOptions = document.querySelectorAll('.mantine-Select-option');
-      currentOptions.forEach((option) => option.addEventListener('click', (e: Event) => {
-        const currentOption = e.currentTarget as HTMLDivElement;
-        umami.track(`Select Option: ${currentOption?.innerText || 'Unknown'}`);
-      }));
+      currentOptions.forEach((option) => {
+        option.removeEventListener('click', handleSelectOption);
+        option.addEventListener('click', handleSelectOption);
+      });
     }
   };
 

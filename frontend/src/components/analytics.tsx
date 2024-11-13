@@ -5,12 +5,13 @@ import { usePathname } from 'next/navigation';
 import { useCallback, useEffect } from 'react';
 
 export interface AnalyticsProps {
-  id: string;
-  src: string;
+  id?: string;
+  host?: string;
 }
 
-export default function Analytics({ id, src }: AnalyticsProps) {
+export default function Analytics({ id, host }: AnalyticsProps) {
   const pathname = usePathname();
+  const analyticsScriptUrl = new URL('script.js', host).href;
 
   const handleLinkClick = (e: Event) => {
     const currentLink = e.currentTarget as HTMLAnchorElement;
@@ -39,13 +40,25 @@ export default function Analytics({ id, src }: AnalyticsProps) {
     }
   };
 
+  const handleSelectClick = () => {
+    if (typeof window.umami === 'object') {
+      const currentOptions = document.querySelectorAll('.mantine-Select-option');
+      currentOptions.forEach((option) => option.addEventListener('click', (e: Event) => {
+        const currentOption = e.currentTarget as HTMLDivElement;
+        umami.track(`Select Option: ${currentOption?.innerText || 'Unknown'}`);
+      }));
+    }
+  };
+
   const attachEventListeners = useCallback(() => {
     if (typeof window.umami === 'object') {
       const allLinks = document.querySelectorAll('a');
       const allButtons = document.querySelectorAll('button');
+      const allSelects = document.querySelectorAll('input.mantine-Select-input');
 
       allLinks.forEach((link) => link.addEventListener('click', handleLinkClick));
       allButtons.forEach((button) => button.addEventListener('click', handleButtonClick));
+      allSelects.forEach((select) => select.addEventListener('click', handleSelectClick));
     }
   }, []);
 
@@ -53,9 +66,11 @@ export default function Analytics({ id, src }: AnalyticsProps) {
     if (typeof window.umami === 'object') {
       const allLinks = document.querySelectorAll('a');
       const allButtons = document.querySelectorAll('button');
+      const allSelects = document.querySelectorAll('input.mantine-Select-input');
   
       allLinks.forEach((link) => link.removeEventListener('click', handleLinkClick));
       allButtons.forEach((button) => button.removeEventListener('click', handleButtonClick));
+      allSelects.forEach((select) => select.removeEventListener('click', handleSelectClick));
     }
   }, []);
 
@@ -69,7 +84,7 @@ export default function Analytics({ id, src }: AnalyticsProps) {
       <Script
         id='analytics'
         strategy='afterInteractive'
-        src={src} data-website-id={id}
+        src={analyticsScriptUrl} data-website-id={id}
         onReady={attachEventListeners}
         async
       />

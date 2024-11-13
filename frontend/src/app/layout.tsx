@@ -156,8 +156,8 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
           </ErrorBoundary>
         </Providers>
         <Analytics
-          id={umamiAnalyticsID?.value ?? ''}
-          src={umamiAnalyticsURL?.value ?? ''} />
+          id={umamiAnalyticsID?.value}
+          host={umamiAnalyticsURL?.value} />
       </body>
     </html>
   );

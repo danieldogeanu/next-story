@@ -47,7 +47,7 @@ export default function Analytics({ id, host }: AnalyticsProps) {
     }
   };
 
-  const handleSelectClick = () => {
+  const handleSelectClick = useCallback(() => {
     if (typeof window.umami === 'object') {
       const currentOptions = document.querySelectorAll('.mantine-Select-option');
       currentOptions.forEach((option) => {
@@ -55,7 +55,7 @@ export default function Analytics({ id, host }: AnalyticsProps) {
         option.addEventListener('click', handleSelectOption);
       });
     }
-  };
+  }, []);
 
   const attachEventListeners = useCallback(() => {
     if (typeof window.umami === 'object') {
@@ -67,7 +67,7 @@ export default function Analytics({ id, host }: AnalyticsProps) {
       allButtons.forEach((button) => button.addEventListener('click', handleButtonClick));
       allSelects.forEach((select) => select.addEventListener('click', handleSelectClick));
     }
-  }, []);
+  }, [handleSelectClick]);
 
   const removeEventListeners = useCallback(() => {
     if (typeof window.umami === 'object') {
@@ -79,7 +79,7 @@ export default function Analytics({ id, host }: AnalyticsProps) {
       allButtons.forEach((button) => button.removeEventListener('click', handleButtonClick));
       allSelects.forEach((select) => select.removeEventListener('click', handleSelectClick));
     }
-  }, []);
+  }, [handleSelectClick]);
 
   useEffect(() => {
     attachEventListeners(); // Track events on initial load and when pathname changes.

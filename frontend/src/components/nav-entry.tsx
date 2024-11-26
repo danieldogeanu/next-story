@@ -41,6 +41,7 @@ export default function NavEntry({href, label, submenu}: NavEntryProps) {
               href={href}
               color='dark'
               variant={isActive(href) ? 'light' : 'subtle'}
+              data-event-name={`Main Menu Dropdown - ${label}`}
               className={styles.navEntry}
               rightSection={submenuOpened ? <IconChevronUp /> : <IconChevronDown />}
               onClick={(e) => {
@@ -56,6 +57,7 @@ export default function NavEntry({href, label, submenu}: NavEntryProps) {
                 key={index}
                 component={Link}
                 href={item.href}
+                data-event-name={`Dropdown Item - ${item.label}`}
                 className={classNames(
                   styles.subMenuItem,
                   {[styles.active]: isActive(item.href)}
@@ -70,6 +72,7 @@ export default function NavEntry({href, label, submenu}: NavEntryProps) {
           href={href}
           color='dark'
           variant={isActive(href) ? 'light' : 'subtle'}
+          data-event-name={`Main Menu - ${label}`}
           className={styles.navEntry}
         >{label}</Button>
       }

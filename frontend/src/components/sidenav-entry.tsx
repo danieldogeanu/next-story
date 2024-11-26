@@ -29,11 +29,15 @@ export default function SideNavEntry({href, label, icon, submenu, ...otherProps}
       label={label}
       active={isActive(href)}
       className={styles.entry}
+      data-event-name={`Mobile Menu - ${label}`}
       color='dark'
       {...propsWithIcon}>
-      {submenu?.map((item, index) => {
-        return <SideNavEntry key={index} {...item} />;
-      })}
+      {submenu?.map((item, index) => (
+        <SideNavEntry
+          key={index} {...item}
+          data-event-name={`Mobile Submenu - ${item.label}`}
+        />
+      ))}
     </NavLink>
   ) : (
     <NavLink
@@ -42,6 +46,7 @@ export default function SideNavEntry({href, label, icon, submenu, ...otherProps}
       label={label}
       active={isActive(href)}
       className={styles.entry}
+      data-event-name={`Mobile Menu - ${label}`}
       color='dark'
       {...propsWithIcon}
     />

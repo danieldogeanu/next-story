@@ -33,7 +33,11 @@ export default function Analytics({ id, host }: AnalyticsProps) {
 
   /** Helper to track analytics events based on element attributes. */
   const trackEvent = (eventName: string, element: HTMLElement, extraData: ExtraData = {}) => {
-    const trackingLabel = element.getAttribute('title') || element.getAttribute('aria-label') || element.innerText || 'Unknown';
+    const trackingLabel = element.getAttribute('data-event-name')
+      || element.getAttribute('title')
+      || element.getAttribute('aria-label')
+      || element.innerText || 'Unknown';
+
     if (typeof window.umami === 'object') {
       umami.track(`${capitalize(eventName)}: ${capitalize(trackingLabel)}`, extraData);
     }

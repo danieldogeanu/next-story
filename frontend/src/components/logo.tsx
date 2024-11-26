@@ -4,7 +4,10 @@ import styles from '@/styles/logo.module.scss';
 
 export default function SiteLogo() {
   return (
-    <Link href='/' className={styles.link}>
+    <Link
+      className={styles.link}
+      data-event-name='Site Logo'
+      href='/'>
       <NextStoryLogo />
     </Link>
   );

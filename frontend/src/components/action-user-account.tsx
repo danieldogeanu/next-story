@@ -1,6 +1,6 @@
 'use client';
 
-import { Tabs } from '@mantine/core';
+import { ModalBaseCloseButtonProps, Tabs } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IconUser } from '@tabler/icons-react';
 import ActionEntry from '@/components/action-entry';
@@ -8,6 +8,10 @@ import SiteDrawer from '@/components/site-drawer';
 import LoginForm from '@/components/login-form';
 import RegisterForm from '@/components/register-form';
 import styles from '@/styles/action-user-account.module.scss';
+
+
+// Add extra property for the modal close button.
+type ModalExtraCloseButtonProps = ModalBaseCloseButtonProps & { 'data-event-name'?: string };
 
 // TODO: Handle authentication and replace login/register forms with submenu if authenticated.
 // TODO: Replace user account icon with profile avatar when authenticated.
@@ -29,7 +33,10 @@ export default function ActionUserAccount({...otherProps}) {
         title='User Account'
         size={400}
         opened={opened}
-        onClose={close}>
+        onClose={close}
+        closeButtonProps={{
+          'data-event-name': 'Site Drawer - Close',
+        } as ModalExtraCloseButtonProps}>
 
           <Tabs
             className={styles.tabsContent}

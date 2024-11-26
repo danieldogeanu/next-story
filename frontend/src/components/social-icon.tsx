@@ -21,6 +21,7 @@ export default function SocialIcon({icon, label, href, ...otherProps}: SocialIco
       radius='xl'
       size={(width > 360) ? 'xl' : 'lg'}
       aria-label={label} title={label}
+      data-event-name={`Social Icon - ${label}`}
       href={href}
       target='_blank'
       referrerPolicy='no-referrer'

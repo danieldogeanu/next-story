@@ -2,6 +2,7 @@
 
 import { IconMenuDeep } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
+import { ModalBaseCloseButtonProps } from '@mantine/core';
 import { SideNavEntryProps } from '@/components/sidenav-entry';
 import { SingleNavResponse } from '@/data/navigation';
 import ActionEntry from '@/components/action-entry';
@@ -12,6 +13,9 @@ export interface ActionMobileNavProps extends
   React.HTMLAttributes<HTMLAnchorElement | HTMLButtonElement> {
   data: SingleNavResponse[];
 }
+
+// Add extra property for the modal close button.
+type ModalExtraCloseButtonProps = ModalBaseCloseButtonProps & { 'data-event-name'?: string };
 
 export default function ActionMobileNav({data, ...otherProps}: ActionMobileNavProps) {
   const [opened, {open, close}] = useDisclosure(false);
@@ -51,6 +55,9 @@ export default function ActionMobileNav({data, ...otherProps}: ActionMobileNavPr
         size='auto'
         opened={opened}
         onClose={close}
+        closeButtonProps={{
+          'data-event-name': 'Site Drawer - Close',
+        } as ModalExtraCloseButtonProps}
         hasMenu>
 
         <SideNav entries={mobileNavEntries} />

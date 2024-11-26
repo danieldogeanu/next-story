@@ -35,7 +35,8 @@ export default function AuthorCard({data}: AuthorCardProps) {
           className={styles.avatar}
           component={Link}
           href={authorUrl || ''}
-          title={authorLabel}>
+          title={authorLabel}
+          data-event-name='Author Card - Cover'>
           <IconEyeFilled className={styles.preview} size={60} />
           {(authorAvatar && authorAvatarUrl) ?
             <Image
@@ -53,7 +54,9 @@ export default function AuthorCard({data}: AuthorCardProps) {
         </Box>
       </CardSection>
 
-      <Link href={authorUrl || ''} title={capitalize(data.fullName)}>
+      <Link href={authorUrl || ''}
+        title={capitalize(data.fullName)}
+        data-event-name='Author Card - Title'>
         <Title className={styles.name} order={2}>
           {capitalize(data.fullName.substring(0, 60))}
         </Title>
@@ -85,9 +88,8 @@ export default function AuthorCard({data}: AuthorCardProps) {
           color='dark'
           size='md'
           radius='xl'
-          rightSection={
-            <IconArrowNarrowRight size={24} stroke={1.5} />
-          }>
+          rightSection={<IconArrowNarrowRight size={24} stroke={1.5} />}
+          data-event-name='Author Card - Articles'>
           {authorArticlesNumber} {(authorArticlesNumber === 1) ? 'Article' : 'Articles'}
         </Button>
       </Group>

@@ -50,27 +50,41 @@ export default function Analytics({ id, host }: AnalyticsProps) {
 
   /** Recursive function to set up listeners, handling nested configs. */
   const setupEventListeners = useCallback((configs: ElementConfig | ElementConfig[]) => {
-    const processConfig = (config: ElementConfig) => {
+    const processConfig = (config: ElementConfig, observer?: MutationObserver) => {
       const { selector, eventType, eventName, extraData, children } = config;
       const handler = createEventHandler(eventName, extraData);
-      
-      document.querySelectorAll(selector).forEach((element) => {
-        element.addEventListener(eventType, handler);
 
-        // Store the handler on the element for later removal.
-        (element as any)._handler = handler;
+      const attachListeners = (parent: Document | HTMLElement) => {
+        parent.querySelectorAll(selector).forEach((element) => {
+          // Store the handler on the element for later removal.
+          if (!(element as any)._handler) {
+            element.addEventListener(eventType, handler);
+            (element as any)._handler = handler;
+          }
 
-        // Recursively set up event listeners for any nested child configurations.
-        if (children) {
-          const childConfigs = Array.isArray(children) ? children : [children];
-          setupEventListeners(childConfigs);
-        }
-      });
+          // Recursively set up event listeners for any nested child configurations.
+          if (children) {
+            const childConfigs = Array.isArray(children) ? children : [children];
+            setupEventListeners(childConfigs);
+          }
+        });
+      };
+
+      // Attach event listeners and initialize the Mutation Observer to listen for DOM changes.
+      if (typeof document !== 'undefined') {
+        attachListeners(document);  
+        if (observer) observer.observe(document.body, { childList: true, subtree: true });
+      }
     };
 
-    // Process each configuration.
+    // Create Mutation Observer and process each configuration.
+    // We do this, because some elements, like dropdowns, are not yet visible 
+    // or available to the DOM, on initial page load.
     const configArray = Array.isArray(configs) ? configs : [configs];
-    configArray.forEach(processConfig);
+    const observer = new MutationObserver(() => {
+      configArray.forEach((config) => processConfig(config, observer));
+    });
+    configArray.forEach((config) => processConfig(config, observer));
   }, [createEventHandler]);
 
   /** Recursive function to remove listeners, handling nested configs. */
@@ -78,20 +92,22 @@ export default function Analytics({ id, host }: AnalyticsProps) {
     const processConfig = (config: ElementConfig) => {
       const { selector, eventType, children } = config;
 
-      document.querySelectorAll(selector).forEach((element) => {
-        // Remove the event listner and the handler stored on the element previously.
-        const handler = (element as any)._handler;
-        if (handler) {
-          element.removeEventListener(eventType, handler);
-          delete (element as any)._handler;
-        }
-
-        // Recursively remove event listeners for any nested child configurations.
-        if (children) {
-          const childConfigs = Array.isArray(children) ? children : [children];
-          removeEventListeners(childConfigs);
-        }
-      });
+      if (typeof document !== 'undefined') {
+        document.querySelectorAll(selector).forEach((element) => {
+          // Remove the event listner and the handler stored on the element previously.
+          const handler = (element as any)._handler;
+          if (handler) {
+            element.removeEventListener(eventType, handler);
+            delete (element as any)._handler;
+          }
+  
+          // Recursively remove event listeners for any nested child configurations.
+          if (children) {
+            const childConfigs = Array.isArray(children) ? children : [children];
+            removeEventListeners(childConfigs);
+          }
+        });
+      }
     };
 
     // Process each configuration.
@@ -100,17 +116,17 @@ export default function Analytics({ id, host }: AnalyticsProps) {
   }, []);
 
   // Configurations for elements and their respective event types, with nested child configs.
-  const elementConfigs: ElementConfig[] = useMemo(() => ([
+  const elementConfigs: ElementConfig[] = useMemo(() => [
     {
       selector: 'a',
       eventType: 'click',
       eventName: 'Link Click',
-      extraData: (element) => ({ href: (element as HTMLAnchorElement).href })
+      extraData: (element) => ({ href: (element as HTMLAnchorElement).href }),
     },
     {
       selector: 'button',
       eventType: 'click',
-      eventName: 'Button Click'
+      eventName: 'Button Click',
     },
     {
       selector: 'input.mantine-Select-input',
@@ -119,14 +135,14 @@ export default function Analytics({ id, host }: AnalyticsProps) {
       children: {
         selector: '.mantine-Select-option',
         eventType: 'click',
-        eventName: 'Select Option', // TODO: Selected option doesn't get tracked, or is inconsistent, please fix it!
-      }
-    }
-  ]), []);
+        eventName: 'Select Option',
+      },
+    },
+  ], []);
 
   useEffect(() => {
     setupEventListeners(elementConfigs);
-    return () => removeEventListeners(elementConfigs); // Clean up to prevent duplicate listeners.
+    return () => removeEventListeners(elementConfigs);
   }, [pathname, elementConfigs, setupEventListeners, removeEventListeners]);
 
   return (

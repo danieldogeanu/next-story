@@ -36,7 +36,8 @@ export default function ArticleCard({data}: ArticleCardProps) {
         className={styles.cover}
         component={Link}
         href={articleUrl || ''}
-        title='Read Article'>
+        title='Read Article'
+        data-event-name='Article Card - Cover'>
         <Box className={styles.preview}>
           <IconEyeFilled size={120} />
           <Image
@@ -51,7 +52,8 @@ export default function ArticleCard({data}: ArticleCardProps) {
       
       <Group className={styles.meta} justify='space-between'>
         <Text title='Category'>
-          <Link href={articleCategoryUrl || ''}>
+          <Link href={articleCategoryUrl || ''}
+            data-event-name='Article Card - Category'>
             {capitalize(articleCategory?.name)}
           </Link>
         </Text>
@@ -65,7 +67,9 @@ export default function ArticleCard({data}: ArticleCardProps) {
         </Text>
       </Group>
 
-      <Link href={articleUrl || ''} title={capitalize(data.title)}>
+      <Link href={articleUrl || ''}
+        title={capitalize(data.title)}
+        data-event-name='Article Card - Title'>
         <Title className={styles.title} order={2}>
           {capitalize(data.title.substring(0, 60))}
         </Title>
@@ -73,7 +77,8 @@ export default function ArticleCard({data}: ArticleCardProps) {
 
       <Group className={styles.author} justify='space-between'>
         <Text title='Author'>
-          <Link href={articleAuthorUrl || ''}>
+          <Link href={articleAuthorUrl || ''}
+            data-event-name='Article Card - Author'>
             {capitalize(articleAuthor?.fullName)}
           </Link>
         </Text>
@@ -82,7 +87,8 @@ export default function ArticleCard({data}: ArticleCardProps) {
           href={articleUrl || ''}
           size='lg' variant='subtle'
           title='Read Article'
-          aria-label='Read Article'>
+          aria-label='Read Article'
+          data-event-name='Article Card - Arrow'>
           <IconArrowNarrowRight size={24} stroke={1.5} />
         </ActionIcon>
       </Group>

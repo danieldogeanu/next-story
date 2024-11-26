@@ -29,7 +29,8 @@ export default function CategoryCard({data}: CategoryCardProps) {
         className={styles.cover}
         component={Link}
         href={categoryUrl || ''}
-        title={`See Articles in ${capitalize(data.name)} Category`}>
+        title={`See Articles in ${capitalize(data.name)} Category`}
+        data-event-name='Category Card - Cover'>
         <Box className={styles.preview}>
           <Title className={styles.title} order={2}>
             {capitalize(data.name)}

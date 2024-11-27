@@ -3,7 +3,7 @@
 import Script from 'next/script';
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useMemo } from 'react';
-import { capitalize } from '@/utils/strings';
+import { capitalize, limitText } from '@/utils/strings';
 
 export interface AnalyticsProps {
   id?: string;
@@ -36,10 +36,14 @@ export default function Analytics({ id, host }: AnalyticsProps) {
     const trackingLabel = element.getAttribute('data-event-name')
       || element.getAttribute('title')
       || element.getAttribute('aria-label')
-      || element.innerText || 'Unknown';
+      || element.innerText
+      || 'Unknown';
 
     if (typeof window.umami === 'object') {
-      umami.track(`${capitalize(eventName)}: ${capitalize(trackingLabel)}`, extraData);
+      umami.track(
+        limitText(`${capitalize(eventName)}: ${capitalize(trackingLabel)}`, 50),
+        extraData
+      );
     }
   };
 

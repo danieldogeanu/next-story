@@ -36,7 +36,7 @@ export default function AuthorCard({data}: AuthorCardProps) {
           component={Link}
           href={authorUrl || ''}
           title={authorLabel}
-          data-event-name='Author Card - Cover'>
+          data-event-name='Author Card - Avatar'>
           <IconEyeFilled className={styles.preview} size={60} />
           {(authorAvatar && authorAvatarUrl) ?
             <Image

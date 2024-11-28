@@ -5,7 +5,7 @@ import { Notifications } from '@mantine/notifications';
 import { ColorSchemeScript, MantineColorScheme, MantineProvider } from '@mantine/core';
 import { generateCoverImageObject, generateRobotsObject } from '@/utils/server/seo';
 import { makeSeoDescription, makeSeoKeywords, makeSeoTitle } from '@/utils/client/seo';
-import { getFrontEndURL, getLocalEnv, getSiteLang } from '@/utils/client/env';
+import { getFrontEndURL, getLocalEnv, getNodeEnv, getSiteLang } from '@/utils/client/env';
 import { getSiteSettings, SiteSettings } from '@/data/settings';
 import { getSingleSiteSecret } from '@/data/secrets';
 import { CurrentURL } from '@/data/current-url';
@@ -155,9 +155,8 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
               position='bottom-right' limit={5} />
           </ErrorBoundary>
         </Providers>
-        <Analytics
-          id={umamiAnalyticsID?.value}
-          host={umamiAnalyticsURL?.value} />
+        {(!getLocalEnv() && getNodeEnv() === 'production') &&
+          <Analytics id={umamiAnalyticsID?.value} host={umamiAnalyticsURL?.value} />}
       </body>
     </html>
   );

@@ -1,5 +1,29 @@
 import { getSiteLang } from '@/utils/client/env';
 
+
+/**
+ * Converts a given date to its UTC timestamp (in Unix time).
+ *
+ * This function takes a `Date` object and returns the UTC timestamp in milliseconds (Unix time).
+ * If no date is provided, it returns 0.
+ *
+ * @param {Date | undefined} date - The date to convert to UTC. If undefined, defaults to 0.
+ * @returns {number} The UTC timestamp in milliseconds, or 0 if the date is undefined.
+ */
+export function convertDateToUTC(date: Date | undefined): number {
+  // We do it this way to ensure consistency on both the server and client.
+  if (typeof date === 'undefined') return 0;
+  return Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    date.getUTCHours(),
+    date.getUTCMinutes(),
+    date.getUTCSeconds(),
+    date.getUTCMilliseconds()
+  );
+}
+
 /**
  * Converts an ISO date string to Unix time string.
  *
@@ -11,7 +35,9 @@ import { getSiteLang } from '@/utils/client/env';
  * convertToUnixTime('2024-06-07T10:20:30Z');
  */
 export function convertToUnixTime(isoDate: string | Date | undefined): string {
-  return (new Date(isoDate?.toString() as string)).getTime().toString();
+  if (typeof isoDate === 'undefined') return '';
+  const date = new Date(isoDate?.toString() as string);
+  return convertDateToUTC(date).toString();
 }
 
 /**
@@ -25,7 +51,9 @@ export function convertToUnixTime(isoDate: string | Date | undefined): string {
  * convertToISODate('1715100030000');
  */
 export function convertToISODate(unixDate: number | string | undefined): string {
-  return (new Date(parseInt(unixDate?.toString() as string))).toISOString();
+  if (typeof unixDate === 'undefined') return '';
+  const date = new Date(parseInt(unixDate.toString(), 10));
+  return date.toISOString();
 }
 
 /**
@@ -41,13 +69,17 @@ export function convertToISODate(unixDate: number | string | undefined): string 
  *
  * @example
  * // Convert an ISO date to a short readable date string.
- * convertToReadableDate('2024-06-07T10:20:30Z', 'short'); // 6/7/2024
+ * convertToReadableDate('2024-06-07T10:20:30Z', 'short'); // 06/07/2024
  */
 export function convertToReadableDate(isoDate: string | Date | undefined, format?: 'long' | 'short'): string {
+  if (typeof isoDate === 'undefined') return '';
   const date = new Date(isoDate?.toString() as string);
-  const longOptions: Intl.DateTimeFormatOptions = {weekday: 'short', month: 'short', day: '2-digit', year: 'numeric'};
-  const longDate = new Intl.DateTimeFormat('en-US', longOptions).format(date);
-  const shortDate = date.toLocaleDateString('en-US');
+  const longDate = new Intl.DateTimeFormat('en-US', {
+    weekday: 'short', month: 'short', day: '2-digit', year: 'numeric', timeZone: 'UTC',
+  }).format(date);
+  const shortDate = new Intl.DateTimeFormat('en-US', {
+    month: '2-digit', day: '2-digit', year: 'numeric', timeZone: 'UTC',
+  }).format(date);
   return (format && format === 'short') ? shortDate : longDate;
 }
 
@@ -62,29 +94,24 @@ export function convertToReadableDate(isoDate: string | Date | undefined, format
  * convertToRelativeDate('2023-06-01T12:00:00Z'); // 3 days ago
  */
 export function convertToRelativeDate(isoDate: string | Date | undefined): string {
+  if (typeof isoDate === 'undefined') return '';
+
   // Extract a usable date from the isoDate.
   const date = new Date(isoDate?.toString() as string);
 
-  // Convert it to milliseconds (Unix time).
-  const timeMs = date.getTime();
+  // Convert the date in UTC milliseconds and calculate the difference in seconds.
+  const utcUnixTime = convertDateToUTC(date);
+  const deltaSeconds = Math.round((utcUnixTime - Date.now()) / 1000);
 
-  // Get the amount of seconds between the given date and now.
-  const deltaSeconds = Math.round((timeMs - Date.now()) / 1000);
-
-  // Array reprsenting one minute, hour, day, week, month, etc in seconds.
+  // Define cutoffs and units for relative time.
   const cutoffs = [60, 3600, 86400, 86400 * 7, 86400 * 30, 86400 * 365, Infinity];
-
-  // Array equivalent to the above but in the string representation of the units.
   const units: Intl.RelativeTimeFormatUnit[] = ['second', 'minute', 'hour', 'day', 'week', 'month', 'year'];
 
-  // Grab the ideal cutoff unit.
+  // Find the appropriate time unit for the relative time.
   const unitIndex = cutoffs.findIndex(cutoff => cutoff > Math.abs(deltaSeconds));
-
-  // Get the divisor to divide from the seconds. E.g. if our unit is 'day' our divisor
-  // is one day in seconds, so we can divide our seconds by this to get the number of days.
   const divisor = unitIndex ? cutoffs[unitIndex - 1] : 1;
 
-  // Return the formated relative time.
+  // Format the relative time and return it.
   const rtf = new Intl.RelativeTimeFormat(getSiteLang(), {numeric: 'auto'});
   return rtf.format(Math.floor(deltaSeconds / divisor), units[unitIndex]);
 }

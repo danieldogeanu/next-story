@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import { Pagination } from '@mantine/core';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { APIResponseCollectionMetadata } from '@/types/strapi';
+import { capitalize } from '@/utils/strings';
 import styles from '@/styles/page-pagination.module.scss';
 
 export interface PagePaginationProps extends React.HTMLAttributes<HTMLElement> {
@@ -29,7 +30,14 @@ export default function PagePagination({data: {page, pageCount}, className, ...o
   
   return (
     <nav className={classNames(styles.container, className)} {...otherProps}>
-      <Pagination total={pageCount} defaultValue={page} onChange={handlePageChange} size='lg' />
+      <Pagination
+        total={pageCount}
+        defaultValue={page}
+        onChange={handlePageChange}
+        getItemProps={(page) => ({ 'data-event-name': `Page ${page}` })}
+        getControlProps={(control) => ({ 'data-event-name': `${capitalize(control)} Page` })}
+        size='lg'
+      />
     </nav>
   );
 }

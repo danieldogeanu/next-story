@@ -22,6 +22,7 @@ const ActionEntry = forwardRef(function ActionEntry(
     <ActionIcon 
       variant='subtle' color='dark' 
       size={(width > 360) ? 'xl' : 'lg'}
+      data-event-name={`Action Menu - ${label}`}
       aria-label={label} title={label}
       {...otherProps} ref={ref}>
       <TablerIcon stroke={2} size={24} />

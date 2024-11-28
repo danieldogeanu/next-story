@@ -18,6 +18,7 @@ export default function TagCard({data}: TagCardProps) {
       component={Link}
       href={tagUrl || ''}
       title={`See Articles for ${capitalize(data.name)} Tag`}
+      data-event-name='Tag Card'
       padding='xs'
       radius='md'>
 

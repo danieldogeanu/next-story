@@ -151,6 +151,7 @@ export default function SortBar({ totalItems, collectionType, className, ...othe
         withCheckIcon={false}
         aria-label={setSelectTitle()}
         title={setSelectTitle()}
+        data-event-name='Sort By'
         onChange={handleSortPropChange}
       />
     </Box>

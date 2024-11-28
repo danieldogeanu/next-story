@@ -7,7 +7,7 @@ export default function SiteFooter() {
   return (
     <footer className={styles.container}>
       <p className={styles.copyright}>
-        <span title='Copyright'>&copy;</span> {(new Date()).getFullYear()} <Link href='/'>Next Story</Link>
+        <span title='Copyright'>&copy;</span> {(new Date()).getFullYear()} <Link href='/' data-event-name='Copyright'>Next Story</Link>
       </p>
       <div className={styles.navigation}>
 

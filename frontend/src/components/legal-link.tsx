@@ -9,7 +9,11 @@ export interface LegalLinkProps extends
 
 export default function LegalLink({href, label}: LegalLinkProps) {
   return (
-    <Anchor component={Link} href={href} size='sm'>
+    <Anchor
+      component={Link}
+      href={href}
+      data-event-name={`Legal Menu - ${label}`}
+      size='sm'>
       {label}
     </Anchor>
   );

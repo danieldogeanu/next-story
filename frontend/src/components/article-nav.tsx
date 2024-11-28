@@ -42,6 +42,7 @@ export default function ArticleNav({prev, next, className, ...otherProps}: Artic
               component={NextLink}
               href={prevArticleUrl || ''}
               aria-label={prevArticleLabel}
+              data-event-name='Previous Article - Arrow'
               rel='prev'
               variant='default'
               radius='md'
@@ -53,7 +54,11 @@ export default function ArticleNav({prev, next, className, ...otherProps}: Artic
               className={styles.textStack}
               align='flex-start' justify='center' gap='xs'>
               <Text className={styles.label}>Previous Article</Text>
-              <Text className={styles.title} component={NextLink} href={prevArticleUrl || ''} rel='prev'>
+              <Text className={styles.title}
+                component={NextLink}
+                href={prevArticleUrl || ''}
+                data-event-name='Previous Article - Title'
+                rel='prev'>
                 {prevArticleTitle}
               </Text>
             </Stack>
@@ -75,7 +80,11 @@ export default function ArticleNav({prev, next, className, ...otherProps}: Artic
               className={styles.textStack}
               align='flex-end' justify='center' gap='xs'>
               <Text className={styles.label}>Next Article</Text>
-              <Text className={styles.title} component={NextLink} href={nextArticleUrl || ''} rel='next'>
+              <Text className={styles.title}
+                component={NextLink}
+                href={nextArticleUrl || ''}
+                data-event-name='Next Article - Title'
+                rel='next'>
                 {nextArticleTitle}
               </Text>
             </Stack>
@@ -85,6 +94,7 @@ export default function ArticleNav({prev, next, className, ...otherProps}: Artic
               component={NextLink}
               href={nextArticleUrl || ''}
               aria-label={nextArticleLabel}
+              data-event-name='Next Article - Arrow'
               rel='next'
               variant='default'
               radius='md'

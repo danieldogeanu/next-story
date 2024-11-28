@@ -34,7 +34,8 @@ export default function AuthorBio({data, className, ...otherProps}: AuthorBioPro
           className={styles.avatar}
           component={NextLink}
           href={authorUrl || ''}
-          title={authorLabel}>
+          title={authorLabel}
+          data-event-name='Author Bio - Avatar'>
           {(authorAvatar && authorAvatarUrl)
             ? <Image
                 className={styles.image}
@@ -57,7 +58,10 @@ export default function AuthorBio({data, className, ...otherProps}: AuthorBioPro
       <Box className={styles.right}>
 
         <Title className={styles.name} order={2}>
-          <NextLink href={authorUrl || ''} title={authorLabel}>
+          <NextLink
+            title={authorLabel}
+            href={authorUrl || ''}
+            data-event-name='Author Bio - Full Name'>
             {capitalize(data?.fullName)}
           </NextLink>
         </Title>
@@ -73,6 +77,7 @@ export default function AuthorBio({data, className, ...otherProps}: AuthorBioPro
               component={NextLink}
               href={authorUrl || ''}
               title={authorLabel}
+              data-event-name='Author Bio - Read Full Bio'
               variant='light'
               color='dark'
               radius='xl'

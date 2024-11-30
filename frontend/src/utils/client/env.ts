@@ -18,7 +18,7 @@ export function getNodeEnv() {
  * @returns Returns `true` if `LOCAL_ENV` is set to a truthy value, otherwise `false`.
  */
 export function getLocalEnv() {
-  return (Boolean(process.env.LOCAL_ENV) || false);
+  return (String(process.env.LOCAL_ENV).toLowerCase() === 'true');
 }
 
 /**

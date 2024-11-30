@@ -105,8 +105,14 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({ children }: Readonly<RootLayoutProps>) {
   const colorScheme: MantineColorScheme = 'auto';
-  const umamiAnalyticsURL = await getSingleSiteSecret('frontend', 'umamiAnalyticsURL');
-  const umamiAnalyticsID = await getSingleSiteSecret('frontend', 'umamiAnalyticsID');
+  const isProductionServer = (getLocalEnv() === false && getNodeEnv() === 'production');
+  let umamiAnalyticsID: string | undefined, umamiAnalyticsURL: string | undefined;
+
+  // Enable analytics only on production server.
+  if (isProductionServer) {
+    umamiAnalyticsURL = (await getSingleSiteSecret('frontend', 'umamiAnalyticsURL'))?.value;
+    umamiAnalyticsID = (await getSingleSiteSecret('frontend', 'umamiAnalyticsID'))?.value;
+  }
 
   // If we're running in a local environment, we need to get the hostname dynamically.
   // We do this so we can access the website on mobile devices for testing.
@@ -155,8 +161,10 @@ export default async function RootLayout({ children }: Readonly<RootLayoutProps>
               position='bottom-right' limit={5} />
           </ErrorBoundary>
         </Providers>
-        {(!getLocalEnv() && getNodeEnv() === 'production') &&
-          <Analytics id={umamiAnalyticsID?.value} host={umamiAnalyticsURL?.value} />}
+        {isProductionServer && 
+          <Analytics
+            id={umamiAnalyticsID}
+            host={umamiAnalyticsURL} />}
       </body>
     </html>
   );

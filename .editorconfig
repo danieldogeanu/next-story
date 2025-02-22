@@ -14,3 +14,6 @@ indent_size = 2
 
 [{*.md,*.jsx,*.tsx}]
 trim_trailing_whitespace = false
+
+[*.nvmrc]
+insert_final_newline = false

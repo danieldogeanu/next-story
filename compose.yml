@@ -3,7 +3,7 @@ services:
   ns_postgres_dev:
     container_name: ns-postgres-dev
     image: postgres:12.0-alpine
-    profiles: [development]
+    profiles: [development,backend]
     platform: linux/amd64
     restart: unless-stopped
     env_file:
@@ -26,7 +26,7 @@ services:
   ns_strapi_dev:
     container_name: ns-strapi-dev
     image: nextstory-strapi-dev:latest
-    profiles: [development]
+    profiles: [development,backend]
     restart: unless-stopped
     env_file:
       - path: ./.env
@@ -56,7 +56,7 @@ services:
       - ./backend/src:/opt/app/src
       - ./backend/package.json:/opt/package.json
       - ./backend/package-lock.json:/opt/package-lock.json
-      - ./backend/public/uploads:/opt/app/public/uploads
+      - ./backend/public:/opt/app/public
     ports:
       - "${STRAPI_PORT}:${STRAPI_PORT}"
     networks:

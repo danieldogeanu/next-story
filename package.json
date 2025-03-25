@@ -18,7 +18,10 @@
 
     "compose-dev": "docker compose --profile development --env-file .env --env-file dev.env up",
     "compose-dev:build": "docker compose --profile development --env-file .env --env-file dev.env build --no-cache",
+    "compose-dev:build:backend": "docker compose --profile backend --env-file .env --env-file dev.env build --no-cache",
     "compose-dev:recreate": "docker compose --profile development --env-file .env --env-file dev.env up --force-recreate --renew-anon-volumes",
+    "compose-dev:recreate:backend": "docker compose --profile backend --env-file .env --env-file dev.env up --force-recreate --renew-anon-volumes",
+
     "compose-sb": "docker compose --profile storybook --env-file .env --env-file dev.env up",
     "compose-sb:build": "docker compose --profile storybook --env-file .env --env-file dev.env build --no-cache",
     "compose-sb:recreate": "docker compose --profile storybook --env-file .env --env-file dev.env up --force-recreate --renew-anon-volumes",

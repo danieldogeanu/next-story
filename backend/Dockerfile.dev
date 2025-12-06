@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 # Installing libvips-dev for sharp Compatibility
 RUN apk update && apk add --no-cache \
@@ -18,19 +18,19 @@ ARG STRAPI_HOST
 
 ENV STRAPI_PORT=${STRAPI_PORT}
 ENV STRAPI_HOST=${STRAPI_HOST}
-ENV NODE_ENV development
+ENV NODE_ENV=development
 
 # Disable Strapi telemetry and promotional features.
-ENV STRAPI_TELEMETRY_DISABLED true
-ENV STRAPI_DISABLE_UPDATE_NOTIFICATION true
-ENV FLAG_NPS false
-ENV FLAG_PROMOTE_EE false
+ENV STRAPI_TELEMETRY_DISABLED=true
+ENV STRAPI_DISABLE_UPDATE_NOTIFICATION=true
+ENV FLAG_NPS=false
+ENV FLAG_PROMOTE_EE=false
 
 WORKDIR /opt/
 COPY package.json package-lock.json ./
 RUN npm install -g node-gyp
 RUN npm config set fetch-retry-maxtimeout 600000 -g && npm ci
-ENV PATH /opt/node_modules/.bin:$PATH
+ENV PATH=/opt/node_modules/.bin:$PATH
 
 WORKDIR /opt/app
 COPY . .
